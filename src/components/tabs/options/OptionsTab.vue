@@ -39,7 +39,13 @@ export default {
         class="c-options-btn"
         onclick="GameStorage.exportAsOldVersion()"
       >
-        Export As Old Version
+        Export to Old
+      </PrimaryButton>
+      <PrimaryButton
+        class="c-options-btn"
+        onclick="GameStorage.hardReset()"
+      >
+        Hard Reset
       </PrimaryButton>
     </div>
   </div>

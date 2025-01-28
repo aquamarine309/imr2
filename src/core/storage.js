@@ -23,16 +23,16 @@ export const GameStorage = {
 
   init() {
     const localSave = localStorage.getItem(this.saveKey);
-    if (localSave === null) return;
-
-    this.importSave(localSave);
+    if (localSave !== null) {
+      this.importSave(localSave);
+    }
+    this.updatePlayerData();
     setInterval(() => this.save(), this.saveInterval);
   },
 
   importFromJSON(json) {
     const playerObject = json;
     player = migrations.patchPlayer(playerObject);
-    this.updatePlayerData();
   },
 
   exportToClipboard() {
@@ -56,10 +56,9 @@ export const GameStorage = {
   hardReset() {
     GameLoop.stop();
     player = deepmergeAll([{}, Player.defaultStart]);
-    this.updatePlayerData();
-    Currency.mass.reset();
-    GameLoop.start();
+    player.lastUpdate = Date.now();
     this.save();
+    this.updatePlayerData();
   },
 
   updatePlayerData() {

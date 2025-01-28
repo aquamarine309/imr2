@@ -20,7 +20,7 @@ export default {
       this.goal = challenge.goal;
       this.isCapped = challenge.isCapped;
       const pending = challenge.pendingCompletions;
-      const cannotComplete = pending.lte(challenge.completions) || isCapped;
+      const cannotComplete = pending.lte(challenge.completions) || this.isCapped;
       this.pending = cannotComplete ? new Decimal(0) : pending.minus(challenge.completions);
       this.next = cannotComplete ? this.goal : challenge.goalAt(pending);
     }
