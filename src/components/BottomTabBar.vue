@@ -1,0 +1,53 @@
+<script>
+import ButtomTabButton from "./ButtomTabButton";
+
+export default {
+  name: "BottomTabBar",
+  components: {
+    ButtomTabButton
+  },
+  computed: {
+    tabs() {
+      return Tabs.currentUIFormat;
+    },
+    subtabs() {
+      return Tabs.current.subtabs;
+    }
+  }
+};
+</script>
+
+<template>
+  <div class="l-tab-bar--container">
+    <div class="c-tab-bar">
+      <ButtomTabButton
+        v-for="tab in tabs"
+        :key="tab.id"
+        :tab="tab"
+      />
+    </div>
+    <div class="c-tab-bar">
+      <ButtomTabButton
+        v-for="tab in subtabs"
+        :key="tab.id"
+        :tab="tab"
+      />
+    </div>
+  </div>
+</template>
+
+<style>
+.l-tab-bar--container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.c-tab-bar {
+  height: 45px;
+  background-color: black;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+</style>
