@@ -22,7 +22,8 @@ export default {
         amount: new Decimal(),
         rate: new Decimal(),
         unlocked: false,
-        canReset: false
+        canReset: false,
+        passive: false
       },
       blackHole: {
         amount: new Decimal(),
@@ -32,8 +33,14 @@ export default {
       atoms: {
         amount: new Decimal(),
         rate: new Decimal(),
-        unlocked: false
+        unlocked: false,
+        canReset: false
       },
+      quark: {
+        amount: new Decimal(),
+        rate: new Decimal(),
+        unlocked: false
+      }
     };
   },
   computed: {
@@ -51,6 +58,9 @@ export default {
     },
     atomTooltip() {
       return `Reach over ${formatMass(1.5e156)} of black hole to reset all previous features for gain Atoms & Quarks.`;
+    },
+    quarkTooltip() {
+      return `You have ${format(this.quark.amount, 0)} Quark.`;
     }
   },
   methods: {
@@ -63,7 +73,7 @@ export default {
       ragePowers.amount.copyFrom(Currency.ragePowers.value);
       ragePowers.rate = Currency.ragePowers.gainPerSecond;
       ragePowers.canReset = Currency.ragePowers.canReset;
-      ragePowers.passive = BHUpgrade(5).canBeApplied;
+      ragePowers.passive = BHUpgrade(5).canBeApplied || AtomUpgrade(5).canBeApplied;
 
       const darkMatter = this.darkMatter;
       darkMatter.unlocked = PlayerProgress.rageUnlocked();
@@ -71,6 +81,7 @@ export default {
         darkMatter.amount.copyFrom(Currency.darkMatter.value);
         darkMatter.rate = Currency.darkMatter.gainPerSecond;
         darkMatter.canReset = Currency.darkMatter.canReset;
+        darkMatter.passive = AtomUpgrade(5).canBeApplied;
       }
 
       const blackHole = this.blackHole;
@@ -85,6 +96,14 @@ export default {
       if (atoms.unlocked) {
         atoms.amount.copyFrom(Currency.atoms.value);
         atoms.rate = Currency.atoms.gainPerSecond;
+        atoms.canReset = Currency.atoms.canReset;
+      }
+
+      const quark = this.quark;
+      quark.unlocked = PlayerProgress.atomUnlocked();
+      if (quark.unlocked) {
+        quark.amount.copyFrom(Currency.quark.value);
+        quark.rate = Currency.quark.gainPerSecond;
       }
     },
     formatNoPlaces(value) {
@@ -95,6 +114,9 @@ export default {
     },
     darkMatterReset() {
       Currency.darkMatter.requestReset();
+    },
+    atomReset() {
+      Currency.atoms.requestReset();
     }
   }
 };
@@ -131,7 +153,7 @@ export default {
       text-class="c-dark-matter-amount"
       :format-fn="formatNoPlaces"
       name="Dark Matter"
-      :is-rate="false"
+      :is-rate="darkMatter.passive"
       :tooltip="darkMatterTooltip"
       :show-tooltip="!darkMatter.canReset"
       :click-fn="darkMatterReset"
@@ -156,6 +178,19 @@ export default {
       name="Atom"
       :is-rate="false"
       :tooltip="atomTooltip"
+      :show-tooltip="!atoms.canReset"
+      :click-fn="atomReset"
+    />
+    <HeaderResource
+      v-if="quark.unlocked"
+      img-class="i-quark"
+      text-class="o-quark"
+      :amount="quark.amount"
+      :gain-rate="quark.rate"
+      :format-fn="formatNoPlaces"
+      name="Quark"
+      :is-rate="false"
+      :tooltip="quarkTooltip"
       :show-tooltip="true"
     />
   </div>

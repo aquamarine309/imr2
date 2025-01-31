@@ -11,7 +11,8 @@ export function init() {
 }
 
 export function applyAutoprestige(diff) {
-  if (BHUpgrade(5).canBeApplied) Currency.ragePowers.tick(diff);
+  if (BHUpgrade(5).canBeApplied || AtomUpgrade(5).canBeApplied) Currency.ragePowers.tick(diff);
+  if (AtomUpgrade(5).canBeApplied) Currency.darkMatter.tick(diff);
 }
 
 export function simulateTime(seconds, fast = false) {

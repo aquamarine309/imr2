@@ -20,6 +20,10 @@ export const massSoftcap = [
       if (Challenge(3).isRunning) {
         div = div.times(4);
       }
+      div = div.timesEffectsOf(
+        BHUpgrade(10),
+        Challenge(7)
+      );
       return div.add(1).recip();
     }
   }

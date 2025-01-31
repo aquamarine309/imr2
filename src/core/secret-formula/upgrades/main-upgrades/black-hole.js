@@ -73,5 +73,46 @@ export const blackHole = [
     softcapped: value => value.gte(11600),
     cost: DC.E33,
     isUnlocked: () => Challenges.isUnlocked
+  },
+  {
+    id: 10,
+    description: () => `Mass gain softcap is ${formatPercents(0.1, 0)} weaker.`,
+    effect: 0.9,
+    cost: DC.E80,
+    isUnlocked: () => PlayerProgress.atomUnlocked()
+  },
+  {
+    id: 11,
+    description: () => `Hyper Tickspeed scales ${formatPercents(0.15, 0)} weaker.`,
+    effect: 0.85,
+    cost: DC.E120,
+    isUnlocked: () => PlayerProgress.atomUnlocked()
+  },
+  {
+    id: 12,
+    description: () => `Quark gain is multiplied by ${formatInt(10)}.`,
+    effect: 10,
+    cost: DC.E180,
+    isUnlocked: () => PlayerProgress.atomUnlocked()
+  },
+  {
+    id: 13,
+    description: "Neutron Powers boost mass of Black Hole gain.",
+    effect: () => Particles.neutron.power.add(1).pow(2),
+    formatEffect: value => formatX(value),
+    cost: DC.E210,
+    isUnlocked: () => PlayerProgress.atomUnlocked()
+  },
+  {
+    id: 14,
+    description: "Atomic Powers add Black Hole Condensers at a reduced rate.",
+    effect: () => softcap(softcap(
+      Currency.atomicPower.value.add(1).log(5), DC.D2E9, DC.D0_25, SOFTCAP_TYPE.POWER),
+    DC.E10, DC.D0_1, SOFTCAP_TYPE.POWER
+    ).floor(),
+    formatEffect: value => `+${format(value, 0)}`,
+    softcapped: value => value.gte(DC.D2E9),
+    cost: DC.E420,
+    isUnlocked: () => PlayerProgress.atomUnlocked()
   }
 ];

@@ -91,7 +91,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .c-second-upgrades {
   margin-top: 40px;
 }

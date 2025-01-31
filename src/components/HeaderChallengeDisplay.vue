@@ -5,9 +5,9 @@ export default {
     return {
       isActive: false,
       name: "",
-      goal: new Decimal(),
+      goal: "",
       pending: new Decimal(),
-      next: new Decimal(),
+      next: "",
       isCapped: false
     };
   },
@@ -16,13 +16,14 @@ export default {
       const challenge = Challenges.current;
       this.isActive = challenge !== undefined;
       if (!this.isActive) return;
+      const formatGoal = challenge.type.formatGoal;
       this.name = challenge.name;
-      this.goal = challenge.goal;
+      this.goal = formatGoal(challenge.goal);
       this.isCapped = challenge.isCapped;
       const pending = challenge.pendingCompletions;
       const cannotComplete = pending.lte(challenge.completions) || this.isCapped;
       this.pending = cannotComplete ? new Decimal(0) : pending.minus(challenge.completions);
-      this.next = cannotComplete ? this.goal : challenge.goalAt(pending);
+      this.next = formatGoal(cannotComplete ? challenge.goal : challenge.goalAt(pending));
     }
   }
 };
@@ -33,9 +34,9 @@ export default {
     v-if="isActive"
     class="o-challenge-header"
   >
-    <span>You are now in [{{ name }}] Challenge! Go over {{ formatMass(goal) }} to complete.</span>
+    <span>You are now in [{{ name }}] Challenge! Go over {{ goal }} to complete.</span>
     <br>
     <span v-if="isCapped">(Capped)</span>
-    <span v-else>+{{ format(pending, 0) }} completions (next at {{ formatMass(next) }})</span>
+    <span v-else>+{{ format(pending, 0) }} completions (next at {{ next }})</span>
   </div>
 </template>

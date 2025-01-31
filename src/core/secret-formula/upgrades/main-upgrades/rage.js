@@ -39,7 +39,7 @@ export const rage = [
     id: 6,
     description: "For every 3 tickspeeds add Stronger.",
     cost: DC.E7,
-    effect: () => MassUpgrade.tickspeed.totalAmount.div(3),
+    effect: () => MassUpgrade.tickspeed.boughtAmount.div(3),
     formatEffect: value => `+${format(value, 0)} Strongers`
   },
   {
@@ -74,7 +74,8 @@ export const rage = [
     cost: DC.E72,
     effect: () => softcap(Currency.ragePowers.value.add(1).pow(0.1), DC.E4000, 0.1, SOFTCAP_TYPE.POWER),
     formatEffect: value => formatX(value),
-    softcapped: value => value.gte(DC.E4000)
+    softcapped: value => value.gte(DC.E4000),
+    isUnlocked: () => PlayerProgress.atomUnlocked()
   },
   {
     id: 11,
@@ -82,13 +83,30 @@ export const rage = [
     cost: DC.E120,
     effect: () => softcap(Currency.ragePowers.value.clampMin(1).log10(), 200, 0.75, SOFTCAP_TYPE.POWER).div(1000),
     formatEffect: value => `+${formatPow(value)}`,
-    softcapped: value => value.gte(0.2)
+    softcapped: value => value.gte(0.2),
+    isUnlocked: () => Challenges.isUnlocked
   },
   {
     id: 12,
     description: () => `Mass gain softcap starts ${formatX(3, 0)} later for every Rank you have.`,
     cost: DC.E180,
     effect: () => DC.D3.pow(RankType.rank.amount),
-    formatEffect: value => formatX(value)
+    formatEffect: value => formatX(value),
+    isUnlocked: () => Challenges.isUnlocked
+  },
+  {
+    id: 13,
+    description: () => `Hyper Tickspeed starts ${formatInt(50)} later.`,
+    cost: DC.E320,
+    effect: 50,
+    isUnlocked: () => Challenges.isUnlocked
+  },
+  {
+    id: 14,
+    description: "Mass boosts Atom gain.",
+    cost: DC.E480,
+    effect: () => Currency.mass.value.clampMin(1).log10().pow(1.25),
+    formatEffect: value => formatX(value),
+    isUnlocked: () => PlayerProgress.atomUnlocked()
   }
 ];

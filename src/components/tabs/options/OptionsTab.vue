@@ -51,7 +51,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .c-options-title {
   font-size: 13px;
   margin-bottom: 4px;

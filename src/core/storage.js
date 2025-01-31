@@ -90,24 +90,12 @@ export const GameStorage = {
     const mainUpg = player.mainUpgrades;
     save.mainUpg = {
       rp: convertBitsToArray(mainUpg.rage, 1),
-      bh: convertBitsToArray(mainUpg.blackHole, 1)
+      bh: convertBitsToArray(mainUpg.blackHole, 1),
+      atom: convertBitsToArray(mainUpg.atom, 1),
     };
     save.rp = {
       points: player.ragePowers,
-      unl: PlayerProgress.rageUnlocked()
-    };
-    save.bh = {
-      mass: player.blackHole,
-      dm: player.darkMatter,
-      condenser: massUpg.condenser,
-      unl: PlayerProgress.blackHoleUnlocked(),
-      autoCondenser: false
-    };
-
-    const confirm = player.options.confirmations;
-    save.confirms = {
-      rp: confirm.ragePower,
-      bh: confirm.darkMatter
+      unl: player.unlocks.ragePower
     };
 
     const auto = player.auto;
@@ -118,6 +106,22 @@ export const GameStorage = {
       auto.massUpgrades.stronger,
       auto.massUpgrades.overpower
     ];
+
+    save.bh = {
+      mass: player.blackHole,
+      dm: player.darkMatter,
+      condenser: massUpg.condenser,
+      unl: player.unlocks.darkMatter,
+      autoCondenser: auto.massUpgrades.condenser
+    };
+
+    const confirm = player.options.confirmations;
+    save.confirms = {
+      rp: confirm.ragePower,
+      bh: confirm.darkMatter,
+      atom: confirm.atom
+    };
+
     save.autoTickspeed = auto.massUpgrades.tickspeed;
     save.auto_ranks = auto.ranks;
     save.auto_mainUpg = {
@@ -137,13 +141,27 @@ export const GameStorage = {
       unl: Challenges.isUnlocked
     };
 
+    save.atom = {
+      atomic: player.atomicPower,
+      auto_gr: auto.massUpgrades.cosmicRay,
+      gamma_ray: massUpg.cosmicRay,
+      unl: player.unlocks.atom,
+      points: player.atoms,
+      powers: player.particlePowers,
+      quarks: player.quark,
+      particles: player.particles,
+      dTatio: player.particleWeights,
+      ratio: player.ratioMode
+    };
+
     save.options = {
       massDis: 1,
       font: "Verdana",
       notation: "sc"
     };
 
-    save.quote = convertBitsToArray(player.tutorialBits);
+    save.quotes = convertBitsToArray(player.tutorialBits);
+    save.name = "aquamrine";
 
     return copyToClipboard(btoa(JSON.stringify(save)));
   }

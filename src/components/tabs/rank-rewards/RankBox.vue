@@ -80,7 +80,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .o-rank-name {
   font-weight: bold;
   font-size: 16px;

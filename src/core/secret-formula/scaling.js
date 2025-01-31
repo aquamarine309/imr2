@@ -26,8 +26,16 @@ export const scaling = {
       },
       get scale() {
         let scale = DC.D2;
-        scale = scale.timesEffectOf(Challenge(1).reward.effects.tickspeed);
+        scale = scale.powEffectOf(Challenge(1).reward.effects.tickspeed);
         return scale;
+      }
+    },
+    {
+      get start() {
+        return DC.D250.plusEffectOf(RageUpgrade(13));
+      },
+      get scale() {
+        return DC.D4.powEffectOf(BHUpgrade(11));
       }
     }
   ],
@@ -36,7 +44,10 @@ export const scaling = {
       get start() {
         if (Challenge(1).isRunning) return DC.D25;
         let start = DC.D50;
-        start = start.plusEffectOf(Challenge(1).reward.effects.rank);
+        start = start.plusEffectsOf(
+          Challenge(1).reward.effects.rank,
+          AtomUpgrade(4)
+        );
         return start;
       },
       get scale() {
@@ -48,14 +59,20 @@ export const scaling = {
         return DC.D120;
       },
       get scale() {
-        return DC.D2_5;
+        return DC.D2_5.powEffectOf(
+          RankType.tetr.unlocks.ranksReqAndScaling.effects.rank
+        );
       }
     }
   ],
   tier: [
     {
-      start: DC.E1,
-      scale: DC.D1_5
+      get start() {
+        return DC.E1.plusEffectOf(AtomUpgrade(4));
+      },
+      get scale() {
+        return DC.D1_5;
+      }
     },
     {
       get start() {
@@ -66,16 +83,60 @@ export const scaling = {
       }
     }
   ],
+  tetr: [
+    {
+      get start() {
+        return DC.D7;
+      },
+      get scale() {
+        return DC.D2;
+      }
+    },
+    {
+      get start() {
+        return DC.D60;
+      },
+      get scale() {
+        return DC.D3;
+      }
+    }
+  ],
   overpower: [
     {
-      start: DC.D50,
-      scale: DC.D3
+      get start() {
+        return DC.D50;
+      },
+      get scale() {
+        return DC.D3;
+      }
     }
   ],
   condenser: [
     {
-      start: DC.E2,
-      scale: DC.D2
+      get start() {
+        return DC.E2;
+      },
+      get scale() {
+        return DC.D2;
+      }
+    }
+  ],
+  cosmicRay: [
+    {
+      get start() {
+        return DC.E2;
+      },
+      get scale() {
+        return DC.D2;
+      }
+    },
+    {
+      get start() {
+        return DC.D300;
+      },
+      get scale() {
+        return DC.D4;
+      }
     }
   ]
 };

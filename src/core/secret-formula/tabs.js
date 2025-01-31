@@ -19,6 +19,14 @@ export const tabs = [
         shortName: "Black hole",
         component: "BlackHoleTab",
         condition: () => PlayerProgress.blackHoleUnlocked()
+      },
+      {
+        id: 2,
+        key: "atomicGenerator",
+        name: "Atomic Generator",
+        shortName: "Atomic",
+        component: "AtomicGeneratorTab",
+        condition: () => PlayerProgress.atomUnlocked()
       }
     ]
   },
@@ -77,7 +85,15 @@ export const tabs = [
         shortName: "Black Hole",
         component: "BHUpgradesTab",
         condition: () => PlayerProgress.blackHoleUnlocked()
-      }
+      },
+      {
+        id: 2,
+        key: "atom",
+        name: "Atom Upgrades",
+        shortName: "Atom",
+        component: "AtomUpgradesTab",
+        condition: () => PlayerProgress.atomUnlocked()
+      },
     ]
   },
   {
@@ -93,6 +109,22 @@ export const tabs = [
         name: "Challenges",
         shortName: "Challenges",
         component: "ChallengesTab"
+      }
+    ]
+  },
+  {
+    id: 5,
+    key: "atom",
+    name: "Atom",
+    letter: "A",
+    condition: () => PlayerProgress.atomUnlocked(),
+    subtabs: [
+      {
+        id: 0,
+        key: "particles",
+        name: "Particles",
+        shortName: "Particles",
+        component: "ParticlesTab"
       }
     ]
   }

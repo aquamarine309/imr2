@@ -1,4 +1,5 @@
 import { GameMechanicState } from "./game-mechanics";
+import { DC } from "./constants";
 
 /**
  * @param {Decimal} decimal
@@ -18,6 +19,9 @@ export function dilatedValue(value, power) {
  * @returns {Decimal}
  */
 export function softcap(value, start, scale, type) {
+  if (start === undefined) {
+    throw new Error("Start is not defined.");
+  }
   if (value.lt(start)) return value;
   switch (type) {
     case SOFTCAP_TYPE.POWER:

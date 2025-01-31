@@ -47,7 +47,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .c-bottom-tab {
   flex: 1;
   display: flex;

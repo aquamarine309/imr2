@@ -95,7 +95,7 @@ export const mass = {
       return RageUpgrade(1).effectOrDefault(DC.D0);
     },
     get isUnlocked() {
-      return RankType.rank.unlocks.unlockBooster.canBeApplied;
+      return RankType.rank.unlocks.unlockBooster.canBeApplied || AtomUpgrade(0).canBeApplied;
     },
     get forceVisible() {
       return PlayerProgress.rageUnlocked();
@@ -154,7 +154,7 @@ export const mass = {
       return RageUpgrade(6).effectOrDefault(DC.D0);
     },
     get isUnlocked() {
-      return RankType.rank.unlocks.unlockStronger.canBeApplied;
+      return RankType.rank.unlocks.unlockStronger.canBeApplied || AtomUpgrade(0).canBeApplied;
     },
     get forceVisible() {
       return PlayerProgress.rageUnlocked();
@@ -169,14 +169,14 @@ export const mass = {
       let power = DC.D1;
       power = power.plusEffectsOf(
         RageUpgrade(8),
-        RageUpgrade(11)
+        RageUpgrade(11),
+        RankType.tetr.unlocks.strongerBoost
       );
       return power;
     },
     formatPower: value => `+${formatPow(value)}`,
     effect(amount, power) {
       let effect = amount.times(power).add(1);
-
       const softcaps = MassUpgradeSoftcap.stronger;
       effect = softcap(effect, softcaps[0].start, softcaps[0].scale, SOFTCAP_TYPE.POWER);
       return effect;
@@ -256,6 +256,9 @@ export const mass = {
       return $.scaling.scaleEvery(
         getLinearBulk(currency, $.baseCost, $.costMult), true);
     },
+    get freeAmount() {
+      return Atom.freeTickspeeds;
+    },
     get isUnlocked() {
       return PlayerProgress.rageUnlocked();
     },
@@ -263,16 +266,21 @@ export const mass = {
       return BHUpgrade(4).canBeApplied;
     },
     get disabled() {
-      return Challenge(2).isRunning;
+      return Challenge(2).isRunning || Challenge(6).isRunning;
     },
     get power() {
       let power = DC.D1_5;
       power = power.plusEffectsOf(
         RankType.tier.unlocks.tickPowerFromTier,
         RankType.rank.unlocks.rankBoostTickPower,
-        Challenge(2).reward
+        Challenge(2).reward,
+        Challenge(6).reward
       );
+      power = power.add(Atom.protonTick());
       return power;
+    },
+    get isFree() {
+      return AtomUpgrade(1).canBeApplied;
     },
     formatPower: value => (value.gte(10) ? formatX(value) : formatPercents(value.minus(1))),
     effect(amount, power) {
@@ -296,6 +304,9 @@ export const mass = {
     get scaling() {
       return Scaling.condenser;
     },
+    get freeAmount() {
+      return BHUpgrade(14).effectOrDefault(DC.D0);
+    },
     cost(amount) {
       const $ = MassUpgrade.condenser.config;
       return getLinearCost(
@@ -312,9 +323,17 @@ export const mass = {
     get isUnlocked() {
       return PlayerProgress.blackHoleUnlocked();
     },
+    get autoUnlocked() {
+      return AtomUpgrade(1).canBeApplied;
+    },
+    get disabled() {
+      return Challenge(6).isRunning;
+    },
     get power() {
       let power = DC.D2;
+      power = power.plusEffectOf(Challenge(6).reward);
       power = power.timesEffectOf(BHUpgrade(1));
+      power = power.add(Atom.electronCondenser());
       return power;
     },
     formatPower: value => formatX(value),
@@ -323,5 +342,48 @@ export const mass = {
     },
     formatEffect: value => `${formatX(value)} to mass of black hole`,
     upgClass: "i-condenser"
+  },
+  cosmicRay: {
+    id: "cosmicRay",
+    name: "Cosmic Rays",
+    get currency() {
+      return Currency.atoms;
+    },
+    get baseCost() {
+      return DC.D1;
+    },
+    get costMult() {
+      return DC.D2;
+    },
+    get scaling() {
+      return Scaling.cosmicRay;
+    },
+    cost(amount) {
+      const $ = MassUpgrade.cosmicRay.config;
+      return getLinearCost(
+        $.scaling.scaleEvery(amount),
+        $.baseCost,
+        $.costMult
+      ).floor();
+    },
+    bulk(currency) {
+      const $ = MassUpgrade.cosmicRay.config;
+      return $.scaling.scaleEvery(
+        getLinearBulk(currency, $.baseCost, $.costMult), true);
+    },
+    get isUnlocked() {
+      return PlayerProgress.atomUnlocked();
+    },
+    get power() {
+      let power = DC.D2;
+      power = power.plusEffectOf(AtomUpgrade(3));
+      return power;
+    },
+    formatPower: value => formatX(value),
+    effect(amount, power) {
+      return power.pow(amount).minus(1);
+    },
+    formatEffect: value => `${formatX(value)} to atomic power`,
+    upgClass: "i-cosmic-ray"
   }
 };

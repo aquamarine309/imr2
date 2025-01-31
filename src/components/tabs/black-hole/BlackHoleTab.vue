@@ -12,7 +12,9 @@ export default {
       gain: new Decimal(),
       mult: new Decimal(),
       condenserMult: new Decimal(),
-      exponent: new Decimal()
+      exponent: new Decimal(),
+      softcapStart: new Decimal(),
+      softcapped: false
     };
   },
   computed: {
@@ -27,6 +29,8 @@ export default {
       this.mult = BlackHole.mult;
       this.condenserMult = this.condenser.effectValue;
       this.exponent = BlackHole.exponent;
+      this.softcapStart = BlackHole.softcapStart;
+      this.softcapped = this.blackHole.gte(this.softcapStart);
     }
   }
 };
@@ -41,5 +45,10 @@ export default {
       <span>Black Hole mass's gain formula - (x + 1)<sup>{{ format(exponent) }}</sup> * {{ format(condenserMult) }}</span>
     </div>
     <MassUpgradeRow :upgrade="condenser" />
+    <div v-if="softcapped">
+      <div class="c-mass-softcap-row">
+        After <b>{{ format(softcapStart) }}</b> of mass gain from black hole, its mass gain will be softcapped!
+      </div>
+    </div>
   </div>
 </template>

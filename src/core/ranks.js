@@ -40,6 +40,10 @@ class RankTypeState extends GameMechanicState {
     return this.config.isUnlocked();
   }
 
+  get isDisabled() {
+    return this.config.isDisabled ?? false;
+  }
+
   get amount() {
     return player.ranks[this.id];
   }
@@ -69,6 +73,7 @@ class RankTypeState extends GameMechanicState {
   }
 
   get description() {
+    if (this.isDisabled) return "Locked";
     const resets = this.isRank
       ? "mass and upgrades"
       : this.previous.name;
@@ -79,7 +84,7 @@ class RankTypeState extends GameMechanicState {
 
   get reward() {
     const next = this.nextUnlock.value;
-    if (next === undefined) return "No rewards available...";
+    if (next === undefined || this.isDisabled) return "No rewards available...";
     return `At ${this.name} ${format(next.requirement, 0)} - ${next.description}`;
   }
 
@@ -88,6 +93,7 @@ class RankTypeState extends GameMechanicState {
   }
 
   get canReset() {
+    if (this.isDisabled) return false;
     const currencyAmount = this.isRank
       ? Currency.mass.value
       : this.previous.amount;

@@ -152,7 +152,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .o-amount {
   font-size: 11px;
 }

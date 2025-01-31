@@ -11,7 +11,12 @@ export const tutorials = {
   },
   blackHole: {
     id: 3,
-    name: "Black Hole",
+    name: "The Black Hole",
     info: "You pulled up a hidden mystery of cosmos. The force was so strong, it forms a black hole!"
+  },
+  atom: {
+    id: 4,
+    name: "The Atom",
+    info: "You discovered a Atom! You decompose it to find a physical miracle: Gravity. This helps you to go further!"
   }
 };

@@ -96,17 +96,16 @@ export default {
     />
     <div class="l-main-upgrade-container">
       <MainUpgradeButton
-        v-for="(upgrade, index) in upgrades"
+        v-for="upgrade in upgrades"
         :key="upgrade.id"
         :upgrade="upgrade"
-        :index="index"
         @click.native.stop="selectedID = upgrade.id"
       />
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .c-main-upgrade-name {
   font-weight: bold;
   margin-top: 20px;

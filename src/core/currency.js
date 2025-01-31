@@ -237,9 +237,12 @@ Currency.mass = new class extends DecimalCurrency {
       BHUpgrade(9)
     );
     gain = gain.times(BlackHole.mult);
-    gain = gain.powEffectOf(
+    gain = gain.times(Atom.protonMass());
+    gain = gain.times(Atom.neutronMass());
+    gain = gain.powEffectsOf(
       RankType.tier.unlocks.raiseMassGain,
-      Challenge(3).reward
+      Challenge(3).reward,
+      RankType.rank.unlocks.massGainPower
     );
     gain = softcap(
       gain,
@@ -265,7 +268,7 @@ Currency.ragePowers = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    if (Currency.mass.lt(DC.E15)) return DC.D0;
+    if (Currency.mass.lt(DC.E15) || Challenge(7).isRunning) return DC.D0;
     let gain = Currency.mass.value.div(DC.E15).cbrt();
     gain = gain.timesEffectsOf(
       RankType.rank.unlocks.doubleRPGain,
@@ -273,6 +276,7 @@ Currency.ragePowers = new class extends DecimalCurrency {
       RankType.rank.unlocks.rankBoostRP,
       BHUpgrade(5)
     );
+    gain = gain.times(Atom.neutronRP());
     gain = gain.powEffectsOf(
       BHUpgrade(7),
       Challenge(4).reward
@@ -307,6 +311,7 @@ Currency.ragePowers = new class extends DecimalCurrency {
     maxRank.amount = DC.D0;
     maxRank.reset(true);
     Tutorial.ragePower.unlock();
+    player.unlocks.ragePower = true;
   }
 
   get name() {
@@ -324,7 +329,16 @@ Currency.darkMatter = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    return Currency.ragePowers.value.div(DC.E20).root(4).floor();
+    const c7Running = Challenge(7).isRunning;
+    let gain = (c7Running
+      ? Currency.mass.value.div(DC.E180)
+      : Currency.ragePowers.value.div(DC.E20));
+    gain = gain.root(4);
+    if (c7Running) {
+      gain = gain.root(6);
+    }
+    gain = gain.times(Atom.electronDM());
+    return gain.floor();
   }
 
 
@@ -354,6 +368,7 @@ Currency.darkMatter = new class extends DecimalCurrency {
     Currency.ragePowers.resetLayer(true);
     Currency.blackHole.reset();
     Tutorial.blackHole.unlock();
+    player.unlocks.darkMatter = true;
   }
 
   get name() {
@@ -393,10 +408,85 @@ Currency.atoms = new class extends DecimalCurrency {
     let gain = mass.div(DC.D1_5E156);
     if (gain.lt(1)) return DC.D0;
     gain = gain.pow(0.2);
+    gain = gain.timesEffectOf(RageUpgrade(14));
+    return gain.floor();
+  }
+
+  get canReset() {
+    return BlackHole.mass.gte(DC.D1_5E136);
+  }
+
+  requestReset() {
+    if (!this.canReset) return;
+    if (ConfirmationTypes.atom.option) {
+      Modal.confirmation.show({
+        option: "atom",
+        confirmFn: () => this.resetLayer()
+      });
+    } else {
+      this.resetLayer();
+    }
+  }
+
+  resetLayer(resetOnly = false) {
+    if (!resetOnly) {
+      this.gain();
+      Currency.quark.gain();
+    }
+    BlackHole.reset();
+    BHUpgrades.reset();
+    Currency.atomicPower.reset();
+    Currency.darkMatter.resetLayer(true);
+    Tutorial.atom.unlock();
+    player.unlocks.atom = true;
+    player.challenges.current = 0;
+    EventHub.dispatch(GAME_EVENT.ATOM_RESET);
+  }
+
+  get name() {
+    return "Atoms";
+  }
+}();
+
+Currency.quark = new class extends DecimalCurrency {
+  get value() {
+    return player.quark;
+  }
+
+  set value(value) {
+    player.quark = value;
+  }
+
+  get gainPerSecond() {
+    const atoms = Currency.atoms.gainPerSecond;
+    if (atoms.lt(1)) return DC.D0;
+    let gain = atoms.clampMin(1).log10().pow(1.1).add(1);
+    gain = gain.timesEffectsOf(
+      BHUpgrade(12),
+      AtomUpgrade(7)
+    );
     return gain.floor();
   }
 
   get name() {
-    return "Atom";
+    return "Quark";
+  }
+}();
+
+Currency.atomicPower = new class extends DecimalCurrency {
+  get value() {
+    return player.atomicPower;
+  }
+
+  set value(value) {
+    player.atomicPower = value;
+  }
+
+  get gainPerSecond() {
+    return Atom.gainedPower;
+  }
+
+  get name() {
+    return "Atomic Power";
   }
 }();

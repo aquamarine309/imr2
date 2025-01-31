@@ -8,6 +8,10 @@ class BHUpgradeState extends MainUpgradeState {
   get currency() {
     return Currency.darkMatter;
   }
+
+  get noReset() {
+    return this.id === 4;
+  }
 }
 
 export const BHUpgrade = BHUpgradeState

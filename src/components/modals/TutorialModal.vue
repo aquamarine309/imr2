@@ -15,7 +15,7 @@ export default {
   computed: {
     styleObject() {
       return {
-        "background-image": `url("../images/quotes/${this.tutorial.id}.png")`
+        "background-image": `url("./images/quotes/${this.tutorial.id}.png")`
       };
     }
   }
@@ -41,7 +41,7 @@ export default {
   </ModalWrapperChoice>
 </template>
 
-<style>
+<style scoped>
 .c-tutorial-title {
   font-weight: bold;
   font-size: 16px;

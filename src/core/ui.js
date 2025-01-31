@@ -3,6 +3,7 @@ import VueTouch from "vue-touch";
 import GameUIComponent from "@/components/GameUIComponent";
 import { DEV } from "@/env";
 import { state } from "./ui.init";
+import { notify } from "./notify";
 
 Vue.mixin({
   computed: {
@@ -90,6 +91,7 @@ Vue.use(VueTouch, {
 });
 
 export const GameUI = {
+  notify,
   events: [],
   flushPromise: undefined,
   initialized: false,

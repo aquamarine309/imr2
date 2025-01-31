@@ -1,3 +1,5 @@
+import { DC } from "@/core/constants";
+
 export const tier = {
   id: "tier",
   name: "Tier",
@@ -14,10 +16,21 @@ export const tier = {
     return RageUpgrade(5).canBeApplied;
   },
   requirement(amount) {
-    return amount.add(2).pow(2).round();
+    let req = Scaling.tier.scaleEvery(amount).timesEffectOf(
+      RankType.tetr.unlocks.ranksReqAndScaling.effects.tier
+    );
+    if (AtomUpgrade(9).canBeApplied) {
+      req = req.times(DC.D0_5);
+    }
+    return req.add(2).pow(2).round();
   },
   bulk(currency) {
-    return currency.sqrt().minus(1).floor();
+    let rank = currency.sqrt().minus(2)
+      .dividedByEffectOf(RankType.tetr.unlocks.ranksReqAndScaling.effects.tier);
+    if (AtomUpgrade(9).canBeApplied) {
+      rank = rank.times(DC.D2);
+    }
+    return Scaling.tier.scaleEvery(rank, false).add(1).floor();
   },
   unlocks: [
     {
@@ -75,7 +88,7 @@ export const tier = {
       id: "strongerCapWeak",
       requirement: 30,
       description: () => `stronger effect's softcap is ${formatPercents(0.1, 0)} weaker.`,
-      effect: 0.9
+      effect: 1.1
     },
     {
       id: "tierBoostRank380",

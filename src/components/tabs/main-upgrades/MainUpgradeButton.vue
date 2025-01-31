@@ -5,10 +5,6 @@ export default {
     upgrade: {
       type: Object,
       required: true
-    },
-    index: {
-      type: Number,
-      required: true
     }
   },
   data() {
@@ -58,7 +54,7 @@ export default {
   />
 </template>
 
-<style>
+<style scoped>
 .c-main-upgrade-btn {
   border: none;
   background-size: contain;

@@ -45,6 +45,10 @@ export const GameLoop = {
     if (PlayerProgress.blackHoleUnlocked()) {
       Currency.blackHole.tick(diff / 1000);
     }
+    if (PlayerProgress.atomUnlocked()) {
+      Currency.atomicPower.tick(diff / 1000);
+      Atom.tick(diff / 1000);
+    }
 
     applyAutoprestige(diff / 1000);
 

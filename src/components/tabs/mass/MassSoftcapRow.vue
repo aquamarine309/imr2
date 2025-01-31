@@ -33,16 +33,6 @@ export default {
     v-if="isUnlocked"
     class="c-mass-softcap-row"
   >
-    After {{ format(start) }} of mass gain, mass gain will be softcapped{{ level === 1 ? "" : `^${level}` }}!
+    After <b>{{ format(start) }}</b> of mass gain, mass gain will be softcapped{{ level === 1 ? "" : `^${level}` }}!
   </div>
 </template>
-
-<style>
-.c-mass-softcap-row {
-  font-size: 14px;
-}
-
-.c-mass-softcap-row:first-child {
-  color: red;
-}
-</style>

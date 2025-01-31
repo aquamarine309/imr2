@@ -34,7 +34,7 @@ export default {
       return this.challenge.reward.config;
     },
     name() {
-      return this.config.name;
+      return `${this.challenge.name} (${format(this.completions, 0)} / ${format(this.max, 0)})`;
     },
     resetType() {
       return this.config.type.name;
@@ -47,6 +47,18 @@ export default {
         return "Exit";
       }
       return "Enter Challenge";
+    },
+    nameClass() {
+      return {
+        "c-challenge-name": true,
+        "c-challenge-name--small": this.name.length > 30
+      };
+    },
+    goalText() {
+      return this.config.type.formatGoal(this.goal);
+    },
+    milestones() {
+      return this.challenge.milestones;
     }
   },
   methods: {
@@ -83,13 +95,13 @@ export default {
   >
     <div class="o-challenge-image-and-title-row">
       <img
-        :src="`images/challenges/${challenge.id}.png`"
+        :src="`./images/challenges/${challenge.id}.png`"
         class="c-challenge-image"
         :class="{ 'c-challenge-image--running': isRunning }"
       >
       <div class="c-challenge-info">
-        <div class="c-challenge-name">
-          {{ name }} ({{ format(completions, 0) }} / {{ format(max, 0) }})
+        <div :class="nameClass">
+          {{ name }}
         </div>
         <div class="o-challenge-buttons">
           <PrimaryButton @click="enter">
@@ -112,7 +124,7 @@ export default {
       <br>
       <span class="c-challenge-description">Entering challenge will force {{ resetType }} reset.</span>
       <br>
-      <span>Goal: {{ formatMass(goal) }}</span>
+      <span>Goal: {{ goalText }}</span>
       <br>
       <EffectDisplay
         class="c-challenge-effect"
@@ -129,11 +141,26 @@ export default {
         :config="reward"
         br
       />
+      <div
+        v-for="(milestone, index) in milestones"
+        :key="index"
+      >
+        <DescriptionDisplay
+          class="c-yellow"
+          :config="milestone.config"
+          br
+        />
+        <EffectDisplay
+          class="c-yellow"
+          :config="milestone.config"
+          br
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .o-challenge-box {
   display: flex;
   width: 100%;
@@ -175,6 +202,10 @@ export default {
   text-shadow: 1px 1px 3px black;
 }
 
+.c-challenge-name--small {
+  font-size: 15px;
+}
+
 .c-challenge-description {
   color: red;
 }
@@ -188,5 +219,6 @@ export default {
 .o-challenge-buttons .o-primary-btn {
   flex: 1;
   margin: 0 5px;
+  padding: 8px 0;
 }
 </style>

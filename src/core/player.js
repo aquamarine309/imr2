@@ -15,6 +15,12 @@ window.player = {
   darkMatter: DC.D0,
   blackHole: DC.D0,
   atoms: DC.D0,
+  quark: DC.D0,
+  atomicPower: DC.D0,
+  particles: [DC.D0, DC.D0, DC.D0],
+  particleWeights: [1, 1, 1],
+  particlePowers: [DC.D0, DC.D0, DC.D0],
+  ratioMode: RATIO_MODE.SINGLE,
   auto: {
     ranks: {
       rank: false,
@@ -30,7 +36,8 @@ window.player = {
       stronger: false,
       overpower: false,
       tickspeed: false,
-      condenser: false
+      condenser: false,
+      cosmicRay: false
     },
     mainUpgrades: {
       rage: false,
@@ -44,7 +51,13 @@ window.player = {
     stronger: DC.D0,
     overpower: DC.D0,
     tickspeed: DC.D0,
-    condenser: DC.D0
+    condenser: DC.D0,
+    cosmicRay: DC.D0
+  },
+  unlocks: {
+    ragePower: false,
+    darkMatter: false,
+    atom: false
   },
   // Bits
   mainUpgrades: {
@@ -54,7 +67,8 @@ window.player = {
   },
   challenges: {
     current: 0,
-    completions: Array.repeat(DC.D0, 30)
+    completions: Array.repeat(DC.D0, 30),
+    page: 0
   },
   records: {
     gameCreatedTime: Date.now(),
@@ -72,7 +86,8 @@ window.player = {
     lastOpenSubtab: Array.repeat(0, 10),
     confirmations: {
       ragePower: true,
-      darkMatter: true
+      darkMatter: true,
+      atom: true
     },
     awayProgress: {
       mass: true,

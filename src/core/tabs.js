@@ -191,6 +191,7 @@ export const Tabs = (function() {
       Tab.statistics,
       Tab.upgrades,
       Tab.challenges,
+      Tab.atom,
       Tab.options
     ]
   };

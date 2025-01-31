@@ -20,7 +20,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .o-app-bar {
   width: 100%;
   height: var(--height-app-bar);

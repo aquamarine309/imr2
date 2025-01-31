@@ -30,15 +30,16 @@ export default {
     :option="option"
     @confirm="confirm"
   >
-    <div class="c-tutorial-title">
+    <div class="c-reset-title">
       Are you sure you want to reset?
     </div>
   </ModalWrapperChoice>
 </template>
 
-<style>
+<style scoped>
 .c-reset-title {
   font-weight: bold;
   font-size: 16px;
+  margin: 6px 0;
 }
 </style>

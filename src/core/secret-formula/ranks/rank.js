@@ -8,15 +8,20 @@ export const rank = {
   },
   requirement(amount) {
     return Decimal.pow10(Scaling.rank.scaleEvery(amount)
-      .timesEffectOf(RankType.tier.unlocks.reduceRankReq).pow(1.15)
+      .timesEffectsOf(
+        RankType.tier.unlocks.reduceRankReq,
+        Challenge(5).reward
+      ).pow(1.15)
     ).times(10);
   },
   bulk(value) {
     if (value.lt(10)) return DC.D0;
     return Scaling.rank.scaleEvery(
       value.div(10).log10().root(1.15)
-        .dividedByEffectOf(RankType.tier.unlocks.reduceRankReq),
-      true
+        .dividedByEffectsOf(
+          RankType.tier.unlocks.reduceRankReq,
+          Challenge(5).reward
+        ), true
     ).add(1).floor();
   },
   get scaling() {
@@ -27,6 +32,9 @@ export const rank = {
   },
   get autoUnlocked() {
     return RageUpgrade(4).canBeApplied;
+  },
+  get isDisabled() {
+    return Challenge(5).isRunning;
   },
   unlocks: [
     {
@@ -89,8 +97,7 @@ export const rank = {
       requirement: 17,
       description: () => `Rank 6 reward effect is better. [(x+${formatInt(1)})^${formatInt(2)} -> (x+${formatInt(1)})^x^${formatInt(1)}/${formatInt(3)}]`,
       effect: () => RankType.rank.amount.add(1).cbrt(),
-      formatEffect: value => formatX(RankType.rank.unlocks.rankBoostsMass
-        .effectOrDefault(DC.D1).pow(value.minus(DC.D2)))
+      formatEffect: value => formatX(RankType.rank.amount.add(1).pow(value.minus(DC.D2)))
     },
     {
       id: "mu3softcap",

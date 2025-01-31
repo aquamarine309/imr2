@@ -19,6 +19,7 @@ export default {
 
 <template>
   <div class="l-tab-bar--container">
+    <div id="notification-container" />
     <div class="c-tab-bar">
       <ButtomTabButton
         v-for="tab in tabs"
@@ -36,7 +37,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 .l-tab-bar--container {
   position: absolute;
   bottom: 0;

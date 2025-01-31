@@ -9,4 +9,9 @@ export const confirmationTypes = [
     option: "darkMatter",
     isUnlocked: () => PlayerPgrogress.blackHoleUnlockedUnlocked(),
   },
+  {
+    name: "Atom",
+    option: "atom",
+    isUnlocked: () => PlayerProgress.atomUnlocked()
+  }
 ];

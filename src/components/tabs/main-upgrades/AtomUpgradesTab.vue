@@ -2,7 +2,7 @@
 import MainUpgradesTab from "./MainUpgradesTab";
 
 export default {
-  name: "BHUpgradesTab",
+  name: "AtomUpgradesTab",
   components: {
     MainUpgradesTab
   },
@@ -13,15 +13,12 @@ export default {
   },
   computed: {
     upgrades() {
-      return BHUpgrade.index;
-    },
-    autobuyer() {
-      return Autobuyer.blackHoleUpgrade;
+      return AtomUpgrade.index;
     }
   },
   methods: {
     update() {
-      this.currencyAmount = format(Currency.darkMatter.value, 0);
+      this.currencyAmount = format(Currency.atoms.value, 0);
     }
   }
 };
@@ -32,7 +29,6 @@ export default {
     :upgrades="upgrades"
     name="Black Hole Upgrades"
     :currency-amount="currencyAmount"
-    currency-name="Dark Matter"
-    :autobuyer="autobuyer"
+    currency-name="Atoms"
   />
 </template>

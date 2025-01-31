@@ -1,9 +1,13 @@
 export class PlayerProgress {
   static rageUnlocked() {
-    return Currency.ragePowers.gt(0) || PlayerProgress.blackHoleUnlocked();
+    return player.unlocks.ragePower;
   }
 
   static blackHoleUnlocked() {
-    return Currency.darkMatter.gt(0);
+    return player.unlocks.darkMatter;
+  }
+
+  static atomUnlocked() {
+    return player.unlocks.atom;
   }
 }

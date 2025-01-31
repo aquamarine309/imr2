@@ -16,7 +16,7 @@ export class RankAutobuyerState extends AutobuyerState {
   }
 
   get canTick() {
-    return this._rank !== undefined && super.canTick;
+    return this._rank !== undefined && super.canTick && this._rank.canReset;
   }
 
   get isUnlocked() {
