@@ -92,4 +92,22 @@ export default {
 .c-modal-away-progress__rage-powers {
   color: var(--color-rage-powers);
 }
+
+.c-modal-away-progress__dark-matter,
+.c-modal-away-progress__black-hole {
+  color: var(--color-dark-matter);
+}
+
+.c-modal-away-progress__quark {
+  animation: a-quark 6s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+.c-modal-away-progress__disabled b,
+.c-modal-away-progress__disabled {
+  font-style: italic;
+  color: #303030;
+  text-shadow: 0 0 0.3rem #303030;
+  text-decoration: line-through;
+  animation: none;
+}
 </style>

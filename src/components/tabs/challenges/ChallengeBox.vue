@@ -23,7 +23,8 @@ export default {
       max: new Decimal(),
       goal: new Decimal(),
       pendingCompletions: new Decimal(),
-      isUnlocked: false
+      isUnlocked: false,
+      isCapped: false
     };
   },
   computed: {
@@ -59,6 +60,13 @@ export default {
     },
     milestones() {
       return this.challenge.milestones;
+    },
+    imgClass() {
+      return {
+        "c-challenge-image": true,
+        "c-challenge-image--completed": this.isCapped,
+        "c-challenge-image--running": this.isRunning
+      };
     }
   },
   methods: {
@@ -70,6 +78,7 @@ export default {
       this.max = challenge.max;
       this.isRunning = challenge.isRunning;
       this.completions.copyFrom(challenge.completions);
+      this.isCapped = challenge.isCapped;
       if (!this.isRunning) return;
       this.pendingCompletions = challenge.pendingCompletions;
     },
@@ -96,8 +105,7 @@ export default {
     <div class="o-challenge-image-and-title-row">
       <img
         :src="`./images/challenges/${challenge.id}.png`"
-        class="c-challenge-image"
-        :class="{ 'c-challenge-image--running': isRunning }"
+        :class="imgClass"
       >
       <div class="c-challenge-info">
         <div :class="nameClass">
@@ -174,6 +182,10 @@ export default {
 
 .c-challenge-image--running {
   background-color: #444444;
+}
+
+.c-challenge-image--completed {
+  background-color: #00520b;
 }
 
 .o-challenge-image-and-title-row {

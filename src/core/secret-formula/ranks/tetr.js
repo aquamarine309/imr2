@@ -35,6 +35,19 @@ export const tetr = {
       requirement: DC.D2,
       effect: () => MassUpgrade.stronger.boughtAmount.div(400),
       formatEffect: value => `+${formatPow(value)}`
+    },
+    {
+      id: "tickspeedPower",
+      description: () => `raise tickspeed effect by ${format(1.05, 2)}.`,
+      requirement: DC.D3,
+      effect: 1.05
+    },
+    {
+      id: "ranksScaling",
+      description: () => `Super rank scaling is weaker based on tier, and super tier scales ${formatPercents(0.2, 0)} weaker.`,
+      requirement: DC.D4,
+      effect: () => DC.D0_96.pow(RankType.tier.amount.cbrt()),
+      formatEffect: value => `${formatPercents(DC.D1.minus(value))} weaker`
     }
   ]
 };

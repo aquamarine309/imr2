@@ -143,6 +143,30 @@ export const rank = {
       requirement: 220,
       description: "rank 40 reward is overpowered.",
       effect: 1
+    },
+    {
+      id: "quarkGain",
+      requirement: 300,
+      description: "rank multiplies quark gain.",
+      effect: () => RankType.rank.amount.add(1),
+      formatEdfect: value => formatX(value)
+    },
+    {
+      id: "massGain",
+      requirement: 380,
+      description: "rank multiplies mass gain.",
+      effect: () => softcap(RankType.rank.amount.minus(379).pow(1.5).powEffectOf(
+        RankType.tier.unlocks.tierBoostRank380
+      ), DC.E3, DC.D0_5, SOFTCAP_TYPE.POWER).pow10(),
+      formatEffect: value => formatX(value)
+    },
+    {
+      id: "massSoftcap",
+      requirement: 800,
+      description: `make mass gain softcap ${formatPercents(0.0025, 2)} weaker based on rank, hardcaps at ${formatPercents(0.25, 0)}.`,
+      effect: () => DC.D2.minus(softcap(RankType.rank.amount.minus(799).times(0.0025).add(1), DC.D1_25, DC.D0_5, SOFTCAP_TYPE.POWER)),
+      formatEffect: value => formatPercents(DC.D1.minus(value)),
+      cap: DC.D0_75
     }
   ]
 };

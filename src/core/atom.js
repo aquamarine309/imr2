@@ -117,7 +117,7 @@ class ParticleState {
       case RATIO_MODE.QUARTER:
         assigned = quark.times(DC.D0_25).ceil();
         break;
-      case RATIO.MODE.ALL:
+      case RATIO_MODE.ALL:
         assigned = quark;
         break;
     }

@@ -44,19 +44,19 @@ export const scaling = {
       get start() {
         if (Challenge(1).isRunning) return DC.D25;
         let start = DC.D50;
-        start = start.plusEffectsOf(
-          Challenge(1).reward.effects.rank,
-          AtomUpgrade(4)
-        );
+        start = start.plusEffectOf(Challenge(1).reward.effects.rank);
         return start;
       },
       get scale() {
-        return DC.D1_5.powEffectOf(RageUpgrade(9));
+        return DC.D1_5.powEffectsOf(
+          RageUpgrade(9),
+          RankType.tetr.unlocks.ranksScaling
+        );
       }
     },
     {
       get start() {
-        return DC.D120;
+        return DC.D120.plusEffectOf(AtomUpgrade(9));
       },
       get scale() {
         return DC.D2_5.powEffectOf(
@@ -71,7 +71,11 @@ export const scaling = {
         return DC.E1.plusEffectOf(AtomUpgrade(4));
       },
       get scale() {
-        return DC.D1_5;
+        let scale = DC.D1_5;
+        if (RankType.tetr.unlocks.ranksScaling.canBeApplied) {
+          scale = scale.pow(0.8);
+        }
+        return scale;
       }
     },
     {
@@ -86,7 +90,7 @@ export const scaling = {
   tetr: [
     {
       get start() {
-        return DC.D7;
+        return DC.D7.plusEffectOf(RankType.tier.unlocks.superTetrLater);
       },
       get scale() {
         return DC.D2;

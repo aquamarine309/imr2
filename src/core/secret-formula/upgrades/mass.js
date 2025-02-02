@@ -36,7 +36,7 @@ export const mass = {
       return RageUpgrade(0).effectOrDefault(DC.D0);
     },
     get isUnlocked() {
-      return RankType.rank.unlocks.unlockMuscler.canBeApplied;
+      return RankType.rank.unlocks.unlockMuscler.canBeApplied || AtomUpgrade(0).canBeApplied;
     },
     get forceVisible() {
       return PlayerProgress.rageUnlocked();
@@ -284,7 +284,9 @@ export const mass = {
     },
     formatPower: value => (value.gte(10) ? formatX(value) : formatPercents(value.minus(1))),
     effect(amount, power) {
-      return power.pow(amount);
+      return power.pow(amount).powEffectOf(
+        RankType.tetr.unlocks.tickspeedPower
+      );
     },
     formatEffect: value => `${formatX(value)} to mass gain`,
     upgClass: "i-tickspeed"

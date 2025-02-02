@@ -42,7 +42,7 @@ export default {
   methods: {
     update() {
       const rank = this.rank;
-      this.isAvailable = rank.isUnlocked;
+      this.isAvailable = rank.isUnlocked && rank.amount.gt(0);
       this.enrtyVisibilities = this.unlocks.map(unlock => unlock.canBeApplied);
     }
   }

@@ -4,7 +4,7 @@ export const tier = {
   id: "tier",
   name: "Tier",
   isUnlocked() {
-    return RankType.rank.amount.gte(3) || RankType.tier.amount.gte(1);
+    return RankType.rank.amount.gte(3) || RankType.tier.amount.gte(1) || PlayerProgress.rageUnlocked();
   },
   get scaling() {
     return Scaling.tier;
@@ -30,7 +30,7 @@ export const tier = {
     if (AtomUpgrade(9).canBeApplied) {
       rank = rank.times(DC.D2);
     }
-    return Scaling.tier.scaleEvery(rank, false).add(1).floor();
+    return Scaling.tier.scaleEvery(rank, true).add(1).floor();
   },
   unlocks: [
     {
@@ -58,7 +58,7 @@ export const tier = {
       effect: () => {
         const tier12 = RankType.tier.unlocks.improveTier4.canBeApplied;
         const effect = RankType.tier.amount.times(tier12 ? 0.1 : 0.05);
-        if (!tier12) return effect;
+        if (tier12) return effect;
         return softcap(effect.add(1), DC.D1_4, DC.D0_75, SOFTCAP_TYPE.POWER).minus(1);
       },
       formatEffect: value => `+${formatPercents(value)}`

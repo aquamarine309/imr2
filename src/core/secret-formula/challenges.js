@@ -35,7 +35,7 @@ export const challenges = [
     name: "Instant Scale",
     isUnlocked: () => true,
     description: () => `Super rank and mass upgrade scaling starts at ${formatInt(25)}. Also, Super tickspeed starts at ${formatInt(50)}.`,
-    max: () => DC.E2,
+    max: () => DC.E2.plusEffectOf(Challenge(7).reward),
     baseGoal: DC.D1_5E58,
     goalPow: DC.D1_3,
     goalMult: DC.D5,
@@ -59,7 +59,7 @@ export const challenges = [
     name: "Anti-Tickspeed",
     isUnlocked: () => Challenge(1).completions.gte(1) || PlayerProgress.atomUnlocked(),
     description: "You cannot buy Tickspeed.",
-    max: () => DC.E2,
+    max: () => DC.E2.plusEffectOf(Challenge(7).reward),
     baseGoal: DC.D1_989E40,
     goalPow: DC.D1_3,
     goalMult: DC.E1,
@@ -78,7 +78,7 @@ export const challenges = [
     isUnlocked: () => Challenge(2).completions.gte(1) || PlayerProgress.atomUnlocked(),
     description: () => `Mass gain softcap starts ${formatInt(150)} OoMs eariler, and is stronger.`,
     effect: DC.E150,
-    max: () => DC.E2,
+    max: () => DC.E2.plusEffectOf(Challenge(7).reward),
     baseGoal: DC.D2_9835E49,
     goalPow: DC.D1_25,
     goalMult: DC.D25,
@@ -98,7 +98,7 @@ export const challenges = [
     isUnlocked: () => Challenge(3).completions.gte(1) || PlayerProgress.atomUnlocked(),
     description: () => `Rage Power gain is rooted by ${formatInt(10)}. Additionally, mass gain softcap starts ${formatInt(100)} OoMs eariler.`,
     effect: DC.E100,
-    max: () => DC.E2,
+    max: () => DC.E2.plusEffectOf(Challenge(7).reward),
     baseGoal: DC.D1_736881338559743E133,
     goalPow: DC.D1_25,
     goalMult: DC.D30,
@@ -141,6 +141,7 @@ export const challenges = [
     reward: {
       description: () => `Every completion adds ${formatPercents(0.1, 0)} to tickspeed and BH condenser power.`,
       effect: value => softcap(value.times(0.1).add(1), DC.D1_5, DC.D0_5, SOFTCAP_TYPE.POWER).minus(1),
+      softcapped: value => value.gte(DC.D0_5),
       formatEffect: value => `+${format(value)}x`
     },
     type: challengeType.ATOM
@@ -158,7 +159,7 @@ export const challenges = [
     reward: {
       description: () => `Each completion increases challenges 1-4 cap by ${formatInt(2)}.`,
       effect: value => value.times(2),
-      formatEffect: value => `+${format(value)}`
+      formatEffect: value => `+${format(value, 0)}`
     },
     milestones: [
       {
@@ -169,4 +170,29 @@ export const challenges = [
     ],
     type: challengeType.ATOM
   },
+  {
+    id: 8,
+    name: "White Hole",
+    isUnlocked: () => PlayerProgress.atomUnlocked() && Challenge(7).completions.gt(0),
+    description: () => `Dark Matter & Mass from Black Hole gains are rooted by ${formatInt(8)}.`,
+    effect: 0.125,
+    max: () => DC.D50,
+    goalPow: DC.D1_3,
+    goalMult: DC.D80,
+    baseGoal: DC.D1_989E38,
+    reward: {
+      description: "Dark Matter & Mass from Black Hole gains are raised by completions.",
+      effect: value => softcap(value.pow(4 / 7).times(0.02).add(1), DC.D2_3, DC.D0_25, SOFTCAP_TYPE.POWER),
+      formatEffect: value => formatPow(value),
+      softcapped: value => value.gte(DC.D2_3)
+    },
+    milestones: [
+      {
+        id: 0,
+        requirement: DC.D1,
+        description: "On first completion, unlock 3 rows of Elements"
+      }
+    ],
+    type: challengeType.ATOM
+  }
 ];

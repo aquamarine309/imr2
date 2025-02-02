@@ -22,7 +22,8 @@ export const massSoftcap = [
       }
       div = div.timesEffectsOf(
         BHUpgrade(10),
-        Challenge(7)
+        Challenge(7),
+        RankType.rank.unlocks.massSoftcap
       );
       return div.add(1).recip();
     }

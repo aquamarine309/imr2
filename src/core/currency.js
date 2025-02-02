@@ -233,6 +233,7 @@ Currency.mass = new class extends DecimalCurrency {
     gain = gain.timesEffectsOf(
       RankType.rank.unlocks.rankBoostsMass,
       RankType.rank.unlocks.tripleMassGain,
+      RankType.rank.unlocks.massGain,
       MassUpgrade.tickspeed,
       BHUpgrade(9)
     );
@@ -338,6 +339,10 @@ Currency.darkMatter = new class extends DecimalCurrency {
       gain = gain.root(6);
     }
     gain = gain.times(Atom.electronDM());
+    gain = gain.powEffectsOf(
+      Challenge(8),
+      Challenge(8).reward
+    );
     return gain.floor();
   }
 
@@ -463,7 +468,8 @@ Currency.quark = new class extends DecimalCurrency {
     let gain = atoms.clampMin(1).log10().pow(1.1).add(1);
     gain = gain.timesEffectsOf(
       BHUpgrade(12),
-      AtomUpgrade(7)
+      AtomUpgrade(7),
+      RankType.rank.unlocks.quarkGain
     );
     return gain.floor();
   }

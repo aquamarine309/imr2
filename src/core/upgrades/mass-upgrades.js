@@ -124,7 +124,7 @@ export const MassUpgradeSoftcap = {
         return start;
       },
       get scale() {
-        return DC.D0_5.timesEffectOf(
+        return DC.D0_5.timesEffectsOf(
           AtomUpgrade(8),
           RankType.tier.unlocks.strongerCapWeak
         );

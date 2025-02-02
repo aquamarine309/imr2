@@ -23,6 +23,10 @@ export const BlackHole = {
       RageUpgrade(10),
       BHUpgrade(13)
     );
+    gain = gain.powEffectsOf(
+      Challenge(8),
+      Challenge(8).reward
+    );
     gain = softcap(gain, this.softcapStart, DC.D0_5, SOFTCAP_TYPE.POWER);
     gain = softcap(gain, DC.EE28, DC.C1D3, SOFTCAP_TYPE.POWER);
     return gain;

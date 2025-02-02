@@ -27,7 +27,7 @@ export default {
 <template>
   <MainUpgradesTab
     :upgrades="upgrades"
-    name="Black Hole Upgrades"
+    name="Atom Upgrades"
     :currency-amount="currencyAmount"
     currency-name="Atoms"
   />
