@@ -60,5 +60,5 @@ window.getLinearCost = function getLinearCost(amount, baseCost, costMult) {
 };
 
 window.getLinearBulk = function getLinearCost(currency, baseCost, costMult) {
-  return currency.div(baseCost).clampMin(1).log(costMult).add(1).floor();
+  return currency.div(baseCost).clampMin(1).log(costMult);
 };

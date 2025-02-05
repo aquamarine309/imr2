@@ -8,6 +8,7 @@ import { challenges } from "./challenges";
 import { massSoftcap } from "./mass-softcap";
 import { awayProgressTypes } from "./away-progress-types";
 import { particles } from "./particles";
+import { gameElements } from "./game-elements";
 
 export const GameDatabase = {
   upgrades,
@@ -19,7 +20,8 @@ export const GameDatabase = {
   challenges,
   massSoftcap,
   awayProgressTypes,
-  particles
+  particles,
+  gameElements
 };
 
 window.GameDatabase = GameDatabase;

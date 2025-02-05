@@ -254,7 +254,7 @@ window.TimeSpan = class TimeSpan {
     if (totalSeconds < 60) {
       return `${format(totalSeconds, 3)} seconds`;
     }
-    if (this.totalHours < 100 || (isSpeedrun && this.totalHours < 1000)) {
+    if (this.totalHours < 100) {
       if (useHMS) {
         const sec = formatHMS(this.seconds);
         if (Math.floor(this.totalHours) === 0) return `${formatHMS(this.minutes)}:${sec}`;
@@ -268,9 +268,9 @@ window.TimeSpan = class TimeSpan {
       }
     }
     if (this.totalDays < 500) {
-      return `${isSpeedrun ? this.totalDays.toFixed(2) : format(this.totalDays, 3)} days`;
+      return `${format(this.totalDays, 3)} days`;
     }
-    return `${isSpeedrun ? this.totalYears.toFixed(3) : format(this.totalYears, 3)} years`;
+    return `${format(this.totalYears, 3)} years`;
 
     function formatHMS(value) {
       const s = value.toString();

@@ -129,7 +129,10 @@ class RankTypeState extends GameMechanicState {
       ? Currency.mass.value
       : this.previous.amount;
     const bulk = this.config.bulk(currencyAmount);
-    if (bulk.lte(this.amount)) return;
+    if (bulk.lte(this.amount)) {
+      this.reset();
+      return;
+    }
     if (this.noReset) {
       this.amount = bulk;
       return;

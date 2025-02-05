@@ -21,6 +21,7 @@ window.player = {
   particleWeights: [1, 1, 1],
   particlePowers: [DC.D0, DC.D0, DC.D0],
   ratioMode: RATIO_MODE.SINGLE,
+  elements: new Set(),
   auto: {
     ranks: {
       rank: false,
@@ -91,7 +92,12 @@ window.player = {
     },
     awayProgress: {
       mass: true,
-      ragePowers: true
+      ragePowers: true,
+      darkMatter: true,
+      blackHole: true,
+      atom: true,
+      quark: true,
+      atomicPower: true
     }
   }
 };

@@ -7,11 +7,11 @@ export const tetr = {
     return AtomUpgrade(2).canBeApplied;
   },
   requirement(amount) {
-    return Scaling.tetr.scaleEvery(amount).pow(2).times(3).add(10).floor();
+    return Scaling.tetr.scaleEvery(amount).timesEffectOf(GameElement(9)).pow(2).times(3).add(10).floor();
   },
   bulk(value) {
     if (value.lt(10)) return DC.D0;
-    return Scaling.tetr.scaleEvery(value.minus(10).div(3).sqrt(), true).add(1).floor();
+    return Scaling.tetr.scaleEvery(value.minus(10).div(3).sqrt().dividedByEffectOf(GameElement(9)), true).add(1).floor();
   },
   get scaling() {
     return Scaling.tetr;
@@ -48,6 +48,13 @@ export const tetr = {
       requirement: DC.D4,
       effect: () => DC.D0_96.pow(RankType.tier.amount.cbrt()),
       formatEffect: value => `${formatPercents(DC.D1.minus(value))} weaker`
+    },
+    {
+      id: "tickScaling",
+      description: "Hyper/Ultra Tickspeed starts later based on tetr.",
+      requirement: DC.D5,
+      effect: () => softcap(RankType.tetr.amount.pow(4), DC.E3, DC.D0_25, SOFTCAP_TYPE.POWER),
+      formatEffect: value => `${format(value)} later`
     }
   ]
 };

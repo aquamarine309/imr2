@@ -6,7 +6,9 @@ export const Atom = {
   },
 
   get gainedPower() {
-    return MassUpgrade.cosmicRay.effectValue;
+    let power = MassUpgrade.cosmicRay.effectValue;
+    power = power.timesEffectOf(GameElement(3));
+    return power;
   },
 
   get freeTickspeeds() {
@@ -51,7 +53,7 @@ export const Atom = {
 
   neutronMass() {
     return Currency.mass.value.max(1).log10().add(1).pow(
-      Currency.ragePowers.value.max(1).log(10).times(Particles.neutron.power.max(1).log10()).div(4).cbrt()
+      Currency.ragePowers.value.max(1).log10().times(Particles.neutron.power.max(1).log10()).div(4).root(GameElement(19).effectOrDefault(3))
     ).clampMax(DC.EE200);
   },
 
@@ -95,7 +97,12 @@ class ParticleState {
   }
 
   get gainPerSecond() {
-    let gain = this.amount.pow(2);
+    let gain = this.amount;
+    if (GameElement(12).canBeApplied) {
+      gain = gain.pow(softcap(gain.add(1).log10().add(1).pow(0.25), DC.D4E4, DC.D0_1, SOFTCAP_TYPE.POWER));
+    } else {
+      gain = gain.pow(2);
+    }
     gain = gain.timesEffectOf(AtomUpgrade(6));
     gain = softcap(gain, DC.E3_8E4, DC.D0_9, SOFTCAP_TYPE.DILATION);
     gain = softcap(gain, DC.E1_6E5, DC.D0_9, SOFTCAP_TYPE.DILATION);

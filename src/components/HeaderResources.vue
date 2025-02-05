@@ -39,7 +39,8 @@ export default {
       quark: {
         amount: new Decimal(),
         rate: new Decimal(),
-        unlocked: false
+        unlocked: false,
+        passive: true
       }
     };
   },
@@ -103,7 +104,11 @@ export default {
       quark.unlocked = PlayerProgress.atomUnlocked();
       if (quark.unlocked) {
         quark.amount.copyFrom(Currency.quark.value);
+        quark.passive = GameElement(14).canBeApplied;
         quark.rate = Currency.quark.gainPerSecond;
+        if (quark.passive) {
+          quark.rate = quark.rate.times(0.05 + GameElement(16).effectOrDefault(0));
+        }
       }
     },
     formatNoPlaces(value) {
@@ -189,7 +194,7 @@ export default {
       :gain-rate="quark.rate"
       :format-fn="formatNoPlaces"
       name="Quark"
-      :is-rate="false"
+      :is-rate="quark.passive"
       :tooltip="quarkTooltip"
       :show-tooltip="true"
     />

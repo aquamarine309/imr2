@@ -6,6 +6,7 @@ import OptionsTab from "./options/OptionsTab";
 import MainUpgradeTabs from "./main-upgrades";
 import ChallengesTab from "./challenges/ChallengesTab";
 import ParticlesTab from "./particles/ParticlesTab";
+import ElementsTab from "./elements/ElementsTab";
 
 export default {
   MassTab,
@@ -15,5 +16,6 @@ export default {
   OptionsTab,
   ...MainUpgradeTabs,
   ChallengesTab,
-  ParticlesTab
+  ParticlesTab,
+  ElementsTab
 };

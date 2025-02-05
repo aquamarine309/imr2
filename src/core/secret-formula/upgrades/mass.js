@@ -30,7 +30,7 @@ export const mass = {
     bulk(currency) {
       const $ = MassUpgrade.muscler.config;
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true);
+        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get freeAmount() {
       return RageUpgrade(0).effectOrDefault(DC.D0);
@@ -89,7 +89,7 @@ export const mass = {
     bulk(currency) {
       const $ = MassUpgrade.booster.config;
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true);
+        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get freeAmount() {
       return RageUpgrade(1).effectOrDefault(DC.D0);
@@ -148,7 +148,7 @@ export const mass = {
     bulk(currency) {
       const $ = MassUpgrade.stronger.config;
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true);
+        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get freeAmount() {
       return RageUpgrade(6).effectOrDefault(DC.D0);
@@ -172,6 +172,7 @@ export const mass = {
         RageUpgrade(11),
         RankType.tetr.unlocks.strongerBoost
       );
+      power = power.timesEffectOf(GameElement(4));
       return power;
     },
     formatPower: value => `+${formatPow(value)}`,
@@ -254,7 +255,7 @@ export const mass = {
     bulk(currency) {
       const $ = MassUpgrade.tickspeed.config;
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true);
+        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get freeAmount() {
       return Atom.freeTickspeeds;
@@ -284,8 +285,9 @@ export const mass = {
     },
     formatPower: value => (value.gte(10) ? formatX(value) : formatPercents(value.minus(1))),
     effect(amount, power) {
-      return power.pow(amount).powEffectOf(
-        RankType.tetr.unlocks.tickspeedPower
+      return power.pow(amount).powEffectsOf(
+        RankType.tetr.unlocks.tickspeedPower,
+        GameElement(18)
       );
     },
     formatEffect: value => `${formatX(value)} to mass gain`,
@@ -320,7 +322,7 @@ export const mass = {
     bulk(currency) {
       const $ = MassUpgrade.condenser.config;
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true);
+        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get isUnlocked() {
       return PlayerProgress.blackHoleUnlocked();
@@ -371,10 +373,13 @@ export const mass = {
     bulk(currency) {
       const $ = MassUpgrade.cosmicRay.config;
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true);
+        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get isUnlocked() {
       return PlayerProgress.atomUnlocked();
+    },
+    get autoUnlocked() {
+      return GameElement(18).canBeApplied;
     },
     get power() {
       let power = DC.D2;

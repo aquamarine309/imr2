@@ -43,7 +43,8 @@ export const GameStorage = {
     try {
       this.importFromJSON(JSON.parse(Serializer.decode(save)));
     } catch (e) {
-      Modal.message.show(`Invalid save`);
+      Modal.message.show(`Invalid save.`);
+      console.log(e);
     }
   },
 
@@ -151,7 +152,8 @@ export const GameStorage = {
       quarks: player.quark,
       particles: player.particles,
       dTatio: player.particleWeights,
-      ratio: player.ratioMode
+      ratio: player.ratioMode,
+      elements: Array.from(player.elements)
     };
 
     save.options = {

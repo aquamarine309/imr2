@@ -414,6 +414,7 @@ Currency.atoms = new class extends DecimalCurrency {
     if (gain.lt(1)) return DC.D0;
     gain = gain.pow(0.2);
     gain = gain.timesEffectOf(RageUpgrade(14));
+    gain = gain.powEffectOf(GameElement(17));
     return gain.floor();
   }
 
@@ -465,11 +466,17 @@ Currency.quark = new class extends DecimalCurrency {
   get gainPerSecond() {
     const atoms = Currency.atoms.gainPerSecond;
     if (atoms.lt(1)) return DC.D0;
-    let gain = atoms.clampMin(1).log10().pow(1.1).add(1);
+    let gain = atoms.clampMin(1).log10();
+    if (GameElement(1).canBeApplied) {
+      gain = DC.D1_25.pow(gain);
+    } else {
+      gain = gain.pow(1.1).add(1);
+    }
     gain = gain.timesEffectsOf(
       BHUpgrade(12),
       AtomUpgrade(7),
-      RankType.rank.unlocks.quarkGain
+      RankType.rank.unlocks.quarkGain,
+      GameElement(6)
     );
     return gain.floor();
   }

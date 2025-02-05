@@ -13,6 +13,7 @@ export function init() {
 export function applyAutoprestige(diff) {
   if (BHUpgrade(5).canBeApplied || AtomUpgrade(5).canBeApplied) Currency.ragePowers.tick(diff);
   if (AtomUpgrade(5).canBeApplied) Currency.darkMatter.tick(diff);
+  if (GameElement(14).canBeApplied) Currency.quark.tick(diff * (0.05 + GameElement(16).effectOrDefault(0)));
 }
 
 export function simulateTime(seconds, fast = false) {

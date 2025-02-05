@@ -32,12 +32,23 @@ export const scaling = {
     },
     {
       get start() {
-        return DC.D250.plusEffectOf(RageUpgrade(13));
+        return DC.D250.plusEffectsOf(
+          RageUpgrade(13),
+          RankType.tetr.unlocks.tickScaling
+        );
       },
       get scale() {
         return DC.D4.powEffectOf(BHUpgrade(11));
       }
-    }
+    },
+    {
+      get start() {
+        return DC.D700.plusEffectOf(RankType.tetr.unlocks.tickScaling);
+      },
+      get scale() {
+        return DC.D7;
+      }
+    },
   ],
   rank: [
     {
@@ -63,7 +74,39 @@ export const scaling = {
           RankType.tetr.unlocks.ranksReqAndScaling.effects.rank
         );
       }
-    }
+    },
+    {
+      get start() {
+        return DC.D600;
+      },
+      get scale() {
+        return DC.D4;
+      }
+    },
+    {
+      get start() {
+        return DC.E4;
+      },
+      get scale() {
+        return DC.D1_0025;
+      }
+    },
+    {
+      get start() {
+        return DC.E16;
+      },
+      get scale() {
+        return DC.D15;
+      }
+    },
+    {
+      get start() {
+        return DC.E37;
+      },
+      get scale() {
+        return DC.D50;
+      }
+    },
   ],
   tier: [
     {
@@ -121,9 +164,17 @@ export const scaling = {
         return DC.E2;
       },
       get scale() {
+        return DC.D2.powEffectOf(GameElement(15));
+      }
+    },
+    {
+      get start() {
+        return DC.D300;
+      },
+      get scale() {
         return DC.D2;
       }
-    }
+    },
   ],
   cosmicRay: [
     {
@@ -131,7 +182,7 @@ export const scaling = {
         return DC.E2;
       },
       get scale() {
-        return DC.D2;
+        return DC.D2.powEffectOf(GameElement(15));
       }
     },
     {

@@ -125,6 +125,14 @@ export const tabs = [
         name: "Particles",
         shortName: "Particles",
         component: "ParticlesTab"
+      },
+      {
+        id: 1,
+        key: "elements",
+        name: "Elements",
+        shortName: "Elements",
+        component: "ElementsTab",
+        condition: () => GameElements.isUnlocked
       }
     ]
   }

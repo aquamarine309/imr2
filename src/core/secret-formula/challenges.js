@@ -66,7 +66,7 @@ export const challenges = [
     noReset: () => AtomUpgrade(3).canBeApplied,
     reward: {
       description: () => `Each completion adds +${formatPercents(0.075, 1)} to Tickspeed Power.`,
-      effect: value => softcap(value.times(0.075).add(1), 1.3, 0.5, SOFTCAP_TYPE.POWER).minus(1),
+      effect: value => softcap(value.times(0.075).add(1), 1.3, DC.D0_5.powEffectOf(GameElement(8)), SOFTCAP_TYPE.POWER).minus(1),
       formatEffect: value => `+${formatPercents(value)}`,
       softcapped: value => value.gte(0.3)
     },
@@ -80,7 +80,7 @@ export const challenges = [
     effect: DC.E150,
     max: () => DC.E2.plusEffectOf(Challenge(7).reward),
     baseGoal: DC.D2_9835E49,
-    goalPow: DC.D1_25,
+    goalPow: () => DC.D1_25.timesEffectOf(GameElement(10)),
     goalMult: DC.D25,
     noReset: () => AtomUpgrade(3).canBeApplied,
     reward: {
@@ -100,7 +100,7 @@ export const challenges = [
     effect: DC.E100,
     max: () => DC.E2.plusEffectOf(Challenge(7).reward),
     baseGoal: DC.D1_736881338559743E133,
-    goalPow: DC.D1_25,
+    goalPow: () => DC.D1_25.timesEffectOf(GameElement(10)),
     goalMult: DC.D30,
     noReset: () => AtomUpgrade(3).canBeApplied,
     reward: {
@@ -116,7 +116,7 @@ export const challenges = [
     name: "No Rank",
     isUnlocked: () => PlayerProgress.atomUnlocked(),
     description: "You cannot Rank up.",
-    max: () => DC.D50,
+    max: () => DC.D50.plusEffectOf(GameElement(13)),
     baseGoal: DC.D1_5E136,
     goalPow: DC.D1_25,
     goalMult: DC.D50,
@@ -134,7 +134,7 @@ export const challenges = [
     name: "No Tickspeed & Condenser",
     isUnlocked: () => PlayerProgress.atomUnlocked() && Challenge(5).completions.gt(0),
     description: "You cannot buy Tickspeed or BH Condenser.",
-    max: () => DC.D50,
+    max: () => DC.D50.plusEffectOf(GameElement(13)),
     goalPow: DC.D1_25,
     goalMult: DC.D64,
     baseGoal: DC.D1_989E38,
@@ -152,13 +152,13 @@ export const challenges = [
     isUnlocked: () => PlayerProgress.atomUnlocked() && Challenge(6).completions.gt(0),
     description: "You cannot gain rage powers. Instead, dark matters are gained from mass at a reduced rate. Additionally, mass gain softcap is stronger.",
     effect: DC.D6,
-    max: () => DC.D50,
+    max: () => DC.D50.plusEffectOf(GameElement(20)),
     goalPow: DC.D1_25,
     goalMult: DC.D64,
     baseGoal: DC.D1_25E76,
     reward: {
       description: () => `Each completion increases challenges 1-4 cap by ${formatInt(2)}.`,
-      effect: value => value.times(2),
+      effect: value => value.times(2).timesEffectOf(GameElement(5)),
       formatEffect: value => `+${format(value, 0)}`
     },
     milestones: [

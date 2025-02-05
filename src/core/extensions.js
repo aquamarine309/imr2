@@ -257,6 +257,10 @@ Set.prototype.every = function(predicate) {
   return true;
 };
 
+Set.prototype.toJSON = function() {
+  return Array.from(this);
+};
+
 Array.prototype.compact = function() {
   return this.filter(x => x !== undefined && x !== null);
 };

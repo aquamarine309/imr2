@@ -31,7 +31,7 @@ class ChallengeMilestoneState extends GameMechanicState {
     this.challenge = challenge;
   }
 
-  isEffectActive() {
+  get isEffectActive() {
     return this.challenge.completions.gte(this.requirement);
   }
 
@@ -72,6 +72,9 @@ class ChallengeState extends GameMechanicState {
   }
 
   get goalPow() {
+    if (typeof this.config.goalPow === "function") {
+      return this.config.goalPow();
+    }
     return this.config.goalPow;
   }
 
@@ -88,7 +91,7 @@ class ChallengeState extends GameMechanicState {
     // this.pendingCompletions requires to use this method to get minimum goal after scaling.
     // Due to reduce code, I change the "gte" into "gt" so that make sure the below formula can be applied.
     if (completions.gt(this.scaleStart)) {
-      const exp = DC.D3;
+      const exp = DC.D3.pow(Challenges.softcapPower);
       return this.baseGoal.times(this.goalMult.pow(
         completions.pow(exp).div(this.scaleStart.pow(exp.minus(1)))
           .pow(this.goalPow)));
@@ -136,7 +139,7 @@ class ChallengeState extends GameMechanicState {
     if (mass.lt(this.goal)) return DC.D0;
     const goalStart = this.goalAt(this.scaleStart);
     if (mass.gte(goalStart)) {
-      const exp = DC.D3;
+      const exp = DC.D3.pow(Challenges.softcapPower);
       return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow)
         .times(this.scaleStart.pow(exp.minus(1))).root(exp).add(1).floor().clampMax(this.max);
     }
@@ -183,5 +186,9 @@ export const Challenges = {
 
   get isRunning() {
     return player.challenges.current > 0;
+  },
+
+  get softcapPower() {
+    return GameElement(2).effectOrDefault(DC.D1);
   }
 };
