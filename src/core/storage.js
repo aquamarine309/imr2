@@ -156,6 +156,28 @@ export const GameStorage = {
       elements: Array.from(player.elements)
     };
 
+    const dilation = player.dilation;
+    save.md = {
+      active: dilation.active,
+      mass: dilation.mass,
+      particles: dilation.particles,
+      upgs: dilation.upgrades
+    };
+
+    const stars = player.stars;
+    save.stars = {
+      points: stars.amount,
+      generators: stars.generators,
+      boost: stars.boosts,
+      unls: stars.unlocked + 1
+    };
+
+    const supernova = player.supernova;
+    save.supernova = {
+      times: supernova.times,
+      stars: suernova.stars
+    };
+
     save.options = {
       massDis: 1,
       font: "Verdana",

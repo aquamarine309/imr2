@@ -37,6 +37,19 @@ export function softcap(value, start, scale, type) {
   }
 }
 
+/**
+ * @param {Decimal} value
+ * @param {Decimal|number} start
+ * @param {Decimal|number} scale
+ * @returns {Decimal}
+ */
+export function overflow(value, start, scale) {
+  if (value.gte(start)) {
+    return Decimal.pow10(value.log(start).pow(scale)).mul(start);
+  }
+  return value;
+}
+
 export function scaleValue(value, start, power, type, reverse = false) {
   const s = new Decimal(start);
   if (value.lt(s)) return value;

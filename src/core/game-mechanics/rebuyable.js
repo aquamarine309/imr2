@@ -29,6 +29,10 @@ export class RebuyableMechanicState extends GameMechanicState {
     return true;
   }
 
+  get isFree() {
+    return false;
+  }
+
   /**
    * @abstract
    */
@@ -49,11 +53,17 @@ export class RebuyableMechanicState extends GameMechanicState {
 
   purchase() {
     if (!this.canBeBought) return false;
-    this.currency.subtract(this.cost);
+    if (!this.isFree) {
+      this.currency.subtract(this.cost);
+    }
     this.boughtAmount = this.boughtAmount.add(1);
     this.onPurchased();
     GameUI.update();
     return true;
+  }
+
+  reset() {
+    this.boughtAmount = new Decimal(0);
   }
 
   // eslint-disable-next-line no-empty-function

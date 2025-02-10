@@ -18,5 +18,10 @@ export const tutorials = {
     id: 4,
     name: "The Atom",
     info: "You discovered a Atom! You decompose it to find a physical miracle: Gravity. This helps you to go further!"
+  },
+  supernova: {
+    id: 5,
+    name: "Supernova Born",
+    info: "A new age of stars rises, while the stars collapsed. Neutron stars felt elder..."
   }
 };

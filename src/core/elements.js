@@ -12,6 +12,10 @@ class GameElementState extends SetPurchasableMechanicState {
   get isUnlocked() {
     return this.id <= GameElements.maxId;
   }
+
+  reset() {
+    this.isBought = false;
+  }
 }
 
 export const GameElement = GameElementState.createAccessor(GameDatabase.gameElements);
@@ -24,16 +28,27 @@ export const GameElements = {
   },
 
   get isUnlocked() {
-    return Challenge(7).milestones[0].canBeApplied;
+    return PlayerProgress.supernovaUnlocked() || Challenge(7).milestones[0].canBeApplied;
   },
 
   get maxId() {
-    let amount = 4;
-    if (Challenge(8).milestones[0].canBeApplied) {
-      amount += 14;
-    }
-    if (GameElement(18).isBought) {
-      amount += 3;
+    let amount = 0;
+    if (PlayerProgress.supernovaUnlocked()) {
+      amount += 54;
+    } else {
+      amount += 4;
+      if (Challenge(8).milestones[0].canBeApplied) {
+        amount += 14;
+      }
+      if (GameElement(18).isBought) {
+        amount += 3;
+      }
+      if (GameElement(21).isBought) {
+        amount += 15;
+      }
+      if (GameElement(36).isBought) {
+        amount += 18;
+      }
     }
     return amount;
   }

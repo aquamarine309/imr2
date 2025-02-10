@@ -8,6 +8,10 @@ class AtomUpgradeState extends MainUpgradeState {
   get currency() {
     return Currency.atoms;
   }
+
+  get noReset() {
+    return this.id === 1 || this.id === 4;
+  }
 }
 
 export const AtomUpgrade = AtomUpgradeState

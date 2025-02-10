@@ -172,14 +172,22 @@ export const mass = {
         RageUpgrade(11),
         RankType.tetr.unlocks.strongerBoost
       );
-      power = power.timesEffectOf(GameElement(4));
+      power = power.timesEffectsOf(
+        GameElement(4),
+        DilationUpgrade.strongerPower
+      );
+      power = softcap(power, DC.E43, DC.D0_75, SOFTCAP_TYPE.POWER);
       return power;
     },
     formatPower: value => `+${formatPow(value)}`,
     effect(amount, power) {
       let effect = amount.times(power).add(1);
       const softcaps = MassUpgradeSoftcap.stronger;
-      effect = softcap(effect, softcaps[0].start, softcaps[0].scale, SOFTCAP_TYPE.POWER);
+      for (const s of softcaps) {
+        effect = softcap(effect, s.start, s.scale, SOFTCAP_TYPE.POWER);
+      }
+      effect = overflow(effect, DC.E115, DC.D0_5);
+      effect = overflow(effect, DC.E1555, DC.D0_25);
       return effect;
     },
     softcapLevel(effect) {
@@ -278,6 +286,7 @@ export const mass = {
         Challenge(6).reward
       );
       power = power.add(Atom.protonTick());
+      power = power.times(MassDilation.boost);
       return power;
     },
     get isFree() {
@@ -338,6 +347,7 @@ export const mass = {
       power = power.plusEffectOf(Challenge(6).reward);
       power = power.timesEffectOf(BHUpgrade(1));
       power = power.add(Atom.electronCondenser());
+      power = power.timesEffectOf(AtomUpgrade(10));
       return power;
     },
     formatPower: value => formatX(value),
@@ -384,6 +394,7 @@ export const mass = {
     get power() {
       let power = DC.D2;
       power = power.plusEffectOf(AtomUpgrade(3));
+      power = power.timesEffectOf(AtomUpgrade(10));
       return power;
     },
     formatPower: value => formatX(value),

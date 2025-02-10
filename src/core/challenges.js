@@ -78,22 +78,58 @@ class ChallengeState extends GameMechanicState {
     return this.config.goalPow;
   }
 
-  get scaleStart() {
-    return DC.D75;
-  }
-
   get currency() {
     return this.type.currency();
   }
 
+  get hardenedStart() {
+    if (this.id === 13 && this.id === 16) {
+      return DC.D2;
+    }
+    if (this.id > 8) {
+      return DC.E1;
+    }
+    return DC.D75;
+  }
+
+  get insaneStart() {
+    if (this.id === 13 && this.id === 16) {
+      return DC.D5;
+    }
+    if (this.id > 8) {
+      return DC.D50;
+    }
+    if (this.id === 8) {
+      return DC.D200;
+    }
+    return DC.D300;
+  }
+
+  get hardenedPower() {
+    if (this.id === 16) return DC.D1;
+    return Effects.product(
+      GameElement(2),
+      GameElement(26)
+    );
+  }
+
+  get insanePower() {
+    return DC.D1;
+  }
+
   goalAt(completions) {
-    // When completions are equal to scale start, these two formula returns the same value.
-    // this.pendingCompletions requires to use this method to get minimum goal after scaling.
-    // Due to reduce code, I change the "gte" into "gt" so that make sure the below formula can be applied.
-    if (completions.gt(this.scaleStart)) {
-      const exp = DC.D3.pow(Challenges.softcapPower);
+    if (completions.gt(this.insaneStart)) {
+      const exp = DC.D3.pow(this.hardenedPower);
+      const exp2 = DC.D4_5.pow(this.insanePower);
       return this.baseGoal.times(this.goalMult.pow(
-        completions.pow(exp).div(this.scaleStart.pow(exp.minus(1)))
+        completions.pow(exp2).div(this.insaneStart.pow(exp2.minus(1)))
+          .pow(exp).div(this.hardenedStart.pow(exp.minus(1))).pow(this.goalPow)
+      ));
+    }
+    if (completions.gt(this.hardenedStart)) {
+      const exp = DC.D3.pow(this.hardenedPower);
+      return this.baseGoal.times(this.goalMult.pow(
+        completions.pow(exp).div(this.hardenedStart.pow(exp.minus(1)))
           .pow(this.goalPow)));
     }
     return this.baseGoal.times(this.goalMult.pow(completions.pow(this.goalPow)));
@@ -129,7 +165,6 @@ class ChallengeState extends GameMechanicState {
   }
 
   reset() {
-    if (this.noReset) return;
     this.completions = DC.D0;
   }
 
@@ -137,11 +172,19 @@ class ChallengeState extends GameMechanicState {
     if (this.isCapped) return DC.D0;
     const mass = this.currency;
     if (mass.lt(this.goal)) return DC.D0;
-    const goalStart = this.goalAt(this.scaleStart);
-    if (mass.gte(goalStart)) {
-      const exp = DC.D3.pow(Challenges.softcapPower);
+    const insaneStart = this.goalAt(this.insaneStart);
+    if (mass.gte(insaneStart)) {
+      const exp = DC.D3.pow(this.hardenedPower);
+      const exp2 = DC.D4_5.pow(this.insanePower);
       return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow)
-        .times(this.scaleStart.pow(exp.minus(1))).root(exp).add(1).floor().clampMax(this.max);
+        .times(this.hardenedStart.pow(exp.minus(1))).root(exp).add(1).floor()
+        .times(this.insaneStart.pow(exp2.minus(1))).root(exp2).add(1).floor().clampMax(this.max);
+    }
+    const hardenedStart = this.goalAt(this.hardenedStart);
+    if (mass.gte(hardenedStart)) {
+      const exp = DC.D3.pow(this.hardenedPower);
+      return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow)
+        .times(this.hardenedStart.pow(exp.minus(1))).root(exp).add(1).floor().clampMax(this.max);
     }
     return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow).add(1).floor().clampMax(this.max);
   }
@@ -152,7 +195,10 @@ class ChallengeState extends GameMechanicState {
 
   get name() {
     const name = this.config.name;
-    if (this.completions.gte(this.scaleStart)) {
+    if (this.completions.gte(this.insaneStart)) {
+      return `Insane ${name}`;
+    }
+    if (this.completions.gte(this.hardenedStart)) {
       return `Hardened ${name}`;
     }
     return name;
@@ -164,10 +210,6 @@ class ChallengeState extends GameMechanicState {
 
   get type() {
     return this.config.type;
-  }
-
-  get noReset() {
-    return this.config.noReset();
   }
 }
 
@@ -186,9 +228,5 @@ export const Challenges = {
 
   get isRunning() {
     return player.challenges.current > 0;
-  },
-
-  get softcapPower() {
-    return GameElement(2).effectOrDefault(DC.D1);
   }
 };

@@ -34,13 +34,26 @@ export default {
         amount: new Decimal(),
         rate: new Decimal(),
         unlocked: false,
-        canReset: false
+        canReset: false,
+        passive: false
       },
       quark: {
         amount: new Decimal(),
         rate: new Decimal(),
         unlocked: false,
         passive: true
+      },
+      dilation: {
+        amount: new Decimal(),
+        rate: new Decimal(),
+        unlocked: false,
+        active: false
+      },
+      supernova: {
+        amount: new Decimal(),
+        rate: new Decimal(),
+        unlocked: false,
+        canReset: false
       }
     };
   },
@@ -62,7 +75,10 @@ export default {
     },
     quarkTooltip() {
       return `You have ${format(this.quark.amount, 0)} Quark.`;
-    }
+    },
+    supernovaTooltip() {
+      return `You have become ${format(this.supernova.amount, 0)} Supernova.`;
+    },
   },
   methods: {
     update() {
@@ -98,6 +114,7 @@ export default {
         atoms.amount.copyFrom(Currency.atoms.value);
         atoms.rate = Currency.atoms.gainPerSecond;
         atoms.canReset = Currency.atoms.canReset;
+        atoms.passive = GameElement(24).canBeApplied;
       }
 
       const quark = this.quark;
@@ -109,6 +126,22 @@ export default {
         if (quark.passive) {
           quark.rate = quark.rate.times(0.05 + GameElement(16).effectOrDefault(0));
         }
+      }
+
+      const dilation = this.dilation;
+      dilation.unlocked = MassDilation.isUnlocked;
+      if (dilation.unlocked) {
+        dilation.amount.copyFrom(Currency.relativisticParticles.value);
+        dilation.rate = Currency.relativisticParticles.gainPerSecond;
+        dilation.active = MassDilation.isActive;
+      }
+
+      const supernova = this.supernova;
+      supernova.unlocked = PlayerProgress.supernovaUnlocked();
+      if (supernova.unlocked) {
+        supernova.amount.copyFrom(Currency.supernova.value);
+        supernova.rate = Currency.supernova.gainPerSecond;
+        supernova.canReset = Currency.supernova.canReset;
       }
     },
     formatNoPlaces(value) {
@@ -122,7 +155,13 @@ export default {
     },
     atomReset() {
       Currency.atoms.requestReset();
-    }
+    },
+    dilatedMass() {
+      MassDilation.toggle();
+    },
+    supernovaReset() {
+      Currency.supernova.requestReset();
+    },
   }
 };
 </script>
@@ -181,7 +220,7 @@ export default {
       :gain-rate="atoms.rate"
       :format-fn="formatNoPlaces"
       name="Atom"
-      :is-rate="false"
+      :is-rate="atoms.passive"
       :tooltip="atomTooltip"
       :show-tooltip="!atoms.canReset"
       :click-fn="atomReset"
@@ -197,6 +236,33 @@ export default {
       :is-rate="quark.passive"
       :tooltip="quarkTooltip"
       :show-tooltip="true"
+    />
+    <HeaderResource
+      v-if="dilation.unlocked"
+      img-class="i-dilation"
+      text-class="o-dilation"
+      :amount="dilation.amount"
+      :gain-rate="dilation.rate"
+      :format-fn="formatNoPlaces"
+      name="Mass Dilation"
+      :is-rate="false"
+      :show-tooltip="false"
+      :click-fn="dilatedMass"
+      :force-text="dilation.active ? '' : 'Inactive'"
+    />
+    <HeaderResource
+      v-if="supernova.unlocked"
+      img-class="i-supernova"
+      text-class="o-supernova"
+      :amount="supernova.amount"
+      :gain-rate="supernova.rate"
+      :format-fn="formatNoPlaces"
+      name="Supernova"
+      :is-rate="false"
+      :show-tooltip="!supernova.canReset"
+      :tooltip="supernovaTooltip"
+      :click-fn="supernovaReset"
+      :show-rate="false"
     />
   </div>
 </template>

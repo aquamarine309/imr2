@@ -76,8 +76,8 @@ export const rank = {
       id: "rankBoostsMass",
       requirement: 6,
       description: `boost mass gain by (x+${formatInt(1)})^${formatInt(2)}, where x is rank.`,
-      effect: () => RankType.rank.amount.add(1)
-        .pow(RankType.rank.unlocks.improveRank6.effectOrDefault(2)),
+      effect: () => overflow(RankType.rank.amount.add(1)
+        .pow(RankType.rank.unlocks.improveRank6.effectOrDefault(2)), DC.EE100, DC.D0_5),
       formatEffect: value => formatX(value)
     },
     {
@@ -164,9 +164,8 @@ export const rank = {
       id: "massSoftcap",
       requirement: 800,
       description: `make mass gain softcap ${formatPercents(0.0025, 2)} weaker based on rank, hardcaps at ${formatPercents(0.25, 0)}.`,
-      effect: () => DC.D2.minus(softcap(RankType.rank.amount.minus(799).times(0.0025).add(1), DC.D1_25, DC.D0_5, SOFTCAP_TYPE.POWER)),
-      formatEffect: value => formatPercents(DC.D1.minus(value)),
-      cap: DC.D0_75
+      effect: () => DC.D2.minus(softcap(RankType.rank.amount.minus(799).times(0.0025).add(1), DC.D1_25, DC.D0_5, SOFTCAP_TYPE.POWER)).clampMin(DC.D0_75),
+      formatEffect: value => formatPercents(DC.D1.minus(value))
     }
   ]
 };

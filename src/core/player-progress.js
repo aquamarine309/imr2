@@ -10,4 +10,8 @@ export class PlayerProgress {
   static atomUnlocked() {
     return player.unlocks.atom;
   }
+
+  static supernovaUnlocked() {
+    return Currency.supernova.gt(0);
+  }
 }

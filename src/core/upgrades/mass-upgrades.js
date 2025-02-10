@@ -129,7 +129,25 @@ export const MassUpgradeSoftcap = {
           RankType.tier.unlocks.strongerCapWeak
         );
       }
-    }
+    },
+    {
+      level: 2,
+      get start() {
+        return DC.D1_8E5;
+      },
+      get scale() {
+        return DC.D0_5;
+      }
+    },
+    {
+      level: 3,
+      get start() {
+        return DC.D5E15;
+      },
+      get scale() {
+        return DC.D0_1;
+      }
+    },
   ],
   softcapLevel(effect, softcaps) {
     let level = 0;

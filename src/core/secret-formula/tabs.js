@@ -27,6 +27,14 @@ export const tabs = [
         shortName: "Atomic",
         component: "AtomicGeneratorTab",
         condition: () => PlayerProgress.atomUnlocked()
+      },
+      {
+        id: 3,
+        key: "stars",
+        name: "Stars",
+        shortName: "Stars",
+        component: "StarsTab",
+        condition: () => Stars.isUnlocked
       }
     ]
   },
@@ -133,6 +141,14 @@ export const tabs = [
         shortName: "Elements",
         component: "ElementsTab",
         condition: () => GameElements.isUnlocked
+      },
+      {
+        id: 2,
+        key: "dilation",
+        name: "Mass Dilation",
+        shortName: "Dilation",
+        component: "MassDilationTab",
+        condition: () => MassDilation.isUnlocked
       }
     ]
   }

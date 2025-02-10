@@ -39,6 +39,7 @@ Vue.mixin({
     formatX,
     formatPow,
     formatInt,
+    formatPercents,
     formatMass,
     formatGain,
     emitClick() {

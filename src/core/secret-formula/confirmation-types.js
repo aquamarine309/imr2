@@ -13,5 +13,10 @@ export const confirmationTypes = [
     name: "Atom",
     option: "atom",
     isUnlocked: () => PlayerProgress.atomUnlocked()
-  }
+  },
+  {
+    name: "Supernova",
+    option: "supernova",
+    isUnlocked: () => PlayerProgress.supernovaUnlocked()
+  },
 ];

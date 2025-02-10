@@ -39,7 +39,7 @@ export const rage = [
     id: 6,
     description: "For every 3 tickspeeds add Stronger.",
     cost: DC.E7,
-    effect: () => MassUpgrade.tickspeed.boughtAmount.div(3),
+    effect: () => MassUpgrade.tickspeed.boughtAmount.div(3).plusEffectOf(GameElement(38)),
     formatEffect: value => `+${format(value, 0)} Strongers`
   },
   {
@@ -72,7 +72,12 @@ export const rage = [
     id: 10,
     description: "Black Hole mass's gain is boosted by Rage Powers.",
     cost: DC.E72,
-    effect: () => softcap(Currency.ragePowers.value.add(1).pow(0.1), DC.E4000, 0.1, SOFTCAP_TYPE.POWER),
+    effect: () => overflow(
+      softcap(softcap(Currency.ragePowers.value.add(1).pow(0.1),
+        DC.E4000, 0.1, SOFTCAP_TYPE.POWER),
+      DC.E1_5E31, DC.D0_95, SOFTCAP_TYPE.DILATION),
+      DC.EE185, DC.D0_5
+    ),
     formatEffect: value => formatX(value),
     softcapped: value => value.gte(DC.E4000),
     isUnlocked: () => PlayerProgress.atomUnlocked()

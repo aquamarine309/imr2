@@ -27,4 +27,14 @@ export const awayProgressTypes = [
     name: "atomicPower",
     isUnlocked: () => PlayerProgress.atomUnlocked()
   },
+  {
+    name: "relativisticParticles",
+    reference: ["dilation", "particles"],
+    isUnlocked: () => MassDilation.isUnlocked
+  },
+  {
+    name: "dilatedMass",
+    reference: ["dilation", "mass"],
+    isUnlocked: () => MassDilation.isUnlocked
+  },
 ];

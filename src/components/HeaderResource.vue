@@ -20,6 +20,10 @@ export default {
       required: false,
       default: true
     },
+    forceText: {
+      type: String,
+      required: false
+    },
     formatFn: {
       type: Function,
       required: false
@@ -49,6 +53,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    showRate: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   computed: {
@@ -103,8 +112,11 @@ export default {
       :class="textClass"
     >
       <span>{{ formatValue(amount) }}</span>
-      <span v-if="isRate">{{ formatGain(amount, gainRate, isMass) }}</span>
-      <span v-else>(+{{ formatValue(gainRate) }})</span>
+      <template v-if="showRate">
+        <span v-if="isRate">{{ formatGain(amount, gainRate, isMass) }}</span>
+        <span v-else-if="forceText">({{ forceText }})</span>
+        <span v-else>(+{{ formatValue(gainRate) }})</span>
+      </template>
     </div>
     <transition name="a-tooltip">
       <div

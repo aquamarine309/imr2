@@ -22,6 +22,22 @@ window.player = {
   particlePowers: [DC.D0, DC.D0, DC.D0],
   ratioMode: RATIO_MODE.SINGLE,
   elements: new Set(),
+  dilation: {
+    active: false,
+    particles: DC.D0,
+    mass: DC.D0,
+    upgrades: Array.repeat(DC.D0, 12),
+  },
+  stars: {
+    amount: DC.D0,
+    generators: Array.repeat(DC.D0, 5),
+    boosts: DC.D0,
+    unlocked: -1
+  },
+  supernova: {
+    times: DC.D0,
+    stars: DC.D0
+  },
   auto: {
     ranks: {
       rank: false,
@@ -44,7 +60,8 @@ window.player = {
       rage: false,
       blackHole: false,
       atom: false
-    }
+    },
+    dilationUpgrades: false
   },
   massUpgrades: {
     muscler: DC.D0,
@@ -68,7 +85,7 @@ window.player = {
   },
   challenges: {
     current: 0,
-    completions: Array.repeat(DC.D0, 30),
+    completions: Array.repeat(DC.D0, 20),
     page: 0
   },
   records: {
@@ -88,7 +105,8 @@ window.player = {
     confirmations: {
       ragePower: true,
       darkMatter: true,
-      atom: true
+      atom: true,
+      supernova: true
     },
     awayProgress: {
       mass: true,
@@ -97,7 +115,9 @@ window.player = {
       blackHole: true,
       atom: true,
       quark: true,
-      atomicPower: true
+      atomicPower: true,
+      relativisticParticles: true,
+      dilatedMass: true
     }
   }
 };

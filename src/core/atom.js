@@ -7,12 +7,18 @@ export const Atom = {
 
   get gainedPower() {
     let power = MassUpgrade.cosmicRay.effectValue;
-    power = power.timesEffectOf(GameElement(3));
+    power = power.timesEffectsOf(
+      GameElement(3),
+      GameElement(52)
+    );
+    if (MassDilation.isActive) {
+      power = dilatedValue(power, MassDilation.power);
+    }
     return power;
   },
 
   get freeTickspeeds() {
-    const base = DC.D1_75;
+    const base = GameElement(23).effectOrDefault(DC.D1_75);
     let ticks = Atom.atomicPower.clampMin(1).log(base);
     ticks = softcap(ticks, DC.D5E4, DC.D0_75, SOFTCAP_TYPE.POWER);
     ticks = softcap(ticks, DC.D4E6, DC.D0_25, SOFTCAP_TYPE.POWER);
@@ -44,7 +50,11 @@ export const Atom = {
   },
 
   protonTick() {
-    return Particles.proton.power.add(1).log2().times(0.025);
+    const value = Particles.proton.power.add(1).log2();
+    if (GameElement(29).canBeApplied) {
+      return value.pow(1.25).times(0.01);
+    }
+    return value.times(0.025);
   },
 
   neutronRP() {
@@ -52,9 +62,13 @@ export const Atom = {
   },
 
   neutronMass() {
-    return Currency.mass.value.max(1).log10().add(1).pow(
-      Currency.ragePowers.value.max(1).log10().times(Particles.neutron.power.max(1).log10()).div(4).root(GameElement(19).effectOrDefault(3))
-    ).clampMax(DC.EE200);
+    let power = Currency.ragePowers.value.max(1).log10().times(Particles.neutron.power.max(1).log10());
+    if (GameElement(19).canBeApplied) {
+      power = power.root(2.75);
+    } else {
+      power = power.div(4).cbrt();
+    }
+    return Currency.mass.value.max(1).log10().add(1).pow(power).clampMax(DC.EE200);
   },
 
   electronDM() {
@@ -62,7 +76,11 @@ export const Atom = {
   },
 
   electronCondenser() {
-    return Particles.electron.power.add(1).log2().times(0.02);
+    const value = Particles.electron.power.add(1).log2();
+    if (GameElement(30).canBeApplied) {
+      return value.pow(1.2).times(0.01);
+    }
+    return value.times(0.02);
   }
 };
 
@@ -130,6 +148,11 @@ class ParticleState {
     }
     Currency.quark.subtract(assigned);
     this.amount = this.amount.add(assigned);
+  }
+
+  reset() {
+    this.amount = DC.D0;
+    this.power = DC.D0;
   }
 }
 

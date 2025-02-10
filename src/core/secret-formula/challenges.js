@@ -5,15 +5,13 @@ const challengeType = {
     name: "a dark matter",
     reset: () => Currency.darkMatter.resetLayer(true),
     currency: () => Currency.mass.value,
-    formatGoal: value => formatMass(value),
-    resetEvent: GAME_EVENT.ATOM_RESET
+    formatGoal: value => formatMass(value)
   },
   ATOM: {
     name: "an atom",
     reset: () => Currency.atoms.resetLayer(true),
     currency: () => Currency.blackHole.value,
-    formatGoal: value => `${formatMass(value)} of Black hole`,
-    resetEvent: GAME_EVENT.SUPERNOVA_RESET
+    formatGoal: value => `${formatMass(value)} of Black hole`
   },
   SUPERNOVA: {
     name: "a supermova"
@@ -51,7 +49,6 @@ export const challenges = [
         ${formatPercents(DC.D1.minus(effects.tickspeed.effectValue))} weaker to Super Tickspeed scaling`;
       }
     },
-    noReset: () => AtomUpgrade(3).canBeApplied,
     type: challengeType.DARK_MATTER
   },
   {
@@ -63,12 +60,15 @@ export const challenges = [
     baseGoal: DC.D1_989E40,
     goalPow: DC.D1_3,
     goalMult: DC.E1,
-    noReset: () => AtomUpgrade(3).canBeApplied,
     reward: {
       description: () => `Each completion adds +${formatPercents(0.075, 1)} to Tickspeed Power.`,
-      effect: value => softcap(value.times(0.075).add(1), 1.3, DC.D0_5.powEffectOf(GameElement(8)), SOFTCAP_TYPE.POWER).minus(1),
+      effect: value => {
+        const effect = value.times(0.075);
+        if (GameElement(39).canBeApplied) return effect;
+        return softcap(effect.add(1), 1.3, DC.D0_5.powEffectOf(GameElement(8)), SOFTCAP_TYPE.POWER).minus(1);
+      },
       formatEffect: value => `+${formatPercents(value)}`,
-      softcapped: value => value.gte(0.3)
+      softcapped: value => !GameElement(39).canBeApplied && value.gte(0.3)
     },
     type: challengeType.DARK_MATTER
   },
@@ -82,10 +82,9 @@ export const challenges = [
     baseGoal: DC.D2_9835E49,
     goalPow: () => DC.D1_25.timesEffectOf(GameElement(10)),
     goalMult: DC.D25,
-    noReset: () => AtomUpgrade(3).canBeApplied,
     reward: {
       description: "Mass gain is raised based on completions (doesn't apply in this challenge).",
-      effect: value => softcap(value.pow(2 / 3).times(0.01).add(1), 3, 0.25, SOFTCAP_TYPE.POWER),
+      effect: value => overflow(softcap(value.pow(DC.C2D3).times(0.01).add(1), 3, 0.25, SOFTCAP_TYPE.POWER), DC.E12, DC.D0_5),
       formatEffect: value => formatPow(value),
       softcapped: value => value.gte(3),
       effectCondition: () => !Challenge(3).isRunning
@@ -102,10 +101,9 @@ export const challenges = [
     baseGoal: DC.D1_736881338559743E133,
     goalPow: () => DC.D1_25.timesEffectOf(GameElement(10)),
     goalMult: DC.D30,
-    noReset: () => AtomUpgrade(3).canBeApplied,
     reward: {
       description: "Rage Powers gain is raised by completions.",
-      effect: value => softcap(value.pow(2 / 3).times(0.01).add(1), 3, 0.25, SOFTCAP_TYPE.POWER),
+      effect: value => overflow(softcap(value.pow(DC.C2D3).times(0.01).add(1), 3, 0.25, SOFTCAP_TYPE.POWER), DC.E12, DC.D0_5),
       formatEffect: value => formatPow(value),
       softcapped: value => value.gte(3)
     },
@@ -132,7 +130,7 @@ export const challenges = [
   {
     id: 6,
     name: "No Tickspeed & Condenser",
-    isUnlocked: () => PlayerProgress.atomUnlocked() && Challenge(5).completions.gt(0),
+    isUnlocked: () => PlayerProgress.supernovaUnlocked() || PlayerProgress.atomUnlocked() && Challenge(5).completions.gt(0),
     description: "You cannot buy Tickspeed or BH Condenser.",
     max: () => DC.D50.plusEffectOf(GameElement(13)),
     goalPow: DC.D1_25,
@@ -140,8 +138,12 @@ export const challenges = [
     baseGoal: DC.D1_989E38,
     reward: {
       description: () => `Every completion adds ${formatPercents(0.1, 0)} to tickspeed and BH condenser power.`,
-      effect: value => softcap(value.times(0.1).add(1), DC.D1_5, DC.D0_5, SOFTCAP_TYPE.POWER).minus(1),
-      softcapped: value => value.gte(DC.D0_5),
+      effect: value => {
+        const effect = value.times(0.1);
+        if (GameElement(39).canBeApplied) return effect;
+        return softcap(effect.add(1), DC.D1_5, DC.D0_5, SOFTCAP_TYPE.POWER).minus(1);
+      },
+      softcapped: value => !GameElement(39).canBeApplied && value.gte(DC.D0_5),
       formatEffect: value => `+${format(value)}x`
     },
     type: challengeType.ATOM
@@ -149,10 +151,13 @@ export const challenges = [
   {
     id: 7,
     name: "No Rage Powers",
-    isUnlocked: () => PlayerProgress.atomUnlocked() && Challenge(6).completions.gt(0),
+    isUnlocked: () => PlayerProgress.supernovaUnlocked() || PlayerProgress.atomUnlocked() && Challenge(6).completions.gt(0),
     description: "You cannot gain rage powers. Instead, dark matters are gained from mass at a reduced rate. Additionally, mass gain softcap is stronger.",
     effect: DC.D6,
-    max: () => DC.D50.plusEffectOf(GameElement(20)),
+    max: () => DC.D50.plusEffectsOf(
+      GameElement(20),
+      GameElement(41)
+    ),
     goalPow: DC.D1_25,
     goalMult: DC.D64,
     baseGoal: DC.D1_25E76,
@@ -173,16 +178,16 @@ export const challenges = [
   {
     id: 8,
     name: "White Hole",
-    isUnlocked: () => PlayerProgress.atomUnlocked() && Challenge(7).completions.gt(0),
+    isUnlocked: () => PlayerProgress.supernovaUnlocked() || PlayerProgress.atomUnlocked() && Challenge(7).completions.gt(0),
     description: () => `Dark Matter & Mass from Black Hole gains are rooted by ${formatInt(8)}.`,
     effect: 0.125,
-    max: () => DC.D50,
+    max: () => DC.D50.plusEffectOf(GameElement(33)),
     goalPow: DC.D1_3,
     goalMult: DC.D80,
     baseGoal: DC.D1_989E38,
     reward: {
       description: "Dark Matter & Mass from Black Hole gains are raised by completions.",
-      effect: value => softcap(value.pow(4 / 7).times(0.02).add(1), DC.D2_3, DC.D0_25, SOFTCAP_TYPE.POWER),
+      effect: value => overflow(softcap(value.pow(4 / 7).times(0.02).add(1), DC.D2_3, DC.D0_25, SOFTCAP_TYPE.POWER), DC.E10, DC.D0_5),
       formatEffect: value => formatPow(value),
       softcapped: value => value.gte(DC.D2_3)
     },

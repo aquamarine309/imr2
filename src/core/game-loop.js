@@ -40,17 +40,27 @@ export const GameLoop = {
       diff *= this.devSpeed;
     }
 
-    Currency.mass.tick(diff / 1000);
+    const seconds = diff / 1000;
+
+    Currency.mass.tick(seconds);
 
     if (PlayerProgress.blackHoleUnlocked()) {
-      Currency.blackHole.tick(diff / 1000);
+      Currency.blackHole.tick(seconds);
     }
     if (PlayerProgress.atomUnlocked()) {
-      Currency.atomicPower.tick(diff / 1000);
-      Atom.tick(diff / 1000);
+      Currency.atomicPower.tick(seconds);
+      Atom.tick(seconds);
     }
 
-    applyAutoprestige(diff / 1000);
+    if (MassDilation.isUnlocked) {
+      Currency.dilatedMass.tick(seconds);
+    }
+
+    if (Stars.isUnlocked) {
+      StarGenerators.tick(seconds);
+    }
+
+    applyAutoprestige(seconds);
 
     Autobuyers.tick();
 

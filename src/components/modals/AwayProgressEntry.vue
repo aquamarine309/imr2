@@ -102,6 +102,11 @@ export default {
   animation: a-quark 6s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 }
 
+.c-modal-away-progress__relativistic-particles,
+.c-modal-away-progress__dilated-mass {
+  color: var(--color-dilation);
+}
+
 .c-modal-away-progress__disabled b,
 .c-modal-away-progress__disabled {
   font-style: italic;

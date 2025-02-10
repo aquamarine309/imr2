@@ -7,6 +7,8 @@ import PopupModal from "./modals/PopupModal";
 import BottomTabBar from "./BottomTabBar";
 import HeaderChallengeDisplay from "./HeaderChallengeDisplay";
 import ModalProgressBar from "./modals/ModalProgressBar";
+import BackgroundStar from "./BackgroundStar";
+import SupernovaOverlay from "./SupernovaOverlay";
 
 export default {
   name: "GameUIComponent",
@@ -18,11 +20,14 @@ export default {
     PopupModal,
     BottomTabBar,
     HeaderChallengeDisplay,
-    ModalProgressBar
+    ModalProgressBar,
+    BackgroundStar,
+    SupernovaOverlay
   },
   data() {
     return {
-      showDrawer: false
+      showDrawer: false,
+      showSupernova: false
     };
   },
   computed: {
@@ -48,6 +53,9 @@ export default {
     }
   },
   methods: {
+    update() {
+      this.showSupernova = Currency.supernova.value.eq(0) && Currency.supernova.canReset;
+    },
     toggleDrawer() {
       this.showDrawer = !this.showDrawer;
     },
@@ -89,16 +97,22 @@ export default {
       />
       <ModalProgressBar v-if="view.modal.progressBar" />
       <AppBar @toggle-drawer="toggleDrawer" />
+      <BackgroundStar v-if="!showSupernova" />
       <v-touch
         class="l-view"
         v-on="swipeHandlers"
       >
-        <HeaderChallengeDisplay />
-        <HeaderResources />
-        <component
-          :is="page"
-          id="page"
-        />
+        <template v-if="showSupernova">
+          <SupernovaOverlay />
+        </template>
+        <template v-else>
+          <HeaderChallengeDisplay />
+          <HeaderResources />
+          <component
+            :is="page"
+            id="page"
+          />
+        </template>
       </v-touch>
       <BottomTabBar />
     </div>

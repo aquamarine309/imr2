@@ -22,4 +22,8 @@ export * from "./black-hole";
 export * from "./challenges";
 export * from "./away-progress";
 export * from "./atom";
+
 export * from "./elements";
+export * from "./mass-dilation";
+export * from "./stars";
+export * from "./supernova";

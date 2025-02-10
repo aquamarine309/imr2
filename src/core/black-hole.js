@@ -21,12 +21,16 @@ export const BlackHole = {
     gain = gain.timesEffectsOf(
       MassUpgrade.condenser,
       RageUpgrade(10),
-      BHUpgrade(13)
+      BHUpgrade(13),
+      GameElement(46)
     );
     gain = gain.powEffectsOf(
       Challenge(8),
       Challenge(8).reward
     );
+    if (MassDilation.isActive) {
+      gain = dilatedValue(gain, MassDilation.power);
+    }
     gain = softcap(gain, this.softcapStart, DC.D0_5, SOFTCAP_TYPE.POWER);
     gain = softcap(gain, DC.EE28, DC.C1D3, SOFTCAP_TYPE.POWER);
     return gain;
@@ -38,7 +42,7 @@ export const BlackHole = {
 
   get mult() {
     if (!this.isUnlocked) return DC.D1;
-    return this.mass.add(1).pow(0.25);
+    return this.mass.add(1).pow(AtomUpgrade(11).effectOrDefault(DC.D0_25));
   },
 
   get softcapStart() {

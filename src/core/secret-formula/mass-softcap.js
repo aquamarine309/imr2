@@ -27,5 +27,14 @@ export const massSoftcap = [
       );
       return div.add(1).recip();
     }
+  },
+  {
+    id: 1,
+    mass() {
+      return DC.D1_5E1000056.powEffectOf(RankType.tetr.unlocks.softcapLater);
+    },
+    effect() {
+      return DC.D0_25.powEffectOf(GameElement(51));
+    }
   }
 ];

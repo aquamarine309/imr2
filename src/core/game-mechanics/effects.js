@@ -4,8 +4,8 @@ export const Effects = {
    * @return {Number}
    */
   sum(...effectSources) {
-    let result = 0;
-    applyEffectsOf(effectSources, v => result += v);
+    let result = new Decimal(0);
+    applyEffectsOf(effectSources, v => result = result.add(v));
     return result;
   },
   /**
@@ -13,8 +13,8 @@ export const Effects = {
    * @return {Number}
    */
   product(...effectSources) {
-    let result = 1;
-    applyEffectsOf(effectSources, v => result *= v);
+    let result = new Decimal(1);
+    applyEffectsOf(effectSources, v => result = result.times(v));
     return result;
   },
   /**

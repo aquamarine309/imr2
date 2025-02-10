@@ -240,15 +240,26 @@ Currency.mass = new class extends DecimalCurrency {
     gain = gain.times(BlackHole.mult);
     gain = gain.times(Atom.protonMass());
     gain = gain.times(Atom.neutronMass());
+    gain = gain.times(Stars.boost);
     gain = gain.powEffectsOf(
       RankType.tier.unlocks.raiseMassGain,
       Challenge(3).reward,
       RankType.rank.unlocks.massGainPower
     );
+    if (MassDilation.isActive) {
+      gain = dilatedValue(gain, MassDilation.power);
+      gain = gain.powEffectOf(GameElement(28));
+    }
     gain = softcap(
       gain,
       MassSoftcap[0].mass,
       MassSoftcap[0].effectValue,
+      SOFTCAP_TYPE.POWER
+    );
+    gain = softcap(
+      gain,
+      MassSoftcap[1].mass,
+      MassSoftcap[1].effectValue,
       SOFTCAP_TYPE.POWER
     );
     return gain;
@@ -284,6 +295,9 @@ Currency.ragePowers = new class extends DecimalCurrency {
     );
     if (Challenge(4).isRunning) {
       gain = gain.pow(0.1);
+    }
+    if (MassDilation.isActive) {
+      gain = dilatedValue(gain, MassDilation.power);
     }
     return gain;
   }
@@ -343,6 +357,9 @@ Currency.darkMatter = new class extends DecimalCurrency {
       Challenge(8),
       Challenge(8).reward
     );
+    if (MassDilation.isActive) {
+      gain = dilatedValue(gain, MassDilation.power);
+    }
     return gain.floor();
   }
 
@@ -446,7 +463,11 @@ Currency.atoms = new class extends DecimalCurrency {
     Tutorial.atom.unlock();
     player.unlocks.atom = true;
     player.challenges.current = 0;
-    EventHub.dispatch(GAME_EVENT.ATOM_RESET);
+    if (!AtomUpgrade(3).canBeApplied) {
+      for (let i = 1; i <= 4; i++) {
+        Challenge(i).reset();
+      }
+    }
   }
 
   get name() {
@@ -476,8 +497,12 @@ Currency.quark = new class extends DecimalCurrency {
       BHUpgrade(12),
       AtomUpgrade(7),
       RankType.rank.unlocks.quarkGain,
-      GameElement(6)
+      GameElement(6),
+      DilationUpgrade.quarkGain,
+      DilationUpgrade.doubleQuark,
+      GameElement(42)
     );
+    gain = gain.powEffectOf(GameElement(47));
     return gain.floor();
   }
 
@@ -501,5 +526,153 @@ Currency.atomicPower = new class extends DecimalCurrency {
 
   get name() {
     return "Atomic Power";
+  }
+}();
+
+Currency.relativisticParticles = new class extends DecimalCurrency {
+  get value() {
+    return player.dilation.particles;
+  }
+
+  set value(value) {
+    player.dilation.particles = value;
+  }
+
+  get gainPerSecond() {
+    return MassDilation.particleGain;
+  }
+
+  get name() {
+    return "Relativistic Particles";
+  }
+}();
+
+Currency.dilatedMass = new class extends DecimalCurrency {
+  get value() {
+    return player.dilation.mass;
+  }
+
+  set value(value) {
+    player.dilation.mass = value;
+  }
+
+  get gainPerSecond() {
+    let gain = Currency.relativisticParticles.value.pow(2);
+    gain = gain.timesEffectsOf(
+      GameElement(22),
+      DilationUpgrade.doubleMass,
+      GameElement(35),
+      GameElement(40)
+    );
+    gain = gain.powEffectOf(GameElement(32));
+    return gain;
+  }
+
+  get name() {
+    return "Dilated Mass";
+  }
+}();
+
+Currency.stars = new class extends DecimalCurrency {
+  get value() {
+    return player.stars.amount;
+  }
+
+  set value(value) {
+    player.stars.amount = value;
+  }
+
+  get gainPerSecond() {
+    let gain = StarGenerator(0).amount;
+    gain = gain.timesEffectOf(DilationUpgrade.starBoost);
+    gain = softcap(gain, DC.E1000, DC.D0_75, SOFTCAP_TYPE.POWER);
+    return gain;
+  }
+
+  get name() {
+    return "Stars";
+  }
+}();
+
+Currency.supernova = new class extends DecimalCurrency {
+  get value() {
+    return player.supernova.times;
+  }
+
+  set value(value) {
+    player.supernova.times = value;
+  }
+
+  get gainPerSecond() {
+    return Supernova.bulk;
+  }
+
+  get name() {
+    return "Supernova";
+  }
+
+  get canReset() {
+    return Currency.stars.gte(Supernova.requirement);
+  }
+
+  requestReset() {
+    if (!this.canReset) return;
+    if (ConfirmationTypes.supernova.option) {
+      Modal.confirmation.show({
+        option: "supernova",
+        confirmFn: () => this.resetLayer()
+      });
+    } else {
+      this.resetLayer();
+    }
+  }
+
+  resetLayer(resetOnly = false) {
+    if (!resetOnly) {
+      this.gain();
+    }
+    Currency.atoms.reset();
+    Currency.quark.reset();
+    Particles.all.forEach(p => p.reset());
+    Currency.atomicPower.reset();
+    MassUpgrade.cosmicRay.reset();
+    AtomUpgrades.reset();
+    const keepElements = [21, 36];
+    for (const el of GameElements.all) {
+      if (el.id <= 86 && !keepElements.includes(el.id)) {
+        el.reset();
+      }
+    }
+    MassDilation.isActive = false;
+    Currency.relativisticParticles.reset();
+    Currency.dilatedMass.reset();
+    DilationUpgrade.all.forEach(du => du.reset());
+    player.stars.unlocked = -1;
+    StarGenerators.all.forEach(gen => gen.reset());
+    Currency.stars.reset();
+    Stars.boosts = DC.D0;
+    Currency.atoms.resetLayer(true);
+    for (let i = 5; i <= 8; i++) {
+      Challenge(i).reset();
+    }
+    Tutorial.supernova.unlock();
+  }
+}();
+
+Currency.neutronStars = new class extends DecimalCurrency {
+  get value() {
+    return player.supernova.stars;
+  }
+
+  set value(value) {
+    player.supernova.stars = value;
+  }
+
+  get gainPerSecond() {
+    return DC.D0;
+  }
+
+  get name() {
+    return "Neutron Stars";
   }
 }();

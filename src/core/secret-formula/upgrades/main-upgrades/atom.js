@@ -62,5 +62,18 @@ export const atom = [
     effect: () => RankType.tier.amount.times(2).floor(),
     formatEffect: value => `+${format(value, 0)} later`,
     cost: DC.D5E47
+  },
+  {
+    id: 10,
+    description: "Dilated mass also boosts BH Condenser & Cosmic Ray powers at a reduced rate.",
+    effect: () => Currency.dilatedMass.value.max(1).log10().add(1).pow(0.1),
+    formatEffect: value => formatX(value),
+    cost: DC.E1640
+  },
+  {
+    id: 11,
+    description: "Mass from Black Hole effect is better.",
+    effect: DC.D1_25,
+    cost: DC.E2015
   }
 ];
