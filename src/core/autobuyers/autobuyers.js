@@ -3,6 +3,8 @@ import { MassUpgradeAutobuyerState } from "./mass-upgrade-autobuyer";
 import { RageUpgradeAutobuyerState } from "./rage-upgrade-autobuyer";
 import { BlackHoleUpgradeAutobuyerState } from "./black-hole-upgrade-autobuyer";
 import { DilationUpgradeAutobuyerState } from "./dilation-upgrade-autobuyer";
+import { AtomUpgradeAutobuyerState } from "./atom-upgrade-autobuyer";
+import { ElementAutobuyerState } from "./element-autobuyer";
 
 export const Autobuyer = {
   rank: RankAutobuyerState.createAccessor(),
@@ -13,7 +15,11 @@ export const Autobuyer = {
 
   blackHoleUpgrade: new BlackHoleUpgradeAutobuyerState(),
 
-  dilationUpgrade: new DilationUpgradeAutobuyerState()
+  dilationUpgrade: new DilationUpgradeAutobuyerState(),
+  
+  atomUpgrade: new AtomUpgradeAutobuyerState(),
+  
+  element: new ElementAutobuyerState()
 };
 
 export const Autobuyers = {
@@ -22,7 +28,9 @@ export const Autobuyers = {
     ...Autobuyer.massUpgrade.zeroIndexed,
     Autobuyer.rageUpgrade,
     Autobuyer.blackHoleUpgrade,
-    Autobuyer.dilationUpgrade
+    Autobuyer.dilationUpgrade,
+    Autobuyer.atomUpgrade,
+    Autobuyer.element
   ],
   tick() {
     for (const autobuyer of Autobuyers.all) {

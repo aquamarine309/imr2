@@ -14,6 +14,9 @@ export default {
   computed: {
     upgrades() {
       return AtomUpgrade.index;
+    },
+    autobuyer() {
+      return Autobuyer.atomUpgrade;
     }
   },
   methods: {
@@ -30,5 +33,6 @@ export default {
     name="Atom Upgrades"
     :currency-amount="currencyAmount"
     currency-name="Atoms"
+    :autobuyer="autobuyer"
   />
 </template>

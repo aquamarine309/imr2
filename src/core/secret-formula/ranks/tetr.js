@@ -53,7 +53,7 @@ export const tetr = {
       id: "tickScaling",
       description: "Hyper/Ultra Tickspeed starts later based on tetr.",
       requirement: DC.D5,
-      effect: () => softcap(RankType.tetr.amount.pow(4), DC.E3, DC.D0_25, SOFTCAP_TYPE.POWER),
+      effect: () => Softcap.power(RankType.tetr.amount.pow(4), DC.E3, DC.D0_25),
       formatEffect: value => `${format(value)} later`
     },
     {

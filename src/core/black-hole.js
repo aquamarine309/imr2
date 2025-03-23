@@ -31,8 +31,8 @@ export const BlackHole = {
     if (MassDilation.isActive) {
       gain = dilatedValue(gain, MassDilation.power);
     }
-    gain = softcap(gain, this.softcapStart, DC.D0_5, SOFTCAP_TYPE.POWER);
-    gain = softcap(gain, DC.EE28, DC.C1D3, SOFTCAP_TYPE.POWER);
+    gain = Softcap.power(gain, this.softcapStart, DC.D0_5);
+    gain = Softcap.power(gain, DC.EE28, DC.C1D3);
     return gain;
   },
 

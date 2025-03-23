@@ -176,8 +176,14 @@ export default {
   flex-direction: column;
   padding: 5px;
   border: 1px solid white;
-  margin: 5px;
+  margin: 5px 0;
   background: linear-gradient(305deg, #232225, #1e1d1f, #111111);
+}
+
+.ad-ui .o-challenge-box {
+  background: #f6f6f6;
+  border-radius: 5px;
+  border-color: #1b1a1e;
 }
 
 .c-challenge-image--running {
@@ -185,7 +191,7 @@ export default {
 }
 
 .c-challenge-image--completed {
-  background-color: #00520b;
+  background-color: var(--color-bought);
 }
 
 .o-challenge-image-and-title-row {
@@ -212,6 +218,11 @@ export default {
   font-weight: bold;
   color: white;
   text-shadow: 1px 1px 3px black;
+}
+
+.ad-ui .c-challenge-name {
+  text-shadow: 1px 1px 3px white;
+  color: black;
 }
 
 .c-challenge-name--small {

@@ -20,10 +20,10 @@ export const Atom = {
   get freeTickspeeds() {
     const base = GameElement(23).effectOrDefault(DC.D1_75);
     let ticks = Atom.atomicPower.clampMin(1).log(base);
-    ticks = softcap(ticks, DC.D5E4, DC.D0_75, SOFTCAP_TYPE.POWER);
-    ticks = softcap(ticks, DC.D4E6, DC.D0_25, SOFTCAP_TYPE.POWER);
-    ticks = softcap(ticks, DC.E10, DC.D0_1, SOFTCAP_TYPE.POWER);
-    ticks = softcap(ticks, DC.D2_5E35, DC.D0_1, SOFTCAP_TYPE.POWER);
+    ticks = Softcap.power(ticks, DC.D5E4, DC.D0_75);
+    ticks = Softcap.power(ticks, DC.D4E6, DC.D0_25);
+    ticks = Softcap.power(ticks, DC.E10, DC.D0_1);
+    ticks = Softcap.power(ticks, DC.D2_5E35, DC.D0_1);
     return ticks.floor();
   },
 
@@ -34,6 +34,7 @@ export const Atom = {
   },
 
   distribute() {
+    if (Challenge(9).isRunning) return;
     const weights = player.particleWeights;
     const sum = weights.sum();
     const quark = Currency.quark.value;
@@ -117,13 +118,13 @@ class ParticleState {
   get gainPerSecond() {
     let gain = this.amount;
     if (GameElement(12).canBeApplied) {
-      gain = gain.pow(softcap(gain.add(1).log10().add(1).pow(0.25), DC.D4E4, DC.D0_1, SOFTCAP_TYPE.POWER));
+      gain = gain.pow(Softcap.power(gain.add(1).log10().add(1).pow(DC.D0_25.timesEffectOf(Challenge(9).reward)), DC.D4E4, DC.D0_1));
     } else {
       gain = gain.pow(2);
     }
     gain = gain.timesEffectOf(AtomUpgrade(6));
-    gain = softcap(gain, DC.E3_8E4, DC.D0_9, SOFTCAP_TYPE.DILATION);
-    gain = softcap(gain, DC.E1_6E5, DC.D0_9, SOFTCAP_TYPE.DILATION);
+    gain = Softcap.dilation(gain, DC.E3_8E4, DC.D0_9);
+    gain = Softcap.dilation(gain, DC.E1_6E5, DC.D0_9);
     return gain;
   }
 
@@ -132,6 +133,7 @@ class ParticleState {
   }
 
   assign() {
+    if (Challenge(9).isRunning) return;
     const quark = Currency.quark.value;
     if (quark.lte(0)) return;
     let assigned;

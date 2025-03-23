@@ -29,13 +29,17 @@ export const Serializer = {
     }${this.fileEnd}`;
   },
   decode(str) {
-    return gzipToStr(
-      str.slice(
-        this.fileStart.length,
-        -this.fileEnd.length
-      ).replace(/0c/gu, "/")
-        .replace(/0b/gu, "+")
-        .replace(/0a/gu, "0")
-    );
+    try {
+      return JSON.parse(gzipToStr(
+        str.slice(
+          this.fileStart.length,
+          -this.fileEnd.length
+        ).replace(/0c/gu, "/")
+          .replace(/0b/gu, "+")
+          .replace(/0a/gu, "0")
+      ));
+    } catch {
+      return undefined;
+    }
   }
 };

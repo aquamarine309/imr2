@@ -3,27 +3,36 @@ import { DC } from "@/core/constants";
 const challengeType = {
   DARK_MATTER: {
     name: "a dark matter",
+    title: "Dark Matter",
     reset: () => Currency.darkMatter.resetLayer(true),
     currency: () => Currency.mass.value,
     formatGoal: value => formatMass(value)
   },
   ATOM: {
     name: "an atom",
+    title: "Atom",
     reset: () => Currency.atoms.resetLayer(true),
     currency: () => Currency.blackHole.value,
     formatGoal: value => `${formatMass(value)} of Black hole`
   },
   SUPERNOVA: {
-    name: "a supermova"
+    title: "Supernova",
+    name: "a supermova",
+    reset: () => Currency.supernova.resetLayer(true),
+    currency: () => Currency.mass.value,
+    formatGoal: value => formatMass(value)
   },
   DARKNESS: {
-    name: "a darkness"
+    name: "a darkness",
+    title: "Darkness"
   },
   FSS: {
-    name: "an FSS"
+    name: "an FSS",
+    title: "FSS"
   },
   INFINITY: {
-    name: "an Infinity"
+    name: "an Infinity",
+    title: "Infinity"
   }
 };
 
@@ -40,7 +49,7 @@ export const challenges = [
     reward: {
       description: "Super Rank starts later, Super Tickspeed scales weaker based on completions.",
       effects: {
-        rank: value => softcap(value, 20, 0.25, SOFTCAP_TYPE.MULT).floor(),
+        rank: value => Softcap.mult(value, 20, 0.25).floor(),
         tickspeed: value => DC.D0_96.pow(value.sqrt())
       },
       formatEffect: () => {
@@ -65,7 +74,7 @@ export const challenges = [
       effect: value => {
         const effect = value.times(0.075);
         if (GameElement(39).canBeApplied) return effect;
-        return softcap(effect.add(1), 1.3, DC.D0_5.powEffectOf(GameElement(8)), SOFTCAP_TYPE.POWER).minus(1);
+        return Softcap.power(effect.add(1), 1.3, DC.D0_5.powEffectOf(GameElement(8))).minus(1);
       },
       formatEffect: value => `+${formatPercents(value)}`,
       softcapped: value => !GameElement(39).canBeApplied && value.gte(0.3)
@@ -84,7 +93,7 @@ export const challenges = [
     goalMult: DC.D25,
     reward: {
       description: "Mass gain is raised based on completions (doesn't apply in this challenge).",
-      effect: value => overflow(softcap(value.pow(DC.C2D3).times(0.01).add(1), 3, 0.25, SOFTCAP_TYPE.POWER), DC.E12, DC.D0_5),
+      effect: value => overflow(Softcap.power(value.pow(DC.C2D3).times(0.01).add(1), 3, 0.25), DC.E12, DC.D0_5),
       formatEffect: value => formatPow(value),
       softcapped: value => value.gte(3),
       effectCondition: () => !Challenge(3).isRunning
@@ -103,7 +112,7 @@ export const challenges = [
     goalMult: DC.D30,
     reward: {
       description: "Rage Powers gain is raised by completions.",
-      effect: value => overflow(softcap(value.pow(DC.C2D3).times(0.01).add(1), 3, 0.25, SOFTCAP_TYPE.POWER), DC.E12, DC.D0_5),
+      effect: value => overflow(Softcap.power(value.pow(DC.C2D3).times(0.01).add(1), 3, 0.25), DC.E12, DC.D0_5),
       formatEffect: value => formatPow(value),
       softcapped: value => value.gte(3)
     },
@@ -121,7 +130,7 @@ export const challenges = [
     noReset: () => false,
     reward: {
       description: "Rank requirement is weaker based on completions.",
-      effect: value => DC.D0_97.pow(softcap(value.sqrt(), DC.D5, DC.D0_5, SOFTCAP_TYPE.POWER)),
+      effect: value => DC.D0_97.pow(Softcap.power(value.sqrt(), DC.D5, DC.D0_5)),
       softcapped: value => value.lte(DC.D0_97.pow(DC.D5)),
       formatEffect: value => `${formatPercents(DC.D1.minus(value))} weaker`
     },
@@ -141,7 +150,7 @@ export const challenges = [
       effect: value => {
         const effect = value.times(0.1);
         if (GameElement(39).canBeApplied) return effect;
-        return softcap(effect.add(1), DC.D1_5, DC.D0_5, SOFTCAP_TYPE.POWER).minus(1);
+        return Softcap.power(effect.add(1), DC.D1_5, DC.D0_5).minus(1);
       },
       softcapped: value => !GameElement(39).canBeApplied && value.gte(DC.D0_5),
       formatEffect: value => `+${format(value)}x`
@@ -156,7 +165,8 @@ export const challenges = [
     effect: DC.D6,
     max: () => DC.D50.plusEffectsOf(
       GameElement(20),
-      GameElement(41)
+      GameElement(41),
+      NeutronUpgrade.chal1
     ),
     goalPow: DC.D1_25,
     goalMult: DC.D64,
@@ -181,13 +191,17 @@ export const challenges = [
     isUnlocked: () => PlayerProgress.supernovaUnlocked() || PlayerProgress.atomUnlocked() && Challenge(7).completions.gt(0),
     description: () => `Dark Matter & Mass from Black Hole gains are rooted by ${formatInt(8)}.`,
     effect: 0.125,
-    max: () => DC.D50.plusEffectOf(GameElement(33)),
+    max: () => DC.D50.plusEffectsOf(
+      GameElement(33),
+      NeutronUpgrade.chal1,
+      GameElement(56)
+    ),
     goalPow: DC.D1_3,
     goalMult: DC.D80,
     baseGoal: DC.D1_989E38,
     reward: {
       description: "Dark Matter & Mass from Black Hole gains are raised by completions.",
-      effect: value => overflow(softcap(value.pow(4 / 7).times(0.02).add(1), DC.D2_3, DC.D0_25, SOFTCAP_TYPE.POWER), DC.E10, DC.D0_5),
+      effect: value => overflow(Softcap.power(value.pow(4 / 7).times(0.02).add(1), DC.D2_3, DC.D0_25), DC.E10, DC.D0_5),
       formatEffect: value => formatPow(value),
       softcapped: value => value.gte(DC.D2_3)
     },
@@ -199,5 +213,29 @@ export const challenges = [
       }
     ],
     type: challengeType.ATOM
+  },
+  {
+    id: 9,
+    name: "No Particles",
+    isUnlocked: () => NeutronUpgrade.chal4.isBought,
+    description: () => `You cannot assign quarks. Additionally, mass gains exponent is raised to ${format(0.9, 1)}th power.`,
+    effect: DC.D0_9,
+    max: () => DC.E2,
+    goalPow: DC.D2,
+    goalMult: DC.E500,
+    baseGoal: DC.D1_5E99056,
+    reward: {
+      description: "Improve Magnesium-12.",
+      effect: value => {
+        let pow = value.pow(NeutronUpgrade.chal4a.effectOrDefault(DC.D0_25)).times(DC.D0_1).add(DC.D1);
+        pow = Softcap.power(pow, DC.D21, DC.D0_25);
+        pow = overflow(pow, DC.D5E8, DC.D0_5);
+        pow = overflow(pow, DC.E12, DC.D0_15);
+        return pow;
+      },
+      formatEffect: value => formatPow(value),
+      softcapped: value => value.gte(DC.D21)
+    },
+    type: challengeType.SUPERNOVA
   }
 ];

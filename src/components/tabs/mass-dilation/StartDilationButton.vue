@@ -58,4 +58,10 @@ export default {
   font-family: BlobFont;
   padding: 5px;
 }
+
+.ad-ui .o-start-dilation-btn {
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  color: black;
+}
 </style>

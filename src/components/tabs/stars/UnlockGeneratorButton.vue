@@ -13,9 +13,6 @@ export default {
       canBeUnlocked: false
     };
   },
-  computed: {
-
-  },
   methods: {
     update() {
       const next = StarGenerators.next;

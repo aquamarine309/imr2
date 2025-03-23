@@ -66,6 +66,6 @@ export default {
 }
 
 .c-main-upgrade-btn--bought {
-  background-color: #00520b;
+  background-color: var(--color-bought);
 }
 </style>

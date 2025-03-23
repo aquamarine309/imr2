@@ -1,10 +1,27 @@
 <script>
 import PrimaryButton from "@/components/PrimaryButton";
+import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
   name: "OptionsTab",
   components: {
-    PrimaryButton
+    PrimaryButton,
+    PrimaryToggleButton
+  },
+  data() {
+    return {
+      starBG: false
+    }
+  },
+  watch: {
+    starBG(value) {
+      player.options.starBG = value;
+    }
+  },
+  methods: {
+    update() {
+      this.starBG = player.options.starBG;
+    }
   }
 };
 </script>
@@ -29,7 +46,7 @@ export default {
       </PrimaryButton>
       <PrimaryButton
         class="c-options-btn"
-        onclick="GameStorage.importSave(prompt('Input your save.'))"
+        onclick="Modal.import.show()"
       >
         Import Save
       </PrimaryButton>
@@ -47,6 +64,22 @@ export default {
       >
         Hard Reset
       </PrimaryButton>
+    </div>
+    <br>
+    <div class="c-options-title">
+      Visual
+    </div>
+    <div class="l-options-row">
+      <PrimaryToggleButton
+        class="c-options-btn"
+        v-model="starBG"
+        label="Show Star:"
+      />
+      <PrimaryToggleButton
+        class="c-options-btn"
+        v-model="$viewModel.adUI"
+        label="AD-like UI:"
+      />
     </div>
   </div>
 </template>

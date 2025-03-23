@@ -151,5 +151,21 @@ export const tabs = [
         condition: () => MassDilation.isUnlocked
       }
     ]
+  },
+  {
+    id: 6,
+    key: "supernova",
+    name: "Supernova",
+    letter: "S",
+    condition: () => PlayerProgress.supernovaUnlocked(),
+    subtabs: [
+      {
+        id: 0,
+        key: "neutronTree",
+        name: "Neutron Tree",
+        shortName: "Tree",
+        component: "NeutronTreeTab"
+      }
+    ]
   }
 ];

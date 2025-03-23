@@ -257,6 +257,14 @@ Set.prototype.every = function(predicate) {
   return true;
 };
 
+Set.prototype.filter = function(predicate) {
+  const output = new Set();
+  for (const item of this) {
+    if (predicate(item)) output.add(item);
+  }
+  return output;
+};
+
 Set.prototype.toJSON = function() {
   return Array.from(this);
 };

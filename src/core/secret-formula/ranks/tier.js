@@ -59,7 +59,7 @@ export const tier = {
         const tier12 = RankType.tier.unlocks.improveTier4.canBeApplied;
         const effect = RankType.tier.amount.times(tier12 ? 0.1 : 0.05);
         if (tier12) return effect;
-        return softcap(effect.add(1), DC.D1_4, DC.D0_75, SOFTCAP_TYPE.POWER).minus(1);
+        return Softcap.power(effect.add(1), DC.D1_4, DC.D0_75).minus(1);
       },
       formatEffect: value => `+${formatPercents(value)}`
     },

@@ -9,6 +9,7 @@ import ChallengesTab from "./challenges/ChallengesTab";
 import ParticlesTab from "./particles/ParticlesTab";
 import ElementsTab from "./elements/ElementsTab";
 import MassDilationTab from "./mass-dilation/MassDilationTab";
+import NeutronTreeTab from "./neutron-tree/NeutronTreeTab";
 
 export default {
   MassTab,
@@ -21,5 +22,6 @@ export default {
   ChallengesTab,
   ParticlesTab,
   ElementsTab,
-  MassDilationTab
+  MassDilationTab,
+  NeutronTreeTab
 };

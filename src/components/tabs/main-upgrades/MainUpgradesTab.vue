@@ -59,6 +59,10 @@ export default {
       if (!this.autobuyer) return;
       this.autoUnlocked = this.autobuyer.isUnlocked;
       this.auto = this.autobuyer.isActive;
+    },
+    select(id) {
+      this.selectedID = id;
+      GameUI.update();
     }
   }
 };
@@ -99,7 +103,7 @@ export default {
         v-for="upgrade in upgrades"
         :key="upgrade.id"
         :upgrade="upgrade"
-        @click.native.stop="selectedID = upgrade.id"
+        @click.native.stop="select(upgrade.id)"
       />
     </div>
   </div>

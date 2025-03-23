@@ -70,6 +70,7 @@ export default {
   <div
     v-if="view.initialized"
     class="l-game-ui"
+    :class="{ 'ad-ui': view.adUI }"
     v-on="swipeHandlers"
     @click="hideTooltip"
   >

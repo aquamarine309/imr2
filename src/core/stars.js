@@ -7,28 +7,20 @@ export const Stars = {
 
   get boost() {
     const mult1 = GameElement(48).effectOrDefault(DC.D1);
-    const rank = softcap(RankType.rank.amount, DC.D2_5E6, DC.D0_25, SOFTCAP_TYPE.POWER).times(mult1);
-    const tier = softcap(RankType.tier.amount, DC.D1_5E5, DC.D0_25, SOFTCAP_TYPE.POWER).times(mult1);
-    let tetr = softcap(RankType.tetr.amount, DC.D3E4, DC.D0_15, SOFTCAP_TYPE.POWER).times(mult1);
-    tetr = softcap(tetr, DC.D5, DC.D0_2, SOFTCAP_TYPE.MULT);
-    tetr = softcap(tetr, DC.D9, DC.D0_3, SOFTCAP_TYPE.POWER);
+    const rank = Softcap.power(RankType.rank.amount, DC.D2_5E6, DC.D0_25).times(mult1);
+    const tier = Softcap.power(RankType.tier.amount, DC.D1_5E5, DC.D0_25).times(mult1);
+    let tetr = Softcap.power(RankType.tetr.amount, DC.D3E4, DC.D0_15).times(mult1);
+    tetr = Softcap.mult(tetr, DC.D5, NeutronUpgrade.s2.effectOrDefault(DC.D0_2));
+    tetr = Softcap.power(tetr, DC.D9, DC.D0_3);
     const pent = DC.D0;
     let boost = Currency.stars.value.times(mult1).max(1).log10().add(1).pow(
       rank.times(tier.pow(2)).add(1).pow(tetr.add(1).pow(5 / 9).times(0.25)
         .times(pent.pow(0.85).times(0.0125).add(1))));
-    boost = softcap(boost, DC.EE15, DC.D0_95, SOFTCAP_TYPE.DILATION);
-    boost = softcap(boost, DC.E5E22, DC.D0_95, SOFTCAP_TYPE.DILATION);
-    boost = softcap(boost, DC.EE24, DC.D0_91, SOFTCAP_TYPE.DILATION);
-    boost = softcap(boost, DC.EE70, DC.D0_91, SOFTCAP_TYPE.DILATION);
+    boost = Softcap.dilation(boost, DC.EE15, DC.D0_95);
+    boost = Softcap.dilation(boost, DC.E5E22, DC.D0_95);
+    boost = Softcap.dilation(boost, DC.EE24, DC.D0_91);
+    boost = Softcap.dilation(boost, DC.EE70, DC.D0_91);
     return boost;
-  },
-
-  get boosts() {
-    return player.stars.boosts;
-  },
-
-  set boosts(value) {
-    player.stars.boosts = value;
   }
 };
 
@@ -74,15 +66,22 @@ class StarGeneratorState {
 
   get gainPerSecond() {
     if (!this.isUnlocked) return DC.D0;
-    const power = DC.D1_5.timesEffectOf(GameElement(50));
+    const power = DC.D1_5.timesEffectsOf(
+      GameElement(50),
+      NeutronUpgrade.s3
+    );
     let gain = (this.tier === 4 ? DC.D0 : StarGenerator(this.tier + 1).amount).add(1).pow(power);
     if (this.tier === 4) {
-      gain = gain.timesEffectOf(GameElement(49));
+      gain = gain.timesEffectsOf(
+        GameElement(49),
+        NeutronUpgrade.s1
+      );
     }
     gain = gain.timesEffectsOf(
       DilationUpgrade.starBoost,
       GameElement(54)
     );
+    gain = gain.times(StarBoosts.effect);
     return gain;
   }
 
@@ -109,10 +108,69 @@ export const StarGenerators = {
   },
 
   tick(diff) {
+    const auto = NeutronUpgrade.qol4.isBought;
+    if (auto) {
+      while (StarGenerators.next !== undefined) {
+        StarGenerators.next.unlock();
+      }
+      StarBoosts.purchase(true);
+    }
     for (let i = 0; i < 5; i++) {
       const generator = StarGenerator(i);
       generator.amount = generator.amount.add(generator.gainForDiff(diff));
     }
     Currency.stars.tick(diff);
+  }
+};
+
+export const StarBoosts = {
+  get isUnlocked() {
+    return NeutronUpgrade.s4.isBought && StarGenerators.next === undefined;
+  },
+  
+  get base() {
+    return DC.D2.timesEffectOf(GameElement(57));
+  },
+  
+  get amount() {
+    return player.stars.boosts;
+  },
+  
+  set amount(value) {
+    player.stars.boosts = value;
+  },
+  
+  get effect() {
+    if (!StarBoosts.isUnlocked) return DC.D1;
+    return Softcap.dilation(StarBoosts.base.pow(StarBoosts.amount), DC.E3E18, DC.D0_95);
+  },
+  
+  get baseCost() {
+    return DC.E8000;
+  },
+  
+  get costMult() {
+    return DC.E100;
+  },
+  
+  get cost() {
+    return StarBoosts.costMult.pow(StarBoosts.amount.pow(DC.D1_25)).times(StarBoosts.baseCost);
+  },
+  
+  get bulk() {
+    return Currency.quark.value.div(StarBoosts.baseCost).log(StarBoosts.costMult).clampMin(0).pow(DC.D0_8).add(1).floor();
+  },
+  
+  get isAffordable() {
+    return Currency.quark.value.gte(StarBoosts.cost);
+  },
+  
+  purchase(auto = false) {
+    if (!StarBoosts.isAffordable) return;
+    if (auto) {
+      StarBoosts.amount = StarBoosts.amount.max(StarBoosts.bulk);
+    } else {
+      StarBoosts.amount = StarBoosts.amount.add(1);
+    }
   }
 };

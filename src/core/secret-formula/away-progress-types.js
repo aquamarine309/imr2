@@ -12,7 +12,7 @@ export const awayProgressTypes = [
     isUnlocked: () => PlayerProgress.blackHoleUnlocked()
   },
   {
-    name: "balackHole",
+    name: "blackHole",
     isUnlocked: () => PlayerProgress.blackHoleUnlocked()
   },
   {
@@ -36,5 +36,15 @@ export const awayProgressTypes = [
     name: "dilatedMass",
     reference: ["dilation", "mass"],
     isUnlocked: () => MassDilation.isUnlocked
+  },
+  {
+    name: "collapsedStars",
+    reference: ["stars", "amount"],
+    isUnlocked: () => Stars.isUnlocked
+  },
+  {
+    name: "neutronStars",
+    reference: ["supernova", "stars"],
+    isUnlocked: () => PlayerProgress.supernovaUnlocked()
   },
 ];

@@ -59,6 +59,15 @@ export const GameLoop = {
     if (Stars.isUnlocked) {
       StarGenerators.tick(seconds);
     }
+    
+    if (PlayerProgress.supernovaUnlocked()) {
+      Currency.neutronStars.tick(seconds);
+      Supernova.startingAutoCheck();
+    }
+    
+    if (NeutronUpgrade.qol3.canBeApplied) {
+      Currency.relativisticParticles.tick(seconds);
+    }
 
     applyAutoprestige(seconds);
 

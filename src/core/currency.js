@@ -235,7 +235,8 @@ Currency.mass = new class extends DecimalCurrency {
       RankType.rank.unlocks.tripleMassGain,
       RankType.rank.unlocks.massGain,
       MassUpgrade.tickspeed,
-      BHUpgrade(9)
+      BHUpgrade(9),
+      NeutronUpgrade.m1
     );
     gain = gain.times(BlackHole.mult);
     gain = gain.times(Atom.protonMass());
@@ -250,17 +251,18 @@ Currency.mass = new class extends DecimalCurrency {
       gain = dilatedValue(gain, MassDilation.power);
       gain = gain.powEffectOf(GameElement(28));
     }
-    gain = softcap(
+    if (Challenge(9).isRunning) {
+      gain = dilatedValue(gain, Challenge(9).effectValue);
+    }
+    gain = Softcap.power(
       gain,
       MassSoftcap[0].mass,
-      MassSoftcap[0].effectValue,
-      SOFTCAP_TYPE.POWER
+      MassSoftcap[0].effectValue
     );
-    gain = softcap(
+    gain = Softcap.power(
       gain,
       MassSoftcap[1].mass,
-      MassSoftcap[1].effectValue,
-      SOFTCAP_TYPE.POWER
+      MassSoftcap[1].effectValue
     );
     return gain;
   }
@@ -286,7 +288,8 @@ Currency.ragePowers = new class extends DecimalCurrency {
       RankType.rank.unlocks.doubleRPGain,
       RankType.tier.unlocks.tierBoostRP,
       RankType.rank.unlocks.rankBoostRP,
-      BHUpgrade(5)
+      BHUpgrade(5),
+      NeutronUpgrade.rp1
     );
     gain = gain.times(Atom.neutronRP());
     gain = gain.powEffectsOf(
@@ -352,6 +355,7 @@ Currency.darkMatter = new class extends DecimalCurrency {
     if (c7Running) {
       gain = gain.root(6);
     }
+    gain = gain.timesEffectOf(NeutronUpgrade.bh1);
     gain = gain.times(Atom.electronDM());
     gain = gain.powEffectsOf(
       Challenge(8),
@@ -463,7 +467,7 @@ Currency.atoms = new class extends DecimalCurrency {
     Tutorial.atom.unlock();
     player.unlocks.atom = true;
     player.challenges.current = 0;
-    if (!AtomUpgrade(3).canBeApplied) {
+    if (!AtomUpgrade(3).canBeApplied && !NeutronUpgrade.chal2.isBought) {
       for (let i = 1; i <= 4; i++) {
         Challenge(i).reset();
       }
@@ -585,7 +589,7 @@ Currency.stars = new class extends DecimalCurrency {
   get gainPerSecond() {
     let gain = StarGenerator(0).amount;
     gain = gain.timesEffectOf(DilationUpgrade.starBoost);
-    gain = softcap(gain, DC.E1000, DC.D0_75, SOFTCAP_TYPE.POWER);
+    gain = Softcap.power(gain, DC.E1000, DC.D0_75);
     return gain;
   }
 
@@ -604,7 +608,7 @@ Currency.supernova = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    return Supernova.bulk;
+    return Supernova.bulk.minus(this.value);
   }
 
   get name() {
@@ -638,6 +642,15 @@ Currency.supernova = new class extends DecimalCurrency {
     MassUpgrade.cosmicRay.reset();
     AtomUpgrades.reset();
     const keepElements = [21, 36];
+    if (NeutronUpgrade.qol1.isBought) {
+      keepElements.push(14, 18);
+    }
+    if (NeutronUpgrade.qol2.isBought) {
+      keepElements.push(24);
+    }
+    if (NeutronUpgrade.qol3.isBought) {
+      keepElements.push(43);
+    }
     for (const el of GameElements.all) {
       if (el.id <= 86 && !keepElements.includes(el.id)) {
         el.reset();
@@ -652,9 +665,13 @@ Currency.supernova = new class extends DecimalCurrency {
     Currency.stars.reset();
     Stars.boosts = DC.D0;
     Currency.atoms.resetLayer(true);
-    for (let i = 5; i <= 8; i++) {
-      Challenge(i).reset();
+    if (!NeutronUpgrade.chal3.isBought) {
+      for (let i = 5; i <= 8; i++) {
+        Challenge(i).reset();
+      }
     }
+    player.checks.supernova.noTick = true;
+    player.checks.supernova.noCondenser = true;
     Tutorial.supernova.unlock();
   }
 }();
@@ -669,7 +686,14 @@ Currency.neutronStars = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    return DC.D0;
+    if (!NeutronUpgrade.c.canBeApplied) return DC.D0;
+    let gain = DC.D0_1;
+    gain = gain.timesEffectsOf(
+      NeutronUpgrade.sn1,
+      NeutronUpgrade.sn2,
+      NeutronUpgrade.sn3
+    );
+    return gain;
   }
 
   get name() {

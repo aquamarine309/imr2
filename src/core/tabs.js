@@ -192,6 +192,7 @@ export const Tabs = (function() {
       Tab.upgrades,
       Tab.challenges,
       Tab.atom,
+      Tab.supernova,
       Tab.options
     ]
   };

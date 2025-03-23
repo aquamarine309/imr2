@@ -1,11 +1,13 @@
 <script>
 import UnlockGeneratorButton from "./UnlockGeneratorButton";
+import StarBoostButton from "./StarBoostButton";
 import StarIcon from "./StarIcon";
 
 export default {
   name: "StarsTab",
   components: {
     UnlockGeneratorButton,
+    StarBoostButton,
     StarIcon
   },
   data() {
@@ -14,7 +16,7 @@ export default {
       requirement: new Decimal(),
       gain: new Decimal(),
       boost: new Decimal()
-    };
+    }
   },
   computed: {
     generators() {
@@ -29,19 +31,18 @@ export default {
       this.boost = Stars.boost;
     }
   }
-};
+}
 </script>
 
 <template>
   <div>
     <div>You collapsed <span class="o-highlight">{{ format(stars, 2) }} / {{ format(requirement, 2) }} {{ formatGain(stars, gain) }}</span> stars, which multiplies mass gain based on all rank types.</div>
     <br>
-    <div class="c-green">
-      Currently: {{ formatX(boost) }}
-    </div>
+    <div class="c-green">Currently: {{ formatX(boost) }}</div>
     <br>
     <div>
       <UnlockGeneratorButton />
+      <StarBoostButton />
     </div>
     <div class="l-stars-container">
       <StarIcon

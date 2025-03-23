@@ -9,6 +9,8 @@ export const state = {
     subtab: "mass",
     initialized: false,
     expandBits: 0,
-    resourceTooltipId: -1
+    resourceTooltipId: -1,
+    selectedNodeId: "",
+    adUI: false
   }
 };

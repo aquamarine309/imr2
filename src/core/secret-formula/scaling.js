@@ -177,7 +177,7 @@ export const scaling = {
         return DC.D300;
       },
       get scale() {
-        return DC.D2;
+        return DC.D2.powEffectOf(GameElement(55));
       }
     },
     {
@@ -185,7 +185,7 @@ export const scaling = {
         return DC.D750;
       },
       get scale() {
-        return DC.D4;
+        return DC.D4.powEffectOf(GameElement(55));
       }
     }
   ],
@@ -203,7 +203,15 @@ export const scaling = {
         return DC.D300;
       },
       get scale() {
-        return DC.D4;
+        return DC.D4.powEffectOf(GameElement(55));
+      }
+    },
+    {
+      get start() {
+        return DC.D800;
+      },
+      get scale() {
+        return DC.D6.powEffectOf(GameElement(55));
       }
     }
   ],

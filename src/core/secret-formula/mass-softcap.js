@@ -31,7 +31,10 @@ export const massSoftcap = [
   {
     id: 1,
     mass() {
-      return DC.D1_5E1000056.powEffectOf(RankType.tetr.unlocks.softcapLater);
+      return DC.D1_5E1000056.powEffectsOf(
+        RankType.tetr.unlocks.softcapLater,
+        NeutronUpgrade.m2
+      );
     },
     effect() {
       return DC.D0_25.powEffectOf(GameElement(51));

@@ -12,7 +12,8 @@ export default {
     return {
       quark: new Decimal(),
       inputs: [1, 1, 1],
-      ratioMode: RATIO_MODE.SINGLE
+      ratioMode: RATIO_MODE.SINGLE,
+      canDistribute: false
     };
   },
   computed: {
@@ -37,6 +38,7 @@ export default {
   methods: {
     update() {
       this.quark.copyFrom(Currency.quark.value);
+      this.canDistribute = !Challenge(9).isRunning;
       this.ratioMode = player.ratioMode;
     },
     distribute() {
@@ -63,6 +65,7 @@ export default {
     <div class="c-distribute-row">
       <PrimaryButton
         class="o-primary-btn--distribute"
+        :enabled="canDistribute"
         @click="distribute"
       >
         Distribute

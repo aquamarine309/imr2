@@ -39,7 +39,7 @@ export default {
 <template>
   <div>
     <div class="c-bh-info">
-      <span>You have <span class="c-bh-amount">{{ formatMass(blackHole) }}</span> {{ formatGain(blackHole, gain, true) }} of Black Hole.</span>
+      <span>You have <span class="o-highlight">{{ formatMass(blackHole) }}</span> {{ formatGain(blackHole, gain, true) }} of Black Hole.</span>
       <span class="c-green">Which boosts mass gain by {{ formatX(mult) }}</span>
       <br>
       <span>Black Hole mass's gain formula - (x + 1)<sup>{{ format(exponent) }}</sup> * {{ format(condenserMult) }}</span>

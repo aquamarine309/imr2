@@ -14,7 +14,7 @@ export const particles = {
     effect: () => {
       const rp = Atom.neutronRP();
       const mass = Atom.neutronMass();
-      return `Boost Rage Power gain by ${formatX(rp)} and Boost Mass gain based on Rage Powers - ${formatX(mass)}`;
+      return `Boost Rage Power gain by ${formatX(rp)} and boost Mass gain based on Rage Powers - ${formatX(mass)}`;
     }
   },
   electron: {

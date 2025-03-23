@@ -15,7 +15,7 @@ export function applyAutoprestige(diff) {
   if (AtomUpgrade(5).canBeApplied) Currency.darkMatter.tick(diff);
   if (GameElement(14).canBeApplied) Currency.quark.tick(diff * (0.05 + GameElement(16).effectOrDefault(0)));
   if (GameElement(24).canBeApplied) Currency.atoms.tick(diff);
-  if (GameElement(30).canBeApplied) {
+  if (GameElement(30).canBeApplied && !Challenge(9).isRunning) {
     for (const particle of Particles.all) {
       particle.amount = particle.amount.add(Currency.quark.value.div(10).times(diff));
     }

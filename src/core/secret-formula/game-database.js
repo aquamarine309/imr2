@@ -9,6 +9,7 @@ import { massSoftcap } from "./mass-softcap";
 import { awayProgressTypes } from "./away-progress-types";
 import { particles } from "./particles";
 import { gameElements } from "./game-elements";
+import { supernova } from "./supernova";
 
 export const GameDatabase = {
   upgrades,
@@ -21,7 +22,8 @@ export const GameDatabase = {
   massSoftcap,
   awayProgressTypes,
   particles,
-  gameElements
+  gameElements,
+  supernova
 };
 
 window.GameDatabase = GameDatabase;

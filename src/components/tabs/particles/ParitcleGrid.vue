@@ -21,7 +21,8 @@ export default {
       amount: new Decimal(),
       power: new Decimal(),
       gain: new Decimal(),
-      effect: ""
+      effect: "",
+      canAssign: false
     };
   },
   computed: {
@@ -36,6 +37,7 @@ export default {
       this.power.copyFrom(particle.power);
       this.gain = particle.gainPerSecond;
       this.effect = particle.config.effect();
+      this.canAssign = !Challenge(9).isRunning;
     },
     assign() {
       this.particle.assign();
@@ -47,7 +49,10 @@ export default {
 <template>
   <div class="o-particle-grid">
     <div>
-      <PrimaryButton @click="assign">
+      <PrimaryButton
+        :enabled="canAssign"
+        @click="assign"
+      >
         Assign
       </PrimaryButton>
     </div>

@@ -36,7 +36,8 @@ window.player = {
   },
   supernova: {
     times: DC.D0,
-    stars: DC.D0
+    stars: DC.D0,
+    tree: new Set()
   },
   auto: {
     ranks: {
@@ -61,7 +62,8 @@ window.player = {
       blackHole: false,
       atom: false
     },
-    dilationUpgrades: false
+    dilationUpgrades: false,
+    elements: false
   },
   massUpgrades: {
     muscler: DC.D0,
@@ -76,6 +78,12 @@ window.player = {
     ragePower: false,
     darkMatter: false,
     atom: false
+  },
+  checks: {
+    supernova: {
+      noTick: true,
+      noCondenser: true
+    }
   },
   // Bits
   mainUpgrades: {
@@ -102,6 +110,7 @@ window.player = {
     automaticTabSwitching: false,
     hiddenSubtabBits: Array.repeat(0, 10),
     lastOpenSubtab: Array.repeat(0, 10),
+    starBG: true,
     confirmations: {
       ragePower: true,
       darkMatter: true,
@@ -117,7 +126,9 @@ window.player = {
       quark: true,
       atomicPower: true,
       relativisticParticles: true,
-      dilatedMass: true
+      dilatedMass: true,
+      collapsedStars: true,
+      neutronStars: true
     }
   }
 };

@@ -47,13 +47,15 @@ export default {
         amount: new Decimal(),
         rate: new Decimal(),
         unlocked: false,
-        active: false
+        active: false,
+        passive: false
       },
       supernova: {
         amount: new Decimal(),
         rate: new Decimal(),
         unlocked: false,
-        canReset: false
+        canReset: false,
+        manual: false
       }
     };
   },
@@ -134,13 +136,17 @@ export default {
         dilation.amount.copyFrom(Currency.relativisticParticles.value);
         dilation.rate = Currency.relativisticParticles.gainPerSecond;
         dilation.active = MassDilation.isActive;
+        dilation.passive = NeutronUpgrade.qol3.canBeApplied;
       }
 
       const supernova = this.supernova;
       supernova.unlocked = PlayerProgress.supernovaUnlocked();
       if (supernova.unlocked) {
         supernova.amount.copyFrom(Currency.supernova.value);
-        supernova.rate = Currency.supernova.gainPerSecond;
+        supernova.manual = Supernova.times.gte(10);
+        if (supernova.manual) {
+          supernova.rate = Currency.supernova.gainPerSecond.minus(supernova.amount).clampMin(0);
+        }
         supernova.canReset = Currency.supernova.canReset;
       }
     },
@@ -245,10 +251,10 @@ export default {
       :gain-rate="dilation.rate"
       :format-fn="formatNoPlaces"
       name="Mass Dilation"
-      :is-rate="false"
+      :is-rate="dilation.passive"
       :show-tooltip="false"
       :click-fn="dilatedMass"
-      :force-text="dilation.active ? '' : 'Inactive'"
+      :force-text="dilation.active || dilation.passive ? '' : 'Inactive'"
     />
     <HeaderResource
       v-if="supernova.unlocked"
@@ -262,7 +268,7 @@ export default {
       :show-tooltip="!supernova.canReset"
       :tooltip="supernovaTooltip"
       :click-fn="supernovaReset"
-      :show-rate="false"
+      :show-rate="supernova.manual"
     />
   </div>
 </template>

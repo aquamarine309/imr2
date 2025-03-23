@@ -47,7 +47,7 @@ export default {
 
 .c-tab-bar {
   height: 45px;
-  background-color: black;
+  background-color: var(--color-app-bar);
   width: 100%;
   display: flex;
   flex-direction: row;

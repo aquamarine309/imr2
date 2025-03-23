@@ -22,6 +22,9 @@ export default {
     },
     hasPage2() {
       return this.page !== 0 || this.hasNextPage;
+    },
+    title() {
+      return this.challenges[0].type.title;
     }
   },
   methods: {
@@ -48,15 +51,15 @@ export default {
         :enabled="page > 0"
         @click="toggleTo(page - 1)"
       >
-        <i class="fas fa-minus" />
+        <i class="fas fa-arrow-left" />
       </PrimaryButton>
-      <b>Page {{ page + 1 }}</b>
+      <span class="o-challenge-page-title">{{ title }} Challenges</span>
       <PrimaryButton
         class="o-primary-btn--toggle-page"
         :enabled="hasNextPage"
         @click="toggleTo(page + 1)"
       >
-        <i class="fas fa-plus" />
+        <i class="fas fa-arrow-right" />
       </PrimaryButton>
     </div>
     <div class="l-challenges-layout">
@@ -73,11 +76,20 @@ export default {
 .o-primary-btn--toggle-page {
   width: 25px;
   height: 25px;
+}
+
+.o-challenge-page-title {
+  font-weight: bold;
   margin: 0 20px;
-  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+}
+
+.ad-ui .o-challenge-page-title {
+  color: black;
 }
 
 .c-page-row {
-  margin: 10px 0;
+  margin: 15px 0;
 }
 </style>

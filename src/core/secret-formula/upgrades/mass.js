@@ -176,7 +176,7 @@ export const mass = {
         GameElement(4),
         DilationUpgrade.strongerPower
       );
-      power = softcap(power, DC.E43, DC.D0_75, SOFTCAP_TYPE.POWER);
+      power = Softcap.power(power, DC.E43, DC.D0_75);
       return power;
     },
     formatPower: value => `+${formatPow(value)}`,
@@ -184,7 +184,7 @@ export const mass = {
       let effect = amount.times(power).add(1);
       const softcaps = MassUpgradeSoftcap.stronger;
       for (const s of softcaps) {
-        effect = softcap(effect, s.start, s.scale, SOFTCAP_TYPE.POWER);
+        effect = Softcap.power(effect, s.start, s.scale);
       }
       effect = overflow(effect, DC.E115, DC.D0_5);
       effect = overflow(effect, DC.E1555, DC.D0_25);
@@ -277,6 +277,12 @@ export const mass = {
     get disabled() {
       return Challenge(2).isRunning || Challenge(6).isRunning;
     },
+    get isFree() {
+      return AtomUpgrade(1).canBeApplied;
+    },
+    onPurchased() {
+      player.checks.supernova.noTick = false;
+    },
     get power() {
       let power = DC.D1_5;
       power = power.plusEffectsOf(
@@ -287,10 +293,8 @@ export const mass = {
       );
       power = power.add(Atom.protonTick());
       power = power.times(MassDilation.boost);
+      power = power.powEffectOf(NeutronUpgrade.t1);
       return power;
-    },
-    get isFree() {
-      return AtomUpgrade(1).canBeApplied;
     },
     formatPower: value => (value.gte(10) ? formatX(value) : formatPercents(value.minus(1))),
     effect(amount, power) {
@@ -342,12 +346,16 @@ export const mass = {
     get disabled() {
       return Challenge(6).isRunning;
     },
+    onPurchased() {
+      player.checks.supernova.noCondenser = false;
+    },
     get power() {
       let power = DC.D2;
       power = power.plusEffectOf(Challenge(6).reward);
       power = power.timesEffectOf(BHUpgrade(1));
       power = power.add(Atom.electronCondenser());
       power = power.timesEffectOf(AtomUpgrade(10));
+      power = power.powEffectOf(NeutronUpgrade.bh2);
       return power;
     },
     formatPower: value => formatX(value),
@@ -394,7 +402,10 @@ export const mass = {
     get power() {
       let power = DC.D2;
       power = power.plusEffectOf(AtomUpgrade(3));
-      power = power.timesEffectOf(AtomUpgrade(10));
+      power = power.timesEffectsOf(
+        AtomUpgrade(10),
+        NeutronUpgrade.gr1
+      );
       return power;
     },
     formatPower: value => formatX(value),

@@ -9,6 +9,7 @@ export default {
   methods: {
     reset() {
       Currency.supernova.resetLayer();
+      Tab.supernova.neutronTree.show();
     }
   }
 };

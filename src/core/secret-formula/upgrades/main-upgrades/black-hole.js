@@ -16,9 +16,9 @@ export const blackHole = [
   {
     id: 2,
     description: "Super Mass Upgrade scales later based on mass of Black Hole.",
-    effect: () => softcap(
+    effect: () => Softcap.power(
       Currency.blackHole.value.max(1).log10().pow(1.5),
-      DC.E2, DC.C1D3, SOFTCAP_TYPE.POWER
+      DC.E2, DC.C1D3
     ).floor(),
     formatEffect: value => `+${format(value, 0)} later`,
     softcapped: value => value.gte(DC.E2),
@@ -68,7 +68,7 @@ export const blackHole = [
   {
     id: 9,
     description: "Mass gain is boosted by OoM of Dark Matters.",
-    effect: () => DC.D2.pow(softcap(Currency.darkMatter.value.add(1).log10(), 11600, 0.5, SOFTCAP_TYPE.POWER)),
+    effect: () => DC.D2.pow(Softcap.power(Currency.darkMatter.value.add(1).log10(), 11600, 0.5)),
     formatEffect: value => formatX(value),
     softcapped: value => value.gte(11600),
     cost: DC.E33,
@@ -106,9 +106,9 @@ export const blackHole = [
   {
     id: 14,
     description: "Atomic Powers add Black Hole Condensers at a reduced rate.",
-    effect: () => softcap(softcap(
-      Currency.atomicPower.value.add(1).log(5), DC.D2E9, DC.D0_25, SOFTCAP_TYPE.POWER),
-    DC.E10, DC.D0_1, SOFTCAP_TYPE.POWER
+    effect: () => Softcap.power(Softcap.power(
+      Currency.atomicPower.value.add(1).log(5), DC.D2E9, DC.D0_25),
+    DC.E10, DC.D0_1
     ).floor(),
     formatEffect: value => `+${format(value, 0)}`,
     softcapped: value => value.gte(DC.D2E9),

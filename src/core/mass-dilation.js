@@ -58,13 +58,15 @@ export const MassDilation = {
   get particlePower() {
     return DC.D2.plusEffectOf(DilationUpgrade.rpFormula);
   },
-
+  
   get particleGain() {
-    if (!MassDilation.isActive) return DC.D0;
-    const mass = Currency.mass.value;
+    if (!MassDilation.isActive) return NeutronUpgrade.qol3.effectOrDefault(DC.D0);
+    return MassDilation.particleGainAt(Currency.mass.value).minus(Currency.relativisticParticles.value).floor().clampMin(0);
+  },
+
+  particleGainAt(mass) {
     return mass.div(DC.D1_5E56).max(1).log10().div(40).minus(14).max(0).pow(MassDilation.particlePower)
-      .times(MassDilation.particleMult)
-      .minus(Currency.relativisticParticles.value).floor().clampMin(0);
+      .times(MassDilation.particleMult);
   },
 
   get requirement() {

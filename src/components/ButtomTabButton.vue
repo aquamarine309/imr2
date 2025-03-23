@@ -56,6 +56,7 @@ export default {
   font-weight: bold;
   font-size: 13px;
   transition-duration: 0.2s;
+  color: rgba(255, 255, 255, 0.67);
 }
 
 .c-bottom-tab--active {

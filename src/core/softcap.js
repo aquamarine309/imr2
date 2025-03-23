@@ -10,30 +10,26 @@ export function dilatedValue(value, power) {
   if (value.lt(10)) return value;
   return Decimal.pow10(value.log10().pow(power));
 }
-
-/**
- * @param {Decimal} value
- * @param {Decimal|number} start
- * @param {Decimal|number} scale
- * @param {number} type SOFTCAP_TYPE (see constants.js)
- * @returns {Decimal}
- */
-export function softcap(value, start, scale, type) {
-  if (start === undefined) {
-    throw new Error("Start is not defined.");
+ 
+export class Softcap {
+  static power(value, start, scale) {
+    if (value.lte(start)) return value;
+    return value.div(start).pow(scale).times(start);
   }
-  if (value.lt(start)) return value;
-  switch (type) {
-    case SOFTCAP_TYPE.POWER:
-      return value.div(start).pow(scale).times(start);
-    case SOFTCAP_TYPE.MULT:
-      return value.minus(start).times(scale).add(start);
-    case SOFTCAP_TYPE.DILATION:
-      return dilatedValue(value.div(start), scale).times(start);
-    case SOFTCAP_TYPE.LOG:
-      return value.div(start).log(power).add(1).times(start);
-    default:
-      throw new Error(`Unexpected softcap type: ${type}`);
+  
+  static mult(value, start, scale) {
+    if (value.lte(start)) return value;
+    return value.minus(start).times(scale).add(start);
+  }
+  
+  static dilation(value, start, scale) {
+    if (value.lte(start)) return value;
+    return dilatedValue(value.div(start), scale).times(start);
+  }
+  
+  static log(value, start, scale) {
+    if (value.lte(start)) return value;
+    return value.div(start).log(scale).add(1).times(start);
   }
 }
 
@@ -130,7 +126,7 @@ class ScalingState {
       idx = i;
     }
     if (idx === -1) return "";
-    // Pecifically format meta-xxx and mega-xxx
+    // Pecifically format meta-X and mega-X
     return `${SCALING_TYPE[idx]}${idx % 4 === 3 ? "-" : " "}`;
   }
 }

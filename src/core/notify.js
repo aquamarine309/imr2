@@ -9,7 +9,7 @@ export const notify = (function() {
       return;
     }
     const el = template.cloneNode();
-    el.textContent = text;
+    el.textContent = text.length > 40 ? `${text.slice(0, 40)}...` : text;
     el.classList.add(elClass, enterAnimation);
     const container = document.getElementById("notification-container");
     container.appendChild(el);
@@ -33,6 +33,7 @@ export const notify = (function() {
   }
   return {
     success: (text, duration) => showNotification(text, "o-notification--success", duration),
-    info: (text, duration) => showNotification(text, "o-notification--info", duration)
+    info: (text, duration) => showNotification(text, "o-notification--info", duration),
+    supernova: (text, duration) => showNotification(text, "o-notification--supernova", duration)
   };
 }());

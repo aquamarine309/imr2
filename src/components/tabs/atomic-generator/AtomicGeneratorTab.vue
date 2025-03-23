@@ -31,7 +31,7 @@ export default {
 <template>
   <div>
     <div class="c-bh-info">
-      <span>You have <span class="c-bh-amount">{{ format(atomicPower) }}</span> {{ formatGain(atomicPower, gain) }} Atomic Power.</span>
+      <span>You have <span class="o-highlight">{{ format(atomicPower) }}</span> {{ formatGain(atomicPower, gain) }} Atomic Power.</span>
       <span class="c-green">Which provides {{ format(free, 0) }} free Tickspeeds</span>
     </div>
     <MassUpgradeRow :upgrade="cosmicRay" />

@@ -41,14 +41,19 @@ export const GameStorage = {
 
   importSave(save) {
     try {
-      this.importFromJSON(JSON.parse(Serializer.decode(save)));
+      this.importFromJSON(Serializer.decode(save));
     } catch (e) {
       Modal.message.show(`Invalid save.`);
       console.log(e);
     }
   },
+  
+  get canSave() {
+    return Supernova.times.gt(0) || !Currency.supernova.canReset;
+  },
 
   save() {
+    if (!this.canSave) return;
     localStorage.setItem(this.saveKey, Serializer.encode(JSON.stringify(player)));
     this._timeSinceLastSave = 0;
     this.hasSaved = true;
@@ -71,6 +76,51 @@ export const GameStorage = {
       GameLoop.start();
       this.save();
     }
+  },
+  
+  // Some minimal save verification; if the save is valid then this returns an empty string, otherwise it returns a
+  // a string roughly stating what's wrong with the save. In order for importing to work properly, this must return
+  // an empty string.
+  checkPlayerObject(save) {
+    // Sometimes save is the output of GameSaveSerializer.deserialize, and if that function fails then it will result
+    // in the input parameter here being undefined
+    if (save === undefined || save === null) return "Save decoding failed (invalid format)";
+    // Right now all we do is check for the existence of an mass prop, but if we wanted to do further save
+    // verification then here's where we'd do it
+    if (save.mass === undefined) return "Save does not have mass property";
+
+    // Recursively check for any NaN props and add any we find to an array
+    const invalidProps = [];
+    function checkNaN(obj, path) {
+      let hasNaN = false;
+      for (const key in obj) {
+        const prop = obj[key];
+        let thisNaN;
+        switch (typeof prop) {
+          case "object":
+            thisNaN = checkNaN(prop, `${path}.${key}`);
+            hasNaN = hasNaN || thisNaN;
+            break;
+          case "number":
+            thisNaN = Number.isNaN(prop);
+            hasNaN = hasNaN || thisNaN;
+            if (thisNaN) invalidProps.push(`${path}.${key}`);
+            break;
+          case "string":
+            // If we're attempting to import, all NaN entries will still be strings
+            thisNaN = prop === "NaN";
+            hasNaN = hasNaN || thisNaN;
+            if (thisNaN) invalidProps.push(`${path}.${key}`);
+            break;
+        }
+      }
+      return hasNaN;
+    }
+    checkNaN(save, "player");
+
+    if (invalidProps.length === 0) return "";
+    return `${quantify("NaN player property", invalidProps.length)} found:
+      ${invalidProps.join(", ")}`;
   },
 
   exportAsOldVersion() {
@@ -120,14 +170,16 @@ export const GameStorage = {
     save.confirms = {
       rp: confirm.ragePower,
       bh: confirm.darkMatter,
-      atom: confirm.atom
+      atom: confirm.atom,
+      sn: confirm.supernova
     };
 
     save.autoTickspeed = auto.massUpgrades.tickspeed;
     save.auto_ranks = auto.ranks;
     save.auto_mainUpg = {
       rp: auto.mainUpgrades.rage,
-      bh: auto.mainUpgrades.blackHole
+      bh: auto.mainUpgrades.blackHole,
+      atom: auto.mainUpgrades.atom
     };
 
     const challenges = player.challenges;
@@ -175,7 +227,8 @@ export const GameStorage = {
     const supernova = player.supernova;
     save.supernova = {
       times: supernova.times,
-      stars: suernova.stars
+      stars: supernova.stars,
+      tree: supernova.tree
     };
 
     save.options = {

@@ -108,9 +108,20 @@ export default {
   padding: 5px;
 }
 
+.ad-ui .o-dilation-upgrade-btn {
+  color: black;
+  background-color: #e3e3e3;
+  border-color: var(--color-dilation);
+  border-radius: 5px;
+}
+
 .o-dilation-upgrade-btn--available {
   border-color: var(--color-dilation);
   background-color: black;
   box-shadow: 0 0 5px var(--color-dilation) inset;
+}
+
+.ad-ui .o-dilation-upgrade-btn--available {
+  background-color: #f6f6f6;
 }
 </style>

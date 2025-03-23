@@ -1,16 +1,20 @@
 <script>
 import ElementComponent from "./ElementComponent";
 import ElementInfo from "./ElementInfo";
+import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
   name: "ElementsTab",
   components: {
     ElementComponent,
-    ElementInfo
+    ElementInfo,
+    PrimaryToggleButton
   },
   data() {
     return {
-      selected: 0
+      selected: 0,
+      auto: false,
+      autoUnlocked: false
     };
   },
   computed: {
@@ -18,7 +22,16 @@ export default {
       return GameElements.all;
     }
   },
+  watch: {
+    auto(value) {
+      Autobuyer.element.isActive = value;
+    }
+  },
   methods: {
+    update() {
+      this.autoUnlocked = Autobuyer.element.isUnlocked;
+      this.auto = Autobuyer.element.isActive;
+    },
     handleClick(id) {
       this.selected = id;
     }
@@ -28,6 +41,13 @@ export default {
 
 <template>
   <div>
+    <div>
+      <PrimaryToggleButton
+        v-if="autoUnlocked"
+        v-model="auto"
+        label="Auto:"
+      />
+    </div>
     <ElementInfo :element="elements[selected - 1]" />
     <div class="l-element-table-container">
       <ElementComponent

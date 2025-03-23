@@ -24,7 +24,7 @@ export default {
 .o-app-bar {
   width: 100%;
   height: var(--height-app-bar);
-  background-color: black;
+  background-color: var(--color-app-bar);
   text-align: left;
   color: #bbbbbb;
   font-weight: bold;
@@ -35,5 +35,9 @@ export default {
 .c-nav-button {
   width: 60px;
   height: 100%;
+}
+
+.ad-ui .c-nav-button {
+  color: white;
 }
 </style>

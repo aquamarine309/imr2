@@ -3,6 +3,7 @@ export default {
   name: "BackgroundStar",
   data() {
     return {
+      isVisible: false,
       percent: 0
     };
   },
@@ -30,7 +31,9 @@ export default {
   },
   methods: {
     update() {
-      this.percent = Currency.stars.value.max(1).log10().div(Supernova.requirement.max(1).log10()).clamp(0, 1).toNumber();
+      this.isVisible = player.options.starBG && Currency.stars.value.gt(1);
+      if (!this.isVisible) return;
+      this.percent = Currency.stars.value.log10().div(Supernova.requirement.max(1).log10()).clamp(0, 1).toNumber();
     }
   }
 };
@@ -38,6 +41,7 @@ export default {
 
 <template>
   <div
+    v-if="isVisible"
     class="o-background-star"
     :style="styleObject"
   />

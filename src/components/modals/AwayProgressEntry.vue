@@ -107,6 +107,11 @@ export default {
   color: var(--color-dilation);
 }
 
+.c-modal-away-progress__collapsed-stars,
+.c-modal-away-progress__neutron-stars {
+  color: var(--color-supernova);
+}
+
 .c-modal-away-progress__disabled b,
 .c-modal-away-progress__disabled {
   font-style: italic;

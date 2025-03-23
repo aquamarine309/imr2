@@ -10,7 +10,7 @@ class AtomUpgradeState extends MainUpgradeState {
   }
 
   get noReset() {
-    return this.id === 1 || this.id === 4;
+    return this.id === 1 || this.id === 4 || this.id === 5 && NeutronUpgrade.qol2.isBought;
   }
 }
 

@@ -70,6 +70,7 @@ class MassUpgradeState extends RebuyableMechanicState {
     if (bulk.lte(this.amount)) return;
     if (this.isFree) {
       this.boughtAmount = bulk;
+      this.onPurchased();
       return;
     }
     this.boughtAmount = bulk.minus(1);
@@ -96,6 +97,10 @@ class MassUpgradeState extends RebuyableMechanicState {
 
   get isFree() {
     return this.config.isFree ?? false;
+  }
+  
+  onPurchased() {
+    return this.config.onPurchased?.();
   }
 }
 

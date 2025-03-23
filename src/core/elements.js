@@ -35,6 +35,9 @@ export const GameElements = {
     let amount = 0;
     if (PlayerProgress.supernovaUnlocked()) {
       amount += 54;
+      if (Bosons.areUnlocked) {
+        amount += 3;
+      }
     } else {
       amount += 4;
       if (Challenge(8).milestones[0].canBeApplied) {

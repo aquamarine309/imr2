@@ -48,7 +48,7 @@ export const rage = [
     cost: DC.E15,
     effect: () => {
       let exp = Currency.ragePowers.value.clampMin(1).log10().clampMin(1).log10().pow(1.25);
-      exp = softcap(exp, DC.D2_5, DC.D0_5, SOFTCAP_TYPE.POWER);
+      exp = Softcap.power(exp, DC.D2_5, DC.D0_5);
       return DC.D0_9.pow(exp);
     },
     formatEffect: value => formatPercents(DC.D1.minus(value)),
@@ -73,9 +73,9 @@ export const rage = [
     description: "Black Hole mass's gain is boosted by Rage Powers.",
     cost: DC.E72,
     effect: () => overflow(
-      softcap(softcap(Currency.ragePowers.value.add(1).pow(0.1),
-        DC.E4000, 0.1, SOFTCAP_TYPE.POWER),
-      DC.E1_5E31, DC.D0_95, SOFTCAP_TYPE.DILATION),
+      Softcap.dilation(Softcap.power(Currency.ragePowers.value.add(1).pow(0.1),
+        DC.E4000, 0.1),
+      DC.E1_5E31, DC.D0_95),
       DC.EE185, DC.D0_5
     ),
     formatEffect: value => formatX(value),
@@ -86,7 +86,7 @@ export const rage = [
     id: 11,
     description: "OoMs of Rage powers increase stronger power at a reduced rate.",
     cost: DC.E120,
-    effect: () => softcap(Currency.ragePowers.value.clampMin(1).log10(), 200, 0.75, SOFTCAP_TYPE.POWER).div(1000),
+    effect: () => Softcap.power(Currency.ragePowers.value.clampMin(1).log10(), 200, 0.75).div(1000),
     formatEffect: value => `+${formatPow(value)}`,
     softcapped: value => value.gte(0.2),
     isUnlocked: () => Challenges.isUnlocked
