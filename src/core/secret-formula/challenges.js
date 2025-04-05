@@ -52,11 +52,8 @@ export const challenges = [
         rank: value => Softcap.mult(value, 20, 0.25).floor(),
         tickspeed: value => DC.D0_96.pow(value.sqrt())
       },
-      formatEffect: () => {
-        const effects = Challenge(1).reward.effects;
-        return `+${format(effects.rank.effectValue, 0)} later to Super Rank starting,
-        ${formatPercents(DC.D1.minus(effects.tickspeed.effectValue))} weaker to Super Tickspeed scaling`;
-      }
+      formatEffect: effects => `+${format(effects.rank, 0)} later to Super Rank starting,
+      ${formatPercents(DC.D1.minus(effects.tickspeed))} weaker to Super Tickspeed scaling`
     },
     type: challengeType.DARK_MATTER
   },
@@ -236,6 +233,30 @@ export const challenges = [
       formatEffect: value => formatPow(value),
       softcapped: value => value.gte(DC.D21)
     },
+    type: challengeType.SUPERNOVA
+  },
+  {
+    id: 10,
+    name: "The Reality I",
+    isUnlocked: () => NeutronUpgrade.chal5.isBought,
+    description: "You are trapped in mass dilation and challenges 1-8.",
+    max: () => DC.E2,
+    goalPow: DC.D2,
+    goalMult: DC.E1000,
+    baseGoal: DC.D1_5E30056,
+    reward: {
+      description: "The exponent of the RP formula is multiplied by completions. (this effect doesn't work while in this challenge)",
+      effect: value => value.pow(DC.C4D7).times(DC.D0_01).add(1),
+      formatEffect: value => formatX(value),
+      effectCondition: () => !Challenge(10).canBeApplied
+    },
+    milestones: [
+      {
+        id: 0,
+        requirement: DC.D1,
+        description: "On first completion, unlock Fermions!"
+      }
+    ],
     type: challengeType.SUPERNOVA
   }
 ];

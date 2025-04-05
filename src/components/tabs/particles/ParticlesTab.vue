@@ -148,5 +148,11 @@ export default {
   border: 1px solid white;
   margin: 0 3px;
   font-family: BlobFont;
+  outline: none;
+}
+
+.ad-ui .o-weight-input {
+  border-color: black;
+  border-radius: 3px;
 }
 </style>

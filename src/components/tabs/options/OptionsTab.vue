@@ -10,17 +10,24 @@ export default {
   },
   data() {
     return {
-      starBG: false
+      starUnlocked: false,
+      starBG: false,
+      adUI: false
     }
   },
   watch: {
     starBG(value) {
       player.options.starBG = value;
+    },
+    adUI(value) {
+      player.options.adUI = value;
     }
   },
   methods: {
     update() {
+      this.starUnlocked = Stars.isUnlocked;
       this.starBG = player.options.starBG;
+      this.adUI = player.options.adUI;
     }
   }
 };
@@ -71,13 +78,14 @@ export default {
     </div>
     <div class="l-options-row">
       <PrimaryToggleButton
+        v-if="starUnlocked"
         class="c-options-btn"
         v-model="starBG"
         label="Show Star:"
       />
       <PrimaryToggleButton
         class="c-options-btn"
-        v-model="$viewModel.adUI"
+        v-model="adUI"
         label="AD-like UI:"
       />
     </div>

@@ -11,6 +11,6 @@ export const state = {
     expandBits: 0,
     resourceTooltipId: -1,
     selectedNodeId: "",
-    adUI: false
+    neutronTree: 0
   }
 };

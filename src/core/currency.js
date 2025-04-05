@@ -236,7 +236,8 @@ Currency.mass = new class extends DecimalCurrency {
       RankType.rank.unlocks.massGain,
       MassUpgrade.tickspeed,
       BHUpgrade(9),
-      NeutronUpgrade.m1
+      NeutronUpgrade.m1,
+      Boson.positiveW.effects.mass
     );
     gain = gain.times(BlackHole.mult);
     gain = gain.times(Atom.protonMass());
@@ -247,11 +248,11 @@ Currency.mass = new class extends DecimalCurrency {
       Challenge(3).reward,
       RankType.rank.unlocks.massGainPower
     );
-    if (MassDilation.isActive) {
+    if (MassDilation.canBeApplied) {
       gain = dilatedValue(gain, MassDilation.power);
       gain = gain.powEffectOf(GameElement(28));
     }
-    if (Challenge(9).isRunning) {
+    if (Challenge(9).canBeApplied) {
       gain = dilatedValue(gain, Challenge(9).effectValue);
     }
     gain = Softcap.power(
@@ -282,7 +283,7 @@ Currency.ragePowers = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    if (Currency.mass.lt(DC.E15) || Challenge(7).isRunning) return DC.D0;
+    if (Currency.mass.lt(DC.E15) || Challenge(7).canBeApplied) return DC.D0;
     let gain = Currency.mass.value.div(DC.E15).cbrt();
     gain = gain.timesEffectsOf(
       RankType.rank.unlocks.doubleRPGain,
@@ -296,10 +297,10 @@ Currency.ragePowers = new class extends DecimalCurrency {
       BHUpgrade(7),
       Challenge(4).reward
     );
-    if (Challenge(4).isRunning) {
+    if (Challenge(4).canBeApplied) {
       gain = gain.pow(0.1);
     }
-    if (MassDilation.isActive) {
+    if (MassDilation.canBeApplied) {
       gain = dilatedValue(gain, MassDilation.power);
     }
     return gain;
@@ -347,21 +348,22 @@ Currency.darkMatter = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    const c7Running = Challenge(7).isRunning;
+    const c7Running = Challenge(7).canBeApplied;
     let gain = (c7Running
       ? Currency.mass.value.div(DC.E180)
       : Currency.ragePowers.value.div(DC.E20));
     gain = gain.root(4);
+    gain = gain.timesEffectOf(NeutronUpgrade.bh1);
     if (c7Running) {
       gain = gain.root(6);
     }
-    gain = gain.timesEffectOf(NeutronUpgrade.bh1);
+    gain = gain.timesEffectOf(PhotonUpgrade[0]);
     gain = gain.times(Atom.electronDM());
     gain = gain.powEffectsOf(
       Challenge(8),
       Challenge(8).reward
     );
-    if (MassDilation.isActive) {
+    if (MassDilation.canBeApplied) {
       gain = dilatedValue(gain, MassDilation.power);
     }
     return gain.floor();
@@ -434,7 +436,10 @@ Currency.atoms = new class extends DecimalCurrency {
     let gain = mass.div(DC.D1_5E156);
     if (gain.lt(1)) return DC.D0;
     gain = gain.pow(0.2);
-    gain = gain.timesEffectOf(RageUpgrade(14));
+    gain = gain.timesEffectsOf(
+      RageUpgrade(14),
+      GluonUpgrade[0]
+    );
     gain = gain.powEffectOf(GameElement(17));
     return gain.floor();
   }
@@ -466,11 +471,11 @@ Currency.atoms = new class extends DecimalCurrency {
     Currency.darkMatter.resetLayer(true);
     Tutorial.atom.unlock();
     player.unlocks.atom = true;
-    player.challenges.current = 0;
     if (!AtomUpgrade(3).canBeApplied && !NeutronUpgrade.chal2.isBought) {
       for (let i = 1; i <= 4; i++) {
         Challenge(i).reset();
       }
+      player.challenges.current = 0;
     }
   }
 
@@ -608,7 +613,7 @@ Currency.supernova = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    return Supernova.bulk.minus(this.value);
+    return Supernova.bulk.minus(this.value).clampMin(0);
   }
 
   get name() {
@@ -663,7 +668,7 @@ Currency.supernova = new class extends DecimalCurrency {
     player.stars.unlocked = -1;
     StarGenerators.all.forEach(gen => gen.reset());
     Currency.stars.reset();
-    Stars.boosts = DC.D0;
+    StarBoosts.amount = DC.D0;
     Currency.atoms.resetLayer(true);
     if (!NeutronUpgrade.chal3.isBought) {
       for (let i = 5; i <= 8; i++) {
@@ -691,7 +696,8 @@ Currency.neutronStars = new class extends DecimalCurrency {
     gain = gain.timesEffectsOf(
       NeutronUpgrade.sn1,
       NeutronUpgrade.sn2,
-      NeutronUpgrade.sn3
+      NeutronUpgrade.sn3,
+      NeutronUpgrade.bs3
     );
     return gain;
   }

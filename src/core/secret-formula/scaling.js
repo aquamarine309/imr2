@@ -4,7 +4,7 @@ export const scaling = {
   massUpgrade: [
     {
       get start() {
-        if (Challenge(1).isRunning) return DC.D25;
+        if (Challenge(1).canBeApplied) return DC.D25;
         return DC.E2.plusEffectOf(BHUpgrade(2));
       },
       get scale() {
@@ -21,7 +21,7 @@ export const scaling = {
   tickspeed: [
     {
       get start() {
-        if (Challenge(1).isRunning) return DC.D50;
+        if (Challenge(1).canBeApplied) return DC.D50;
         return DC.E2;
       },
       get scale() {
@@ -56,7 +56,7 @@ export const scaling = {
   rank: [
     {
       get start() {
-        if (Challenge(1).isRunning) return DC.D25;
+        if (Challenge(1).canBeApplied) return DC.D25;
         let start = DC.D50;
         start = start.plusEffectOf(Challenge(1).reward.effects.rank);
         return start;

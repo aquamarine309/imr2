@@ -29,6 +29,7 @@ export default {
     return {
       isVisible: false,
       effectValue: 0,
+      effectValues: null,
       // Number.MAX_VALUE doesn't really matter here, but we need it because
       // undefined values are not allowed for data properties
       cap: Number.MAX_VALUE,
@@ -47,7 +48,7 @@ export default {
       return `${this.reachedCap && !this.ignoreCapped ? "Capped" : this.label}: `;
     },
     effectDisplay() {
-      return this.formatEffect(this.reachedCap ? this.cap : this.effectValue);
+      return this.formatEffect(this.effectValues || (this.reachedCap ? this.cap : this.effectValue));
     }
   },
   watch: {
@@ -63,8 +64,28 @@ export default {
         this.isVisible = (effect ?? effects) !== undefined && formatEffect !== undefined;
         if (!this.isVisible) return;
         this.formatEffect = formatEffect;
-
-        if (effect === undefined) return;
+        
+        if (effects !== undefined) {
+          if (this.effectValues === null) {
+            this.effectValues = {};
+          }
+          for (const key in effects) {
+            this.effectValues[key] = effects[key]();
+          }
+          this.updateEffect = () => {
+            this.effectValues = {};
+            for (const key in effects) {
+              this.effectValues[key] = effects[key]();
+            }
+          };
+          return;
+        }
+        
+        if (effect === undefined) {
+          return;
+        }
+        
+        this.effectValues = null;
 
         const softcapped = config?.softcapped;
         if (softcapped !== undefined) {

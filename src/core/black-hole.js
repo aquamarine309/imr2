@@ -22,13 +22,14 @@ export const BlackHole = {
       MassUpgrade.condenser,
       RageUpgrade(10),
       BHUpgrade(13),
-      GameElement(46)
+      GameElement(46),
+      PhotonUpgrade[0]
     );
     gain = gain.powEffectsOf(
       Challenge(8),
       Challenge(8).reward
     );
-    if (MassDilation.isActive) {
+    if (MassDilation.canBeApplied) {
       gain = dilatedValue(gain, MassDilation.power);
     }
     gain = Softcap.power(gain, this.softcapStart, DC.D0_5);

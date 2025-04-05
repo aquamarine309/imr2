@@ -7,7 +7,7 @@ export const Supernova = {
   },
 
   requirementAt(value) {
-    return DC.E20.pow(Scaling.supernova.scaleEvery(value).pow(DC.D1_25)).times(DC.E90);
+    return DC.E20.pow(Scaling.supernova.scaleEvery(value).dividedByEffectOf(GluonUpgrade[3]).pow(DC.D1_25)).times(DC.E90);
   },
 
   get requirement() {
@@ -16,7 +16,7 @@ export const Supernova = {
 
   bulkAt(value) {
     if (value.lt(DC.E90)) return DC.D0;
-    return Scaling.supernova.scaleEvery(value.div(DC.E90).log10().div(DC.D20).pow(DC.D0_8), true).add(1).floor();
+    return Scaling.supernova.scaleEvery(value.div(DC.E90).log10().div(DC.D20).pow(DC.D0_8).timesEffectOf(GluonUpgrade[3]), true).add(1).floor();
   },
 
   get bulk() {

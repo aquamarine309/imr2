@@ -8,18 +8,15 @@ export default {
     NeutronUpgradeButton,
     NeutronUpgradeConnection
   },
-  props: {
-    tree: {
-      type: Number,
-      required: true
-    }
-  },
   data() {
     return {
       now: Date.now()
     }
   },
   computed: {
+    tree() {
+      return this.$viewModel.neutronTree;
+    },
     upgrades() {
       return NeutronUpgrade.all.filter(x => x.config.tree === this.tree);
     },

@@ -165,6 +165,14 @@ export const tabs = [
         name: "Neutron Tree",
         shortName: "Tree",
         component: "NeutronTreeTab"
+      },
+      {
+        id: 1,
+        key: "bosons",
+        name: "Bosons",
+        shortName: "Bosons",
+        component: "BosonsTab",
+        condition: () => Bosons.areUnlocked
       }
     ]
   }

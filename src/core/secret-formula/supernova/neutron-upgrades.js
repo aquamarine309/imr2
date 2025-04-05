@@ -1,5 +1,10 @@
 import { DC } from "@/core/constants";
 
+const bs2Effect = x => overflow(
+  dilatedValue(x, GameElement(113).effectOrDefault(DC.D0_5), DC.D2).max(1),
+  DC.EE60, DC.D0_5
+);
+
 // IDX: row-index / (amount-of-upgrade + 1)
 export const neutronUpgrades = {
   c: {
@@ -271,6 +276,28 @@ export const neutronUpgrades = {
     row: 1,
     idx: 3 / 4
   },
+  qol5: {
+    id: "qol5",
+    branch: ["qol4"],
+    description: "Tetr no longer resets anything.",
+    requirement: () => `${formatInt(16)} Supernovas`,
+    check: () => Currency.supernova.gte(16),
+    cost: DC.E13,
+    tree: 1,
+    row: 2,
+    idx: 1 / 4
+  },
+  qol6: {
+    id: "qol6",
+    branch: ["qol5"],
+    description: "While in any challenge, you can now automatically complete it before exiting.",
+    requirement: () => `${formatInt(17)} Supernovas`,
+    check: () => Currency.supernova.gte(17),
+    cost: DC.E15,
+    tree: 1,
+    row: 2,
+    idx: 2 / 4
+  },
   chal1: {
     id: "chal1",
     branch: [],
@@ -343,8 +370,35 @@ export const neutronUpgrades = {
     check: () => Currency.supernova.gte(15),
     effect: () => MassUpgrade.tickspeed.boughtAmount.add(1).pow(0.6),
     formatEffect: value => formatX(value),
+    cost: DC.E13,
     tree: 3,
     row: 0,
+    idx: 2 / 7
+  },
+  bs2: {
+    id: "bs2",
+    branch: ["bs1"],
+    description: "Photon, Gluon boosts each other's gain.",
+    effects: {
+      photon: () => bs2Effect(Boson.photon.amount),
+      gluon: () => bs2Effect(Boson.gluon.amount)
+    },
+    formatEffect: effects => `${formatX(effects.photon)} to Photon, ${formatX(effects.gluon)} to Gluon`,
+    cost: DC.E14,
+    tree: 3,
+    row: 1,
+    idx: 1 / 7
+  },
+  bs3: {
+    id: "bs3",
+    branch: ["bs1"],
+    description: "Neutrons gain is affected by Graviton's effect at a reduced rate.",
+    effect: () => Softcap.dilation(Softcap.power(Boson.graviton.effectValue.add(1).sqrt(), DC.E1000, DC.C1D3), DC.EE38, DC.D0_95),
+    formatEffect: value => formatX(value),
+    softcapped: value => value.gte(DC.E1000),
+    cost: DC.E14,
+    tree: 3,
+    row: 1,
     idx: 2 / 7
   }
 };

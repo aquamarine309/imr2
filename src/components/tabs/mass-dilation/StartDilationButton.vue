@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 .o-start-dilation-btn {
-  border: 1px solid darkgreen;
+  border: 1px solid var(--color-dilation);
   box-shadow: 0 0 5px 1px green inset;
   width: 180px;
   height: 100px;
@@ -60,8 +60,10 @@ export default {
 }
 
 .ad-ui .o-start-dilation-btn {
-  background-color: #f6f6f6;
-  border-radius: 5px;
-  color: black;
+  background-color: rgba(250, 250, 250, 0.87);
+  border-radius: 8px;
+  font-weight: bold;
+  color: var(--color-dilation);
+  box-shadow: none;
 }
 </style>

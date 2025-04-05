@@ -13,6 +13,14 @@ export const MassDilation = {
   get isActive() {
     return player.dilation.active;
   },
+  
+  get forceActive() {
+    return Challenge(10).isRunning;
+  },
+  
+  get canBeApplied() {
+    return this.isActive || this.forceActive;
+  },
 
   set isActive(value) {
     player.dilation.active = value;
@@ -56,7 +64,7 @@ export const MassDilation = {
   },
 
   get particlePower() {
-    return DC.D2.plusEffectOf(DilationUpgrade.rpFormula);
+    return DC.D2.plusEffectOf(DilationUpgrade.rpFormula).timesEffectOf(Challenge(10).reward);
   },
   
   get particleGain() {

@@ -34,7 +34,7 @@ export const rank = {
     return RageUpgrade(4).canBeApplied;
   },
   get isDisabled() {
-    return Challenge(5).isRunning;
+    return Challenge(5).canBeApplied;
   },
   unlocks: [
     {

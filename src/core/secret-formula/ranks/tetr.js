@@ -16,6 +16,9 @@ export const tetr = {
   get scaling() {
     return Scaling.tetr;
   },
+  get noReset() {
+    return NeutronUpgrade.qol5.isBought;
+  },
   get autoUnlocked() {
     return AtomUpgrade(4).canBeApplied;
   },

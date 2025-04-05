@@ -9,9 +9,10 @@ export const Atom = {
     let power = MassUpgrade.cosmicRay.effectValue;
     power = power.timesEffectsOf(
       GameElement(3),
-      GameElement(52)
+      GameElement(52),
+      GluonUpgrade[0]
     );
-    if (MassDilation.isActive) {
+    if (MassDilation.canBeApplied) {
       power = dilatedValue(power, MassDilation.power);
     }
     return power;
@@ -34,7 +35,7 @@ export const Atom = {
   },
 
   distribute() {
-    if (Challenge(9).isRunning) return;
+    if (Challenge(9).canBeApplied) return;
     const weights = player.particleWeights;
     const sum = weights.sum();
     const quark = Currency.quark.value;
@@ -133,7 +134,7 @@ class ParticleState {
   }
 
   assign() {
-    if (Challenge(9).isRunning) return;
+    if (Challenge(9).canBeApplied) return;
     const quark = Currency.quark.value;
     if (quark.lte(0)) return;
     let assigned;

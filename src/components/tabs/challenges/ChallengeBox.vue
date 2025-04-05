@@ -24,7 +24,8 @@ export default {
       goal: new Decimal(),
       pendingCompletions: new Decimal(),
       isUnlocked: false,
-      isCapped: false
+      isCapped: false,
+      forceRunning: false
     };
   },
   computed: {
@@ -47,6 +48,9 @@ export default {
         }
         return "Exit";
       }
+      if (this.forceRunning) {
+        return "Running";
+      }
       return "Enter Challenge";
     },
     nameClass() {
@@ -67,6 +71,11 @@ export default {
         "c-challenge-image--completed": this.isCapped,
         "c-challenge-image--running": this.isRunning
       };
+    },
+    styleObject() {
+      return {
+        "background-image": `url("./images/challenges/${this.challenge.id}.png")`
+      }
     }
   },
   methods: {
@@ -77,6 +86,7 @@ export default {
       this.goal = challenge.goal;
       this.max = challenge.max;
       this.isRunning = challenge.isRunning;
+      this.forceRunning = challenge.forceRunning;
       this.completions.copyFrom(challenge.completions);
       this.isCapped = challenge.isCapped;
       if (!this.isRunning) return;
@@ -103,10 +113,10 @@ export default {
     class="o-challenge-box"
   >
     <div class="o-challenge-image-and-title-row">
-      <img
-        :src="`./images/challenges/${challenge.id}.png`"
+      <div
+        :style="styleObject"
         :class="imgClass"
-      >
+      />
       <div class="c-challenge-info">
         <div :class="nameClass">
           {{ name }}
@@ -186,23 +196,32 @@ export default {
   border-color: #1b1a1e;
 }
 
+.c-challenge-image {
+  width: 70px;
+  height: 70px;
+  background-size: cover;
+}
+
+.ad-ui .c-challenge-image {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .c-challenge-image--running {
   background-color: #444444;
 }
 
+.ad-ui .c-challenge-image--running {
+  box-shadow: inset 0 0 10px 2px #fc8c65;
+}
+
 .c-challenge-image--completed {
-  background-color: var(--color-bought);
+  background-color: var(--color-bought) !important;
 }
 
 .o-challenge-image-and-title-row {
   display: flex;
   width: 100%;
   height: 80px;
-}
-
-.c-challenge-image {
-  width: 70px;
-  height: 70px;
 }
 
 .c-challenge-info {

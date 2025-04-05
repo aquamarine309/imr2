@@ -63,10 +63,15 @@ export const GameLoop = {
     if (PlayerProgress.supernovaUnlocked()) {
       Currency.neutronStars.tick(seconds);
       Supernova.startingAutoCheck();
+      Bosons.tick(seconds);
     }
     
     if (NeutronUpgrade.qol3.canBeApplied) {
       Currency.relativisticParticles.tick(seconds);
+    }
+    
+    if (NeutronUpgrade.qol6.canBeApplied && Challenges.isRunning) {
+      Challenges.current.applyAutoComplete();
     }
 
     applyAutoprestige(seconds);

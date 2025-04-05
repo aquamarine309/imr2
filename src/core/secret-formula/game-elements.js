@@ -418,6 +418,7 @@ export const gameElements = [
     fullName: "Rhodium",
     description: "Collapsed star boosts relativistic particles gain.",
     effect: () => Currency.stars.value.add(1).pow(0.15).clampMax(DC.E20),
+    cap: DC.E20,
     formatEffect: value => formatX(value),
     cost: DC.E420,
     position: [4, 8],
@@ -814,6 +815,7 @@ export const gameElements = [
     id: 113,
     name: "Nh",
     position: [6, 12],
+    effect: DC.D0_95
   },
   {
     id: 114,

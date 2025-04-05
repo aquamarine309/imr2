@@ -18,7 +18,7 @@ export default {
       boost: new Decimal(),
       autoUnlocked: false,
       auto: false
-    };
+    }
   },
   computed: {
     upgrades() {
@@ -44,17 +44,17 @@ export default {
       this.auto = Autobuyer.dilationUpgrade.isActive;
     }
   }
-};
+}
 </script>
 
 <template>
   <div>
+    <div><StartDilationButton /></div>
     <div>You have <span class="o-highlight">{{ format(particles, 0) }}</span> Relativistic Particles.</div>
     <div>
       You have <span class="o-highlight">{{ formatMass(mass) }} {{ formatGain(mass, gain, true) }}</span> of dilated mass,
       which makes Tickspeed <span class="o-highlight">{{ boostText }}</span> stronger.
     </div>
-    <div><StartDilationButton /></div>
     <div>
       <PrimaryToggleButton
         v-if="autoUnlocked"
@@ -77,5 +77,10 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(auto-fill, 1fr);
+}
+
+.ad-ui .o-highlight {
+  color: var(--color-dilation);
+  font-weight: bold;
 }
 </style>

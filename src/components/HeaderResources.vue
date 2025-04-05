@@ -145,7 +145,7 @@ export default {
         supernova.amount.copyFrom(Currency.supernova.value);
         supernova.manual = Supernova.times.gte(10);
         if (supernova.manual) {
-          supernova.rate = Currency.supernova.gainPerSecond.minus(supernova.amount).clampMin(0);
+          supernova.rate = Currency.supernova.gainPerSecond;
         }
         supernova.canReset = Currency.supernova.canReset;
       }

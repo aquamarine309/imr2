@@ -22,6 +22,10 @@ export default {
 
 <style scoped>
 .o-app-bar {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
   height: var(--height-app-bar);
   background-color: var(--color-app-bar);
@@ -30,6 +34,10 @@ export default {
   font-weight: bold;
   font-size: 18px;
   line-height: var(--height-app-bar);
+}
+
+.ad-ui .o-app-bar {
+  box-shadow: 0 1px 6px #666666;
 }
 
 .c-nav-button {

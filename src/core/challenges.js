@@ -54,6 +54,10 @@ class ChallengeState extends GameMechanicState {
   get isRunning() {
     return player.challenges.current === this.id;
   }
+  
+  get forceRunning() {
+    return this.id <= 8 && Challenge(10).canBeApplied;
+  }
 
   get completions() {
     return player.challenges.completions[this.id - 1];
@@ -188,6 +192,11 @@ class ChallengeState extends GameMechanicState {
     }
     return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow).add(1).floor().clampMax(this.max);
   }
+  
+  applyAutoComplete() {
+    if (this.isCapped || this.currency.lt(this.goal)) return;
+    this.completions = this.pendingCompletions;
+  }
 
   get isUnlocked() {
     return this.config.isUnlocked();
@@ -205,7 +214,7 @@ class ChallengeState extends GameMechanicState {
   }
 
   get isEffectActive() {
-    return this.isRunning;
+    return this.isRunning || this.forceRunning;
   }
 
   get type() {

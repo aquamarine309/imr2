@@ -21,8 +21,7 @@ export default {
     return {
       neutronStars: new Decimal(),
       starGain: new Decimal(),
-      tree: 0,
-      unlockedTree: Array.repeat(false, trees.length)
+      unlockedTreeBits: 0
     }
   },
   computed: {
@@ -32,6 +31,9 @@ export default {
     selected() {
       return NeutronUpgrade[this.selectedNodeId];
     },
+    tree() {
+      return this.$viewModel.neutronTree;
+    },
     trees: () => trees
   },
   methods: {
@@ -39,8 +41,13 @@ export default {
       this.neutronStars.copyFrom(Currency.neutronStars.value);
       this.starGain = Currency.neutronStars.gainPerSecond;
       for (const tree of this.trees) {
-        this.unlockedTree[tree.id] = tree.isUnlocked();
+        if (tree.isUnlocked()) {
+          this.unlockedTreeBits |= (1 << tree.id);
+        }
       }
+    },
+    treeUnlocked(id) {
+      return (this.unlockedTreeBits & (1 << id)) !== 0;
     },
     reset() {
       Currency.supernova.resetLayer(true);
@@ -49,7 +56,7 @@ export default {
       return NeutronUpgrade.all.some(x => x.config.tree === id && x.canBeBought);
     },
     toggle(id) {
-      this.tree = id;
+      this.$viewModel.neutronTree = id;
       GameUI.update();
     }
   }
@@ -66,7 +73,7 @@ export default {
       <template v-for="info of trees">
         <PrimaryButton
           :key="info.id"
-          v-if="unlockedTree[info.id]"
+          v-if="treeUnlocked(info.id)"
           @click="toggle(info.id)"
           class="o-primary-btn--choose-tree"
           :enabled="info.id === tree"
@@ -81,7 +88,7 @@ export default {
         </PrimaryButton>
       </template>
     </div>
-    <NeutronTreeLayout :tree="tree" />
+    <NeutronTreeLayout />
   </div>
 </template>
 
@@ -98,5 +105,10 @@ export default {
 .c-tip {
   color: #ff0000;
   margin: 0 3px;
+}
+
+.ad-ui .o-highlight {
+  font-weight: bold;
+  color: var(--color-supernova);
 }
 </style>

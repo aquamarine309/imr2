@@ -37,7 +37,20 @@ window.player = {
   supernova: {
     times: DC.D0,
     stars: DC.D0,
-    tree: new Set()
+    tree: new Set(),
+    bosons: {
+      gluon: DC.D0,
+      graviton: DC.D0,
+      higgsBoson: DC.D0,
+      negativeW: DC.D0,
+      positiveW: DC.D0,
+      zBoson: DC.D0,
+      photon: DC.D0
+    },
+    bosonUpgrades: {
+      photon: Array.repeat(DC.D0, 4),
+      gluon: Array.repeat(DC.D0, 4)
+    }
   },
   auto: {
     ranks: {
@@ -111,6 +124,7 @@ window.player = {
     hiddenSubtabBits: Array.repeat(0, 10),
     lastOpenSubtab: Array.repeat(0, 10),
     starBG: true,
+    adUI: false,
     confirmations: {
       ragePower: true,
       darkMatter: true,

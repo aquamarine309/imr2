@@ -236,11 +236,14 @@ window.TimeSpan = class TimeSpan {
    */
   toStringShort(useHMS = true) {
     const totalSeconds = this.totalSeconds;
-    if (totalSeconds > 5e-7 && totalSeconds < 1e-3) {
+    if (totalSeconds <= 5e-7) {
+      return "Instant";
+    }
+    if (totalSeconds < 1e-3) {
       // This conditional happens when when the time is less than 1 millisecond
       // but big enough not to round to 0 with 3 decimal places (so showing decimal places
       // won't just show 0 and waste space).
-      return `${format(1000 * totalSeconds, 0, 3)} ms`;
+      return `${format(1000 * totalSeconds, 3)} ms`;
     }
     if (totalSeconds < 1) {
       // This catches all the cases when totalSeconds is less than 1 but not

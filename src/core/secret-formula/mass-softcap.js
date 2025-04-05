@@ -17,7 +17,7 @@ export const massSoftcap = [
     },
     effect() {
       let div = DC.C1D3;
-      if (Challenge(3).isRunning) {
+      if (Challenge(3).canBeApplied) {
         div = div.times(4);
       }
       div = div.timesEffectsOf(
@@ -33,11 +33,21 @@ export const massSoftcap = [
     mass() {
       return DC.D1_5E1000056.powEffectsOf(
         RankType.tetr.unlocks.softcapLater,
-        NeutronUpgrade.m2
+        NeutronUpgrade.m2,
+        Boson.negativeW.effects.softcap
       );
     },
     effect() {
       return DC.D0_25.powEffectOf(GameElement(51));
+    }
+  },
+  {
+    id: 2,
+    mass() {
+      return DC.D1_5E100000056;
+    },
+    effect() {
+      return DC.D0_2;
     }
   }
 ];

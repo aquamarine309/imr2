@@ -31,7 +31,8 @@ export default {
     classObject() {
       return {
         "o-dilation-upgrade-btn": true,
-        "o-dilation-upgrade-btn--available": this.canBeBought
+        "o-dilation-upgrade-btn--available": this.canBeBought,
+        "o-dilation-upgrade-btn--capped": this.isCapped
       };
     },
     max() {
@@ -102,17 +103,18 @@ export default {
   align-items: center;
   flex-direction: column;
   color: white;
-  margin: 3px;
+  margin: 2px;
   font-family: BlobFont;
   font-size: 10px;
-  padding: 5px;
+  padding: 4px;
 }
 
 .ad-ui .o-dilation-upgrade-btn {
   color: black;
-  background-color: #e3e3e3;
+  font-weight: bold;
+  background-color: rgba(153, 153, 153, 0.87);
   border-color: var(--color-dilation);
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 .o-dilation-upgrade-btn--available {
@@ -122,6 +124,14 @@ export default {
 }
 
 .ad-ui .o-dilation-upgrade-btn--available {
-  background-color: #f6f6f6;
+  background-color: #333333;
+  color: var(--color-dilation);
+  box-shadow: none;
+}
+
+.ad-ui .o-dilation-upgrade-btn--capped {
+  background-color: rgba(164, 221, 23, 0.87);
+  border-color: black;
+  color: black;
 }
 </style>

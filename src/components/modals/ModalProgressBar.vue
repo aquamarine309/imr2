@@ -94,14 +94,24 @@ export default {
 
 .modal-progress-bar__bg {
   width: 100%;
-  height: 15px;
+  height: 4px;
   background: black;
   border: 1px solid white;
+  margin-top: 3px;
 }
 
 .modal-progress-bar__fg {
   height: 100%;
   background: #888888;
+}
+
+.ad-ui .modal-progress-bar__bg {
+  background: #bbbbbb;
+  border: none;
+}
+
+.ad-ui .modal-progress-bar__fg {
+  background: #dd1860;
 }
 
 .modal-progress-bar__buttons {

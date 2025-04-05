@@ -74,6 +74,7 @@ export default {
 
 .ad-ui .o-neutron-upgrade {
   border-radius: 3px;
+  filter: invert(1) hue-rotate(180deg);
 }
 
 .o-neutron-upgrade--available {
@@ -81,7 +82,7 @@ export default {
 }
 
 .ad-ui .o-neutron-upgrade--available {
-  border-color: black;
+  border-color: var(--color-supernova);
 }
 
 .o-neutron-upgrade--selected {

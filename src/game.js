@@ -1,4 +1,5 @@
 import { deepmergeAll } from "./utility/deepmerge";
+import TWEEN from "tween.js";
 
 window.onload = function() {
   GameUI.initialized = true;
@@ -15,7 +16,7 @@ export function applyAutoprestige(diff) {
   if (AtomUpgrade(5).canBeApplied) Currency.darkMatter.tick(diff);
   if (GameElement(14).canBeApplied) Currency.quark.tick(diff * (0.05 + GameElement(16).effectOrDefault(0)));
   if (GameElement(24).canBeApplied) Currency.atoms.tick(diff);
-  if (GameElement(30).canBeApplied && !Challenge(9).isRunning) {
+  if (GameElement(30).canBeApplied && !Challenge(9).canBeApplied) {
     for (const particle of Particles.all) {
       particle.amount = particle.amount.add(Currency.quark.value.div(10).times(diff));
     }
@@ -135,3 +136,23 @@ function afterSimulation(seconds, playerBefore) {
   }
   GameStorage.save();
 }
+
+window.tweenTime = 0;
+let lastFrame;
+function animateTweens(time) {
+  requestAnimationFrame(animateTweens);
+  if (time === undefined || lastFrame === undefined) {
+    lastFrame = time;
+    return;
+  }
+  let delta = (time - lastFrame) / 12;
+  lastFrame = time;
+  if (player.dilation.active) {
+    delta /= 2;
+  }
+  tweenTime += delta;
+  TWEEN.update(tweenTime);
+}
+
+animateTweens();
+

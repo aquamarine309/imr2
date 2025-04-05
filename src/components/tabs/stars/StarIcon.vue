@@ -71,4 +71,8 @@ export default {
   background-size: cover;
   margin: 0 6px;
 }
+
+.ad-ui .o-generator-image {
+  filter: invert(1) hue-rotate(180deg);
+}
 </style>

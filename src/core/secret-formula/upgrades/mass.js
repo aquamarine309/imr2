@@ -275,7 +275,7 @@ export const mass = {
       return BHUpgrade(4).canBeApplied;
     },
     get disabled() {
-      return Challenge(2).isRunning || Challenge(6).isRunning;
+      return Challenge(2).canBeApplied || Challenge(6).canBeApplied;
     },
     get isFree() {
       return AtomUpgrade(1).canBeApplied;
@@ -292,6 +292,7 @@ export const mass = {
         Challenge(6).reward
       );
       power = power.add(Atom.protonTick());
+      power = power.timesEffectOf(Boson.zBoson.effects.tickspeed);
       power = power.times(MassDilation.boost);
       power = power.powEffectOf(NeutronUpgrade.t1);
       return power;
@@ -344,7 +345,7 @@ export const mass = {
       return AtomUpgrade(1).canBeApplied;
     },
     get disabled() {
-      return Challenge(6).isRunning;
+      return Challenge(6).canBeApplied;
     },
     onPurchased() {
       player.checks.supernova.noCondenser = false;
@@ -354,7 +355,10 @@ export const mass = {
       power = power.plusEffectOf(Challenge(6).reward);
       power = power.timesEffectOf(BHUpgrade(1));
       power = power.add(Atom.electronCondenser());
-      power = power.timesEffectOf(AtomUpgrade(10));
+      power = power.timesEffectsOf(
+        AtomUpgrade(10),
+        PhotonUpgrade[1]
+      );
       power = power.powEffectOf(NeutronUpgrade.bh2);
       return power;
     },
@@ -404,7 +408,8 @@ export const mass = {
       power = power.plusEffectOf(AtomUpgrade(3));
       power = power.timesEffectsOf(
         AtomUpgrade(10),
-        NeutronUpgrade.gr1
+        NeutronUpgrade.gr1,
+        GluonUpgrade[1]
       );
       return power;
     },

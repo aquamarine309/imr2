@@ -6,9 +6,9 @@ import { DC } from "./constants";
  * @param {Decimal|number} power
  * @returns {Decimal}
  */
-export function dilatedValue(value, power) {
+export function dilatedValue(value, power, base = DC.E1) {
   if (value.lt(10)) return value;
-  return Decimal.pow10(value.log10().pow(power));
+  return Decimal.pow10(value.log10().pow(power).times(base.log10().pow(DC.D1.minus(power))));
 }
  
 export class Softcap {
@@ -74,11 +74,11 @@ export function scaleValue(value, start, power, type, reverse = false) {
 }
 
 function getScaleType(scaleIndex) {
-  if (scaleIndex % 4 === 3) {
-    if (scaleIndex >= 7) {
-      return SCALE_TYPE.EXP_ALT;
-    }
+  if (scaleIndex === 3) {
     return SCALE_TYPE.EXP;
+  }
+  if (scaleIndex % 4 === 3) {
+    return SCALE_TYPE.ALT_EXP;
   }
   if (scaleIndex >= 6) {
     return SCALE_TYPE.DILATION;

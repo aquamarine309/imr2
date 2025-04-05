@@ -27,10 +27,10 @@ export default {
     },
     lineColor() {
       if (this.isBought) return "var(--color-bought)";
-      return this.canBeBought ? "white" : "#444444";
+      return this.canBeBought ? "#eeeeee" : "#555555";
     },
     decorationColor() {
-      return this.isBought ? "white" : "#888888";
+      return this.isBought ? "#eeeeee" : "#888888";
     }
   },
   methods: {

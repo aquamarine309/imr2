@@ -9,6 +9,7 @@ import HeaderChallengeDisplay from "./HeaderChallengeDisplay";
 import ModalProgressBar from "./modals/ModalProgressBar";
 import BackgroundStar from "./BackgroundStar";
 import SupernovaOverlay from "./SupernovaOverlay";
+import RelativisticParticles from "./tabs/mass-dilation/RelativisticParticles";
 
 export default {
   name: "GameUIComponent",
@@ -22,12 +23,14 @@ export default {
     HeaderChallengeDisplay,
     ModalProgressBar,
     BackgroundStar,
-    SupernovaOverlay
+    SupernovaOverlay,
+    RelativisticParticles
   },
   data() {
     return {
       showDrawer: false,
-      showSupernova: false
+      showSupernova: false,
+      adUI: false
     };
   },
   computed: {
@@ -55,6 +58,7 @@ export default {
   methods: {
     update() {
       this.showSupernova = Currency.supernova.value.eq(0) && Currency.supernova.canReset;
+      this.adUI = player.options.adUI;
     },
     toggleDrawer() {
       this.showDrawer = !this.showDrawer;
@@ -70,7 +74,7 @@ export default {
   <div
     v-if="view.initialized"
     class="l-game-ui"
-    :class="{ 'ad-ui': view.adUI }"
+    :class="{ 'ad-ui': adUI }"
     v-on="swipeHandlers"
     @click="hideTooltip"
   >
@@ -97,8 +101,8 @@ export default {
         :modal="currentModal"
       />
       <ModalProgressBar v-if="view.modal.progressBar" />
-      <AppBar @toggle-drawer="toggleDrawer" />
       <BackgroundStar v-if="!showSupernova" />
+      <RelativisticParticles v-if="this.view.subtab === 'dilation'" />
       <v-touch
         class="l-view"
         v-on="swipeHandlers"
@@ -115,6 +119,7 @@ export default {
           />
         </template>
       </v-touch>
+      <AppBar @toggle-drawer="toggleDrawer" />
       <BottomTabBar />
     </div>
   </div>

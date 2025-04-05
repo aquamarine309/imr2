@@ -79,7 +79,8 @@ class StarGeneratorState {
     }
     gain = gain.timesEffectsOf(
       DilationUpgrade.starBoost,
-      GameElement(54)
+      GameElement(54),
+      PhotonUpgrade[3]
     );
     gain = gain.times(StarBoosts.effect);
     return gain;
@@ -110,7 +111,7 @@ export const StarGenerators = {
   tick(diff) {
     const auto = NeutronUpgrade.qol4.isBought;
     if (auto) {
-      while (StarGenerators.next !== undefined) {
+      while (StarGenerators.next?.canBeUnlocked) {
         StarGenerators.next.unlock();
       }
       StarBoosts.purchase(true);
