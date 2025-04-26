@@ -80,9 +80,9 @@ class StarGeneratorState {
     gain = gain.timesEffectsOf(
       DilationUpgrade.starBoost,
       GameElement(54),
-      PhotonUpgrade[3]
+      PhotonUpgrade[3],
+      MassUpgrade.starBooster
     );
-    gain = gain.times(StarBoosts.effect);
     return gain;
   }
 
@@ -114,64 +114,11 @@ export const StarGenerators = {
       while (StarGenerators.next?.canBeUnlocked) {
         StarGenerators.next.unlock();
       }
-      StarBoosts.purchase(true);
     }
     for (let i = 0; i < 5; i++) {
       const generator = StarGenerator(i);
       generator.amount = generator.amount.add(generator.gainForDiff(diff));
     }
     Currency.stars.tick(diff);
-  }
-};
-
-export const StarBoosts = {
-  get isUnlocked() {
-    return NeutronUpgrade.s4.isBought && StarGenerators.next === undefined;
-  },
-  
-  get base() {
-    return DC.D2.timesEffectOf(GameElement(57));
-  },
-  
-  get amount() {
-    return player.stars.boosts;
-  },
-  
-  set amount(value) {
-    player.stars.boosts = value;
-  },
-  
-  get effect() {
-    if (!StarBoosts.isUnlocked) return DC.D1;
-    return Softcap.dilation(StarBoosts.base.pow(StarBoosts.amount), DC.E3E18, DC.D0_95);
-  },
-  
-  get baseCost() {
-    return DC.E8000;
-  },
-  
-  get costMult() {
-    return DC.E100;
-  },
-  
-  get cost() {
-    return StarBoosts.costMult.pow(StarBoosts.amount.pow(DC.D1_25)).times(StarBoosts.baseCost);
-  },
-  
-  get bulk() {
-    return Currency.quark.value.div(StarBoosts.baseCost).log(StarBoosts.costMult).clampMin(0).pow(DC.D0_8).add(1).floor();
-  },
-  
-  get isAffordable() {
-    return Currency.quark.value.gte(StarBoosts.cost);
-  },
-  
-  purchase(auto = false) {
-    if (!StarBoosts.isAffordable) return;
-    if (auto) {
-      StarBoosts.amount = StarBoosts.amount.max(StarBoosts.bulk);
-    } else {
-      StarBoosts.amount = StarBoosts.amount.add(1);
-    }
   }
 };

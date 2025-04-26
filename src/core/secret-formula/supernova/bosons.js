@@ -27,7 +27,9 @@ export const bosons = {
   },
   zBoson: {
     id: "zBoson",
-    gain: () => DC.D0_01.timesEffectOf(Boson.graviton),
+    gain: () => DC.D0_01
+      .timesEffectOf(Boson.graviton)
+      .powEffectOf(NeutronUpgrade.bs4),
     effects: {
       tickspeed: value => value.add(1).log10().add(1),
       wBosons: value => value.add(1).pow(DC.C2D3)
@@ -81,7 +83,7 @@ export const bosonUpgrades = {
     },
     {
       id: 2,
-      description: "Photons gain is boosted by Collapsed Star.", 
+      description: "Photons gain is boosted by Collapsed Star.",
       cost: value => DC.D5.pow(value.pow(DC.D1_25)).times(DC.D500),
       bulk: value => value.div(DC.D500).log(DC.D5).pow(DC.D0_8).add(1).floor(),
       effect: value => Softcap.power(Currency.stars.value.add(1).log10().add(1).pow(value.times(DC.D0_2)), DC.E15, DC.D0_6),
@@ -126,7 +128,7 @@ export const bosonUpgrades = {
     },
     {
       id: 2,
-      description: "Gluons gain is boosted by Quark.", 
+      description: "Gluons gain is boosted by Quark.",
       cost: value => DC.D5.pow(value.pow(DC.D1_25)).times(DC.D500),
       bulk: value => value.div(DC.D500).log(DC.D5).pow(DC.D0_8).add(1).floor(),
       effect: value => Softcap.power(Currency.quark.value.add(1).log10().add(1).pow(value.times(DC.D0_125)), DC.E15, DC.D0_6),

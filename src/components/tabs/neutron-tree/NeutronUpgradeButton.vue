@@ -12,13 +12,13 @@ export default {
       isBought: false,
       canBeBought: false,
       branchBought: false
-    }
+    };
   },
   computed: {
     styleObject() {
       return {
         "background-image": `url("./images/tree/${this.upgrade.id}.png")`
-      }
+      };
     },
     classObject() {
       return {
@@ -26,7 +26,7 @@ export default {
         "o-neutron-upgrade--available": this.canBeBought,
         "o-neutron-upgrade--selected": this.isSelected,
         "o-neutron-upgrade--bought": this.isBought
-      }
+      };
     },
     isSelected() {
       return this.$viewModel.selectedNodeId === this.upgrade.id;
@@ -48,7 +48,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
 <template>

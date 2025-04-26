@@ -11,7 +11,7 @@ export default {
   data() {
     return {
       now: Date.now()
-    }
+    };
   },
   computed: {
     tree() {
@@ -32,10 +32,10 @@ export default {
       return {
         left: `${upgrade.config.idx * 100}%`,
         top: `${upgrade.config.row * 75}px`
-      }
+      };
     }
   }
-}
+};
 </script>
 
 <template>

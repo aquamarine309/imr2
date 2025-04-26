@@ -5,6 +5,10 @@ export default {
     element: {
       type: Object,
       required: true
+    },
+    name: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -17,9 +21,6 @@ export default {
   computed: {
     config() {
       return this.element.config;
-    },
-    name() {
-      return this.config.name;
     },
     id() {
       return this.config.id;

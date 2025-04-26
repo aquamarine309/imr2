@@ -22,7 +22,7 @@ export const Supernova = {
   get bulk() {
     return Supernova.bulkAt(Currency.stars.value);
   },
-  
+
   startingAutoCheck() {
     if (Supernova.times.gte(DC.D1) && Supernova.times.lt(DC.E1) && Currency.supernova.canReset) {
       Currency.supernova.resetLayer();
@@ -39,27 +39,27 @@ class NeutronUpgradeState extends SetPurchasableMechanicState {
   get currency() {
     return Currency.neutronStars;
   }
-  
+
   get set() {
     return player.supernova.tree;
   }
-  
+
   get isUnlocked() {
     return this.config.isUnlocked?.() ?? true;
   }
-  
+
   get isSatisfied() {
     return this.config.check?.() ?? true;
   }
-  
+
   get isAvailableForPurchase() {
     return this.isSatisfied && this.branchBought;
   }
-  
+
   get branchBought() {
     return this.isUnlocked && this.config.branch.every(x => NeutronUpgrade[x].isBought);
   }
-  
+
   onPurchased() {
     this.config.onPurchased?.();
   }

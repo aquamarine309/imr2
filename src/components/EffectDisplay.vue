@@ -14,11 +14,6 @@ export default {
       type: Boolean,
       required: false
     },
-    label: {
-      type: String,
-      default: "Currently",
-      required: false
-    },
     ignoreCapped: {
       type: Boolean,
       required: false,
@@ -41,14 +36,12 @@ export default {
     reachedCap() {
       return this.hasCap && this.reachedCapFunction();
     },
-    labelDisplay() {
-      if (this.config.noLabel) {
-        return "";
-      }
-      return `${this.reachedCap && !this.ignoreCapped ? "Capped" : this.label}: `;
-    },
     effectDisplay() {
-      return this.formatEffect(this.effectValues || (this.reachedCap ? this.cap : this.effectValue));
+      const effect = this.formatEffect(this.effectValues || (this.reachedCap ? this.cap : this.effectValue));
+      if (this.config.noLabel) {
+        return effect;
+      }
+      return i18n.t(this.reachedCap && !this.ignoreCapped ? "capped_X" : "currently_X", { effect });
     }
   },
   watch: {
@@ -64,27 +57,29 @@ export default {
         this.isVisible = (effect ?? effects) !== undefined && formatEffect !== undefined;
         if (!this.isVisible) return;
         this.formatEffect = formatEffect;
-        
+
         if (effects !== undefined) {
           if (this.effectValues === null) {
             this.effectValues = {};
           }
           for (const key in effects) {
+            if (typeof effects[key] !== "function") continue;
             this.effectValues[key] = effects[key]();
           }
           this.updateEffect = () => {
             this.effectValues = {};
             for (const key in effects) {
+              if (typeof effects[key] !== "function") continue;
               this.effectValues[key] = effects[key]();
             }
           };
           return;
         }
-        
+
         if (effect === undefined) {
           return;
         }
-        
+
         this.effectValues = null;
 
         const softcapped = config?.softcapped;
@@ -133,7 +128,6 @@ export default {
           cap = () => this.effectValue;
           this.reachedCapFunction = config.reachedCap;
         }
-
         if (cap !== undefined) {
           if (config.reachedCap === undefined) {
             this.reachedCapFunction = isNumber(value)
@@ -185,12 +179,12 @@ export default {
 <template>
   <span v-if="isVisible && effectDisplay !== undefined">
     <br v-if="br">
-    {{ labelDisplay }}{{ effectDisplay }}
+    {{ effectDisplay }}
     <span
       v-if="softcap"
       class="o-softcapped"
     >
-      (softcapped)
+      {{ $t("softcapped") }}
     </span>
   </span>
 </template>

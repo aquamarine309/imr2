@@ -3,7 +3,6 @@ import { DC } from "@/core/constants";
 export const mass = {
   muscler: {
     id: "muscler",
-    name: "Muscler",
     get currency() {
       return Currency.mass;
     },
@@ -54,15 +53,16 @@ export const mass = {
       return power;
     },
     formatPower: value => `+${formatMass(value)}`,
-    effect(amount, power) {
+    effect($) {
+      const power = $.power;
+      const amount = $.totalAmount;
       return amount.times(power);
     },
-    formatEffect: value => `+${formatMass(value)} to mass gain`,
+    formatEffect: value => i18n.t("muscler_effect", { value: formatMass(value) }),
     upgClass: "i-mass-upgrade-1"
   },
   booster: {
     id: "booster",
-    name: "Booster",
     get currency() {
       return Currency.mass;
     },
@@ -113,15 +113,16 @@ export const mass = {
       return power;
     },
     formatPower: value => `+${format(value)}x`,
-    effect(amount, power) {
+    effect($) {
+      const power = $.power;
+      const amount = $.totalAmount;
       return amount.times(power).add(1);
     },
-    formatEffect: value => `${formatX(value)} to Muscler Power`,
+    formatEffect: value => i18n.t("booster_effect", { value: formatX(value) }),
     upgClass: "i-mass-upgrade-2"
   },
   stronger: {
     id: "stronger",
-    name: "Stronger",
     get currency() {
       return Currency.mass;
     },
@@ -180,7 +181,9 @@ export const mass = {
       return power;
     },
     formatPower: value => `+${formatPow(value)}`,
-    effect(amount, power) {
+    effect($) {
+      const power = $.power;
+      const amount = $.totalAmount;
       let effect = amount.times(power).add(1);
       const softcaps = MassUpgradeSoftcap.stronger;
       for (const s of softcaps) {
@@ -194,12 +197,11 @@ export const mass = {
       const softcaps = MassUpgradeSoftcap.stronger;
       return MassUpgradeSoftcap.softcapLevel(effect, softcaps);
     },
-    formatEffect: value => `${formatPow(value)} to Booster Power`,
+    formatEffect: value => i18n.t("stronger_effect", { value: formatPow(value) }),
     upgClass: "i-mass-upgrade-3"
   },
   overpower: {
     id: "overpower",
-    name: "Overpower",
     get currency() {
       return Currency.mass;
     },
@@ -231,7 +233,9 @@ export const mass = {
       return DC.D1;
     },
     formatPower: () => "Unknown",
-    effect(amount, power) {
+    effect($) {
+      const power = $.power;
+      const amount = $.totalAmount;
       return amount.times(power).add(1);
     },
     formatEffect: () => "Unknown",
@@ -239,7 +243,6 @@ export const mass = {
   },
   tickspeed: {
     id: "tickspeed",
-    name: "Tickspeed",
     get currency() {
       return Currency.ragePowers;
     },
@@ -298,18 +301,23 @@ export const mass = {
       return power;
     },
     formatPower: value => (value.gte(10) ? formatX(value) : formatPercents(value.minus(1))),
-    effect(amount, power) {
-      return power.pow(amount).powEffectsOf(
+    effect($) {
+      const power = $.power;
+      const bought = $.boughtAmount;
+      const free = $.freeAmount;
+      return power.pow(
+        bought.timesEffectOf(GameElement(63))
+          .add(free)
+      ).powEffectsOf(
         RankType.tetr.unlocks.tickspeedPower,
         GameElement(18)
       );
     },
-    formatEffect: value => `${formatX(value)} to mass gain`,
+    formatEffect: value => i18n.t("tickspeed_effect", { value: formatX(value) }),
     upgClass: "i-tickspeed"
   },
   condenser: {
     id: "condenser",
-    name: "Condenser",
     get currency() {
       return Currency.darkMatter;
     },
@@ -363,15 +371,17 @@ export const mass = {
       return power;
     },
     formatPower: value => formatX(value),
-    effect(amount, power) {
+    effect($) {
+      const power = $.power;
+      const amount = $.totalAmount;
       return power.pow(amount);
     },
-    formatEffect: value => `${formatX(value)} to mass of black hole`,
+    formatEffect: value => i18n.t("condenser_effect", { value: formatX(value) }),
     upgClass: "i-condenser"
   },
   cosmicRay: {
     id: "cosmicRay",
-    name: "Cosmic Rays",
+    i18nKey: "cosmic_ray",
     get currency() {
       return Currency.atoms;
     },
@@ -411,13 +421,63 @@ export const mass = {
         NeutronUpgrade.gr1,
         GluonUpgrade[1]
       );
+      power = power.powEffectOf(NeutronUpgrade.gr2);
       return power;
     },
     formatPower: value => formatX(value),
-    effect(amount, power) {
+    effect($) {
+      const power = $.power;
+      const amount = $.totalAmount;
       return power.pow(amount).minus(1);
     },
-    formatEffect: value => `${formatX(value)} to atomic power`,
+    formatEffect: value => i18n.t("cosmic_ray_effect", { value: formatX(value) }),
     upgClass: "i-cosmic-ray"
-  }
+  },
+  starBooster: {
+    id: "starBooster",
+    i18nKey: "star_booster",
+    get currency() {
+      return Currency.quark;
+    },
+    get baseCost() {
+      return DC.E8000;
+    },
+    get costMult() {
+      return DC.E100;
+    },
+    get costPow() {
+      return DC.D1_25;
+    },
+    cost(amount) {
+      const $ = MassUpgrade.starBooster.config;
+      return getLinearCost(
+        amount.pow($.costPow),
+        $.baseCost,
+        $.costMult
+      ).floor();
+    },
+    bulk(currency) {
+      const $ = MassUpgrade.starBooster.config;
+      return getLinearBulk(currency, $.baseCost, $.costMult).root($.costPow).add(1).floor();
+    },
+    get isUnlocked() {
+      return NeutronUpgrade.s4.isBought;
+    },
+    get autoUnlocked() {
+      return NeutronUpgrade.qol4.isBought;
+    },
+    get power() {
+      let power = DC.D2;
+      power = power.timesEffectOf(GameElement(57));
+      return power;
+    },
+    formatPower: value => formatX(value),
+    effect($) {
+      const power = $.power;
+      const amount = $.totalAmount;
+      return power.pow(amount);
+    },
+    formatEffect: value => i18n.t("star_booster_effect", { value: formatX(value) }),
+    upgClass: "i-star-booster"
+  },
 };

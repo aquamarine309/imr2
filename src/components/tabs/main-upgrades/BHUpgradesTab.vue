@@ -8,7 +8,7 @@ export default {
   },
   data() {
     return {
-      currencyAmount: ""
+      currencyAmount: new Decimal()
     };
   },
   computed: {
@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     update() {
-      this.currencyAmount = format(Currency.darkMatter.value, 0);
+      this.currencyAmount.copyFrom(Currency.darkMatter.value);
     }
   }
 };
@@ -30,9 +30,9 @@ export default {
 <template>
   <MainUpgradesTab
     :upgrades="upgrades"
-    name="Black Hole Upgrades"
+    :name="$t('tab_upgrades_black_hole')"
     :currency-amount="currencyAmount"
-    currency-name="Dark Matter"
+    currency-key="X_dark_matter"
     :autobuyer="autobuyer"
   />
 </template>

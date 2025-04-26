@@ -2,7 +2,6 @@ import { DC } from "@/core/constants";
 
 export const rank = {
   id: "rank",
-  name: "Rank",
   isUnlocked() {
     return true;
   },
@@ -40,42 +39,44 @@ export const rank = {
     {
       id: "unlockMuscler",
       requirement: 1,
-      description: "Unlock mass upgrade 1."
+      description: () => i18n.t("rank_unlocks_unlock_muscler")
     },
     {
       id: "unlockBooster",
       requirement: 2,
-      description: () => `Unlock mass upgrade 2, reduce mass upgrade 1 scaling by ${formatPercents(0.2, 0)}.`,
+      description: () => i18n.t("rank_unlocks_unlock_booster", { value: formatPercents(0.2, 0) }),
       effect: 0.8
     },
     {
       id: "unlockStronger",
       requirement: 3,
-      description: () => `Unlock mass upgrade 3, reduce mass upgrade 2 scaling by ${formatPercents(0.2, 0)}, and mass upgrade 1 boosts itself.`,
+      description: () => i18n.t("rank_unlocks_unlock_stronger", { value: formatPercents(0.2, 0) }),
       effects: {
-        cost: 0.8,
+        cost: DC.D0_8,
         boost: () => MassUpgrade.muscler.boughtAmount.div(20)
       },
-      mainEffect: "boost",
-      formatEffect: value => `+${format(value)}`
+      formatEffect: effects => formatPlus(effects.boost)
     },
     {
       id: "mu3cheaper",
       requirement: 4,
-      description: () => `reduce mass upgrade 3 scaling by ${formatPercents(0.2, 0)}.`,
+      description: () => i18n.t("rank_unlocks_mu3_cheaper", { value: formatPercents(0.2, 0) }),
       effect: 0.8
     },
     {
       id: "mu2boost",
       requirement: 5,
-      description: "mass upgrade 2 boosts itself.",
+      description: () => i18n.t("rank_unlocks_mu2_boost"),
       effect: () => MassUpgrade.booster.boughtAmount.div(40),
-      formatEffect: value => `+${format(value)}`
+      formatEffect: value => formatPlus(value)
     },
     {
       id: "rankBoostsMass",
       requirement: 6,
-      description: `boost mass gain by (x+${formatInt(1)})^${formatInt(2)}, where x is rank.`,
+      description: () => i18n.t("rank_unlocks_rank_boost_mass", {
+        value1: formatInt(1),
+        value2: formatInt(2)
+      }),
       effect: () => overflow(RankType.rank.amount.add(1)
         .pow(RankType.rank.unlocks.improveRank6.effectOrDefault(2)), DC.EE100, DC.D0_5),
       formatEffect: value => formatX(value)
@@ -83,13 +84,13 @@ export const rank = {
     {
       id: "tripleMassGain",
       requirement: 13,
-      description: "triple mass gain.",
+      description: () => i18n.t("rank_unlocks_triple_mass_gain"),
       effect: 3
     },
     {
       id: "doubleRPGain",
       requirement: 14,
-      description: "double Rage Powers gain.",
+      description: () => i18n.t("rank_unlocks_double_rp_gain"),
       effect: 2
     },
     {
@@ -111,7 +112,7 @@ export const rank = {
       description: "adds tickspeed power based on ranks.",
       effect: () => {
         const root = Effects.min(
-          2,
+          DC.D2,
           RankType.rank.unlocks.improveRank40,
           RankType.rank.unlocks.overpowerRank40
         );
@@ -163,7 +164,7 @@ export const rank = {
     {
       id: "massSoftcap",
       requirement: 800,
-      description: `make mass gain softcap ${formatPercents(0.0025, 2)} weaker based on rank, hardcaps at ${formatPercents(0.25, 0)}.`,
+      description: () => `make mass gain softcap ${formatPercents(0.0025, 2)} weaker based on rank, hardcaps at ${formatPercents(0.25, 0)}.`,
       effect: () => DC.D2.minus(Softcap.power(RankType.rank.amount.minus(799).times(0.0025).add(1), DC.D1_25, DC.D0_5)).clampMin(DC.D0_75),
       formatEffect: value => formatPercents(DC.D1.minus(value))
     }

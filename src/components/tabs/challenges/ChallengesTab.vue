@@ -24,7 +24,7 @@ export default {
       return this.page !== 0 || this.hasNextPage;
     },
     title() {
-      return this.challenges[0].type.title;
+      return i18n.t(this.challenges[0].type.titleKey);
     }
   },
   methods: {
@@ -53,7 +53,7 @@ export default {
       >
         <i class="fas fa-arrow-left" />
       </PrimaryButton>
-      <span class="o-challenge-page-title">{{ title }} Challenges</span>
+      <span class="o-challenge-page-title">{{ title }}</span>
       <PrimaryButton
         class="o-primary-btn--toggle-page"
         :enabled="hasNextPage"

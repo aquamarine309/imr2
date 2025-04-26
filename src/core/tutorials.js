@@ -18,7 +18,15 @@ class TutorialState {
   unlock() {
     if (this.isUnlocked) return;
     player.tutorialBits |= (1 << this.id);
-    Modal.tutorial.show({ tutorial: this.config });
+    Modal.tutorial.show({ tutorial: this });
+  }
+
+  get name() {
+    return i18n.t(`tutorial_title_${this.id}`);
+  }
+
+  get info() {
+    return i18n.t(`tutorial_info_${this.id}`);
   }
 }
 

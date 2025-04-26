@@ -39,15 +39,24 @@ export default {
 <template>
   <div>
     <div class="c-bh-info">
-      <span>You have <span class="o-highlight">{{ formatMass(blackHole) }}</span> {{ formatGain(blackHole, gain, true) }} of Black Hole.</span>
-      <span class="c-green">Which boosts mass gain by {{ formatX(mult) }}</span>
+      <i18n
+        path="you_have_X"
+        tag="div"
+      >
+        <template #value>
+          <span class="o-highlight">{{ formatMass(blackHole) }}</span>
+          {{ formatGain(blackHole, gain, true) }} {{ $t("of_black_hole") }}
+        </template>
+      </i18n>
+      <span class="c-green">{{ $t("black_hole_effect", { value: formatX(mult) }) }}</span>
       <br>
-      <span>Black Hole mass's gain formula - (x + 1)<sup>{{ format(exponent) }}</sup> * {{ format(condenserMult) }}</span>
+      <span>{{ $t("black_hole_formula") }}:</span>
+      <i>(x + 1)<sup>{{ format(exponent) }}</sup> * {{ format(condenserMult) }}</i>
     </div>
     <MassUpgradeRow :upgrade="condenser" />
     <div v-if="softcapped">
       <div class="c-mass-softcap-row">
-        After <b>{{ format(softcapStart) }}</b> of mass gain from black hole, its mass gain will be softcapped!
+        {{ $t("black_hole_softcap", { mass: format(softcapStart) }) }}
       </div>
     </div>
   </div>

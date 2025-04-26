@@ -8,7 +8,7 @@ export default {
   },
   data() {
     return {
-      currencyAmount: ""
+      currencyAmount: new Decimal()
     };
   },
   computed: {
@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     update() {
-      this.currencyAmount = format(Currency.atoms.value, 0);
+      this.currencyAmount.copyFrom(Currency.atoms.value);
     }
   }
 };
@@ -30,9 +30,9 @@ export default {
 <template>
   <MainUpgradesTab
     :upgrades="upgrades"
-    name="Atom Upgrades"
+    :name="$t('tab_upgrades_atom')"
     :currency-amount="currencyAmount"
-    currency-name="Atoms"
+    currency-key="X_atom"
     :autobuyer="autobuyer"
   />
 </template>

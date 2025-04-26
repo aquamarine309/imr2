@@ -2,7 +2,6 @@ import { DC } from "@/core/constants";
 
 export const tier = {
   id: "tier",
-  name: "Tier",
   isUnlocked() {
     return RankType.rank.amount.gte(3) || RankType.tier.amount.gte(1) || PlayerProgress.rageUnlocked();
   },

@@ -215,17 +215,21 @@ window.TimeSpan = class TimeSpan {
       }
       addComponent(value, name);
     }
-    function addComponent(value, name) {
-      parts.push(value === 1 ? `${formatInt(value)} ${name}` : `${formatInt(value)} ${name}s`);
+    function addComponent(value, key) {
+      parts.push(i18n.tc(key, value, { value: formatInt(value) }));
     }
-    addCheckedComponent(this.years, "year");
-    addCheckedComponent(this.days, "day");
-    addCheckedComponent(this.hours, "hour");
-    addCheckedComponent(this.minutes, "minute");
-    addCheckedComponent(this.seconds, "second");
+    addCheckedComponent(this.years, "X_year");
+    addCheckedComponent(this.days, "X_day");
+    addCheckedComponent(this.hours, "X_hour");
+    addCheckedComponent(this.minutes, "X_minute");
+    addCheckedComponent(this.seconds, "X_second");
     // Join with commas and 'and' in the end.
-    if (parts.length === 0) return `${formatInt(0)} seconds`;
-    return [parts.slice(0, -1).join(", "), parts.slice(-1)[0]].join(parts.length < 2 ? "" : " and ");
+    if (parts.length === 0) return i18n.tc("X_second", 0, { value: formatInt(0) });
+    const isEnglish = player.options.language === "en";
+    if (isEnglish) {
+      return [parts.slice(0, -1).join(", "), parts.slice(-1)[0]].join(parts.length < 2 ? "" : " and ");
+    }
+    return parts.join(" ");
   }
 
   /**
@@ -237,13 +241,13 @@ window.TimeSpan = class TimeSpan {
   toStringShort(useHMS = true) {
     const totalSeconds = this.totalSeconds;
     if (totalSeconds <= 5e-7) {
-      return "Instant";
+      return i18n.t("instant");
     }
     if (totalSeconds < 1e-3) {
       // This conditional happens when when the time is less than 1 millisecond
       // but big enough not to round to 0 with 3 decimal places (so showing decimal places
       // won't just show 0 and waste space).
-      return `${format(1000 * totalSeconds, 3)} ms`;
+      return i18n.t("X_ms", { value: format(1000 * totalSeconds, 3) });
     }
     if (totalSeconds < 1) {
       // This catches all the cases when totalSeconds is less than 1 but not
@@ -252,10 +256,10 @@ window.TimeSpan = class TimeSpan {
       // (the most notable case of this kind is 0 itself).
       // (2) those greater than or equal to 1e-3, which will be formatted with default settings
       // (for most notations, rounding to the nearest integer number of milliseconds)
-      return `${format(1000 * totalSeconds, 0)} ms`;
+      return i18n.t("X_ms", { value: format(1000 * totalSeconds, 0) });
     }
     if (totalSeconds < 60) {
-      return `${format(totalSeconds, 3)} seconds`;
+      return i18n.tc("X_second", totalSeconds, { value: format(totalSeconds, 3) });
     }
     if (this.totalHours < 100) {
       if (useHMS) {
@@ -264,16 +268,16 @@ window.TimeSpan = class TimeSpan {
         return `${formatHMS(Math.floor(this.totalHours))}:${formatHMS(this.minutes)}:${sec}`;
       }
       if (this.totalMinutes < 60) {
-        return `${format(this.totalMinutes, 3)} minutes`;
+        return i18n.tc("X_minute", this.totalMinutes, { value: format(this.totalMinutes, 3) });
       }
       if (this.totalHours < 24) {
-        return `${format(this.totalHours, 3)} hours`;
+        return i18n.tc("X_hour", this.totalHours, { value: format(this.totalHours, 3) });
       }
     }
     if (this.totalDays < 500) {
-      return `${format(this.totalDays, 3)} days`;
+      return i18n.tc("X_day", this.totalDays, { value: format(this.totalDays, 3) });
     }
-    return `${format(this.totalYears, 3)} years`;
+    return i18n.tc("X_year", this.totalYears, { value: format(this.totalYears, 3) });
 
     function formatHMS(value) {
       const s = value.toString();
@@ -283,8 +287,8 @@ window.TimeSpan = class TimeSpan {
 
   toTimeEstimate() {
     const seconds = this.totalSeconds;
-    if (seconds < 1) return `< ${formatInt(1)} second`;
-    if (seconds > 86400 * 365.25) return `> ${formatInt(1)} year`;
+    if (seconds < 1) return `< ${i18n.tc("X_second", 1, { value: formatInt(1) })}`;
+    if (seconds > 86400 * 365.25) return `> ${i18n.tc("X_year", 1, { value: formatInt(1) })}`;
     return this.toStringShort();
   }
 

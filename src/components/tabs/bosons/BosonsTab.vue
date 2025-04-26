@@ -30,7 +30,7 @@ export default {
       negativeWPos: new Decimal(),
       zBosonTickspeed: new Decimal(),
       zBosonW: new Decimal()
-    }
+    };
   },
   computed: {
     photonUpgrade: () => PhotonUpgrade,
@@ -62,7 +62,7 @@ export default {
       this.zBosonW = Boson.zBoson.effects.wBosons.effectValue;
     }
   }
-}
+};
 </script>
 
 <template>
@@ -77,7 +77,9 @@ export default {
     </div>
     <div class="c-bosons-row">
       <div class="c-boson-grid c-boson-photon">
-        <div class="c-boson-amount">You have {{ format(photon) }} {{ formatGain(photon, photonGain) }} Photon.</div>
+        <div class="c-boson-amount">
+          You have {{ format(photon) }} {{ formatGain(photon, photonGain) }} Photon.
+        </div>
         <BosonUpgradeButton
           v-for="upgrade in photonUpgrade"
           :key="upgrade.id + upgrade.type"
@@ -85,7 +87,9 @@ export default {
         />
       </div>
       <div class="c-boson-grid c-boson-gluon">
-        <div class="c-boson-amount">You have {{ format(gluon) }} {{ formatGain(gluon, gluonGain) }} Gluon.</div>
+        <div class="c-boson-amount">
+          You have {{ format(gluon) }} {{ formatGain(gluon, gluonGain) }} Gluon.
+        </div>
         <BosonUpgradeButton
           v-for="upgrade in gluonUpgrade"
           :key="upgrade.id + upgrade.type"

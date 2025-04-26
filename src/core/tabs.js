@@ -5,11 +5,11 @@ class SubtabState {
   }
 
   get name() {
-    return this.config.name;
+    return i18n.t(`tab_${this._parent.key}_${this.key}`);
   }
 
   get shortName() {
-    return this.config.shortName;
+    return i18n.t(`tab_${this._parent.key}_${this.key}_short`);
   }
 
   get symbol() {
@@ -93,11 +93,11 @@ class TabState {
   }
 
   get name() {
-    return this.config.name;
+    return i18n.t(`tab_${this.key}`);
   }
 
   get letter() {
-    return this.config.letter;
+    return i18n.t(`tab_${this.key}_letter`);
   }
 
   get key() {

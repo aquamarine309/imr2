@@ -19,19 +19,19 @@ class BosonState extends GameMechanicState {
     }
     super(configCopy);
   }
-  
+
   get amount() {
     return player.supernova.bosons[this.id];
   }
-  
+
   set amount(value) {
     player.supernova.bosons[this.id] = value;
   }
-  
+
   get gain() {
     return this.config.gain();
   }
-  
+
   tick(diff) {
     this.amount = this.amount.add(this.gain.times(diff));
   }
@@ -46,7 +46,7 @@ export const Bosons = {
   get areUnlocked() {
     return Supernova.times.gte(DC.E1);
   },
-  
+
   tick(diff) {
     if (!Bosons.areUnlocked) return;
     for (const boson of Boson.all) {
@@ -69,7 +69,7 @@ class BosonUpgradeState extends RebuyableMechanicState {
   get type() {
     return this._type;
   }
-  
+
   get boson() {
     return Boson[this.type];
   }
@@ -81,11 +81,11 @@ class BosonUpgradeState extends RebuyableMechanicState {
   set boughtAmount(value) {
     player.supernova.bosonUpgrades[this.type][this.id] = value;
   }
-  
+
   get currency() {
     return this.boson.amount;
   }
-  
+
   set currency(value) {
     this.boson.amount = value;
   }
@@ -97,7 +97,7 @@ class BosonUpgradeState extends RebuyableMechanicState {
     this.boughtAmount = bulk.minus(1).clampMin(0);
     this.purchase();
   }
-  
+
   purchase() {
     if (!this.canBeBought) return false;
     if (!this.isFree) {

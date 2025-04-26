@@ -1,7 +1,7 @@
 export const particles = {
   proton: {
     id: 0,
-    name: "Protons",
+    key: "proton",
     effect: () => {
       const mass = Atom.protonMass();
       const tickspeed = Atom.protonTick();
@@ -10,7 +10,7 @@ export const particles = {
   },
   neutron: {
     id: 1,
-    name: "Neutrons",
+    key: "neutron",
     effect: () => {
       const rp = Atom.neutronRP();
       const mass = Atom.neutronMass();
@@ -19,7 +19,7 @@ export const particles = {
   },
   electron: {
     id: 2,
-    name: "Electrons",
+    key: "electron",
     effect: () => {
       const dm = Atom.electronDM();
       const condenser = Atom.electronCondenser();

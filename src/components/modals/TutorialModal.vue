@@ -27,7 +27,7 @@ export default {
     :show-cancel="false"
   >
     <div class="c-tutorial-title">
-      Chapter {{ tutorial.id }}: {{ tutorial.name }}
+      {{ $t("chapter_X", { chapter: tutorial.id, title: tutorial.name }) }}
     </div>
     <div
       class="i-modal-tutorial"
@@ -36,7 +36,7 @@ export default {
     <div>{{ tutorial.info }}</div>
 
     <template #confirm-text>
-      Let's Go!
+      {{ $t("lets_go") }}
     </template>
   </ModalWrapperChoice>
 </template>

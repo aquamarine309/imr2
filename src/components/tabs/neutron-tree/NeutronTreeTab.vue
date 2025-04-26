@@ -4,10 +4,10 @@ import NeutronTreeLayout from "./NeutronTreeLayout";
 import NeutronUpgradeInfo from "./NeutronUpgradeInfo";
 
 const trees = [
-  { id: 0, name: "Main", isUnlocked: () => true },
-  { id: 1, name: "QoL", isUnlocked: () => true },
-  { id: 2, name: "Challenge", isUnlocked: () => true },
-  { id: 3, name: "Post-Supernova", isUnlocked: () => Bosons.areUnlocked }
+  { id: 0, key: "neutron_tree_main", isUnlocked: () => true },
+  { id: 1, key: "neutron_tree_qol", isUnlocked: () => true },
+  { id: 2, key: "neutron_tree_challenge", isUnlocked: () => true },
+  { id: 3, key: "neutron_tree_post_supernova", isUnlocked: () => Bosons.areUnlocked }
 ];
 
 export default {
@@ -22,7 +22,7 @@ export default {
       neutronStars: new Decimal(),
       starGain: new Decimal(),
       unlockedTreeBits: 0
-    }
+    };
   },
   computed: {
     selectedNodeId() {
@@ -60,30 +60,34 @@ export default {
       GameUI.update();
     }
   }
-}
+};
 </script>
 
 <template>
   <div>
-    <div><PrimaryButton @click="reset">Reset without being supernova</PrimaryButton></div>
+    <div>
+      <PrimaryButton @click="reset">
+        {{ $t("reset_without_being_supernova") }}
+      </PrimaryButton>
+    </div>
     <br>
     <div>You have <span class="o-highlight">{{ format(neutronStars, 2) }} {{ formatGain(neutronStars, starGain) }}</span> Neutron Star.</div>
     <NeutronUpgradeInfo :upgrade="selected" />
     <div class="c-choose-tree-row">
       <template v-for="info of trees">
         <PrimaryButton
-          :key="info.id"
           v-if="treeUnlocked(info.id)"
-          @click="toggle(info.id)"
+          :key="info.id"
           class="o-primary-btn--choose-tree"
           :enabled="info.id === tree"
+          @click="toggle(info.id)"
         >
-          {{ info.name }}
+          {{ $t(info.key) }}
           <span
             v-if="someCanBeBought(info.id)"
             class="c-tip"
           >
-              [ ! ]
+            [ ! ]
           </span>
         </PrimaryButton>
       </template>

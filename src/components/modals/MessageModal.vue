@@ -52,7 +52,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="handleClick"
     >
-      Okay
+      {{ $t("okay") }}
     </PrimaryButton>
   </div>
 </template>

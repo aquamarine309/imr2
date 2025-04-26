@@ -14,14 +14,15 @@ export default {
     element: {
       type: Object,
       required: false
+    },
+    name: {
+      type: String,
+      required: false
     }
   },
   computed: {
     config() {
       return this.element.config;
-    },
-    name() {
-      return this.config.fullName ?? this.config.name;
     }
   }
 };
@@ -34,14 +35,14 @@ export default {
       class="c-element-info"
     >
       <span class="c-sky">
-        <span>[{{ name }}]</span>
+        <span class="c-element-name">[{{ name }}]</span>
         <DescriptionDisplay
           :config="config"
         />
       </span>
       <CostDisplay
         :config="config"
-        name="Quarks"
+        name-key="X_quark"
       />
       <EffectDisplay
         class="c-green"
@@ -68,5 +69,9 @@ export default {
 
 .c-element-info-container {
   margin: 15px 0;
+}
+
+.c-element-name {
+  font-family: BlobFont, BabelStoneHan;
 }
 </style>

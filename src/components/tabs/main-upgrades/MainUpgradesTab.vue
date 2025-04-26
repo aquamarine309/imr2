@@ -20,10 +20,10 @@ export default {
       required: true
     },
     currencyAmount: {
-      type: String,
+      type: Decimal,
       required: true
     },
-    currencyName: {
+    currencyKey: {
       type: String,
       required: true
     },
@@ -80,7 +80,7 @@ export default {
       />
       <CostDisplay
         :config="config"
-        :name="currencyName"
+        :name-key="currencyKey"
       />
       <EffectDisplay
         :config="config"
@@ -91,12 +91,15 @@ export default {
       {{ name }}
     </div>
     <div class="c-main-upgrade-currency">
-      You have {{ currencyAmount }} {{ currencyName }}.
+      {{ $t("you_have_X", {
+        value: $tc(currencyKey, checkSingle(currencyAmount),
+                   { value: format(currencyAmount, 0) })
+      }) }}
     </div>
     <PrimaryToggleButton
       v-if="autoUnlocked"
       v-model="auto"
-      label="Auto:"
+      i18n-key="auto_X"
     />
     <div class="l-main-upgrade-container">
       <MainUpgradeButton

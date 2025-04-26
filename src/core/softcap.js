@@ -10,23 +10,23 @@ export function dilatedValue(value, power, base = DC.E1) {
   if (value.lt(10)) return value;
   return Decimal.pow10(value.log10().pow(power).times(base.log10().pow(DC.D1.minus(power))));
 }
- 
+
 export class Softcap {
   static power(value, start, scale) {
     if (value.lte(start)) return value;
     return value.div(start).pow(scale).times(start);
   }
-  
+
   static mult(value, start, scale) {
     if (value.lte(start)) return value;
     return value.minus(start).times(scale).add(start);
   }
-  
+
   static dilation(value, start, scale) {
     if (value.lte(start)) return value;
     return dilatedValue(value.div(start), scale).times(start);
   }
-  
+
   static log(value, start, scale) {
     if (value.lte(start)) return value;
     return value.div(start).log(scale).add(1).times(start);
@@ -126,8 +126,7 @@ class ScalingState {
       idx = i;
     }
     if (idx === -1) return "";
-    // Pecifically format meta-X and mega-X
-    return `${SCALING_TYPE[idx]}${idx % 4 === 3 ? "-" : " "}`;
+    return i18n.t(SCALING_TYPE[idx]);
   }
 }
 

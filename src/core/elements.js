@@ -38,6 +38,9 @@ export const GameElements = {
       if (Bosons.areUnlocked) {
         amount += 3;
       }
+      if (Fermions.areUnlocked) {
+        amount += 10;
+      }
     } else {
       amount += 4;
       if (Challenge(8).milestones[0].canBeApplied) {

@@ -2,7 +2,6 @@ import { DC } from "@/core/constants";
 
 export const tetr = {
   id: "tetr",
-  name: "Tetr",
   isUnlocked() {
     return AtomUpgrade(2).canBeApplied;
   },
@@ -50,7 +49,7 @@ export const tetr = {
       description: () => `Super rank scaling is weaker based on tier, and super tier scales ${formatPercents(0.2, 0)} weaker.`,
       requirement: DC.D4,
       effect: () => DC.D0_96.pow(RankType.tier.amount.cbrt()),
-      formatEffect: value => `${formatPercents(DC.D1.minus(value))} weaker`
+      formatEffect: value => i18n.t("X_weaker", { value: formatPercents(DC.D1.minus(value)) })
     },
     {
       id: "tickScaling",

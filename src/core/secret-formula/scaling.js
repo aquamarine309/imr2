@@ -49,7 +49,10 @@ export const scaling = {
         return DC.D700.plusEffectOf(RankType.tetr.unlocks.tickScaling);
       },
       get scale() {
-        return DC.D7.powEffectOf(GameElement(27));
+        return DC.D7.powEffectsOf(
+          GameElement(27),
+          GameElement(58)
+        );
       }
     },
   ],
@@ -81,10 +84,13 @@ export const scaling = {
     },
     {
       get start() {
-        return DC.D600;
+        return DC.D600.plusEffectOf(GameElement(62));
       },
       get scale() {
-        return DC.D4.powEffectOf(GameElement(27));
+        return DC.D4.powEffectsOf(
+          GameElement(27),
+          GameElement(58)
+        );
       }
     },
     {

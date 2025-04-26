@@ -46,7 +46,7 @@ export const dilation = {
     bulk: value => value.div(DC.D1_619E24).log(DC.D5).add(1).floor(),
     max: DC.D5,
     effect: value => DC.D1.minus(value.times(0.1)),
-    formatEffect: value => `${formatPercents(DC.D1.minus(value), 0)} weaker`
+    formatEffect: value => i18n.t("X_weaker", { value: formatPercents(DC.D1.minus(value)) })
   },
   rpFormula: {
     id: 5,
@@ -99,7 +99,7 @@ export const dilation = {
     cost: value => DC.D1_5E1556.times(DC.E50.pow(value.pow(DC.D1_5))),
     bulk: value => value.div(DC.D1_5E1556).log10().div(DC.D50).pow(DC.C2D3).add(1).floor(),
     effect: value => Softcap.power(value.times(0.015).add(1), 1.2, 0.75).minus(1),
-    formatEffect: value => `+${format(value)}`,
+    formatEffect: value => formatPlus(value),
     softcapped: value => value.gte(DC.D0_2),
     isUnlocked: () => PlayerProgress.supernovaUnlocked()
   },

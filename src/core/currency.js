@@ -255,21 +255,19 @@ Currency.mass = new class extends DecimalCurrency {
     if (Challenge(9).canBeApplied) {
       gain = dilatedValue(gain, Challenge(9).effectValue);
     }
-    gain = Softcap.power(
-      gain,
-      MassSoftcap[0].mass,
-      MassSoftcap[0].effectValue
-    );
-    gain = Softcap.power(
-      gain,
-      MassSoftcap[1].mass,
-      MassSoftcap[1].effectValue
-    );
+    // TODO: "MassSoftcap.length" should be modified to "5" (117th Element)
+    for (let i = 0; i < MassSoftcap.length; i++) {
+      gain = Softcap.power(
+        gain,
+        MassSoftcap[i].mass,
+        MassSoftcap[i].effectValue
+      );
+    }
     return gain;
   }
 
-  get name() {
-    return "Mass";
+  get key() {
+    return "X_mass";
   }
 }();
 
@@ -333,8 +331,8 @@ Currency.ragePowers = new class extends DecimalCurrency {
     player.unlocks.ragePower = true;
   }
 
-  get name() {
-    return "Rage Power";
+  get key() {
+    return "X_rage_power";
   }
 }();
 
@@ -399,8 +397,8 @@ Currency.darkMatter = new class extends DecimalCurrency {
     player.unlocks.darkMatter = true;
   }
 
-  get name() {
-    return "Dark Matter";
+  get key() {
+    return "X_dark_matter";
   }
 }();
 
@@ -417,8 +415,8 @@ Currency.blackHole = new class extends DecimalCurrency {
     return BlackHole.gain;
   }
 
-  get name() {
-    return "Black Hole";
+  get key() {
+    return "X_black_hole";
   }
 }();
 
@@ -479,8 +477,8 @@ Currency.atoms = new class extends DecimalCurrency {
     }
   }
 
-  get name() {
-    return "Atoms";
+  get key() {
+    return "X_atom";
   }
 }();
 
@@ -509,14 +507,15 @@ Currency.quark = new class extends DecimalCurrency {
       GameElement(6),
       DilationUpgrade.quarkGain,
       DilationUpgrade.doubleQuark,
-      GameElement(42)
+      GameElement(42),
+      GameElement(67)
     );
     gain = gain.powEffectOf(GameElement(47));
     return gain.floor();
   }
 
-  get name() {
-    return "Quark";
+  get key() {
+    return "X_quark";
   }
 }();
 
@@ -533,8 +532,8 @@ Currency.atomicPower = new class extends DecimalCurrency {
     return Atom.gainedPower;
   }
 
-  get name() {
-    return "Atomic Power";
+  get key() {
+    return "X_atomic_power";
   }
 }();
 
@@ -551,8 +550,8 @@ Currency.relativisticParticles = new class extends DecimalCurrency {
     return MassDilation.particleGain;
   }
 
-  get name() {
-    return "Relativistic Particles";
+  get key() {
+    return "X_elativistic_particle";
   }
 }();
 
@@ -577,8 +576,8 @@ Currency.dilatedMass = new class extends DecimalCurrency {
     return gain;
   }
 
-  get name() {
-    return "Dilated Mass";
+  get key() {
+    return "X_dilated_mass";
   }
 }();
 
@@ -598,8 +597,8 @@ Currency.stars = new class extends DecimalCurrency {
     return gain;
   }
 
-  get name() {
-    return "Stars";
+  get key() {
+    return "X_collapsed_star";
   }
 }();
 
@@ -616,8 +615,8 @@ Currency.supernova = new class extends DecimalCurrency {
     return Supernova.bulk.minus(this.value).clampMin(0);
   }
 
-  get name() {
-    return "Supernova";
+  get key() {
+    return "X_supernova";
   }
 
   get canReset() {
@@ -668,7 +667,7 @@ Currency.supernova = new class extends DecimalCurrency {
     player.stars.unlocked = -1;
     StarGenerators.all.forEach(gen => gen.reset());
     Currency.stars.reset();
-    StarBoosts.amount = DC.D0;
+    MassUpgrade.starBooster.reset();
     Currency.atoms.resetLayer(true);
     if (!NeutronUpgrade.chal3.isBought) {
       for (let i = 5; i <= 8; i++) {
@@ -702,7 +701,43 @@ Currency.neutronStars = new class extends DecimalCurrency {
     return gain;
   }
 
-  get name() {
-    return "Neutron Stars";
+  get key() {
+    return "X_neutron_star";
+  }
+}();
+
+Currency.uQuarks = new class extends DecimalCurrency {
+  get value() {
+    return player.supernova.fermions.quarks;
+  }
+
+  set value(value) {
+    player.supernova.fermions.quarks = value;
+  }
+
+  get gainPerSecond() {
+    return DC.D0;
+  }
+
+  get key() {
+    return "X_u_quark";
+  }
+}();
+
+Currency.uLeptons = new class extends DecimalCurrency {
+  get value() {
+    return player.supernova.fermions.leptons;
+  }
+
+  set value(value) {
+    player.supernova.fermions.leptons = value;
+  }
+
+  get gainPerSecond() {
+    return DC.D0;
+  }
+
+  get key() {
+    return "X_u_lepton";
   }
 }();

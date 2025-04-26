@@ -33,6 +33,6 @@ export default {
     v-if="isUnlocked"
     class="c-mass-softcap-row"
   >
-    After <b>{{ format(start) }}</b> of mass gain, mass gain will be softcapped{{ level === 1 ? "" : `^${level}` }}!
+    {{ $tc("mass_softcap", level, { mass: format(start), level }) }}
   </div>
 </template>

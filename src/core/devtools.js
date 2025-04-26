@@ -21,4 +21,16 @@ dev.logMassMultipliers = function() {
   console.log(`Mass Dilation: exp${formatPow(MassDilation.power)}`);
   console.log(`Softcap 1: ${formatPow(MassSoftcap[0].effectValue)} at ${formatMass(MassSoftcap[0].mass)}`);
   console.log(`Softcap 2: ${formatPow(MassSoftcap[1].effectValue)} at ${formatMass(MassSoftcap[1].mass)}`);
-}
+};
+
+dev.fixSave = function() {
+  const save = JSON.stringify(player);
+  const fixed = save.replace(/NaN/gui, "10");
+  const saveData = JSON.parse(fixed);
+  if (!saveData || GameStorage.checkPlayerObject(saveData) !== "") {
+    Modal.message.show("Could not fix the save.");
+    return;
+  }
+  GameStorage.importFromJSON(saveData);
+  GameStorage.save();
+};

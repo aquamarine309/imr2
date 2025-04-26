@@ -30,3 +30,4 @@ export * from "./supernova";
 export * from "./devtools";
 
 export * from "./bosons";
+export * from "./fermions";

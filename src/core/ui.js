@@ -1,9 +1,11 @@
 import VueTouch from "vue-touch";
+import VueI18n from "vue-i18n";
 
 import GameUIComponent from "@/components/GameUIComponent";
 import { DEV } from "@/env";
 import { state } from "./ui.init";
 import { notify } from "./notify";
+import { messages } from "./languages";
 
 Vue.mixin({
   computed: {
@@ -37,11 +39,13 @@ Vue.mixin({
   methods: {
     format,
     formatX,
+    formatPlus,
     formatPow,
     formatInt,
     formatPercents,
     formatMass,
     formatGain,
+    checkSingle,
     emitClick() {
       this.$emit("click");
     },
@@ -89,6 +93,13 @@ const ReactivityComplainer = {
 
 Vue.use(VueTouch, {
   name: "v-touch"
+});
+
+Vue.use(VueI18n);
+
+export const i18n = new VueI18n({
+  locale: "en",
+  messages
 });
 
 export const GameUI = {
@@ -141,6 +152,7 @@ export const GameUI = {
 
 export const ui = new Vue({
   el: "#ui",
+  i18n,
   components: {
     GameUIComponent
   },

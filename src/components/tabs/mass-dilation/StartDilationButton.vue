@@ -17,7 +17,7 @@ export default {
         }
         return `Reach ${formatMass(this.requirement)} to gain Relativistic particles, or cancel dilation`;
       }
-      return "Dilate Mass";
+      return i18n.t("dilate_mass");
     }
   },
   methods: {
@@ -55,7 +55,7 @@ export default {
   align-items: center;
   color: white;
   margin: 10px auto;
-  font-family: BlobFont;
+  font-family: BlobFont, serif;
   padding: 5px;
 }
 

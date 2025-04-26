@@ -47,7 +47,7 @@ export default {
   >
     <div class="c-drawer-top">
       <div class="c-game-icon" />
-      <div><b>Increment Mass <i>Rewritten^2</i></b></div>
+      <div><b>{{ $t("app_name") }}</b></div>
     </div>
     <div class="c-drawer-tabs">
       <TabButton

@@ -39,19 +39,19 @@ export default {
       return `${this.challenge.name} (${format(this.completions, 0)} / ${format(this.max, 0)})`;
     },
     resetType() {
-      return this.config.type.name;
+      return i18n.t(this.config.type.resetKey);
     },
     buttonText() {
       if (this.isRunning) {
         if (this.pendingCompletions.gt(0)) {
-          return `+${format(this.pendingCompletions.minus(this.completions), 0)} times`;
+          return i18n.t("X_times", { value: formatPlus(this.pendingCompletions.minus(this.completions), 0) });
         }
-        return "Exit";
+        return i18n.t("exit");
       }
       if (this.forceRunning) {
-        return "Running";
+        return i18n.t("running");
       }
-      return "Enter Challenge";
+      return i18n.t("enter_challenge");
     },
     nameClass() {
       return {
@@ -75,7 +75,7 @@ export default {
     styleObject() {
       return {
         "background-image": `url("./images/challenges/${this.challenge.id}.png")`
-      }
+      };
     }
   },
   methods: {
@@ -129,7 +129,7 @@ export default {
             v-if="isRunning"
             @click="restart"
           >
-            Restart
+            {{ $t("restart") }}
           </PrimaryButton>
         </div>
       </div>
@@ -140,9 +140,9 @@ export default {
         :config="config"
       />
       <br>
-      <span class="c-challenge-description">Entering challenge will force {{ resetType }} reset.</span>
+      <span class="c-challenge-description">{{ resetType }}</span>
       <br>
-      <span>Goal: {{ goalText }}</span>
+      <span>{{ $t("goal_X", { value: goalText }) }}</span>
       <br>
       <EffectDisplay
         class="c-challenge-effect"
@@ -151,7 +151,7 @@ export default {
       <DescriptionDisplay
         class="c-green"
         :config="reward"
-        title="Reward:"
+        title-key="reward_X"
         br
       />
       <EffectDisplay

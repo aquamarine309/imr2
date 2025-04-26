@@ -16,9 +16,9 @@ export const Autobuyer = {
   blackHoleUpgrade: new BlackHoleUpgradeAutobuyerState(),
 
   dilationUpgrade: new DilationUpgradeAutobuyerState(),
-  
+
   atomUpgrade: new AtomUpgradeAutobuyerState(),
-  
+
   element: new ElementAutobuyerState()
 };
 

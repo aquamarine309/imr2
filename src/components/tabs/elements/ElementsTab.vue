@@ -20,7 +20,13 @@ export default {
   computed: {
     elements() {
       return GameElements.all;
-    }
+    },
+    names() {
+      return this.$t("element_names").split("|");
+    },
+    symbols() {
+      return this.$t("element_symbols").split("|");
+    },
   },
   watch: {
     auto(value) {
@@ -45,15 +51,19 @@ export default {
       <PrimaryToggleButton
         v-if="autoUnlocked"
         v-model="auto"
-        label="Auto:"
+        i18n-key="auto_X"
       />
     </div>
-    <ElementInfo :element="elements[selected - 1]" />
+    <ElementInfo
+      :element="elements[selected - 1]"
+      :name="names[selected - 1]"
+    />
     <div class="l-element-table-container">
       <ElementComponent
-        v-for="element in elements"
+        v-for="(element, idx) in elements"
         :key="element.id"
         :element="element"
+        :name="symbols[idx]"
         @click.native="handleClick(element.id)"
       />
     </div>

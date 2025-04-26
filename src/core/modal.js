@@ -3,6 +3,7 @@ import TutorialModal from "@/components/modals/TutorialModal";
 import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import AwayProgressModal from "@/components/modals/AwayProgressModal";
 import ImportSaveModal from "@/components/modals/ImportSaveModal";
+import HardResetModal from "@/components/modals/HardResetModal";
 
 let nextModalID = 0;
 export class Modal {
@@ -108,6 +109,8 @@ Modal.confirmation = new Modal(ConfirmationModal, 1);
 Modal.awayProgress = new Modal(AwayProgressModal);
 
 Modal.import = new Modal(ImportSaveModal);
+
+Modal.hardReset = new Modal(HardResetModal, 1);
 
 Modal.message = new class extends Modal {
   show(text, props = {}, messagePriority = 0) {

@@ -12,8 +12,9 @@ export default {
     return {
       starUnlocked: false,
       starBG: false,
-      adUI: false
-    }
+      adUI: false,
+      language: "en"
+    };
   },
   watch: {
     starBG(value) {
@@ -21,6 +22,10 @@ export default {
     },
     adUI(value) {
       player.options.adUI = value;
+    },
+    language(value) {
+      player.options.language = value;
+      i18n.locale = value;
     }
   },
   methods: {
@@ -28,6 +33,19 @@ export default {
       this.starUnlocked = Stars.isUnlocked;
       this.starBG = player.options.starBG;
       this.adUI = player.options.adUI;
+      this.language = player.options.language;
+    },
+    toggleLanguage() {
+      switch (this.language) {
+        case "zh":
+          this.language = "en";
+          break;
+        case "en":
+          this.language = "zh";
+          break;
+        default:
+          throw new Error("Unexpected Language");
+      }
     }
   }
 };
@@ -43,19 +61,19 @@ export default {
         class="c-options-btn"
         onclick="GameStorage.save()"
       >
-        Save Game
+        {{ $t("save_game") }}
       </PrimaryButton>
       <PrimaryButton
         class="c-options-btn"
         onclick="GameStorage.exportToClipboard()"
       >
-        Export Save
+        {{ $t("export_save") }}
       </PrimaryButton>
       <PrimaryButton
         class="c-options-btn"
         onclick="Modal.import.show()"
       >
-        Import Save
+        {{ $t("import_save") }}
       </PrimaryButton>
     </div>
     <div class="l-options-row">
@@ -63,13 +81,13 @@ export default {
         class="c-options-btn"
         onclick="GameStorage.exportAsOldVersion()"
       >
-        Export to Old
+        {{ $t("export_to_old") }}
       </PrimaryButton>
       <PrimaryButton
         class="c-options-btn"
-        onclick="GameStorage.hardReset()"
+        onclick="Modal.hardReset.show()"
       >
-        Hard Reset
+        {{ $t("hard_reset") }}
       </PrimaryButton>
     </div>
     <br>
@@ -79,15 +97,21 @@ export default {
     <div class="l-options-row">
       <PrimaryToggleButton
         v-if="starUnlocked"
-        class="c-options-btn"
         v-model="starBG"
-        label="Show Star:"
+        class="c-options-btn"
+        i18n-key="show_star_X"
       />
       <PrimaryToggleButton
-        class="c-options-btn"
         v-model="adUI"
-        label="AD-like UI:"
+        class="c-options-btn"
+        i18n-key="ad_ui_X"
       />
+      <PrimaryButton
+        class="c-options-btn"
+        @click="toggleLanguage"
+      >
+        {{ $t("language_X", { language: $t("this_language") }) }}
+      </PrimaryButton>
     </div>
   </div>
 </template>
@@ -107,7 +131,7 @@ export default {
 }
 
 .c-options-btn {
-  flex: 1;
+  width: calc(100% / 3 - 4px);
   padding: 1px;
   margin: 2px;
   height: 55px;

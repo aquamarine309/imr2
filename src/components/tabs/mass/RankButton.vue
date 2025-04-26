@@ -72,7 +72,6 @@ export default {
       <PrimaryToggleButton
         v-if="autoUnlocked"
         v-model="auto"
-        lebel="Auto: "
       />
       <span>{{ name }}</span>
       <span class="c-rank-amount">{{ format(amount, 0) }}</span>
@@ -84,10 +83,10 @@ export default {
     >
       <span>{{ description }}</span>
       <br>
-      <span>(Requires: {{ requirementText }})</span>
+      <span>{{ $t("requires_X", { requirement: requirementText }) }}</span>
       <template v-if="reward !== null">
         <span class="o-split-line" />
-        <span>Next Reward:</span>
+        <span>{{ $t("next_reward") }}</span>
         <br>
         <span>{{ reward }}</span>
       </template>

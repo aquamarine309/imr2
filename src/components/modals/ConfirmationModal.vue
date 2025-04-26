@@ -2,7 +2,7 @@
 import ModalWrapperChoice from "./ModalWrapperChoice";
 
 export default {
-  name: "TutorialModal",
+  name: "ConfirmationModal",
   components: {
     ModalWrapperChoice
   },

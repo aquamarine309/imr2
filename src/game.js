@@ -1,5 +1,6 @@
-import { deepmergeAll } from "./utility/deepmerge";
 import TWEEN from "tween.js";
+
+import { deepmergeAll } from "./utility/deepmerge";
 
 window.onload = function() {
   GameUI.initialized = true;
@@ -84,12 +85,12 @@ export function simulateTime(seconds, fast = false) {
         asyncEntry: doneSoFar => {
           GameLoop.stop();
           ui.$viewModel.modal.progressBar = {
-            label: "Calculating Offline Progress",
+            label: i18n.t("calculating_offline_progress"),
             current: doneSoFar,
             max: ticks,
             startTime: Date.now(),
             buttons: [{
-              text: "Speed up",
+              text: i18n.t("speed_up"),
               condition: (current, max) => max - current > 500,
               click: () => {
                 const newRemaining = Math.clampMin(Math.floor(progress.remaining / 2), 500);
@@ -103,7 +104,7 @@ export function simulateTime(seconds, fast = false) {
               }
             },
             {
-              text: "SKIP",
+              text: i18n.t("skip"),
               condition: (current, max) => max - current > 10,
               click: () => {
                 // We jump to 10 from the end (condition guarantees there are at least 10 left).

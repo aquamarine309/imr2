@@ -110,7 +110,7 @@ export const blackHole = [
       Currency.atomicPower.value.add(1).log(5), DC.D2E9, DC.D0_25),
     DC.E10, DC.D0_1
     ).floor(),
-    formatEffect: value => `+${format(value, 0)}`,
+    formatEffect: value => formatPlus(value, 0),
     softcapped: value => value.gte(DC.D2E9),
     cost: DC.E420,
     isUnlocked: () => PlayerProgress.atomUnlocked()

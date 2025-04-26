@@ -31,7 +31,6 @@ window.player = {
   stars: {
     amount: DC.D0,
     generators: Array.repeat(DC.D0, 5),
-    boosts: DC.D0,
     unlocked: -1
   },
   supernova: {
@@ -50,6 +49,12 @@ window.player = {
     bosonUpgrades: {
       photon: Array.repeat(DC.D0, 4),
       gluon: Array.repeat(DC.D0, 4)
+    },
+    fermions: {
+      quarks: DC.D0,
+      leptons: DC.D0,
+      tiers: Array.repeat(DC.D0, 12),
+      active: -1
     }
   },
   auto: {
@@ -68,7 +73,8 @@ window.player = {
       overpower: false,
       tickspeed: false,
       condenser: false,
-      cosmicRay: false
+      cosmicRay: false,
+      starBooster: false
     },
     mainUpgrades: {
       rage: false,
@@ -85,7 +91,8 @@ window.player = {
     overpower: DC.D0,
     tickspeed: DC.D0,
     condenser: DC.D0,
-    cosmicRay: DC.D0
+    cosmicRay: DC.D0,
+    starBooster: DC.D0
   },
   unlocks: {
     ragePower: false,
@@ -114,7 +121,7 @@ window.player = {
     maxMass: DC.D0
   },
   lastUpdate: Date.now(),
-  version: 0,
+  version: 2,
   tutorialBits: 0,
   options: {
     updateRate: 33,
@@ -125,6 +132,7 @@ window.player = {
     lastOpenSubtab: Array.repeat(0, 10),
     starBG: true,
     adUI: false,
+    language: "en",
     confirmations: {
       ragePower: true,
       darkMatter: true,

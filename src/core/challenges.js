@@ -54,7 +54,7 @@ class ChallengeState extends GameMechanicState {
   get isRunning() {
     return player.challenges.current === this.id;
   }
-  
+
   get forceRunning() {
     return this.id <= 8 && Challenge(10).canBeApplied;
   }
@@ -192,7 +192,7 @@ class ChallengeState extends GameMechanicState {
     }
     return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow).add(1).floor().clampMax(this.max);
   }
-  
+
   applyAutoComplete() {
     if (this.isCapped || this.currency.lt(this.goal)) return;
     this.completions = this.pendingCompletions;
@@ -203,12 +203,12 @@ class ChallengeState extends GameMechanicState {
   }
 
   get name() {
-    const name = this.config.name;
+    const name = i18n.t(`c${this.id}_name`);
     if (this.completions.gte(this.insaneStart)) {
-      return `Insane ${name}`;
+      return `${i18n.t("insane")}${name}`;
     }
     if (this.completions.gte(this.hardenedStart)) {
-      return `Hardened ${name}`;
+      return `${i18n.t("hardened")}${name}`;
     }
     return name;
   }

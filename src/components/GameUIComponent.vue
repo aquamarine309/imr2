@@ -102,7 +102,7 @@ export default {
       />
       <ModalProgressBar v-if="view.modal.progressBar" />
       <BackgroundStar v-if="!showSupernova" />
-      <RelativisticParticles v-if="this.view.subtab === 'dilation'" />
+      <RelativisticParticles v-if="view.subtab === 'dilation'" />
       <v-touch
         class="l-view"
         v-on="swipeHandlers"

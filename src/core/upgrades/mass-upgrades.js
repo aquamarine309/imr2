@@ -7,8 +7,10 @@ class MassUpgradeState extends RebuyableMechanicState {
   }
 
   get name() {
-    const scaleName = this.config.scaling.getName(this.boughtAmount);
-    const name = this.config.name;
+    const name = i18n.t(this.config.i18nKey ?? this.id);
+    const scaling = this.config.scaling;
+    if (scaling === undefined) return name;
+    const scaleName = scaling.getName(this.boughtAmount);
     return `${scaleName}${name}`;
   }
 
@@ -41,7 +43,7 @@ class MassUpgradeState extends RebuyableMechanicState {
   }
 
   get effectValue() {
-    return this.config.effect(this.totalAmount, this.power);
+    return this.config.effect(this);
   }
 
   get isUnlocked() {
@@ -98,7 +100,7 @@ class MassUpgradeState extends RebuyableMechanicState {
   get isFree() {
     return this.config.isFree ?? false;
   }
-  
+
   onPurchased() {
     return this.config.onPurchased?.();
   }

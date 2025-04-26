@@ -126,6 +126,11 @@ class ParticleState {
     gain = gain.timesEffectOf(AtomUpgrade(6));
     gain = Softcap.dilation(gain, DC.E3_8E4, DC.D0_9);
     gain = Softcap.dilation(gain, DC.E1_6E5, DC.D0_9);
+    if (GameElement(61).canBeApplied) {
+      gain = gain.times(this.amount.add(1).sqrt());
+    }
+    gain = Softcap.dilation(gain, DC.EE11, DC.D0_9);
+    gain = Softcap.dilation(gain, DC.EE13, DC.D0_9);
     return gain;
   }
 

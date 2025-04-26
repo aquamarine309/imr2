@@ -36,7 +36,8 @@ export const GameStorage = {
   },
 
   exportToClipboard() {
-    return copyToClipboard(Serializer.encode(JSON.stringify(player)));
+    copyToClipboard(Serializer.encode(JSON.stringify(player)));
+    GameUI.notify.info(i18n.t("export_save_to_clipboard"));
   },
 
   importSave(save) {
@@ -47,7 +48,7 @@ export const GameStorage = {
       console.log(e);
     }
   },
-  
+
   get canSave() {
     return Supernova.times.gt(0) || !Currency.supernova.canReset;
   },
@@ -69,6 +70,7 @@ export const GameStorage = {
 
   updatePlayerData() {
     Lazy.invalidateAll();
+    i18n.locale = player.options.language;
     const diff = Date.now() - player.lastUpdate;
     if (diff > 1e4) {
       simulateTime(diff / 1000);
@@ -77,7 +79,7 @@ export const GameStorage = {
       this.save();
     }
   },
-  
+
   // Some minimal save verification; if the save is valid then this returns an empty string, otherwise it returns a
   // a string roughly stating what's wrong with the save. In order for importing to work properly, this must return
   // an empty string.
@@ -220,15 +222,26 @@ export const GameStorage = {
     save.stars = {
       points: stars.amount,
       generators: stars.generators,
-      boost: stars.boosts,
+      boost: massUpg.starBooster,
       unls: stars.unlocked + 1
     };
 
     const supernova = player.supernova;
+    const bosons = supernova.bosons;
     save.supernova = {
       times: supernova.times,
       stars: supernova.stars,
-      tree: supernova.tree
+      tree: supernova.tree,
+      bosons: {
+        gluon: bosons.gluon,
+        graviton: bosons.graviton,
+        hb: bosons.higgsBoson,
+        neg_w: bosons.negativeW,
+        pos_w: bosons.positiveW,
+        photon: bosons.photon,
+        z_boson: bosons.zBoson
+      },
+      b_upgs: supernova.bosonUpgrades
     };
 
     save.options = {
@@ -240,7 +253,8 @@ export const GameStorage = {
     save.quotes = convertBitsToArray(player.tutorialBits);
     save.name = "aquamrine";
 
-    return copyToClipboard(btoa(JSON.stringify(save)));
+    copyToClipboard(btoa(JSON.stringify(save)));
+    GameUI.notify.info(i18n.t("export_save_to_clipboard"));
   }
 };
 

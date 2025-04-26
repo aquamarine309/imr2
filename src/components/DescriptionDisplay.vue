@@ -20,7 +20,7 @@ export default {
       required: false,
       default: undefined
     },
-    title: {
+    titleKey: {
       type: String,
       required: false,
       default: ""
@@ -44,6 +44,10 @@ export default {
         classes[`${name}--small-text`] = true;
       }
       return classes;
+    },
+    descriptionText() {
+      if (this.titleKey === "") return this.description;
+      return i18n.t(this.titleKey, { value: this.description });
     }
   },
   watch: {
@@ -97,6 +101,6 @@ export default {
     v-if="isVisible"
     :class="classObject"
   >
-    {{ title }} {{ description }}
+    {{ descriptionText }}
   </span>
 </template>

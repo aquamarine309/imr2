@@ -12,7 +12,10 @@ export const BlackHole = {
   },
 
   get exponent() {
-    return 0.33;
+    return Effects.max(
+      DC.D0_33,
+      GameElement(59)
+    );
   },
 
   get gain() {

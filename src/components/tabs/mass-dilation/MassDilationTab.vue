@@ -18,7 +18,7 @@ export default {
       boost: new Decimal(),
       autoUnlocked: false,
       auto: false
-    }
+    };
   },
   computed: {
     upgrades() {
@@ -44,22 +44,43 @@ export default {
       this.auto = Autobuyer.dilationUpgrade.isActive;
     }
   }
-}
+};
 </script>
 
 <template>
   <div>
     <div><StartDilationButton /></div>
-    <div>You have <span class="o-highlight">{{ format(particles, 0) }}</span> Relativistic Particles.</div>
-    <div>
-      You have <span class="o-highlight">{{ formatMass(mass) }} {{ formatGain(mass, gain, true) }}</span> of dilated mass,
-      which makes Tickspeed <span class="o-highlight">{{ boostText }}</span> stronger.
-    </div>
+    <i18n
+      path="you_have_X"
+      tag="div"
+    >
+      <template #value>
+        <span class="o-highlight">{{ format(particles, 0) }}</span>
+        {{ $tc("relativistic_particle", checkSingle(particles)) }}
+      </template>
+    </i18n>
+    <i18n
+      path="you_have_X"
+      tag="div"
+    >
+      <template #value>
+        <span class="o-highlight">{{ formatMass(mass) }} {{ formatGain(mass, gain, true) }}</span>
+        {{ $tc("of_dilated_mass", checkSingle(mass)) }}
+      </template>
+    </i18n>
+    <i18n
+      path="dilated_mass_boost_tickspeed"
+      tag="div"
+    >
+      <template #value>
+        <span class="o-highlight">{{ boostText }}</span>
+      </template>
+    </i18n>
     <div>
       <PrimaryToggleButton
         v-if="autoUnlocked"
         v-model="auto"
-        label="Auto:"
+        i18n-key="auto_X"
       />
     </div>
     <div class="l-dilation-upgrade-container">

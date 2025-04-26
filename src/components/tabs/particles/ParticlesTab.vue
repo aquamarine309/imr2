@@ -61,14 +61,14 @@ export default {
 
 <template>
   <div>
-    <div>You have {{ format(quark, 0) }} unassigned Quarks.</div>
+    <div>{{ $tc("you_have_X_unsigned_quark", checkSingle(quark), { value: format(quark, 0) }) }}</div>
     <div class="c-distribute-row">
       <PrimaryButton
         class="o-primary-btn--distribute"
         :enabled="canDistribute"
         @click="distribute"
       >
-        Distribute
+        {{ $t("distribute") }}
       </PrimaryButton>
     </div>
     <div class="c-weight-row">

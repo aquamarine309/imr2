@@ -14,13 +14,13 @@ export default {
       type: Boolean,
       required: false
     },
-    name: {
+    nameKey: {
       type: String,
       required: true
     },
-    label: {
+    labelKey: {
       type: String,
-      default: "Cost:",
+      default: "cost_X",
       required: false
     }
   },
@@ -87,6 +87,6 @@ export default {
 <template>
   <span v-if="isVisible">
     <br v-if="br">
-    {{ label }} {{ formatCost(cost, 0) }} {{ name }}
+    {{ $t(labelKey, { value: $t(nameKey, checkSingle(cost), { value: formatCost(cost) }) }) }}
   </span>
 </template>

@@ -44,17 +44,20 @@ export default {
       return `${format(this.amount, 0)} + ${format(this.free, 0)}`;
     },
     costText() {
-      if (!this.isUnlocked) return "Locked";
-      if (this.isDisabled) return "Disabled";
+      if (!this.isUnlocked) return i18n.t("locked");
+      if (this.isDisabled) return i18n.t("disabled");
       const currency = this.upgrade.currency;
       let cost;
       if (currency === Currency.mass) cost = formatMass(this.cost);
-      else cost = `${format(this.cost, 0)} ${currency.name}`;
+      else cost = i18n.tc(currency.key, checkSingle(this.cost), { value: format(this.cost, 0) });
       if (this.autoUnlocked) return cost;
-      return `Cost: ${cost}`;
+      return i18n.t("cost_X", { value: cost });
     },
     nameClass() {
       return this.name.length >= 10 ? "c-mass-upgrade-name--small" : "";
+    },
+    softcappedText() {
+      return this.softcapLevel === 1 ? i18n.t("softcapped") : i18n.t("softcapped_X", { level: formatInt(this.softcapLevel) });
     }
   },
   watch: {
@@ -125,7 +128,7 @@ export default {
         class="o-buy-mass-upgrade-btn"
         @click="max"
       >
-        Buy Max
+        {{ $t("buy_max") }}
       </PrimaryButton>
       <PrimaryToggleButton
         v-if="autoUnlocked"
@@ -135,18 +138,15 @@ export default {
       />
     </div>
     <div class="l-mass-upgrade-row--text">
-      Power: {{ powerText }}
+      {{ $t("power_X", { value: powerText }) }}
     </div>
     <div class="l-mass-upgrade-row--text">
-      Effect: {{ effectText }}
+      {{ $t("effect_X", { value: effectText }) }}
       <span
         v-if="softcapLevel > 0"
         class="o-softcapped"
       >
-        (softcapped{{
-          softcapLevel === 1
-            ? "" : `^${format(softcapLevel, 0)}`
-        }})
+        {{ softcappedText }}
       </span>
     </div>
   </div>

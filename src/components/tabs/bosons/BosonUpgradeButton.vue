@@ -34,11 +34,11 @@ export default {
       };
     },
     estimateTime() {
-      if (Number.isFinite(this.time)) return `In ${TimeSpan.fromSeconds(this.time).toStringShort()}`;
-      return "Never Affordable";
+      if (Number.isFinite(this.time)) return i18n.t("in_X", { value: TimeSpan.fromSeconds(this.time).toStringShort() });
+      return i18n.t("never_affordable");
     },
-    currencyName() {
-      return this.upgrade.type.capitalize();
+    currencyKey() {
+      return `X_${this.upgrade.type}`;
     }
   },
   methods: {
@@ -62,13 +62,13 @@ export default {
     :class="classObject"
     @click="purchase"
   >
-    <span>[Level {{ format(level, 0) }}]</span>
+    <span>{{ $t("level_X", { level: format(level, 0) }) }}</span>
     <DescriptionDisplay :config="config" />
     <EffectDisplay :config="config" />
     <br>
     <CostDisplay
       :config="config"
-      :name="currencyName"
+      :name-key="currencyKey"
     />
     <span v-if="!canBeBought">({{ estimateTime }})</span>
   </button>
@@ -85,7 +85,7 @@ export default {
   flex-direction: column;
   color: white;
   margin: 4px 1px;
-  font-family: BlobFont;
+  font-family: BlobFont, serif;
   font-size: 10px;
   padding: 4px;
   width: 100%;

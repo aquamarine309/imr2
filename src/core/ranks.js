@@ -61,7 +61,7 @@ class RankTypeState extends GameMechanicState {
   }
 
   get name() {
-    return this.config.name;
+    return i18n.t(this.id);
   }
 
   get previous() {
@@ -73,19 +73,25 @@ class RankTypeState extends GameMechanicState {
   }
 
   get description() {
-    if (this.isDisabled) return "Locked";
-    const resets = this.isRank
-      ? "mass and upgrades"
+    if (this.isDisabled) return i18n.t("locked");
+    if (this.noReset) return i18n.t("rank_up", { rank: this.name });
+    const reset = this.isRank
+      ? i18n.t("mass_and_upgrades")
       : this.previous.name;
-    const rankUp = `${this.name} up.`;
-    if (this.noReset) return rankUp;
-    return `Reset ${resets}, but ${rankUp}`;
+    return i18n.t("reset_X_but_rank_up", {
+      reset,
+      rank: this.name
+    });
   }
 
   get reward() {
     const next = this.nextUnlock.value;
-    if (next === undefined || this.isDisabled) return "No rewards available...";
-    return `At ${this.name} ${format(next.requirement, 0)} - ${next.description}`;
+    if (next === undefined || this.isDisabled) return i18n.t("no_rewards_available");
+    return i18n.t("at_rank_X", {
+      rank: this.name,
+      level: format(next.requirement, 0),
+      description: next.description
+    });
   }
 
   get requirement() {

@@ -43,6 +43,9 @@ function formatWithCommas(value) {
  * @returns {string}
  */
 window.format = function format(value, places = 4, layerExp = 12) {
+  if (!GameUI.initialized) {
+    throw new Error("Cannot use format before the game initializes!");
+  }
   const decimal = Decimal.fromValue_noAlloc(value);
   if (!decimal.isFinite()) return "NaN";
   if (decimal.sign < 0) {
@@ -51,12 +54,16 @@ window.format = function format(value, places = 4, layerExp = 12) {
   if (decimal.sign === 0) {
     return (0).toFixed(places);
   }
-  const exp = decimal.log10().floor();
+  let exp = decimal.log10().floor();
   if (places > 1 && exp.lt(-places)) {
-    const expCeil = decimal.log10().ceil();
+    let expCeil = decimal.log10().ceil();
     const mantissa = decimal.div(Decimal.pow10(expCeil));
     const be = expCeil.neg().clampMin(1).log10().gte(9);
-    const formatMantissa = be ? "" : mantissa.toFixed(4);
+    let formatMantissa = be ? "" : mantissa.toFixed(4);
+    if (formatMantissa === "10.0000") {
+      formatMantissa = "1.0000";
+      expCeil = expCeil.add(1);
+    }
     const formatExponent = format(expCeil, 0, layerExp);
     return `${formatMantissa}e${formatExponent}`;
   }
@@ -73,13 +80,21 @@ window.format = function format(value, places = 4, layerExp = 12) {
   }
   const mantissa = decimal.div(Decimal.pow10(exp));
   const be = exp.gt(1e9);
-  const formatMantissa = be ? "" : mantissa.toFixed(4);
+  let formatMantissa = be ? "" : mantissa.toFixed(4);
+  if (formatMantissa === "10.0000") {
+    formatMantissa = "1.0000";
+    exp = exp.add(1);
+  }
   const formatExponent = format(exp, 0, layerExp);
   return `${formatMantissa}e${formatExponent}`;
 };
 
 window.formatX = function formatX(value, places = 4) {
   return `×${format(value, places)}`;
+};
+
+window.formatPlus = function formatX(value, places = 4) {
+  return `+${format(value, places)}`;
 };
 
 window.formatPow = function formatPow(value, places = 4) {
@@ -92,10 +107,13 @@ window.formatPercents = function formatPercents(value, places = 4) {
 };
 
 window.formatMass = function formatMass(value) {
-  return `${format(value)} g`;
+  return i18n.t("X_g", { mass: format(value) });
 };
 
 window.formatInt = function formatInt(value) {
+  if (!GameUI.initialized) {
+    throw new Error("Cannot use format before the game initializes!");
+  }
   const number = (value instanceof Decimal) ? value.toNumber() : value;
   return number.toFixed(0);
 };
@@ -106,12 +124,16 @@ window.formatGain = function formatGain(amount, gain, isMass) {
   const logMult = next.max(1).log10().div(amount.max(1).log10());
   if (!isMass && logMult.gte(DC.E1) && amount.gte(DC.EE100)) {
     const ooms2 = logMult.log10().times(20);
-    return `(+${format(ooms2)} OoMs^2/sec)`;
+    return `(+${format(ooms2)} ${i18n.t("ooms")}^2/${i18n.t("sec")})`;
   }
   const mult = next.div(amount);
   if (mult.gte(DC.E1) && amount.gte(DC.E100)) {
     const ooms = mult.log10().times(20);
-    return `(+${format(ooms)} OoMs/sec)`;
+    return `(+${format(ooms)} ${i18n.t("ooms")}/${i18n.t("sec")})`;
   }
-  return `(+${formatType(gain)}/sec)`;
+  return `(+${formatType(gain)}/${i18n.t("sec")})`;
+};
+
+window.checkSingle = function checkSingle(decimal) {
+  return decimal.eq(1) ? 1 : 0;
 };

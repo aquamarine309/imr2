@@ -26,8 +26,8 @@ export default {
     };
   },
   computed: {
-    name() {
-      return this.particle.config.name;
+    nameKey() {
+      return this.particle.config.key;
     }
   },
   methods: {
@@ -53,17 +53,17 @@ export default {
         :enabled="canAssign"
         @click="assign"
       >
-        Assign
+        {{ $t("assign") }}
       </PrimaryButton>
     </div>
     <br>
     <h3 :class="textClass">
-      {{ format(amount, 0) }} {{ name }}
+      {{ format(amount, 0) }} {{ $tc(nameKey, checkSingle(amount)) }}
     </h3>
     <div :class="textClass">
-      Which generates {{ format(gain) }} {{ name }} Powers per second.
+      Which generates {{ format(gain) }}  {{ $tc(nameKey, 1) }} Powers per second.
       <br>
-      You have {{ format(power) }} {{ formatGain(power, gain) }} {{ name }} Powers, which:
+      You have {{ format(power) }} {{ formatGain(power, gain) }} {{ $tc(nameKey, 1) }} Powers, which:
     </div>
     <div>
       {{ effect }}

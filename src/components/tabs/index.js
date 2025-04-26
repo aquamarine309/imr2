@@ -11,6 +11,7 @@ import ElementsTab from "./elements/ElementsTab";
 import MassDilationTab from "./mass-dilation/MassDilationTab";
 import NeutronTreeTab from "./neutron-tree/NeutronTreeTab";
 import BosonsTab from "./bosons/BosonsTab";
+import FermionsTab from "./fermions/FermionsTab";
 
 export default {
   MassTab,
@@ -25,5 +26,6 @@ export default {
   ElementsTab,
   MassDilationTab,
   NeutronTreeTab,
-  BosonsTab
+  BosonsTab,
+  FermionsTab
 };

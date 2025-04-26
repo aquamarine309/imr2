@@ -8,7 +8,7 @@ export default {
   },
   data() {
     return {
-      currencyAmount: ""
+      currencyAmount: new Decimal()
     };
   },
   computed: {
@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     update() {
-      this.currencyAmount = format(Currency.ragePowers.value, 0);
+      this.currencyAmount.copyFrom(Currency.ragePowers.value);
     }
   }
 };
@@ -30,9 +30,9 @@ export default {
 <template>
   <MainUpgradesTab
     :upgrades="upgrades"
-    name="Rage Upgrades"
+    :name="$t('tab_upgrades_rage')"
     :currency-amount="currencyAmount"
-    currency-name="Rage Power"
+    currency-key="X_rage_power"
     :autobuyer="autobuyer"
   />
 </template>

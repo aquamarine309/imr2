@@ -16,7 +16,7 @@ export default {
       isUnlocked: false,
       isBought: false,
       canBeBought: false
-    }
+    };
   },
   computed: {
     start() {
@@ -46,10 +46,10 @@ export default {
       return {
         cx: `${to(this.start.config.idx, this.end.config.idx, p) * 100}%`,
         cy: to(this.start.config.row, this.end.config.row, p) * 75
-      }
+      };
     }
   }
-}
+};
 
 function to(a, b, r) {
   return a * (1 - r) + b * r;

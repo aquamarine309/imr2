@@ -1,10 +1,10 @@
 import { deepmergeAll } from "@/utility/deepmerge";
-import { DC } from "./constants";
 
 export const migrations = {
   patches: {
-    1: player => {
-      player.mass = DC.E1;
+    2: player => {
+      player.massUpgrades.starBooster = new Decimal(player.stars.boosts);
+      delete player.stars.boosts;
     }
   },
 

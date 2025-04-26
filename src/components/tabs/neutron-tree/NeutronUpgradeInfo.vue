@@ -20,7 +20,7 @@ export default {
     return {
       isSatisfied: false,
       isBought: false
-    }
+    };
   },
   computed: {
     requirement() {
@@ -37,7 +37,7 @@ export default {
       this.isSatisfied = this.upgrade.isSatisfied;
     }
   }
-}
+};
 </script>
 
 <template>
@@ -59,7 +59,7 @@ export default {
       <div>
         <CostDisplay
           :config="config"
-          name="Neutron Star"
+          name-key="X_neutron_star"
         />
       </div>
       <div class="c-green">

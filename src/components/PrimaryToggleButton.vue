@@ -7,7 +7,7 @@ export default {
     PrimaryButton
   },
   props: {
-    label: {
+    i18nKey: {
       type: String,
       required: false,
       default: ""
@@ -15,12 +15,12 @@ export default {
     on: {
       type: String,
       required: false,
-      default: "ON"
+      default: "on"
     },
     off: {
       type: String,
       required: false,
-      default: "OFF"
+      default: "off"
     },
     value: {
       type: Boolean,
@@ -29,7 +29,9 @@ export default {
   },
   computed: {
     displayText() {
-      return `${this.label} ${this.value ? this.on : this.off}`.trim();
+      const state = this.$t(this.value ? this.on : this.off);
+      if (this.i18nKey === "") return state;
+      return this.$t(this.i18nKey, { state });
     }
   },
 };
