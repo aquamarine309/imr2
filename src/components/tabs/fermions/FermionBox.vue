@@ -37,7 +37,7 @@ export default {
       class="o-fermion-symbol"
       v-html="symbol"
     />
-    <div>{{ name }}</div>
+    <div class="o-fermion-name">{{ name }}</div>
   </div>
 </template>
 

@@ -54,7 +54,7 @@ export const bosons = {
   graviton: {
     id: "graviton",
     gain: () => DC.D0_01.timesEffectOf(Boson.graviton),
-    effect: value => dilatedValue(value, DC.D0_5).powEffectOf(Boson.higgsBoson)
+    effect: value => dilatedValue(value, DC.D0_5).powEffectOf(Boson.higgsBoson).clampMin(1)
   },
   higgsBoson: {
     id: "higgsBoson",

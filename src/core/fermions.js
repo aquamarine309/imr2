@@ -99,6 +99,8 @@ export const FermionType = mapGameDataToObject(
 );
 
 export const Fermions = {
+  all: FermionType.all.reduce((acc, type) => acc.concat(type.fermions.all), []),
+
   get areUnlocked() {
     return Challenge(10).milestones[0].canBeApplied;
   }

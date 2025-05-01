@@ -1,17 +1,20 @@
 <script>
 import FermionBox from "./FermionBox";
+import FermionInfo from "./FermionInfo";
 
 export default {
   name: "FermionsTab",
   components: {
-    FermionBox
+    FermionBox,
+    FermionInfo
   },
   data() {
     return {
       quarks: new Decimal(),
       leptons: new Decimal(),
       quarkGain: new Decimal(),
-      leptonGain: new Decimal()
+      leptonGain: new Decimal(),
+      selected: -1
     };
   },
   computed: {
@@ -49,6 +52,7 @@ export default {
 
 <template>
   <div>
+    <FermionInfo :selected="selected" />
     <div class="l-fermions-container l-fermions-container--quark">
       <div>{{ quarkText }}</div>
       <div class="c-fermions">
@@ -56,6 +60,7 @@ export default {
           v-for="fermion in quarkFermions"
           :key="fermion.id"
           :fermion="fermion"
+          @click.native="selected = fermion.id"
         />
       </div>
     </div>
@@ -66,6 +71,7 @@ export default {
           v-for="fermion in leptonFermions"
           :key="fermion.id"
           :fermion="fermion"
+          @click.native="selected = fermion.id"
         />
       </div>
     </div>
