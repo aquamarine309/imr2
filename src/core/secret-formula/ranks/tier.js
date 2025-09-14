@@ -15,8 +15,9 @@ export const tier = {
     return RageUpgrade(5).canBeApplied;
   },
   requirement(amount) {
-    let req = Scaling.tier.scaleEvery(amount).timesEffectOf(
-      RankType.tetr.unlocks.ranksReqAndScaling.effects.tier
+    let req = Scaling.tier.scaleEvery(amount).timesEffectsOf(
+      RankType.tetr.unlocks.ranksReqAndScaling.effects.tier,
+      FermionType.leptons.fermions.neutrino.reward
     );
     if (AtomUpgrade(9).canBeApplied) {
       req = req.times(DC.D0_5);
@@ -25,7 +26,10 @@ export const tier = {
   },
   bulk(currency) {
     let rank = currency.sqrt().minus(2)
-      .dividedByEffectOf(RankType.tetr.unlocks.ranksReqAndScaling.effects.tier);
+      .dividedByEffectsOf(
+        RankType.tetr.unlocks.ranksReqAndScaling.effects.tier,
+        FermionType.leptons.fermions.neutrino.reward
+      );
     if (AtomUpgrade(9).canBeApplied) {
       rank = rank.times(DC.D2);
     }

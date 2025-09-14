@@ -1,10 +1,12 @@
 <script>
 import BosonUpgradeButton from "./BosonUpgradeButton";
+import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
   name: "BosonsTab",
   components: {
-    BosonUpgradeButton
+    BosonUpgradeButton,
+    PrimaryToggleButton
   },
   data() {
     return {
@@ -29,12 +31,19 @@ export default {
       negativeWSoftcap: new Decimal(),
       negativeWPos: new Decimal(),
       zBosonTickspeed: new Decimal(),
-      zBosonW: new Decimal()
+      zBosonW: new Decimal(),
+      autoUnlocked: false,
+      auto: false
     };
   },
   computed: {
     photonUpgrade: () => PhotonUpgrade,
     gluonUpgrade: () => GluonUpgrade
+  },
+  watch: {
+    auto(value) {
+      Autobuyer.bosonUpgrade.isActive = value;
+    }
   },
   methods: {
     update() {
@@ -60,6 +69,8 @@ export default {
       this.higgsBosonEffect = Boson.higgsBoson.effectValue;
       this.zBosonTickspeed = Boson.zBoson.effects.tickspeed.effectValue;
       this.zBosonW = Boson.zBoson.effects.wBosons.effectValue;
+      this.autoUnlocked = Autobuyer.bosonUpgrade.isUnlocked;
+      this.auto = Autobuyer.bosonUpgrade.isActive;
     }
   }
 };
@@ -67,6 +78,13 @@ export default {
 
 <template>
   <div class="l-bosons-tab">
+    <div>
+      <PrimaryToggleButton
+        v-if="autoUnlocked"
+        v-model="auto"
+        i18n-key="auto_X"
+      />
+    </div>
     <div class="c-bosons-row">
       <div class="c-boson-grid c-boson-graviton">
         You have {{ format(graviton) }} {{ formatGain(graviton, gravitonGain) }} Graviton, which speed up Boson production by {{ format(gravitonEffect) }}.

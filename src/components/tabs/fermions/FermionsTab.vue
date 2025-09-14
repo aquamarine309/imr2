@@ -1,12 +1,14 @@
 <script>
 import FermionBox from "./FermionBox";
 import FermionInfo from "./FermionInfo";
+import PrimaryButton from "@/components/PrimaryButton";
 
 export default {
   name: "FermionsTab",
   components: {
     FermionBox,
-    FermionInfo
+    FermionInfo,
+    PrimaryButton
   },
   data() {
     return {
@@ -39,12 +41,25 @@ export default {
       });
     },
   },
+  watch: {
+    selected() {
+      GameUI.update();
+    }
+  },
   methods: {
     update() {
       this.quarks.copyFrom(Currency.uQuarks.value);
       this.leptons.copyFrom(Currency.uLeptons.value);
       this.quarkGain = Currency.uQuarks.gainPerSecond;
       this.leptonGain = Currency.uLeptons.gainPerSecond;
+    },
+    backToNormal() {
+      Currency.supernova.resetLayer();
+    },
+    select(fermion) {
+      if (fermion.isUnlocked) {
+        this.selected = fermion.id;
+      }
     }
   }
 };
@@ -52,6 +67,11 @@ export default {
 
 <template>
   <div>
+    <div>
+      <PrimaryButton @click="backToNormal">
+        Back To Normal
+      </PrimaryButton>
+    </div>
     <FermionInfo :selected="selected" />
     <div class="l-fermions-container l-fermions-container--quark">
       <div>{{ quarkText }}</div>
@@ -60,7 +80,7 @@ export default {
           v-for="fermion in quarkFermions"
           :key="fermion.id"
           :fermion="fermion"
-          @click.native="selected = fermion.id"
+          @click.native="select(fermion)"
         />
       </div>
     </div>
@@ -71,7 +91,7 @@ export default {
           v-for="fermion in leptonFermions"
           :key="fermion.id"
           :fermion="fermion"
-          @click.native="selected = fermion.id"
+          @click.native="select(fermion)"
         />
       </div>
     </div>

@@ -1,5 +1,9 @@
 import { DC } from "./constants";
 
+function isEND() {
+  return false;
+}
+
 /**
  * @param {string} value
  * @param {number} index
@@ -46,6 +50,7 @@ window.format = function format(value, places = 4, layerExp = 12) {
   if (!GameUI.initialized) {
     throw new Error("Cannot use format before the game initializes!");
   }
+  if (isEND()) return i18n.t("end");
   const decimal = Decimal.fromValue_noAlloc(value);
   if (!decimal.isFinite()) return "NaN";
   if (decimal.sign < 0) {
@@ -107,13 +112,14 @@ window.formatPercents = function formatPercents(value, places = 4) {
 };
 
 window.formatMass = function formatMass(value) {
-  return i18n.t("X_g", { mass: format(value) });
+  return i18n.t("X_g", { value: format(value) });
 };
 
 window.formatInt = function formatInt(value) {
   if (!GameUI.initialized) {
     throw new Error("Cannot use format before the game initializes!");
   }
+  if (isEND()) return i18n.t("end");
   const number = (value instanceof Decimal) ? value.toNumber() : value;
   return number.toFixed(0);
 };
@@ -134,6 +140,7 @@ window.formatGain = function formatGain(amount, gain, isMass) {
   return `(+${formatType(gain)}/${i18n.t("sec")})`;
 };
 
+// For i18n
 window.checkSingle = function checkSingle(decimal) {
   return decimal.eq(1) ? 1 : 0;
 };

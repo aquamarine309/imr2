@@ -50,6 +50,8 @@ export default {
       handler(config) {
         this.updateEffect = () => { };
         this.updateCap = () => { };
+        this.cap = Number.MAX_VALUE;
+        this.hasCap = false;
         this.softcapped = () => false;
         const effect = config?.effect || config?.effects?.[config?.mainEffect];
         const formatEffect = config?.formatEffect;
@@ -181,7 +183,7 @@ export default {
     <br v-if="br">
     {{ effectDisplay }}
     <span
-      v-if="softcap"
+      v-if="softcap && !reachedCap"
       class="o-softcapped"
     >
       {{ $t("softcapped") }}

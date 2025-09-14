@@ -48,8 +48,11 @@ export default {
       if (this.isDisabled) return i18n.t("disabled");
       const currency = this.upgrade.currency;
       let cost;
-      if (currency === Currency.mass) cost = formatMass(this.cost);
-      else cost = i18n.tc(currency.key, checkSingle(this.cost), { value: format(this.cost, 0) });
+      if (currency === Currency.mass) {
+        cost = format(this.cost);
+      } else {
+        cost = i18n.tc(currency.key, checkSingle(this.cost), { value: format(this.cost, 0) });
+      }
       if (this.autoUnlocked) return cost;
       return i18n.t("cost_X", { value: cost });
     },
@@ -119,7 +122,7 @@ export default {
       </div>
       <PrimaryButton
         class="o-buy-mass-upgrade-btn o-buy-mass-upgrade-btn--main"
-        :enabled="isAffordable && !isDisabled"
+        :enabled="isAffordable && !isDisabled && isUnlocked"
         @click="buy"
       >
         {{ costText }}

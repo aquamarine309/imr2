@@ -44,7 +44,7 @@ export const massSoftcap = [
   {
     id: 2,
     mass() {
-      return DC.D1_5E100000056;
+      return DC.D1_5E100000056.powEffectOf(NeutronUpgrade.m3);
     },
     effect() {
       return DC.D0_2;

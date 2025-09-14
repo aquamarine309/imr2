@@ -7,7 +7,8 @@ import { DC } from "./constants";
  * @returns {Decimal}
  */
 export function dilatedValue(value, power, base = DC.E1) {
-  if (value.lt(10)) return value;
+  if (power.eq(DC.D1) || value.lt(DC.E1)) return value;
+  // Functions pow10 and log10 is optimized, do not modify to "Decimal.pow(10, X)"
   return Decimal.pow10(value.log10().pow(power).times(base.log10().pow(DC.D1.minus(power))));
 }
 
@@ -63,7 +64,7 @@ export function scaleValue(value, start, power, type, reverse = false) {
     case SCALE_TYPE.DILATION:
       return reverse
         ? Decimal.pow10(value.log10().div(log10).root(p).mul(log10))
-        : Decimal.pow10(value.log10().div(log10).pow(p).mul(log10));
+        : Decimal.log10(value.log10().div(log10).pow(p).mul(log10));
     case SCALE_TYPE.ALT_EXP:
       return reverse
         ? value.div(s).max(1).log(p).add(1).mul(s)
@@ -74,16 +75,17 @@ export function scaleValue(value, start, power, type, reverse = false) {
 }
 
 function getScaleType(scaleIndex) {
-  if (scaleIndex === 3) {
-    return SCALE_TYPE.EXP;
-  }
-  if (scaleIndex % 4 === 3) {
-    return SCALE_TYPE.ALT_EXP;
-  }
-  if (scaleIndex >= 6) {
-    return SCALE_TYPE.DILATION;
-  }
-  return SCALE_TYPE.POWER;
+  return [
+    SCALE_TYPE.POWER,
+    SCALE_TYPE.POWER,
+    SCALE_TYPE.POWER,
+    SCALE_TYPE.EXP,
+    SCALE_TYPE.POWER,
+    SCALE_TYPE.POWER,
+    SCALE_TYPE.DILATION,
+    SCALE_TYPE.ALT_EXP,
+    SCALE_TYPE.DILATION
+  ][scaleIndex];
 }
 
 class ScalingState {
@@ -109,11 +111,17 @@ class ScalingState {
     let output = value;
     for (let i = 0; i < length; i++) {
       const idx = reverse ? i : length - i - 1;
-      const scale = scales[idx] ?? DC.D1;
+      const scale = scales[idx];
       if (reverse) {
-        output = this.scale(output.mul(scale), idx, reverse);
+        if (scale) {
+          output = output.mul(scale);
+        }
+        output = this.scale(output, idx, reverse);
       } else {
-        output = this.scale(output, idx, reverse).div(scale);
+        output = this.scale(output, idx, reverse);
+        if (scale) {
+          output = output.div(scale);
+        }
       }
     }
     return output;
@@ -121,6 +129,7 @@ class ScalingState {
 
   getName(value) {
     let idx = -1;
+    // Binary Search is unnecessary
     for (let i = 0; i < this.scalings.length; i++) {
       if (value.lt(this.scalings[i].start)) break;
       idx = i;

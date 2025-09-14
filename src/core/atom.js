@@ -12,6 +12,7 @@ export const Atom = {
       GameElement(52),
       GluonUpgrade[0]
     );
+    power = dilatedValue(power, FermionType.quarks.fermions.up.effectOrDefault(DC.D1));
     if (MassDilation.canBeApplied) {
       power = dilatedValue(power, MassDilation.power);
     }

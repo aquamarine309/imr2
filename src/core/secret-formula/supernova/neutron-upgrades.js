@@ -5,6 +5,31 @@ const bs2Effect = x => overflow(
   DC.EE60, DC.D0_5
 );
 
+// Tree 0 (Main):
+//           c
+//  s1 m1 rp1 bh1 sn1
+// s2 m2 t1 d1 bh2 gr1 sn2
+//   s3  m3   gl2  sn3
+//    s4         sn4
+
+// Tree 1 (QoLs):
+//         qol1
+//  qol2   qol3   qol4
+//  qol5   qol6   qol7
+//         unl1
+
+// Tree 2 (Challenges):
+//           chal1
+//  chal2  chal4a      chal3
+//      chal4
+//  chal5
+
+// Tree 3 (Post-Supernova):
+//    bs4    bs1
+//        bs2  fn1  bs3
+// fn4  fn3  fn9  fn2 fn5
+//   fn6      fn12
+
 // IDX: row-index / (amount-of-upgrade + 1)
 export const neutronUpgrades = {
   c: {
@@ -18,6 +43,17 @@ export const neutronUpgrades = {
     tree: 0,
     row: 0,
     idx: 1 / 2
+  },
+  s1: {
+    id: "s1",
+    branch: ["c"],
+    description: "Neutron Star boosts last star gain.",
+    effect: () => Currency.neutronStars.value.add(1).pow(1.4),
+    formatEffect: value => formatX(value),
+    cost: DC.D400,
+    tree: 0,
+    row: 1,
+    idx: 1 / 6
   },
   m1: {
     id: "m1",
@@ -54,17 +90,6 @@ export const neutronUpgrades = {
     tree: 0,
     row: 1,
     idx: 4 / 6
-  },
-  s1: {
-    id: "s1",
-    branch: ["c"],
-    description: "Neutron Star boosts last star gain.",
-    effect: () => Currency.neutronStars.value.add(1).pow(1.4),
-    formatEffect: value => formatX(value),
-    cost: DC.D400,
-    tree: 0,
-    row: 1,
-    idx: 1 / 6
   },
   sn1: {
     id: "sn1",
@@ -111,6 +136,18 @@ export const neutronUpgrades = {
     tree: 0,
     row: 2,
     idx: 3 / 8
+  },
+  d1: {
+    id: "d1",
+    branch: ["rp1"],
+    isUnlocked: () => NeutronUpgrade.fn6.isBought,
+    description: () => `Generating Relativistic particles outside Mass dilation is ${formatPercents(0.25, 0)} stronger.`,
+    effect: DC.D1_25,
+    effectCondition: () => !MassDilation.isActive,
+    cost: DC.E51,
+    tree: 0,
+    row: 2,
+    idx: 4 / 8
   },
   bh2: {
     id: "bh2",
@@ -169,7 +206,7 @@ export const neutronUpgrades = {
   m3: {
     id: "m3",
     branch: ["m2"],
-    isUnlocked: () => false,
+    isUnlocked: () => Fermions.areUnlocked,
     description: () => `Mass gain softcap^${formatInt(3)} starts later based on Supernovas.`,
     effect: () => Supernova.times.times(0.0125).add(1),
     formatEffect: value => `${formatPow(value)} later`,
@@ -309,6 +346,32 @@ export const neutronUpgrades = {
     row: 2,
     idx: 2 / 4
   },
+  qol7: {
+    id: "qol7",
+    branch: ["qol6"],
+    isUnlocked: () => Fermions.areUnlocked && NeutronUpgrade.fn2.isBought,
+    description: "You can now automatically buy Photon and Gluon Upgrades, they no longer spent their amount.",
+    requirement: () => i18n.t("X_supernova", { value: formatInt(40) }),
+    check: () => Currency.supernova.gte(40),
+    cost: DC.E48,
+    tree: 1,
+    row: 2,
+    idx: 3 / 4
+  },
+  unl1: {
+    id: "unl1",
+    branch: ["qol7"],
+    description: "Unlock Radiation.",
+    requirement: () => i18n.t("X_supernova", { value: formatInt(44) }),
+    check: () => Currency.supernova.gte(44),
+    cost: DC.E52,
+    onPurchased() {
+      Tutorial.radiation.unlock();
+    },
+    tree: 1,
+    row: 3,
+    idx: 2 / 6
+  },
   chal1: {
     id: "chal1",
     branch: [],
@@ -381,7 +444,7 @@ export const neutronUpgrades = {
     cost: DC.E24,
     tree: 3,
     row: 0,
-    idx: 1 / 7
+    idx: 1 / 4
   },
   bs1: {
     id: "bs1",
@@ -395,7 +458,7 @@ export const neutronUpgrades = {
     cost: DC.E13,
     tree: 3,
     row: 0,
-    idx: 2 / 7
+    idx: 2 / 4
   },
   bs2: {
     id: "bs2",
@@ -409,7 +472,19 @@ export const neutronUpgrades = {
     cost: DC.E14,
     tree: 3,
     row: 1,
-    idx: 1 / 7
+    idx: 2 / 5
+  },
+  fn1: {
+    id: "fn1",
+    branch: ["bs1"],
+    isUnlocked: () => Fermions.areUnlocked,
+    description: "Tickspeed affects Fermions gain at a reduced rate.",
+    effect: () => DC.D1_25.pow(Softcap.dilation(MassUpgrade.tickspeed.boughtAmount, DC.E24, DC.D0_5).pow(DC.D0_4)),
+    formatEffect: value => formatX(value),
+    cost: DC.E27,
+    tree: 3,
+    row: 1,
+    idx: 3 / 5
   },
   bs3: {
     id: "bs3",
@@ -421,6 +496,118 @@ export const neutronUpgrades = {
     cost: DC.E14,
     tree: 3,
     row: 1,
-    idx: 2 / 7
+    idx: 4 / 5
+  },
+  fn4: {
+    id: "fn4",
+    branch: ["fn1"],
+    isUnlocked: () => NeutronUpgrade.fn2.isBought,
+    description: "The second Photon and Gluon Upgrades are slightly stronger.",
+    effect: DC.D2,
+    cost: DC.E39,
+    tree: 3,
+    row: 2,
+    idx: 1 / 6
+  },
+  fn3: {
+    id: "fn3",
+    branch: ["fn1"],
+    description: () => `Super Fermion scaling is ${formatPercents(0.075, 1)} weaker.`,
+    effect: 0.925,
+    requirement: () => `Reach ${format(DC.E7)} of any Fermions.`,
+    check: () => Currency.uQuarks.value.max(Currency.uLeptons.value).gte(DC.E7),
+    cost: DC.E31,
+    tree: 3,
+    row: 2,
+    idx: 2 / 6
+  },
+  fn9: {
+    id: "fn9",
+    branch: ["fn1"],
+    description: () => `Fermions [Strange] and [Neutrino] max tier is increased by ${formatInt(2)}.`,
+    effect: DC.D2,
+    cost: DC.E166,
+    tree: 3,
+    row: 2,
+    idx: 3 / 6
+  },
+  fn2: {
+    id: "fn2",
+    branch: ["fn1"],
+    description: "Unlock two more types of U-Quark and U-Fermion.",
+    requirement: () => `Reach ${formatMass(DC.D1_5E1000056)} of mass while dilating mass in Fermion [Down].`,
+    check: () => (FermionType.quarks.fermions.down.isActive &&
+      MassDilation.isActive &&
+      Currency.mass.gte(DC.D1_5E1000056)
+    ),
+    cost: DC.E33,
+    tree: 3,
+    row: 2,
+    idx: 4 / 6
+  },
+  fn5: {
+    id: "fn5",
+    branch: ["fn1"],
+    isUnlocked: () => NeutronUpgrade.fn2.isBought,
+    description: () => `[Electron] maximum tier is increased by ${formatInt(35)}. Its effect softcap is weaker.`,
+    effect: DC.D35,
+    requirement: () => `Reach ${format(DC.E1_25E4)} quarks while in [Electron]`,
+    check: () => (
+      FermionType.leptons.fermions.electron.isActive &&
+      Currency.quark.gte(DC.E1_25E4)
+    ),
+    cost: DC.E42,
+    tree: 3,
+    row: 2,
+    idx: 5 / 6
+  },
+  fn12: {
+    id: "fn12",
+    branch: ["fn3"],
+    description: () => `Pre-meta fermion scalings are ${formatPercents(0.9, 0)} weaker.`,
+    effect: DC.D0_1,
+    cost: DC.E960,
+    tree: 3,
+    row: 3,
+    idx: 1 / 5
+  },
+  fn11: {
+    id: "fn11",
+    branch: ["fn9"],
+    description: () => `[Strange], [Top], [Bottom], [Neutrino], [Neut-Muon] maximum tiers are increased by ${formatInt(5)}.`,
+    effect: DC.D5,
+    cost: DC.E680,
+    tree: 3,
+    row: 3,
+    idx: 2 / 5
+  },
+  fn6: {
+    id: "fn6",
+    branch: ["fn2"],
+    description: "Unlock two more types of U-Quark and U-Fermion.",
+    requirement: () => `Reach ${formatMass(DC.D1_5E40056)} while in [Charm] and Challenge 5.`,
+    check: () => (FermionType.quarks.fermions.charm.isActive &&
+      Challenge(5).isRunning &&
+      Currency.mass.gte(DC.D1_5E40056)
+    ),
+    cost: DC.E48,
+    tree: 3,
+    row: 3,
+    idx: 3 / 5
+  },
+  fn10: {
+    id: "fn10",
+    branch: ["fn5"],
+    isUnlocked: () => false,
+    description: "Uncap [Electron] tier, its effect is overpowered.",
+    requirement: () => `Reach ${format(DC.E1_5E8)} atoms while in [Electron] and 9th Challenge.`,
+    check: () => (FermionType.leptons.fermions.electron.isActive &&
+      Challenge(9).isRunning &&
+      Currency.atoms.gte(DC.E1_5E8)
+    ),
+    cost: DC.E600,
+    tree: 3,
+    row: 3,
+    idx: 4 / 5
   }
 };

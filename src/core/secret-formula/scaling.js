@@ -1,5 +1,7 @@
 import { DC } from "@/core/constants";
 
+// Names: ["super", "hyper", "ultra", "meta", "exotic", "supercritical", "instant", "mega"]
+
 export const scaling = {
   massUpgrade: [
     {
@@ -12,11 +14,21 @@ export const scaling = {
       }
     },
     {
-      start: DC.D500,
+      get start() {
+        return DC.D500;
+      },
       get scale() {
         return DC.D5.powEffectOf(RageUpgrade(7));
       }
     },
+    {
+      get start() {
+        return DC.E11;
+      },
+      get scale() {
+        return DC.E1;
+      }
+    }
   ],
   tickspeed: [
     {
@@ -53,6 +65,14 @@ export const scaling = {
           GameElement(27),
           GameElement(58)
         );
+      }
+    },
+    {
+      get start() {
+        return DC.D5E4;
+      },
+      get scale() {
+        return DC.D1_001;
       }
     },
   ],
@@ -139,7 +159,39 @@ export const scaling = {
       get scale() {
         return DC.D2_5;
       }
-    }
+    },
+    {
+      get start() {
+        return DC.E5;
+      },
+      get scale() {
+        return DC.D4;
+      }
+    },
+    {
+      get start() {
+        return DC.E9;
+      },
+      get scale() {
+        return DC.C1P1EN7;
+      }
+    },
+    {
+      get start() {
+        return DC.E25;
+      },
+      get scale() {
+        return DC.D20;
+      }
+    },
+    {
+      get start() {
+        return DC.E80;
+      },
+      get scale() {
+        return DC.D50;
+      }
+    },
   ],
   tetr: [
     {
@@ -157,7 +209,23 @@ export const scaling = {
       get scale() {
         return DC.D3;
       }
-    }
+    },
+    {
+      get start() {
+        return DC.D150;
+      },
+      get scale() {
+        return DC.D6;
+      }
+    },
+    {
+      get start() {
+        return DC.E10;
+      },
+      get scale() {
+        return DC.C1P1EN8;
+      }
+    },
   ],
   overpower: [
     {
@@ -193,7 +261,15 @@ export const scaling = {
       get scale() {
         return DC.D4.powEffectOf(GameElement(55));
       }
-    }
+    },
+    {
+      get start() {
+        return DC.E7;
+      },
+      get scale() {
+        return DC.D1_001;
+      }
+    },
   ],
   cosmicRay: [
     {
@@ -219,7 +295,15 @@ export const scaling = {
       get scale() {
         return DC.D6.powEffectOf(GameElement(55));
       }
-    }
+    },
+    {
+      get start() {
+        return DC.E6;
+      },
+      get scale() {
+        return DC.D1_001;
+      }
+    },
   ],
   supernova: [
     {
@@ -268,6 +352,43 @@ export const scaling = {
       },
       get scale() {
         return DC.D75;
+      }
+    }
+  ],
+  fermion: [
+    {
+      get start() {
+        return DC.E1;
+      },
+      get scale() {
+        return DC.D2_5.powEffectsOf(
+          NeutronUpgrade.fn3,
+          NeutronUpgrade.fn12
+        );
+      }
+    },
+    {
+      get start() {
+        return DC.D50;
+      },
+      get scale() {
+        return DC.D4.powEffectOf(NeutronUpgrade.fn12);
+      }
+    },
+    {
+      get start() {
+        return DC.E2;
+      },
+      get scale() {
+        return DC.D6.powEffectOf(NeutronUpgrade.fn12);
+      }
+    },
+    {
+      get start() {
+        return DC.D1_25E4;
+      },
+      get scale() {
+        return DC.D1_001;
       }
     }
   ]

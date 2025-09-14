@@ -13,5 +13,8 @@ export const tutorials = {
   },
   supernova: {
     id: 5
+  },
+  radiation: {
+    id: 6
   }
 };

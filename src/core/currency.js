@@ -267,7 +267,7 @@ Currency.mass = new class extends DecimalCurrency {
   }
 
   get key() {
-    return "X_mass";
+    throw new Error("Please use \"formatMass\" method");
   }
 }();
 
@@ -439,6 +439,7 @@ Currency.atoms = new class extends DecimalCurrency {
       GluonUpgrade[0]
     );
     gain = gain.powEffectOf(GameElement(17));
+    gain = dilatedValue(gain, FermionType.leptons.fermions.electron.effectOrDefault(DC.D1));
     return gain.floor();
   }
 
@@ -551,7 +552,7 @@ Currency.relativisticParticles = new class extends DecimalCurrency {
   }
 
   get key() {
-    return "X_elativistic_particle";
+    return "X_relativistic_particle";
   }
 }();
 
@@ -593,7 +594,7 @@ Currency.stars = new class extends DecimalCurrency {
   get gainPerSecond() {
     let gain = StarGenerator(0).amount;
     gain = gain.timesEffectOf(DilationUpgrade.starBoost);
-    gain = Softcap.power(gain, DC.E1000, DC.D0_75);
+    gain = Softcap.power(gain, Stars.softcapStart, DC.D0_75);
     return gain;
   }
 
@@ -674,6 +675,7 @@ Currency.supernova = new class extends DecimalCurrency {
         Challenge(i).reset();
       }
     }
+    player.supernova.fermions.active = -1;
     player.checks.supernova.noTick = true;
     player.checks.supernova.noCondenser = true;
     Tutorial.supernova.unlock();
@@ -716,7 +718,7 @@ Currency.uQuarks = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    return DC.D0;
+    return FermionType.quarks.pointGain;
   }
 
   get key() {
@@ -734,7 +736,7 @@ Currency.uLeptons = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    return DC.D0;
+    return FermionType.leptons.pointGain;
   }
 
   get key() {

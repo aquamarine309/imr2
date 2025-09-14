@@ -56,7 +56,10 @@ class ChallengeState extends GameMechanicState {
   }
 
   get forceRunning() {
-    return this.id <= 8 && Challenge(10).canBeApplied;
+    if (this.id <= 8 && Challenge(10).canBeApplied) return true;
+    if ((this.id === 8 || this.id === 9) && FermionType.leptons.fermions.tau.canBeApplied) return true;
+    if (this.id >= 3 && this.id <= 5 && FermionType.quarks.fermions.strange.isActive) return true;
+    return false;
   }
 
   get completions() {
@@ -109,6 +112,13 @@ class ChallengeState extends GameMechanicState {
     return DC.D300;
   }
 
+  get impossibleStart() {
+    if (this.id === 13 && this.id === 16) {
+      return DC.E1;
+    }
+    return DC.E3;
+  }
+
   get hardenedPower() {
     if (this.id === 16) return DC.D1;
     return Effects.product(
@@ -121,7 +131,22 @@ class ChallengeState extends GameMechanicState {
     return DC.D1;
   }
 
+  get impossiblePower() {
+    return DC.D1;
+  }
+
   goalAt(completions) {
+    if (completions.gt(this.impossibleStart)) {
+      const exp = DC.D3.pow(this.hardenedPower);
+      const exp2 = DC.D4_5.pow(this.insanePower);
+      const exp3 = DC.D1_001.pow(this.impossiblePower);
+      return this.baseGoal.times(this.goalMult.pow(
+        exp3.pow(completions.minus(this.impossibleStart))
+          .times(this.impossibleStart)
+          .pow(exp2).div(this.insaneStart.pow(exp2.minus(1)))
+          .pow(exp).div(this.hardenedStart.pow(exp.minus(1))).pow(this.goalPow)
+      ));
+    }
     if (completions.gt(this.insaneStart)) {
       const exp = DC.D3.pow(this.hardenedPower);
       const exp2 = DC.D4_5.pow(this.insanePower);
@@ -176,6 +201,19 @@ class ChallengeState extends GameMechanicState {
     if (this.isCapped) return DC.D0;
     const mass = this.currency;
     if (mass.lt(this.goal)) return DC.D0;
+    const impossibleStart = this.goalAt(this.impossibleStart);
+    if (mass.gte(impossibleStart)) {
+      const exp = DC.D3.pow(this.hardenedPower);
+      const exp2 = DC.D4_5.pow(this.insanePower);
+      const exp3 = DC.D1_001.pow(this.impossiblePower);
+      return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow)
+        .times(this.hardenedStart.pow(exp.minus(1))).root(exp)
+        .times(this.insaneStart.pow(exp2.minus(1))).root(exp2)
+        .div(this.impossibleStart)
+        .max(1).log(exp3)
+        .add(this.impossibleStart)
+        .add(1).floor().clampMax(this.max);
+    }
     const insaneStart = this.goalAt(this.insaneStart);
     if (mass.gte(insaneStart)) {
       const exp = DC.D3.pow(this.hardenedPower);
@@ -204,6 +242,9 @@ class ChallengeState extends GameMechanicState {
 
   get name() {
     const name = i18n.t(`c${this.id}_name`);
+    if (this.completions.gte(this.impossibleStart)) {
+      return `${i18n.t("impossible")}${name}`;
+    }
     if (this.completions.gte(this.insaneStart)) {
       return `${i18n.t("insane")}${name}`;
     }

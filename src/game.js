@@ -1,5 +1,7 @@
 import TWEEN from "tween.js";
 
+import eruda from "eruda";
+
 import { deepmergeAll } from "./utility/deepmerge";
 
 window.onload = function() {
@@ -7,9 +9,17 @@ window.onload = function() {
   ui.view.initialized = true;
 };
 
+function isLocalEnvironment() {
+  const href = window.location.href;
+  return href.includes("file") || href.includes("127.0.0.1") || href.includes("localhost");
+}
+
 export function init() {
   GameStorage.init();
   Tabs.all.find(t => t.config.id === player.options.lastOpenTab)?.show(true);
+  if (isLocalEnvironment()) {
+    eruda.init();
+  }
 }
 
 export function applyAutoprestige(diff) {

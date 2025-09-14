@@ -26,13 +26,14 @@ export const GameStorage = {
     if (localSave !== null) {
       this.importSave(localSave);
     }
-    this.updatePlayerData();
     setInterval(() => this.save(), this.saveInterval);
   },
 
   importFromJSON(json) {
+    GameLoop.stop();
     const playerObject = json;
     player = migrations.patchPlayer(playerObject);
+    this.updatePlayerData();
   },
 
   exportToClipboard() {
@@ -61,7 +62,6 @@ export const GameStorage = {
   },
 
   hardReset() {
-    GameLoop.stop();
     player = deepmergeAll([{}, Player.defaultStart]);
     player.lastUpdate = Date.now();
     this.save();
@@ -75,7 +75,7 @@ export const GameStorage = {
     if (diff > 1e4) {
       simulateTime(diff / 1000);
     } else {
-      GameLoop.start();
+      GameLoop.restart();
       this.save();
     }
   },
@@ -228,6 +228,7 @@ export const GameStorage = {
 
     const supernova = player.supernova;
     const bosons = supernova.bosons;
+    const fermions = supernova.fermions;
     save.supernova = {
       times: supernova.times,
       stars: supernova.stars,
@@ -241,7 +242,13 @@ export const GameStorage = {
         photon: bosons.photon,
         z_boson: bosons.zBoson
       },
-      b_upgs: supernova.bosonUpgrades
+      b_upgs: supernova.bosonUpgrades,
+      fermions: {
+        choosed: `${Math.floor(fermions.active / 6)}${fermions.active % 6}`,
+        points: [fermions.quarks, fermions.leptons],
+        tiers: [fermions.tiers.slice(0, 6), fermions.tiers.slice(6, 12)],
+        unl: Fermions.areUnlocked
+      }
     };
 
     save.options = {
@@ -251,7 +258,7 @@ export const GameStorage = {
     };
 
     save.quotes = convertBitsToArray(player.tutorialBits);
-    save.name = "aquamrine";
+    save.name = "aquamarine";
 
     copyToClipboard(btoa(JSON.stringify(save)));
     GameUI.notify.info(i18n.t("export_save_to_clipboard"));

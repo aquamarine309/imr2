@@ -7,7 +7,7 @@ export const MassDilation = {
   },
 
   get power() {
-    return DC.D0_8;
+    return DC.D0_8.powEffectOf(FermionType.quarks.fermions.charm);
   },
 
   get isActive() {
@@ -15,7 +15,10 @@ export const MassDilation = {
   },
 
   get forceActive() {
-    return Challenge(10).isRunning;
+    if (Challenge(10).isRunning) return true;
+    if (FermionType.quarks.fermions.charm.isActive) return true;
+    if (FermionType.quarks.fermions.strange.isActive) return true;
+    return false;
   },
 
   get canBeApplied() {
@@ -42,6 +45,7 @@ export const MassDilation = {
   },
 
   toggle() {
+    if (MassDilation.forceActive) return;
     if (MassDilation.isActive) {
       this.exit();
       return;
@@ -59,12 +63,19 @@ export const MassDilation = {
       GameElement(24),
       GameElement(31),
       GameElement(34),
-      GameElement(45)
+      GameElement(45),
+      FermionType.quarks.fermions.down.reward
     );
   },
 
   get particlePower() {
-    return DC.D2.plusEffectOf(DilationUpgrade.rpFormula).timesEffectOf(Challenge(10).reward);
+    let power = DC.D2.plusEffectOf(DilationUpgrade.rpFormula);
+    power = power.timesEffectsOf(
+      Challenge(10).reward,
+      FermionType.quarks.fermions.down,
+      NeutronUpgrade.d1
+    );
+    return power;
   },
 
   get particleGain() {

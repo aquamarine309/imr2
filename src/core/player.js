@@ -82,7 +82,8 @@ window.player = {
       atom: false
     },
     dilationUpgrades: false,
-    elements: false
+    elements: false,
+    bosonUpgrades: false
   },
   massUpgrades: {
     muscler: DC.D0,

@@ -6,11 +6,13 @@ export default {
       isActive: false,
       requirement: new Decimal(),
       canGain: false,
-      gain: new Decimal()
+      gain: new Decimal(),
+      force: false
     };
   },
   computed: {
     text() {
+      if (this.force) return "Mass Dilation is always active";
       if (this.isActive) {
         if (this.canGain) {
           return `Cancel for ${format(this.gain, 0)} Relativistic particles`;
@@ -26,6 +28,7 @@ export default {
       this.requirement = MassDilation.requirement;
       this.canGain = Currency.mass.gte(this.requirement);
       this.gain = MassDilation.particleGain;
+      this.force = MassDilation.forceActive;
     },
     start() {
       MassDilation.toggle();

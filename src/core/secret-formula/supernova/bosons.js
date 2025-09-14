@@ -31,7 +31,7 @@ export const bosons = {
       .timesEffectOf(Boson.graviton)
       .powEffectOf(NeutronUpgrade.bs4),
     effects: {
-      tickspeed: value => value.add(1).log10().add(1),
+      tickspeed: value => value.add(1).log10().add(1).powEffectOf(FermionType.quarks.fermions.charm.reward),
       wBosons: value => value.add(1).pow(DC.C2D3)
     }
   },
@@ -53,12 +53,18 @@ export const bosons = {
   },
   graviton: {
     id: "graviton",
-    gain: () => DC.D0_01.timesEffectOf(Boson.graviton),
+    gain: () => DC.D0_01.timesEffectsOf(
+      Boson.graviton,
+      FermionType.leptons.fermions.meon.reward
+    ),
     effect: value => dilatedValue(value, DC.D0_5).powEffectOf(Boson.higgsBoson).clampMin(1)
   },
   higgsBoson: {
     id: "higgsBoson",
-    gain: () => DC.D0_01.timesEffectOf(NeutronUpgrade.bs1),
+    gain: () => DC.D0_01.timesEffectsOf(
+      NeutronUpgrade.bs1,
+      FermionType.leptons.fermions.meon.reward
+    ),
     effect: value => value.add(1).log10().max(1).sqrt()
   }
 };
@@ -78,7 +84,7 @@ export const bosonUpgrades = {
       description: "Boost BH Condenser Power.",
       cost: value => DC.D2.pow(value.pow(DC.D1_25)).times(DC.E2),
       bulk: value => value.div(DC.E2).log(DC.D2).pow(DC.D0_8).add(1).floor(),
-      effect: value => value.add(1).pow(DC.D0_75),
+      effect: value => value.add(1).pow(DC.D0_75).powEffectOf(NeutronUpgrade.fn4),
       formatEffect: value => formatX(value)
     },
     {
@@ -96,7 +102,8 @@ export const bosonUpgrades = {
       cost: value => DC.D5.pow(value.pow(DC.D1_25)).times(DC.E5),
       bulk: value => value.div(DC.E5).log(DC.D5).pow(DC.D0_8).add(1).floor(),
       effect: value => {
-        let effect = Boson.photon.amount.add(1).log10().add(1).pow(Softcap.power(value, DC.D8000, DC.D0_1).times(DC.D0_5));
+        let effect = Boson.photon.amount.add(1).log10().add(1).pow(Softcap.power(value, DC.D8000, DC.D0_1).powEffectOf(
+          FermionType.quarks.fermions.strange.reward).times(DC.D0_5));
         effect = Softcap.dilation(effect, DC.EE11, DC.D0_8);
         const el99 = GameElement(99).isBought;
         effect = Softcap.dilation(effect, DC.E4E14, el99 ? DC.D0_785 : DC.D0_75);
@@ -123,7 +130,7 @@ export const bosonUpgrades = {
       description: "Boost Cosmic Ray Power.",
       cost: value => DC.D2.pow(value.pow(DC.D1_25)).times(DC.E2),
       bulk: value => value.div(DC.E2).log(DC.D2).pow(DC.D0_8).add(1).floor(),
-      effect: value => value.add(1).pow(DC.D0_75),
+      effect: value => value.add(1).pow(DC.D0_75).powEffectOf(NeutronUpgrade.fn4),
       formatEffect: value => formatX(value)
     },
     {
@@ -141,7 +148,10 @@ export const bosonUpgrades = {
       cost: value => DC.D5.pow(value.pow(DC.D1_25)).times(DC.E5),
       bulk: value => value.div(DC.E5).log(DC.D5).pow(DC.D0_8).add(1).floor(),
       effect: value => {
-        let effect = Boson.gluon.amount.add(1).log10().add(1).log10().times(value.pow(DC.C1D3)).div(DC.E1).add(1);
+        let effect = Boson.gluon.amount.add(1).log10().add(1).log10()
+          .times(value.pow(DC.C1D3.timesEffectOf(
+            FermionType.quarks.fermions.strange.reward)
+          )).div(DC.E1).add(1);
         effect = Softcap.power(Softcap.power(effect, DC.D5_5, DC.D0_25), DC.E1, DC.D0_25);
         return effect;
       },

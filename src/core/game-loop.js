@@ -47,6 +47,7 @@ export const GameLoop = {
     if (PlayerProgress.blackHoleUnlocked()) {
       Currency.blackHole.tick(seconds);
     }
+
     if (PlayerProgress.atomUnlocked()) {
       Currency.atomicPower.tick(seconds);
       Atom.tick(seconds);
@@ -64,6 +65,7 @@ export const GameLoop = {
       Currency.neutronStars.tick(seconds);
       Supernova.startingAutoCheck();
       Bosons.tick(seconds);
+      Fermions.update(seconds);
     }
 
     if (NeutronUpgrade.qol3.canBeApplied) {

@@ -87,6 +87,6 @@ export default {
 <template>
   <span v-if="isVisible">
     <br v-if="br">
-    {{ $t(labelKey, { value: $t(nameKey, checkSingle(cost), { value: formatCost(cost) }) }) }}
+    {{ $t(labelKey, { value: $tc(nameKey, checkSingle(cost), { value: formatCost(cost) }) }) }}
   </span>
 </template>

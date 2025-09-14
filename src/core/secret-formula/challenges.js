@@ -93,7 +93,10 @@ export const challenges = [
       ), DC.E12, DC.D0_5),
       formatEffect: value => formatPow(value),
       softcapped: value => value.gte(3),
-      effectCondition: () => !Challenge(3).isRunning
+      effectCondition: () => (!Challenge(3).isRunning ||
+       Challenge(10).isRunning ||
+       FermionType.quarks.fermions.strange.isActive
+      )
     },
     type: challengeType.DARK_MATTER
   },

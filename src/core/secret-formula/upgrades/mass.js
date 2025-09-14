@@ -258,7 +258,11 @@ export const mass = {
     cost(amount) {
       const $ = MassUpgrade.tickspeed.config;
       return getLinearCost(
-        $.scaling.scaleEvery(amount),
+        $.scaling.scaleEvery(
+          amount,
+          false,
+          [null, null, null, FermionType.leptons.fermions.tau.reward.effectOrDefault(null)]
+        ),
         $.baseCost,
         $.costMult
       );
@@ -266,7 +270,10 @@ export const mass = {
     bulk(currency) {
       const $ = MassUpgrade.tickspeed.config;
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
+        getLinearBulk(currency, $.baseCost, $.costMult),
+        true,
+        [null, null, null, FermionType.leptons.fermions.tau.reward.effectOrDefault(null)]
+      ).add(1).floor();
     },
     get freeAmount() {
       return Atom.freeTickspeeds;
@@ -393,6 +400,9 @@ export const mass = {
     },
     get scaling() {
       return Scaling.cosmicRay;
+    },
+    get freeAmount() {
+      return FermionType.quarks.fermions.up.reward.effectOrDefault(DC.D0);
     },
     cost(amount) {
       const $ = MassUpgrade.cosmicRay.config;

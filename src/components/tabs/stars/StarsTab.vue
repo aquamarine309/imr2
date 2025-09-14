@@ -15,7 +15,9 @@ export default {
       stars: new Decimal(),
       requirement: new Decimal(),
       gain: new Decimal(),
-      boost: new Decimal()
+      boost: new Decimal(),
+      softcapped: false,
+      softcapStart: new Decimal()
     };
   },
   computed: {
@@ -32,6 +34,8 @@ export default {
       this.gain.copyFrom(Currency.stars.gainPerSecond);
       this.requirement = Supernova.requirement;
       this.boost = Stars.boost;
+      this.softcapStart = Stars.softcapStart;
+      this.softcapped = this.stars.gte(this.softcapStart);
     }
   }
 };
@@ -54,6 +58,11 @@ export default {
       />
     </div>
     <MassUpgradeRow :upgrade="booster" />
+    <div v-if="softcapped">
+      <div class="c-mass-softcap-row">
+        {{ $t("star_softcap", { value: format(softcapStart) }) }}
+      </div>
+    </div>
   </div>
 </template>
 

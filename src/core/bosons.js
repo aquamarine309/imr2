@@ -108,6 +108,10 @@ class BosonUpgradeState extends RebuyableMechanicState {
     GameUI.update();
     return true;
   }
+
+  get isFree() {
+    return NeutronUpgrade.qol7.canBeApplied;
+  }
 }
 
 export const PhotonUpgrade = mapGameData(

@@ -11,7 +11,9 @@
     "break_eternity.js": "^2.1.0",
     "core-js": "^3.8.3",
     "pako": "^2.1.0",
+    "tween.js": "^16.6.0",
     "vue": "^2.6.14",
+    "vue-i18n": "^8.27.2",
     "vue-touch": "next"
   },
   "devDependencies": {
@@ -20,16 +22,16 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "eruda": "^3.3.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-vue": "^8.0.3",
     "stylelint": "^14.8.2",
     "stylelint-config-recommended-vue": "^1.4.0",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-order": "^5.0.0",
-    "vue-template-compiler": "^2.6.14",
-    "eruda": "^3.3.0"
+    "vue-template-compiler": "^2.6.14"
   },
   "browserslist": [
     "> 1%",

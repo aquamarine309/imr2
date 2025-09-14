@@ -21,6 +21,10 @@ export const Stars = {
     boost = Softcap.dilation(boost, DC.EE24, DC.D0_91);
     boost = Softcap.dilation(boost, DC.EE70, DC.D0_91);
     return boost;
+  },
+
+  get softcapStart() {
+    return DC.E1000.powEffectOf(FermionType.leptons.fermions.electron.reward);
   }
 };
 
@@ -66,10 +70,12 @@ class StarGeneratorState {
 
   get gainPerSecond() {
     if (!this.isUnlocked) return DC.D0;
-    const power = DC.D1_5.timesEffectsOf(
-      GameElement(50),
-      NeutronUpgrade.s3
-    );
+    const power = FermionType.leptons.fermions.neutrino
+      .effectOrDefault(DC.D1_5)
+      .timesEffectsOf(
+        GameElement(50),
+        NeutronUpgrade.s3
+      );
     let gain = (this.tier === 4 ? DC.D0 : StarGenerator(this.tier + 1).amount).add(1).pow(power);
     if (this.tier === 4) {
       gain = gain.timesEffectsOf(

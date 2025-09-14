@@ -12,6 +12,9 @@ export const BlackHole = {
   },
 
   get exponent() {
+    if (FermionType.leptons.fermions.neutrino.isEffectActive) {
+      return DC.DM1;
+    }
     return Effects.max(
       DC.D0_33,
       GameElement(59)

@@ -33,7 +33,6 @@ class RankTypeState extends GameMechanicState {
       unlockConfig => new RankUnlockState(unlockConfig, this)
     );
     this.nextUnlock = new Lazy(() => Object.values(this.unlocks).find(rank => !rank.isUnlocked));
-    this.cachedRequirement = new Lazy(() => this.config.requirement(this.amount));
   }
 
   get isUnlocked() {
@@ -51,7 +50,6 @@ class RankTypeState extends GameMechanicState {
   set amount(value) {
     player.ranks[this.id] = value;
     this.nextUnlock.invalidate();
-    this.cachedRequirement.invalidate();
   }
 
   get fullName() {
@@ -95,7 +93,7 @@ class RankTypeState extends GameMechanicState {
   }
 
   get requirement() {
-    return this.cachedRequirement.value;
+    return this.config.requirement(this.amount);
   }
 
   get canReset() {
