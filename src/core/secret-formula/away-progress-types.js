@@ -47,4 +47,26 @@ export const awayProgressTypes = [
     reference: ["supernova", "stars"],
     isUnlocked: () => PlayerProgress.supernovaUnlocked()
   },
+  {
+    name: "photon",
+    reference: ["supernova", "bosons", "photon"],
+    isUnlocked: () => Bosons.areUnlocked
+  },
+  {
+    name: "gluon",
+    reference: ["supernova", "bosons", "gluon"],
+    isUnlocked: () => Bosons.areUnlocked
+  },
+  {
+    name: "uQuark",
+    forcedName: "U-Quark",
+    reference: ["supernova", "fermions", "quarks"],
+    isUnlocked: () => Fermions.areUnlocked
+  },
+  {
+    name: "uLepton",
+    forcedName: "U-Lepton",
+    reference: ["supernova", "fermions", "leptons"],
+    isUnlocked: () => Fermions.areUnlocked
+  },
 ];

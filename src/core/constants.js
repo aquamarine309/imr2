@@ -161,6 +161,7 @@ export const DC = deepFreeze({
   D1_5E99056: new Decimal("1.5e99056"),
   D1_5E1000056: new Decimal("1.5e1000056"),
   D1_5E100000056: new Decimal("1.5e100000056"),
+  D1_5E1000000056: new Decimal("1.5e1000000056"),
 
   E1: new Decimal("1e1"),
   E2: new Decimal("1e2"),
@@ -327,3 +328,10 @@ window.RATIO_MODE = {
   QUARTER: 1,
   ALL: 2
 };
+
+window.MASS_DISPLAY = {
+  DEFAULT: 0,
+  ALWAYS_G: 1,
+  ALWAYS_MLT: 2,
+  IMPORTANT: 3
+}

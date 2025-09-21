@@ -108,8 +108,18 @@ export default {
 }
 
 .c-modal-away-progress__collapsed-stars,
-.c-modal-away-progress__neutron-stars {
+.c-modal-away-progress__neutron-stars,
+.c-modal-away-progress__photon,
+.c-modal-away-progress__gluon {
   color: var(--color-supernova);
+}
+
+.c-modal-away-progress__u-quark {
+  color: var(--color-fermion-quark);
+}
+
+.c-modal-away-progress__u-lepton {
+  color: var(--color-fermion-lepton);
 }
 
 .c-modal-away-progress__disabled b,

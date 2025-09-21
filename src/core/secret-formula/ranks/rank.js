@@ -103,7 +103,7 @@ export const rank = {
     {
       id: "mu3softcap",
       requirement: 34,
-      description: "mass upgrade 3 softcaps 1.2x later.",
+      description: () => `Steonger softcaps +${formatInt(2)} later.`,
       effect: 2
     },
     {

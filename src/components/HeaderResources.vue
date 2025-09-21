@@ -82,6 +82,9 @@ export default {
       return `You have become ${format(this.supernova.amount, 0)} Supernova.`;
     },
   },
+  created() {
+    this.on$(GAME_EVENT.FORMAT_CHANGED, () => this.updateFormat());
+  },
   methods: {
     update() {
       const mass = this.mass;
@@ -152,6 +155,10 @@ export default {
     },
     formatNoPlaces(value) {
       return format(value, 0);
+    },
+    updateFormat() {
+      this.$recompute("ragePowersTooltip");
+      this.$recompute("darkMatterTooltip");
     },
     ragePowerReset() {
       Currency.ragePowers.requestReset();

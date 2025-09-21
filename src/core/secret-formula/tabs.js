@@ -40,6 +40,11 @@ export const tabs = [
         id: 0,
         key: "rank_rewards",
         component: "RankRewardsTab"
+      },
+      {
+        id: 1,
+        key: "scaling",
+        component: "ScalingTab"
       }
     ]
   },
@@ -135,6 +140,12 @@ export const tabs = [
         key: "fermions",
         component: "FermionsTab",
         condition: () => Fermions.areUnlocked
+      },
+      {
+        id: 3,
+        key: "radiation",
+        component: "RadiationTab",
+        condition: () => Radiation.isUnlocked
       }
     ]
   }

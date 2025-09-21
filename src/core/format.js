@@ -111,8 +111,58 @@ window.formatPercents = function formatPercents(value, places = 4) {
   return `${format(decimal.times(100), places)}%`;
 };
 
-window.formatMass = function formatMass(value) {
-  return i18n.t("X_g", { value: format(value) });
+const massDisplays = [
+  { amount: new Decimal(1), key: "X_g" },
+  { amount: new Decimal(1e3), key: "X_kg" },
+  { amount: new Decimal(1e6), key: "X_tonne" },
+  { amount: new Decimal(1.619e20), key: "X_mass_of_mount_everest" },
+  { amount: new Decimal(5.972e27), key: "X_mass_of_earth" },
+  { amount: new Decimal(1.989e33), key: "X_mass_of_sun" },
+  { amount: new Decimal(2.9835e45), key: "X_mass_of_milky_way_galaxy" },
+  { amount: new Decimal(1.5e56), key: "X_mass_of_universe" }
+];
+
+window.formatMass = function formatMass(mass) {
+  const massDisplay = player.options.massDisplay;
+  const value = Decimal.fromValue_noAlloc(mass);
+  switch (massDisplay) {
+    case MASS_DISPLAY.DEFAULT: {
+      if (value.lt(DC.D1)) {
+        return i18n.t("X_g", { value: format(value) });
+      }
+      const last = massDisplays.last();
+      if (value.gte(last.amount)) {
+        return i18n.t(last.key, { value: format(value.div(last.amount)) });
+      }
+      let min = 0;
+      let max = massDisplays.length;
+      while (max !== min) {
+        const index = Math.floor((max + min) / 2);
+        if (value.gte(massDisplays[index].amount)) {
+          min = index + 1;
+        } else {
+          max = index;
+        }
+      }
+      const data = massDisplays[max - 1];
+      return i18n.t(data.key, { value: format(value.div(data.amount)) });
+    }
+    case MASS_DISPLAY.ALWAYS_G: {
+      return i18n.t("X_g", { value: format(value) });
+    }
+    case MASS_DISPLAY.ALWAYS_MLT: {
+      const mlt = value.div(DC.D1_5E56).max(1).log10().div(DC.E9);
+      return i18n.t("X_mass_of_multiverse", { value: format(mlt) });
+    }
+    case MASS_DISPLAY.IMPORTANT: {
+      if (value.lt(DC.D1_5E1000000056)) {
+        return i18n.t("X_g", { value: format(value) });
+      }
+      const mlt = value.div(DC.D1_5E56).max(1).log10().div(DC.E9);
+      return i18n.t("X_mass_of_multiverse", { value: format(mlt) });
+    }
+  }
+  return "Unknown Mass";
 };
 
 window.formatInt = function formatInt(value) {

@@ -89,8 +89,10 @@ function getScaleType(scaleIndex) {
 }
 
 class ScalingState {
-  constructor(scalings) {
-    this.scalings = scalings;
+  constructor(config) {
+    this.name = config.name;
+    this.scalings = config.scaling;
+    this.currency = config.currency;
   }
 
   scale(value, index, reverse = false) {
@@ -136,6 +138,11 @@ class ScalingState {
     }
     if (idx === -1) return "";
     return i18n.t(SCALING_TYPE[idx]);
+  }
+  
+  isScaled(index) {
+    if (index >= this.scalings.length) return false;
+    return this.scalings[index].start.lt(this.currency());
   }
 }
 

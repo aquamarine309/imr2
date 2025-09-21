@@ -134,6 +134,7 @@ window.player = {
     starBG: true,
     adUI: false,
     language: "en",
+    massDisplay: MASS_DISPLAY.DEFAULT,
     confirmations: {
       ragePower: true,
       darkMatter: true,
@@ -151,7 +152,11 @@ window.player = {
       relativisticParticles: true,
       dilatedMass: true,
       collapsedStars: true,
-      neutronStars: true
+      neutronStars: true,
+      photon: true,
+      gluon: true,
+      uQuark: true,
+      uLepton: true
     }
   }
 };

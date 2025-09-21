@@ -49,7 +49,7 @@ export default {
       const currency = this.upgrade.currency;
       let cost;
       if (currency === Currency.mass) {
-        cost = format(this.cost);
+        cost = formatMass(this.cost);
       } else {
         cost = i18n.tc(currency.key, checkSingle(this.cost), { value: format(this.cost, 0) });
       }
