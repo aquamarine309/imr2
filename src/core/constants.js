@@ -334,4 +334,4 @@ window.MASS_DISPLAY = {
   ALWAYS_G: 1,
   ALWAYS_MLT: 2,
   IMPORTANT: 3
-}
+};

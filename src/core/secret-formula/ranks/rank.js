@@ -96,20 +96,25 @@ export const rank = {
     {
       id: "improveRank6",
       requirement: 17,
-      description: () => `Rank 6 reward effect is better. [(x+${formatInt(1)})^${formatInt(2)} -> (x+${formatInt(1)})^x^${formatInt(1)}/${formatInt(3)}]`,
+      description: () => i18n.t("rank_unlock_improve_rank_6_description", {
+        value1: formatInt(1),
+        value2: formatInt(2),
+        value3: formatInt(1),
+        value4: formatInt(3)
+      }),
       effect: () => RankType.rank.amount.add(1).cbrt(),
       formatEffect: value => formatX(RankType.rank.amount.add(1).pow(value.minus(DC.D2)))
     },
     {
       id: "mu3softcap",
       requirement: 34,
-      description: () => `Steonger softcaps +${formatInt(2)} later.`,
+      description: () => i18n.t("rank_unlock_mu3_softcap_description", { value: formatInt(2) }),
       effect: 2
     },
     {
       id: "rankBoostTickPower",
       requirement: 40,
-      description: "adds tickspeed power based on ranks.",
+      description: () => i18n.t("rank_unlock_rank_boost_tick_power_description"),
       effect: () => {
         const root = Effects.min(
           DC.D2,
@@ -123,39 +128,39 @@ export const rank = {
     {
       id: "rankBoostRP",
       requirement: 45,
-      description: "rank boosts Rage Powers gain.",
+      description: () => i18n.t("rank_unlock_rank_boost_rp_description"),
       effect: () => RankType.rank.amount.add(1).pow(1.5),
       formatEffect: value => formatX(value)
     },
     {
       id: "improveRank40",
       requirement: 90,
-      description: "rank 40 reward is stronger.",
+      description: () => i18n.t("rank_unlock_improve_rank_40_description"),
       effect: 1.6
     },
     {
       id: "massGainPower",
       requirement: 180,
-      description: () => `mass gain is raised by ${format(1.025, 3)}.`,
+      description: () => i18n.t("rank_unlock_mass_gain_power_description", { value: format(1.025, 3) }),
       effect: 1.025
     },
     {
       id: "overpowerRank40",
       requirement: 220,
-      description: "rank 40 reward is overpowered.",
+      description: () => i18n.t("rank_unlock_overpower_rank_40_description"),
       effect: 1
     },
     {
       id: "quarkGain",
       requirement: 300,
-      description: "rank multiplies quark gain.",
+      description: () => i18n.t("rank_unlock_quark_gain_description"),
       effect: () => RankType.rank.amount.add(1),
-      formatEdfect: value => formatX(value)
+      formatEffect: value => formatX(value)
     },
     {
       id: "massGain",
       requirement: 380,
-      description: "rank multiplies mass gain.",
+      description: () => i18n.t("rank_unlock_mass_gain_description"),
       effect: () => Softcap.power(RankType.rank.amount.minus(379).pow(1.5).powEffectOf(
         RankType.tier.unlocks.tierBoostRank380
       ), DC.E3, DC.D0_5).pow10(),
@@ -164,7 +169,10 @@ export const rank = {
     {
       id: "massSoftcap",
       requirement: 800,
-      description: () => `make mass gain softcap ${formatPercents(0.0025, 2)} weaker based on rank, hardcaps at ${formatPercents(0.25, 0)}.`,
+      description: () => i18n.t("rank_unlock_mass_softcap_description", {
+        value1: formatPercents(0.0025, 2),
+        value2: formatPercents(0.25, 0)
+      }),
       effect: () => DC.D2.minus(Softcap.power(RankType.rank.amount.minus(799).times(0.0025).add(1), DC.D1_25, DC.D0_5)).clampMin(DC.D0_75),
       formatEffect: value => formatPercents(DC.D1.minus(value))
     }

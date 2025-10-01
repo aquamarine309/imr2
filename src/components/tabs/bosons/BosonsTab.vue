@@ -87,16 +87,16 @@ export default {
     </div>
     <div class="c-bosons-row">
       <div class="c-boson-grid c-boson-graviton">
-        You have {{ format(graviton) }} {{ formatGain(graviton, gravitonGain) }} Graviton, which speed up Boson production by {{ format(gravitonEffect) }}.
+        You have <span class="o-boson-amount--accent">{{ format(graviton) }} {{ formatGain(graviton, gravitonGain) }}</span> Graviton, which speed up Boson production by {{ format(gravitonEffect) }}.
       </div>
       <div class="c-boson-grid c-boson-higgs">
-        You have {{ format(higgsBoson) }} {{ formatGain(higgsBoson, higgsBosonGain) }} Higgs Boson, which raise Graviton's effect by {{ format(higgsBosonEffect) }}.
+        You have <span class="o-boson-amount--accent">{{ format(higgsBoson) }} {{ formatGain(higgsBoson, higgsBosonGain) }}</span> Higgs Boson, which raise Graviton's effect by {{ format(higgsBosonEffect) }}.
       </div>
     </div>
     <div class="c-bosons-row">
       <div class="c-boson-grid c-boson-photon">
         <div class="c-boson-amount">
-          You have {{ format(photon) }} {{ formatGain(photon, photonGain) }} Photon.
+          You have <span class="o-boson-amount--accent">{{ format(photon) }} {{ formatGain(photon, photonGain) }}</span> Photon.
         </div>
         <BosonUpgradeButton
           v-for="upgrade in photonUpgrade"
@@ -106,7 +106,7 @@ export default {
       </div>
       <div class="c-boson-grid c-boson-gluon">
         <div class="c-boson-amount">
-          You have {{ format(gluon) }} {{ formatGain(gluon, gluonGain) }} Gluon.
+          You have <span class="o-boson-amount--accent">{{ format(gluon) }} {{ formatGain(gluon, gluonGain) }}</span> Gluon.
         </div>
         <BosonUpgradeButton
           v-for="upgrade in gluonUpgrade"
@@ -117,13 +117,13 @@ export default {
     </div>
     <div class="c-bosons-row-other">
       <div class="c-boson-grid c-boson-other">
-        You have {{ format(positiveW) }} {{ formatGain(positiveW, positiveWGain) }} W<sup>+</sup> Boson, which multiply Mass gain by {{ format(positiveWMass) }}, multiply W<sup>-</sup> Boson gain by {{ format(positiveWNeg) }}.
+        You have <span class="o-boson-amount--accent">{{ format(positiveW) }} {{ formatGain(positiveW, positiveWGain) }}</span> W<sup>+</sup> Boson, which multiply Mass gain by {{ format(positiveWMass) }}, multiply W<sup>-</sup> Boson gain by {{ format(positiveWNeg) }}.
       </div>
       <div class="c-boson-grid c-boson-other">
-        You have {{ format(negativeW) }} {{ formatGain(negativeW, negativeWGain) }} W<sup>-</sup> Boson, which make Mass gain softcap^2 starts {{ formatPow(negativeWSoftcap) }} later, multiply W<sup>+</sup> Boson gain by {{ format(negativeWPos) }}.
+        You have <span class="o-boson-amount--accent">{{ format(negativeW) }} {{ formatGain(negativeW, negativeWGain) }}</span> W<sup>-</sup> Boson, which make Mass gain softcap^2 starts {{ formatPow(negativeWSoftcap) }} later, multiply W<sup>+</sup> Boson gain by {{ format(negativeWPos) }}.
       </div>
       <div class="c-boson-grid c-boson-other">
-        You have {{ format(zBoson) }} {{ formatGain(zBoson, zBosonGain) }} Z<sup>0</sup> Boson, which multiply Tickspeed Power by {{ format(zBosonTickspeed) }}, multiply W Bosons gain by {{ format(zBosonW) }}.
+        You have <span class="o-boson-amount--accent">{{ format(zBoson) }} {{ formatGain(zBoson, zBosonGain) }}</span> Z<sup>0</sup> Boson, which multiply Tickspeed Power by {{ format(zBosonTickspeed) }}, multiply W Bosons gain by {{ format(zBosonW) }}.
       </div>
     </div>
   </div>
@@ -178,5 +178,9 @@ export default {
 
 .c-boson-other {
   background-color: rgba(84, 84, 84, 0.7);
+}
+
+.o-boson-amount--accent {
+  font-weight: bold;
 }
 </style>

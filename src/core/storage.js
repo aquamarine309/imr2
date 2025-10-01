@@ -23,7 +23,9 @@ export const GameStorage = {
 
   init() {
     const localSave = localStorage.getItem(this.saveKey);
-    if (localSave !== null) {
+    if (localSave === null) {
+      this.updatePlayerData();
+    } else {
       this.importSave(localSave);
     }
     setInterval(() => this.save(), this.saveInterval);

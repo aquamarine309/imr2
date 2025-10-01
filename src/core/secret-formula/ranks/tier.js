@@ -39,25 +39,28 @@ export const tier = {
     {
       id: "reduceRankReq",
       requirement: 1,
-      description: () => `reduce rank requirements by ${formatPercents(0.2, 0)}.`,
+      description: () => i18n.t("tier_unlock_reduce_rank_req_description", { value: formatPercents(0.2, 0) }),
       effect: 0.8
     },
     {
       id: "raiseMassGain",
       requirement: 2,
-      description: () => `raise mass gain by ${format(1.15, 2)}.`,
+      description: () => i18n.t("tier_unlock_raise_mass_gain_description", { value: format(1.15, 2) }),
       effect: 1.15
     },
     {
       id: "upgradeLessCost",
       requirement: 3,
-      description: () => `reduce all mass upgrade scalings by ${formatPercents(0.2, 0)}.`,
+      description: () => i18n.t("tier_unlock_upgrade_less_cost_description", { value: formatPercents(0.2, 0) }),
       effect: 0.8
     },
     {
       id: "tickPowerFromTier",
       requirement: 4,
-      description: () => `adds +${formatPercents(0.05, 0)} tickspeed power for every tier you have, softcaps at +${formatPercents(0.4, 0)}.`,
+      description: () => i18n.t("tier_unlock_tick_power_from_tier_description", {
+        value1: formatPercents(0.05, 0),
+        value2: formatPercents(0.4, 0)
+      }),
       effect: () => {
         const tier12 = RankType.tier.unlocks.improveTier4.canBeApplied;
         const effect = RankType.tier.amount.times(tier12 ? 0.1 : 0.05);
@@ -69,7 +72,7 @@ export const tier = {
     {
       id: "tierBoostRP",
       requirement: 6,
-      description: "boost rage powers based on tiers.",
+      description: () => i18n.t("tier_unlock_tier_boost_rp_description"),
       effect: () => DC.D2.pow(RankType.tier.amount
         .timesEffectOf(RankType.tier.unlocks.tier6FromDM)),
       formatEffect: value => formatX(value)
@@ -77,33 +80,33 @@ export const tier = {
     {
       id: "tier6FromDM",
       requirement: 8,
-      description: "Tier 6's reward is boosted based on dark matters.",
+      description: () => i18n.t("tier_unlock_tier_6_from_dm_description"),
       effect: () => Currency.darkMatter.value.clampMin(1).log10().add(1).sqrt(),
       formatEffect: value => formatPow(value)
     },
     {
       id: "improveTier4",
       requirement: 12,
-      description: "Tier 4's reward is twice as effective and the softcap is removed.",
+      description: () => i18n.t("tier_unlock_improve_tier_4_description"),
       effect: 2
     },
     {
       id: "strongerCapWeak",
       requirement: 30,
-      description: () => `stronger effect's softcap is ${formatPercents(0.1, 0)} weaker.`,
+      description: () => i18n.t("tier_unlock_stronger_cap_weak_description", { value: formatPercents(0.1, 0) }),
       effect: 1.1
     },
     {
       id: "tierBoostRank380",
       requirement: 55,
-      description: "make rank 380's effect stronger based on tier.",
+      description: () => i18n.t("tier_unlock_tier_boost_rank_380_description"),
       effect: () => RankType.tier.amount.clampMin(1).log10().add(1).root(4),
       formatEffect: value => formatPow(value)
     },
     {
       id: "superTetrLater",
       requirement: 100,
-      description: () => `Super Tetr scales ${formatInt(5)} later.`,
+      description: () => i18n.t("tier_unlock_super_tetr_later_description", { value: formatInt(5) }),
       effect: 5
     }
   ]

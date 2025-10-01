@@ -139,7 +139,7 @@ class ScalingState {
     if (idx === -1) return "";
     return i18n.t(SCALING_TYPE[idx]);
   }
-  
+
   isScaled(index) {
     if (index >= this.scalings.length) return false;
     return this.scalings[index].start.lt(this.currency());

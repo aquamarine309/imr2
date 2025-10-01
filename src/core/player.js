@@ -135,6 +135,7 @@ window.player = {
     adUI: false,
     language: "en",
     massDisplay: MASS_DISPLAY.DEFAULT,
+    foldUselessRank: true,
     confirmations: {
       ragePower: true,
       darkMatter: true,

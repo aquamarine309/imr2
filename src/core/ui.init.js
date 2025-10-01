@@ -11,6 +11,7 @@ export const state = {
     expandBits: 0,
     resourceTooltipId: -1,
     selectedNodeId: "",
-    neutronTree: 0
+    neutronTree: 0,
+    selectedFermionId: -1
   }
 };

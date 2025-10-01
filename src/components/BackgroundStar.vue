@@ -25,7 +25,7 @@ export default {
       }
       return {
         "--var-size": `${size}px`,
-        "background-color": color,
+        "--star-color": color,
       };
     }
   },
@@ -58,5 +58,19 @@ export default {
   transform: translate(-50%, -50%);
   opacity: 0.25;
   transition-duration: 0.15s;
+  background: var(--star-color);
+
+  box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.1);
+}
+
+.ad-ui .o-background-star {
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.5) 0%,
+      transparent 40%
+    ),
+    var(--star-color);
+  box-shadow: 0 0 5px 5px rgba(255, 255, 0, 0.2);
 }
 </style>

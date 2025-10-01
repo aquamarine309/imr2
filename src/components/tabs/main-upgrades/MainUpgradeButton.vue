@@ -61,11 +61,19 @@ export default {
   background-color: #171717;
 }
 
+.ad-ui .c-main-upgrade-btn {
+  background-color: #505050;
+}
+
+.ad-ui .c-main-upgrade-btn--available {
+  background-color: #808080;
+}
+
 .c-main-upgrade-btn--available {
   background-color: #444444;
 }
 
 .c-main-upgrade-btn--bought {
-  background-color: var(--color-bought);
+  background-color: var(--color-bought) !important;
 }
 </style>

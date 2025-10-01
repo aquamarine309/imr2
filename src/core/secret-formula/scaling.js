@@ -253,13 +253,13 @@ export const scaling = {
     currency: () => MassUpgrade.overpower.boughtAmount,
     scaling: [
       {
-      get start() {
-        return DC.D50;
-      },
-      get scale() {
-        return DC.D3;
-      }
-    }]
+        get start() {
+          return DC.D50;
+        },
+        get scale() {
+          return DC.D3;
+        }
+      }]
   },
   condenser: {
     name: "Condenser",

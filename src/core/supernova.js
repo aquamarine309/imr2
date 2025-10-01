@@ -20,15 +20,20 @@ export const Supernova = {
   },
 
   get bulk() {
+    if (Supernova.times.lt(this.tutorialCount)) return DC.D1;
     return Supernova.bulkAt(Currency.stars.value);
   },
 
+  get tutorialCount() {
+    return DC.E1;
+  },
+
   startingAutoCheck() {
-    if (Supernova.times.gte(DC.D1) && Supernova.times.lt(DC.E1) && Currency.supernova.canReset) {
+    if (Supernova.times.gte(DC.D1) && Supernova.times.lt(this.tutorialCount) && Currency.supernova.canReset) {
       Currency.supernova.resetLayer();
       Tab.main.mass.show();
       GameUI.notify.supernova("You have become Supernova!");
-      if (Supernova.times.eq(DC.E1)) {
+      if (Supernova.times.eq(this.tutorialCount)) {
         Modal.message.show(`<h3>Congratulations!</h3><br>You have become ${formatInt(10)} Supernovas!<br>And you can manually supernova!<br><br>Bosons are unlocked in Supernova tab!`);
       }
     }

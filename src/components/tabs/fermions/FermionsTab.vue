@@ -15,11 +15,13 @@ export default {
       quarks: new Decimal(),
       leptons: new Decimal(),
       quarkGain: new Decimal(),
-      leptonGain: new Decimal(),
-      selected: -1
+      leptonGain: new Decimal()
     };
   },
   computed: {
+    selected() {
+      return this.$viewModel.selectedFermionId;
+    },
     quarkFermions() {
       return FermionType.quarks.fermions.all;
     },
@@ -41,11 +43,6 @@ export default {
       });
     },
   },
-  watch: {
-    selected() {
-      GameUI.update();
-    }
-  },
   methods: {
     update() {
       this.quarks.copyFrom(Currency.uQuarks.value);
@@ -58,7 +55,8 @@ export default {
     },
     select(fermion) {
       if (fermion.isUnlocked) {
-        this.selected = fermion.id;
+        this.$viewModel.selectedFermionId = fermion.id;
+        GameUI.update();
       }
     }
   }

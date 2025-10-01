@@ -19,6 +19,16 @@ export default {
       massDisplay: MASS_DISPLAY.DEFAULT
     };
   },
+  computed: {
+    massDisplayLabels() {
+      return [
+        i18n.t("default"),
+        i18n.t("always_show_g"),
+        i18n.t("always_show_mlt"),
+        i18n.t("important_units_only")
+      ];
+    }
+  },
   watch: {
     starBG(value) {
       player.options.starBG = value;
@@ -34,16 +44,6 @@ export default {
     massDisplay(value) {
       EventHub.dispatch(GAME_EVENT.FORMAT_CHANGED);
       player.options.massDisplay = value;
-    }
-  },
-  computed: {
-    massDisplayLabels() {
-      return [
-        i18n.t("default"),
-        i18n.t("always_show_g"),
-        i18n.t("always_show_mlt"),
-        i18n.t("important_units_only")
-      ];
     }
   },
   methods: {

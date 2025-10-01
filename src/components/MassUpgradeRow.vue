@@ -159,9 +159,4 @@ export default {
 .o-amount {
   font-size: 11px;
 }
-
-.o-buy-mass-upgrade-btn--auto {
-  padding-left: 8px;
-  padding-right: 8px;
-}
 </style>

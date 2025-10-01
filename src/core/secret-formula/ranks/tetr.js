@@ -24,7 +24,10 @@ export const tetr = {
   unlocks: [
     {
       id: "ranksReqAndScaling",
-      description: () => `reduce tier requirements by ${formatPercents(0.25, 0)}, and hyper rank scaling is ${formatPercents(0.15, 0)} weaker.`,
+      description: () => i18n.t("tetr_unlock_ranks_req_and_scaling_description", {
+        value1: formatPercents(0.25, 0),
+        value2: formatPercents(0.15, 0)
+      }),
       requirement: DC.D1,
       effects: {
         tier: 0.75,
@@ -33,34 +36,34 @@ export const tetr = {
     },
     {
       id: "strongerBoost",
-      description: "Stronger boosts itself.",
+      description: () => i18n.t("tetr_unlock_stronger_boost_description"),
       requirement: DC.D2,
       effect: () => MassUpgrade.stronger.boughtAmount.div(400),
       formatEffect: value => `+${formatPow(value)}`
     },
     {
       id: "tickspeedPower",
-      description: () => `raise tickspeed effect by ${format(1.05, 2)}.`,
+      description: () => i18n.t("tetr_unlock_tickspeed_power_description", { value: format(1.05, 2) }),
       requirement: DC.D3,
       effect: 1.05
     },
     {
       id: "ranksScaling",
-      description: () => `Super rank scaling is weaker based on tier, and super tier scales ${formatPercents(0.2, 0)} weaker.`,
+      description: () => i18n.t("tetr_unlock_ranks_scaling_description", { value: formatPercents(0.2, 0) }),
       requirement: DC.D4,
       effect: () => DC.D0_96.pow(RankType.tier.amount.cbrt()),
       formatEffect: value => i18n.t("X_weaker", { value: formatPercents(DC.D1.minus(value)) })
     },
     {
       id: "tickScaling",
-      description: "Hyper/Ultra Tickspeed starts later based on tetr.",
+      description: () => i18n.t("tetr_unlock_tick_scaling_description"),
       requirement: DC.D5,
       effect: () => Softcap.power(RankType.tetr.amount.pow(4), DC.E3, DC.D0_25),
-      formatEffect: value => `${format(value)} later`
+      formatEffect: value => i18n.t("X_later", { value: format(value) })
     },
     {
       id: "softcapLater",
-      description: () => `Mass gain softcap^2 starts ${formatPow(1.5, 1)} later.`,
+      description: () => i18n.t("tetr_unlock_softcap_later_description", { value: formatPow(1.5, 1) }),
       requirement: DC.D8,
       effect: DC.D1_5
     }
