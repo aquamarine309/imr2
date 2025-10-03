@@ -60,11 +60,10 @@ export default {
       this.velocity.copyFrom(radiation.velocity);
       this.total = radiation.total;
       this.boostAmounts = this.boosts.map(boost => boost.amount);
-      const frequency = Currency.frequency.value;
       this.amplitudeCost = radiation.amplitudeCost;
       this.velocityCost = radiation.velocityCost;
-      this.amplitudeAffordable = frequency.gte(radiation.amplitudeCost);
-      this.velocityAffordable = frequency.gte(radiation.velocityCost);
+      this.amplitudeAffordable = this.distance.gte(radiation.amplitudeCost);
+      this.velocityAffordable = this.distance.gte(radiation.velocityCost);
     },
     purchaseAmplitude() {
       this.radiation.purchaseAmplitude();
@@ -87,12 +86,12 @@ export default {
     </div>
     <div>
       <i18n
-        path="distance_X_meter"
+        path="distance_X"
         tag="div"
       >
         <template #value>
           <span class="o-highlight">
-            {{ format(distance) }} {{ formatGain(distance, distanceGain) }}
+            {{ $tc("X_meter", checkSingle(distance), { value: `${format(distance)} ${formatGain(distance, distanceGain)}` }) }}
           </span>
         </template>
       </i18n>
@@ -115,7 +114,13 @@ export default {
       >
         <span>{{ $t("amplitude_X", { value: format(amplitude, 0) }) }}</span>
         <br>
-        <span>{{ $t("cost_X", { value: $t("X_hz", { value: format(amplitudeCost) }) }) }}</span>
+        <span>
+          {{ $t("cost_X", {
+            value: $tc("X_meter",
+            checkSingle(amplitudeCost),
+            { value: format(amplitudeCost) })
+          }) }}
+        </span>
       </PrimaryButton>
       <PrimaryButton
         :enabled="velocityAffordable"
@@ -123,7 +128,13 @@ export default {
       >
         <span>{{ $t("velocity_X", { value: format(velocity, 0) }) }}</span>
         <br>
-        <span>{{ $t("cost_X", { value: $t("X_hz", { value: format(velocityCost) }) }) }}</span>
+        <span>
+         {{ $t("cost_X", {
+            value: $tc("X_meter",
+            checkSingle(velocityCost),
+            { value: format(velocityCost) })
+          }) }}
+        </span>
       </PrimaryButton>
     </div>
     <div class="c-radiation-boost-container">
@@ -180,6 +191,7 @@ export default {
   font-size: 18px;
   font-weight: bold;
   color: white;
+  margin: 5px 0;
 }
 
 .ad-ui .c-radiation-title {

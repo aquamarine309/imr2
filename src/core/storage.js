@@ -231,6 +231,7 @@ export const GameStorage = {
     const supernova = player.supernova;
     const bosons = supernova.bosons;
     const fermions = supernova.fermions;
+    const radiation = supernova.radiation;
     save.supernova = {
       times: supernova.times,
       stars: supernova.stars,
@@ -250,6 +251,11 @@ export const GameStorage = {
         points: [fermions.quarks, fermions.leptons],
         tiers: [fermions.tiers.slice(0, 6), fermions.tiers.slice(6, 12)],
         unl: Fermions.areUnlocked
+      },
+      radiation: {
+        hz: radiation.frequency,
+        ds: radiation.unlocks.map(x => x.distance),
+        bs: radiation.unlocks.reduce((acc, x) => acc.concat([x.amplitude, x.velocity]), [])
       }
     };
 

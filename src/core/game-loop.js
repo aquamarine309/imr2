@@ -3,7 +3,7 @@ import { DEV } from "@/env";
 export const GameLoop = {
   interval: null,
 
-  devSpeed: 15,
+  devSpeed: 1,
 
   get updateRate() {
     return player.options.updateRate;

@@ -136,7 +136,7 @@ class RadiationTypeState extends GameMechanicState {
     const order = this.id * 2 + idx;
     const base = DC.D2.add(0.5 * order);
     const pow = DC.D1_3.add(0.05 * order);
-    const mult = DC.E1.times(Math.pow(Math.sqrt(order) + 1, 2));
+    const mult = DC.E1.times(Math.pow(0.5 * order + 1, 2));
     return base.pow(amount.pow(pow)).times(mult);
   }
 
@@ -144,8 +144,8 @@ class RadiationTypeState extends GameMechanicState {
     const order = this.id * 2 + idx;
     const base = DC.D2.add(0.5 * order);
     const pow = DC.D1_3.add(0.05 * order);
-    const mult = DC.E1.times(Math.pow(Math.sqrt(order) + 1, 2));
-    const currency = Currency.frequency.value;
+    const mult = DC.E1.times(Math.pow(0.5 * order + 1, 2));
+    const currency = this.distance;
     if (currency.lt(mult)) return DC.D0;
     return currency.div(mult).log(base).root(pow).floor().add(1);
   }
@@ -167,16 +167,16 @@ class RadiationTypeState extends GameMechanicState {
   }
 
   purchaseAmplitude() {
-    if (Currency.frequency.lt(this.amplitudeCost)) return;
+    if (this.distance.lt(this.amplitudeCost)) return;
     const bulk = this.amplitudeBulk;
-    Currency.frequency.subtract(this.amplitudeCost);
+    this.distance = this.distance.minus(this.amplitudeCost);
     this.amplitude = bulk;
   }
 
   purchaseVelocity() {
-    if (Currency.frequency.lt(this.velocityCost)) return;
+    if (this.distance.lt(this.velocityCost)) return;
     const bulk = this.velocityBulk;
-    Currency.frequency.subtract(this.velocityCost);
+    this.distance = this.distance.minus(this.velocityCost);
     this.velocity = bulk;
   }
 
