@@ -460,7 +460,7 @@ export const gameElements = [
   },
   {
     id: 63,
-    description: () => `Non-Bonus tickspeeds are ${formatX(DC.D25, 0)} more effective.`,
+    description: () => `Non-bonus tickspeeds are ${formatX(DC.D25, 0)} more effective.`,
     effect: DC.D25,
     cost: DC.E3E5,
     position: [8, 8],

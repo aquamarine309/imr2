@@ -18,12 +18,17 @@ export const BlackHole = {
     return Effects.max(
       DC.D0_33,
       GameElement(59)
-    );
+    ).plusEffectOf(RadiationType.microwave.boosts[1]);
   },
 
   get gain() {
     if (!this.isUnlocked) return DC.D0;
     let gain = Currency.blackHole.value.add(1).pow(this.exponent);
+    gain = Softcap.dilation(
+      gain,
+      DC.D1_5E3000000056.powEffectOf(RadiationType.gammaRay.boosts[2]),
+      DC.D0_95
+    );
     gain = gain.timesEffectsOf(
       MassUpgrade.condenser,
       RageUpgrade(10),

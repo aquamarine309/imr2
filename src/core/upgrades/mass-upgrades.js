@@ -149,6 +149,7 @@ export const MassUpgradeSoftcap = {
     {
       level: 3,
       get start() {
+        if (RankType.pent.unlocks.removeStrongerSoftcap.canBeApplied) return Decimal.dInf;
         return DC.D5E15;
       },
       get scale() {

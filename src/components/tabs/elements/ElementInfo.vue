@@ -70,8 +70,4 @@ export default {
 .c-element-info-container {
   margin: 15px 0;
 }
-
-.c-element-name {
-  font-family: BlobFont, BabelStoneHan;
-}
 </style>

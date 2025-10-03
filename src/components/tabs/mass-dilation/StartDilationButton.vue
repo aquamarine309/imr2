@@ -58,7 +58,7 @@ export default {
   align-items: center;
   color: white;
   margin: 10px auto;
-  font-family: BlobFont, serif;
+  font-family: BlobFont, "Xia Lu Wen Kai";
   padding: 5px;
 }
 

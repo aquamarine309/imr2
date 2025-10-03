@@ -73,15 +73,17 @@ export const bosonUpgrades = {
   photon: [
     {
       id: 0,
-      description: "Gain more Dark Matters & Mass from Black Hole based on Photon.",
+      description: () => i18n.t("boson_photon_upgrade_0_description"),
       cost: value => DC.D1_5.pow(value.pow(DC.D1_25)).times(DC.E1),
       bulk: value => value.div(DC.E1).log(DC.D1_5).pow(DC.D0_8).add(1).floor(),
-      effect: value => Boson.photon.amount.add(1).pow(value.pow(DC.D0_8).times(DC.E2)),
+      effect: value => Boson.photon.amount.add(1)
+        .pow(value.timesEffectOf(RadiationType.infrared.boosts[1])
+          .pow(DC.D0_8).times(DC.E2)),
       formatEffect: value => formatX(value)
     },
     {
       id: 1,
-      description: "Boost BH Condenser Power.",
+      description: () => i18n.t("boson_photon_upgrade_1_description"),
       cost: value => DC.D2.pow(value.pow(DC.D1_25)).times(DC.E2),
       bulk: value => value.div(DC.E2).log(DC.D2).pow(DC.D0_8).add(1).floor(),
       effect: value => value.add(1).pow(DC.D0_75).powEffectOf(NeutronUpgrade.fn4),
@@ -89,7 +91,7 @@ export const bosonUpgrades = {
     },
     {
       id: 2,
-      description: "Photons gain is boosted by Collapsed Star.",
+      description: () => i18n.t("boson_photon_upgrade_2_description"),
       cost: value => DC.D5.pow(value.pow(DC.D1_25)).times(DC.D500),
       bulk: value => value.div(DC.D500).log(DC.D5).pow(DC.D0_8).add(1).floor(),
       effect: value => Softcap.power(Currency.stars.value.add(1).log10().add(1).pow(value.times(DC.D0_2)), DC.E15, DC.D0_6),
@@ -98,7 +100,7 @@ export const bosonUpgrades = {
     },
     {
       id: 3,
-      description: "All-Star resources gain is boosted by Photon.",
+      description: () => i18n.t("boson_photon_upgrade_3_description"),
       cost: value => DC.D5.pow(value.pow(DC.D1_25)).times(DC.E5),
       bulk: value => value.div(DC.E5).log(DC.D5).pow(DC.D0_8).add(1).floor(),
       effect: value => {
@@ -119,15 +121,17 @@ export const bosonUpgrades = {
   gluon: [
     {
       id: 0,
-      description: "Gain more Atoms & Atomic Powers based on Gluon.",
+      description: () => i18n.t("boson_gluon_upgrade_0_description"),
       cost: value => DC.D1_5.pow(value.pow(DC.D1_25)).times(DC.E1),
       bulk: value => value.div(DC.E1).log(DC.D1_5).pow(DC.D0_8).add(1).floor(),
-      effect: value => Boson.gluon.amount.add(1).pow(value.pow(DC.D0_8).times(DC.E2)),
+      effect: value => Boson.gluon.amount.add(1)
+        .pow(value.timesEffectOf(RadiationType.infrared.boosts[1])
+          .pow(DC.D0_8).times(DC.E2)),
       formatEffect: value => formatX(value)
     },
     {
       id: 1,
-      description: "Boost Cosmic Ray Power.",
+      description: () => i18n.t("boson_gluon_upgrade_1_description"),
       cost: value => DC.D2.pow(value.pow(DC.D1_25)).times(DC.E2),
       bulk: value => value.div(DC.E2).log(DC.D2).pow(DC.D0_8).add(1).floor(),
       effect: value => value.add(1).pow(DC.D0_75).powEffectOf(NeutronUpgrade.fn4),
@@ -135,7 +139,7 @@ export const bosonUpgrades = {
     },
     {
       id: 2,
-      description: "Gluons gain is boosted by Quark.",
+      description: () => i18n.t("boson_gluon_upgrade_2_description"),
       cost: value => DC.D5.pow(value.pow(DC.D1_25)).times(DC.D500),
       bulk: value => value.div(DC.D500).log(DC.D5).pow(DC.D0_8).add(1).floor(),
       effect: value => Softcap.power(Currency.quark.value.add(1).log10().add(1).pow(value.times(DC.D0_125)), DC.E15, DC.D0_6),
@@ -144,7 +148,7 @@ export const bosonUpgrades = {
     },
     {
       id: 3,
-      description: "Supernova requirement is decreased based on Gluon.",
+      description: () => i18n.t("boson_gluon_upgrade_3_description"),
       cost: value => DC.D5.pow(value.pow(DC.D1_25)).times(DC.E5),
       bulk: value => value.div(DC.E5).log(DC.D5).pow(DC.D0_8).add(1).floor(),
       effect: value => {

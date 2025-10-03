@@ -227,7 +227,7 @@ export default {
       :show-tooltip="true"
     />
     <HeaderResource
-      v-if="darkMatter.unlocked"
+      v-if="atoms.unlocked"
       img-class="i-atom"
       :amount="atoms.amount"
       :gain-rate="atoms.rate"

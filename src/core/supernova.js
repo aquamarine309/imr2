@@ -20,8 +20,9 @@ export const Supernova = {
   },
 
   get bulk() {
-    if (Supernova.times.lt(this.tutorialCount)) return DC.D1;
-    return Supernova.bulkAt(Currency.stars.value);
+    const bulk = Supernova.bulkAt(Currency.stars.value);
+    if (Supernova.times.lt(this.tutorialCount)) return bulk.clampMax(this.times.add(1));
+    return bulk;
   },
 
   get tutorialCount() {

@@ -254,9 +254,9 @@ export const GameStorage = {
     };
 
     save.options = {
-      massDis: 1,
       font: "Verdana",
-      notation: "sc"
+      notation: "sc",
+      massDis: player.options.massDisplay
     };
 
     save.quotes = convertBitsToArray(player.tutorialBits);

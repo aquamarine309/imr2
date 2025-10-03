@@ -77,7 +77,7 @@ export const scaling = {
       },
       {
         get start() {
-          return DC.D5E4;
+          return DC.D5E4.timesEffectOf(RankType.pent.unlocks.tickScale);
         },
         get scale() {
           return DC.D1_001;
@@ -127,7 +127,11 @@ export const scaling = {
       },
       {
         get start() {
-          return DC.E4;
+          return DC.E4.timesEffectsOf(
+            RankType.pent.unlocks.cheapTetrAndRank.effects.rank,
+            RankType.pent.unlocks.rankScale,
+            RadiationType.ultraviolet.boosts[2]
+          );
         },
         get scale() {
           return DC.D1_0025;
@@ -244,6 +248,36 @@ export const scaling = {
         },
         get scale() {
           return DC.C1P1EN8;
+        }
+      },
+    ]
+  },
+  pent: {
+    name: "Pent",
+    currency: () => RankType.pent.amount,
+    scaling: [
+      {
+        get start() {
+          return DC.D15;
+        },
+        get scale() {
+          return DC.D2;
+        }
+      },
+      {
+        get start() {
+          return DC.D60;
+        },
+        get scale() {
+          return DC.D3;
+        }
+      },
+      {
+        get start() {
+          return DC.D1200;
+        },
+        get scale() {
+          return DC.D6;
         }
       },
     ]

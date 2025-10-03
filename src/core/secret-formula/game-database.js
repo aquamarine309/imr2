@@ -10,6 +10,7 @@ import { awayProgressTypes } from "./away-progress-types";
 import { particles } from "./particles";
 import { gameElements } from "./game-elements";
 import { supernova } from "./supernova";
+import { notifications } from "./notifications";
 
 export const GameDatabase = {
   upgrades,
@@ -23,7 +24,8 @@ export const GameDatabase = {
   awayProgressTypes,
   particles,
   gameElements,
-  supernova
+  supernova,
+  notifications
 };
 
 window.GameDatabase = GameDatabase;

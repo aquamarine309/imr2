@@ -104,7 +104,7 @@ export default {
   flex-direction: column;
   color: white;
   margin: 2px;
-  font-family: BlobFont, serif;
+  font-family: BlobFont, "Xia Lu Wen Kai";
   font-size: 10px;
   padding: 4px;
 }

@@ -444,7 +444,7 @@ Currency.atoms = new class extends DecimalCurrency {
   }
 
   get canReset() {
-    return BlackHole.mass.gte(DC.D1_5E136);
+    return BlackHole.mass.gte(DC.D1_5E156);
   }
 
   requestReset() {
@@ -698,7 +698,8 @@ Currency.neutronStars = new class extends DecimalCurrency {
       NeutronUpgrade.sn1,
       NeutronUpgrade.sn2,
       NeutronUpgrade.sn3,
-      NeutronUpgrade.bs3
+      NeutronUpgrade.bs3,
+      RadiationType.visible.boosts[2]
     );
     return gain;
   }
@@ -741,5 +742,26 @@ Currency.uLeptons = new class extends DecimalCurrency {
 
   get key() {
     return "X_u_lepton";
+  }
+}();
+
+Currency.frequency = new class extends DecimalCurrency {
+  get value() {
+    return player.supernova.radiation.frequency;
+  }
+
+  set value(value) {
+    player.supernova.radiation.frequency = value;
+  }
+
+  get gainPerSecond() {
+    if (!Radiation.isUnlocked) return DC.D0;
+    let gain = DC.D1;
+    gain = gain.timesEffectOf(RadiationType.radio);
+    return gain;
+  }
+
+  get key() {
+    return "X_hz";
   }
 }();

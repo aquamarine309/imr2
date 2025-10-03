@@ -6,11 +6,18 @@ export const tetr = {
     return AtomUpgrade(2).canBeApplied;
   },
   requirement(amount) {
-    return Scaling.tetr.scaleEvery(amount).timesEffectOf(GameElement(9)).pow(GameElement(44).effectOrDefault(DC.D2)).times(3).add(10).floor();
+    return Scaling.tetr.scaleEvery(amount).timesEffectsOf(
+      GameElement(9),
+      RankType.pent.unlocks.cheapTetrAndRank.effects.tetr
+    ).pow(GameElement(44).effectOrDefault(DC.D2)).times(3).add(10).floor();
   },
   bulk(value) {
     if (value.lt(10)) return DC.D0;
-    return Scaling.tetr.scaleEvery(value.minus(10).div(3).root(GameElement(44).effectOrDefault(DC.D2)).dividedByEffectOf(GameElement(9)), true).add(1).floor();
+    return Scaling.tetr.scaleEvery(value.minus(10).div(3).root(GameElement(44).effectOrDefault(DC.D2))
+      .dividedByEffectsOf(
+        GameElement(9),
+        RankType.pent.unlocks.cheapTetrAndRank.effects.tetr
+      ), true).add(1).floor();
   },
   get scaling() {
     return Scaling.tetr;

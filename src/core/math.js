@@ -1,6 +1,6 @@
 import { DC } from "./constants";
 
-// It was used by calculating bulk before, but now it will never be used
+// It was used to calculate bulk before, but now it will never be used
 // because of scalings.
 // - aquamarine
 /**
@@ -61,4 +61,8 @@ window.getLinearCost = function getLinearCost(amount, baseCost, costMult) {
 
 window.getLinearBulk = function getLinearCost(currency, baseCost, costMult) {
   return currency.div(baseCost).clampMin(1).log(costMult);
+};
+
+window.mlt = function(x) {
+  return DC.D1_5E1000000056.pow(x);
 };

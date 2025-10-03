@@ -10,6 +10,7 @@ import ModalProgressBar from "./modals/ModalProgressBar";
 import BackgroundStar from "./BackgroundStar";
 import SupernovaOverlay from "./SupernovaOverlay";
 import RelativisticParticles from "./tabs/mass-dilation/RelativisticParticles";
+import NotificationButton from "./NotificationButton";
 
 export default {
   name: "GameUIComponent",
@@ -24,7 +25,8 @@ export default {
     ModalProgressBar,
     BackgroundStar,
     SupernovaOverlay,
-    RelativisticParticles
+    RelativisticParticles,
+    NotificationButton
   },
   data() {
     return {
@@ -102,7 +104,7 @@ export default {
       />
       <ModalProgressBar v-if="view.modal.progressBar" />
       <BackgroundStar v-if="!showSupernova" />
-      <RelativisticParticles v-if="view.subtab === 'dilation'" />
+      <RelativisticParticles v-if="view.subtab === 'dilation' && !showSupernova" />
       <v-touch
         class="l-view"
         v-on="swipeHandlers"
@@ -117,6 +119,7 @@ export default {
             :is="page"
             id="page"
           />
+          <NotificationButton />
         </template>
       </v-touch>
       <AppBar @toggle-drawer="toggleDrawer" />

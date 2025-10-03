@@ -8,8 +8,7 @@ window.player = {
     tier: DC.D0,
     tetr: DC.D0,
     pent: DC.D0,
-    hex: DC.D0,
-    beyond: DC.D0
+    hex: DC.D0
   },
   ragePowers: DC.D0,
   darkMatter: DC.D0,
@@ -55,6 +54,14 @@ window.player = {
       leptons: DC.D0,
       tiers: Array.repeat(DC.D0, 12),
       active: -1
+    },
+    radiation: {
+      frequency: DC.D0,
+      unlocks: Array.range(1, 7).map(() => ({
+        distance: DC.D0,
+        amplitude: DC.D0,
+        velocity: DC.D0
+      }))
     }
   },
   auto: {
@@ -63,8 +70,7 @@ window.player = {
       tier: false,
       tetr: false,
       pent: false,
-      hex: false,
-      beyond: false
+      hex: false
     },
     massUpgrades: {
       muscler: false,

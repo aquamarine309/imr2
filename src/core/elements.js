@@ -31,6 +31,11 @@ export const GameElements = {
     return PlayerProgress.supernovaUnlocked() || Challenge(7).milestones[0].canBeApplied;
   },
 
+  buyMax() {
+    if (player.elements.size >= this.maxId) return;
+    for (let i = 1; i <= this.maxId; i++) this.all[i - 1].purchase();
+  },
+
   get maxId() {
     let amount = 0;
     if (PlayerProgress.supernovaUnlocked()) {

@@ -305,6 +305,13 @@ export const mass = {
       power = power.timesEffectOf(Boson.zBoson.effects.tickspeed);
       power = power.times(MassDilation.boost);
       power = power.powEffectOf(NeutronUpgrade.t1);
+      const softcapStart = DC.E50.timesEffectOf(RadiationType.ultraviolet.boosts[1]);
+      const softcapPower = DC.D0_1;
+      power = Softcap.power(
+        power,
+        softcapStart,
+        softcapPower
+      );
       return power;
     },
     formatPower: value => (value.gte(10) ? formatX(value) : formatPercents(value.minus(1))),
@@ -313,8 +320,10 @@ export const mass = {
       const bought = $.boughtAmount;
       const free = $.freeAmount;
       return power.pow(
-        bought.timesEffectOf(GameElement(63))
-          .add(free)
+        bought.timesEffectsOf(
+          GameElement(63),
+          RadiationType.radio.boosts[1]
+        ).add(free)
       ).powEffectsOf(
         RankType.tetr.unlocks.tickspeedPower,
         GameElement(18)
@@ -380,8 +389,12 @@ export const mass = {
     formatPower: value => formatX(value),
     effect($) {
       const power = $.power;
-      const amount = $.totalAmount;
-      return power.pow(amount);
+      const bought = $.boughtAmount;
+      const free = $.freeAmount;
+      return power.pow(
+        bought.timesEffectOf(RadiationType.microwave.boosts[2])
+          .add(free)
+      );
     },
     formatEffect: value => i18n.t("condenser_effect", { value: formatX(value) }),
     upgClass: "i-condenser"
@@ -437,7 +450,7 @@ export const mass = {
     formatPower: value => formatX(value),
     effect($) {
       const power = $.power;
-      const amount = $.totalAmount;
+      const amount = $.totalAmount.timesEffectOf(RadiationType.visible.boosts[1]);
       return power.pow(amount).minus(1);
     },
     formatEffect: value => i18n.t("cosmic_ray_effect", { value: formatX(value) }),

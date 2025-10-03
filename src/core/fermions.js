@@ -5,13 +5,23 @@ class FermionRewardState extends GameMechanicState {
   constructor(config, fermion) {
     const configCopy = { ...config };
     const effect = config.effect;
-    configCopy.effect = () => effect(fermion.tier, fermion.type.currency.value);
+    configCopy.effect = () => effect(this.effectiveTier, fermion.type.currency.value);
     super(configCopy);
     this._fermion = fermion;
   }
 
   get fermion() {
     return this._fermion;
+  }
+
+  get effectiveTier() {
+    let tier = this.fermion.tier;
+    if (this.fermion === FermionType.leptons) {
+      tier = tier.timesEffectOf(RadiationType.xRay.boosts[1]);
+    } else {
+      tier = tier.timesEffectOf(RadiationType.gammaRay.boosts[1]);
+    }
+    return tier;
   }
 
   get isEffectActive() {
@@ -144,6 +154,7 @@ class FermionTypeState {
     const base = DC.D1_25;
     gain = gain.times(base.pow(this.totalTiers));
     gain = gain.timesEffectOf(NeutronUpgrade.fn1);
+    gain = gain.times(Radiation.frequencyEffect);
     return gain;
   }
 }

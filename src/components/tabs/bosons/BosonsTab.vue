@@ -87,16 +87,49 @@ export default {
     </div>
     <div class="c-bosons-row">
       <div class="c-boson-grid c-boson-graviton">
-        You have <span class="o-boson-amount--accent">{{ format(graviton) }} {{ formatGain(graviton, gravitonGain) }}</span> Graviton, which speed up Boson production by {{ format(gravitonEffect) }}.
+        <i18n
+          path="boson_graviton_description"
+          tag="div"
+        >
+          <template #amountAndGain>
+            <span class="o-boson-amount--accent">
+              {{ format(graviton) }} {{ formatGain(graviton, gravitonGain) }}
+            </span>
+          </template>
+          <template #effect>
+            {{ format(gravitonEffect) }}
+          </template>
+        </i18n>
       </div>
       <div class="c-boson-grid c-boson-higgs">
-        You have <span class="o-boson-amount--accent">{{ format(higgsBoson) }} {{ formatGain(higgsBoson, higgsBosonGain) }}</span> Higgs Boson, which raise Graviton's effect by {{ format(higgsBosonEffect) }}.
+        <i18n
+          path="boson_higgs_boson_description"
+          tag="div"
+        >
+          <template #amountAndGain>
+            <span class="o-boson-amount--accent">
+              {{ format(higgsBoson) }} {{ formatGain(higgsBoson, higgsBosonGain) }}
+            </span>
+          </template>
+          <template #effect>
+            {{ format(higgsBosonEffect) }}
+          </template>
+        </i18n>
       </div>
     </div>
     <div class="c-bosons-row">
       <div class="c-boson-grid c-boson-photon">
         <div class="c-boson-amount">
-          You have <span class="o-boson-amount--accent">{{ format(photon) }} {{ formatGain(photon, photonGain) }}</span> Photon.
+          <i18n
+            path="boson_photon_description"
+            tag="span"
+          >
+            <template #amountAndGain>
+              <span class="o-boson-amount--accent">
+                {{ format(photon) }} {{ formatGain(photon, photonGain) }}
+              </span>
+            </template>
+          </i18n>
         </div>
         <BosonUpgradeButton
           v-for="upgrade in photonUpgrade"
@@ -106,7 +139,16 @@ export default {
       </div>
       <div class="c-boson-grid c-boson-gluon">
         <div class="c-boson-amount">
-          You have <span class="o-boson-amount--accent">{{ format(gluon) }} {{ formatGain(gluon, gluonGain) }}</span> Gluon.
+          <i18n
+            path="boson_gluon_description"
+            tag="span"
+          >
+            <template #amountAndGain>
+              <span class="o-boson-amount--accent">
+                {{ format(gluon) }} {{ formatGain(gluon, gluonGain) }}
+              </span>
+            </template>
+          </i18n>
         </div>
         <BosonUpgradeButton
           v-for="upgrade in gluonUpgrade"
@@ -117,13 +159,58 @@ export default {
     </div>
     <div class="c-bosons-row-other">
       <div class="c-boson-grid c-boson-other">
-        You have <span class="o-boson-amount--accent">{{ format(positiveW) }} {{ formatGain(positiveW, positiveWGain) }}</span> W<sup>+</sup> Boson, which multiply Mass gain by {{ format(positiveWMass) }}, multiply W<sup>-</sup> Boson gain by {{ format(positiveWNeg) }}.
+        <i18n
+          path="boson_positive_w_description"
+          tag="div"
+        >
+          <template #amountAndGain>
+            <span class="o-boson-amount--accent">
+              {{ format(positiveW) }} {{ formatGain(positiveW, positiveWGain) }}
+            </span>
+          </template>
+          <template #massEffect>
+            {{ format(positiveWMass) }}
+          </template>
+          <template #gainEffect>
+            {{ format(positiveWNeg) }}
+          </template>
+        </i18n>
       </div>
       <div class="c-boson-grid c-boson-other">
-        You have <span class="o-boson-amount--accent">{{ format(negativeW) }} {{ formatGain(negativeW, negativeWGain) }}</span> W<sup>-</sup> Boson, which make Mass gain softcap^2 starts {{ formatPow(negativeWSoftcap) }} later, multiply W<sup>+</sup> Boson gain by {{ format(negativeWPos) }}.
+        <i18n
+          path="boson_negative_w_description"
+          tag="div"
+        >
+          <template #amountAndGain>
+            <span class="o-boson-amount--accent">
+              {{ format(negativeW) }} {{ formatGain(negativeW, negativeWGain) }}
+            </span>
+          </template>
+          <template #softcapEffect>
+            {{ formatPow(negativeWSoftcap) }}
+          </template>
+          <template #gainEffect>
+            {{ format(negativeWPos) }}
+          </template>
+        </i18n>
       </div>
       <div class="c-boson-grid c-boson-other">
-        You have <span class="o-boson-amount--accent">{{ format(zBoson) }} {{ formatGain(zBoson, zBosonGain) }}</span> Z<sup>0</sup> Boson, which multiply Tickspeed Power by {{ format(zBosonTickspeed) }}, multiply W Bosons gain by {{ format(zBosonW) }}.
+        <i18n
+          path="boson_z_boson_description"
+          tag="div"
+        >
+          <template #amountAndGain>
+            <span class="o-boson-amount--accent">
+              {{ format(zBoson) }} {{ formatGain(zBoson, zBosonGain) }}
+            </span>
+          </template>
+          <template #tickspeedEffect>
+            {{ format(zBosonTickspeed) }}
+          </template>
+          <template #gainEffect>
+            {{ format(zBosonW) }}
+          </template>
+        </i18n>
       </div>
     </div>
   </div>

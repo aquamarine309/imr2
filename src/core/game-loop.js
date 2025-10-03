@@ -3,7 +3,7 @@ import { DEV } from "@/env";
 export const GameLoop = {
   interval: null,
 
-  devSpeed: 1,
+  devSpeed: 15,
 
   get updateRate() {
     return player.options.updateRate;
@@ -66,6 +66,7 @@ export const GameLoop = {
       Supernova.startingAutoCheck();
       Bosons.tick(seconds);
       Fermions.update(seconds);
+      Radiation.tick(seconds);
     }
 
     if (NeutronUpgrade.qol3.canBeApplied) {

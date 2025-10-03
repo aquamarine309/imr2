@@ -2,19 +2,22 @@
 import ElementComponent from "./ElementComponent";
 import ElementInfo from "./ElementInfo";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
+import PrimaryButton from "@/components/PrimaryButton";
 
 export default {
   name: "ElementsTab",
   components: {
     ElementComponent,
     ElementInfo,
+    PrimaryButton,
     PrimaryToggleButton
   },
   data() {
     return {
       selected: 0,
       auto: false,
-      autoUnlocked: false
+      autoUnlocked: false,
+      supernova: false
     };
   },
   computed: {
@@ -37,9 +40,13 @@ export default {
     update() {
       this.autoUnlocked = Autobuyer.element.isUnlocked;
       this.auto = Autobuyer.element.isActive;
+      this.supernova = PlayerProgress.supernovaUnlocked();
     },
     handleClick(id) {
       this.selected = id;
+    },
+    buyMax() {
+      GameElements.buyMax();
     }
   }
 };
@@ -48,6 +55,13 @@ export default {
 <template>
   <div>
     <div>
+      <PrimaryButton
+        v-if="supernova"
+        class="o-buy-max-element-button"
+        @click="buyMax"
+      >
+        {{ $t("buy_max") }}
+      </PrimaryButton>
       <PrimaryToggleButton
         v-if="autoUnlocked"
         v-model="auto"
@@ -69,3 +83,9 @@ export default {
     </div>
   </div>
 </template>
+
+<style scope>
+.o-buy-max-element-button {
+  margin: 0 6px;
+}
+</style>
