@@ -117,8 +117,8 @@ export default {
         <span>
           {{ $t("cost_X", {
             value: $tc("X_meter",
-            checkSingle(amplitudeCost),
-            { value: format(amplitudeCost) })
+                       checkSingle(amplitudeCost),
+                       { value: format(amplitudeCost) })
           }) }}
         </span>
       </PrimaryButton>
@@ -129,10 +129,10 @@ export default {
         <span>{{ $t("velocity_X", { value: format(velocity, 0) }) }}</span>
         <br>
         <span>
-         {{ $t("cost_X", {
+          {{ $t("cost_X", {
             value: $tc("X_meter",
-            checkSingle(velocityCost),
-            { value: format(velocityCost) })
+                       checkSingle(velocityCost),
+                       { value: format(velocityCost) })
           }) }}
         </span>
       </PrimaryButton>

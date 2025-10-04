@@ -12,7 +12,11 @@ export const Stars = {
     let tetr = Softcap.power(RankType.tetr.amount, DC.D3E4, DC.D0_15).times(mult1);
     tetr = Softcap.mult(tetr, DC.D5, NeutronUpgrade.s2.effectOrDefault(DC.D0_2));
     tetr = Softcap.power(tetr, DC.D9, DC.D0_3);
-    const pent = DC.D0;
+    const pent = (
+      GameElement(69).canBeApplied
+        ? Softcap.pow(RankType.pent.amount, DC.D9, DC.D0_5)
+        : DC.D0
+    );
     let boost = Currency.stars.value.times(mult1).max(1).log10().add(1).pow(
       rank.times(tier.pow(2)).add(1).pow(tetr.add(1).pow(5 / 9).times(0.25)
         .times(pent.pow(0.85).times(0.0125).add(1))));

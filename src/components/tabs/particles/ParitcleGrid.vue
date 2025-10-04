@@ -61,9 +61,9 @@ export default {
       {{ format(amount, 0) }} {{ $tc(nameKey, checkSingle(amount)) }}
     </h3>
     <div :class="textClass">
-      Which generates {{ format(gain) }}  {{ $tc(nameKey, 1) }} Powers per second.
+      {{ $t('particle_power_generation', { gain: format(gain), name: $tc(nameKey, 1) }) }}
       <br>
-      You have {{ format(power) }} {{ formatGain(power, gain) }} {{ $tc(nameKey, 1) }} Powers, which:
+      {{ $t('particle_power_ownership', { powerAndGain: `${format(power)} ${formatGain(power, gain)}`, name: $tc(nameKey, 1) }) }}
     </div>
     <div>
       {{ effect }}

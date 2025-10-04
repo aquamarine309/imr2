@@ -5,7 +5,10 @@ export const particles = {
     effect: () => {
       const mass = Atom.protonMass();
       const tickspeed = Atom.protonTick();
-      return `Boost Mass gain by ${formatX(mass)} and increase Tickspeed Power by ${formatPercents(tickspeed)}`;
+      return i18n.t("particle_proton_effect", {
+        mass: formatX(mass),
+        tickspeed: formatPercents(tickspeed)
+      });
     }
   },
   neutron: {
@@ -14,7 +17,10 @@ export const particles = {
     effect: () => {
       const rp = Atom.neutronRP();
       const mass = Atom.neutronMass();
-      return `Boost Rage Power gain by ${formatX(rp)} and boost Mass gain based on Rage Powers - ${formatX(mass)}`;
+      return i18n.t("particle_neutron_effect", {
+        rp: formatX(rp),
+        mass: formatX(mass)
+      });
     }
   },
   electron: {
@@ -23,7 +29,10 @@ export const particles = {
     effect: () => {
       const dm = Atom.electronDM();
       const condenser = Atom.electronCondenser();
-      return `Boost Dark Matter gain by ${formatX(dm)} and increases BH Condenser Power by ${format(condenser)}`;
+      return i18n.t("particle_electron_effect", {
+        dm: formatX(dm),
+        condenser: format(condenser)
+      });
     }
   }
 };
