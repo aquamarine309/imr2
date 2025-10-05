@@ -33,7 +33,7 @@ export const notifications = [
   },
   {
     tab: ["main", "stars"],
-    condition: () => Stars.isUnlocked && StarGenerators.next && StarGenerators.next.canBeUnlocked
+    condition: () => Stars.isUnlocked && StarGenerators.next && !StarGenerators.auto && StarGenerators.next.canBeUnlocked
   },
   {
     tab: ["main", "stars"],

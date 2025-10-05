@@ -16,10 +16,10 @@ export const pent = {
     return Scaling.pent;
   },
   get noReset() {
-    return false;
+    return NeutronUpgrade.qol9.canBeApplied;
   },
   get autoUnlocked() {
-    return false;
+    return NeutronUpgrade.qol9.canBeApplied;
   },
   unlocks: [
     {

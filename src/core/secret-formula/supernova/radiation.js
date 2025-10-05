@@ -14,6 +14,8 @@ function firstBoost(index) {
   );
 }
 
+const metaBoost = boost => boost.pow(DC.D0_4).div(DC.D1_75).timesEffectOf(NeutronUpgrade.rad4);
+
 export const radiation = {
   radio: {
     id: 0,
@@ -76,7 +78,7 @@ export const radiation = {
       },
       {
         id: 2,
-        effect: boost => boost.pow(DC.D0_4).div(DC.D1_75),
+        effect: metaBoost,
         formatEffect: value => formatPlus(value)
       }
     ]
@@ -152,7 +154,7 @@ export const radiation = {
       },
       {
         id: 2,
-        effect: boost => boost.pow(DC.D0_4).div(DC.D1_75),
+        effect: metaBoost,
         formatEffect: value => formatPlus(value)
       }
     ]

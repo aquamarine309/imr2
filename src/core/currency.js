@@ -757,7 +757,10 @@ Currency.frequency = new class extends DecimalCurrency {
   get gainPerSecond() {
     if (!Radiation.isUnlocked) return DC.D0;
     let gain = DC.D1;
-    gain = gain.timesEffectOf(RadiationType.radio);
+    gain = gain.timesEffectsOf(
+      RadiationType.radio,
+      NeutronUpgrade.rad1
+    );
     return gain;
   }
 

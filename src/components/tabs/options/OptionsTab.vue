@@ -16,6 +16,7 @@ export default {
       starBG: false,
       adUI: false,
       language: "en",
+      foldUselessRank: false,
       massDisplay: MASS_DISPLAY.DEFAULT
     };
   },
@@ -36,6 +37,9 @@ export default {
     adUI(value) {
       player.options.adUI = value;
     },
+    foldUselessRank(value) {
+      player.options.foldUselessRank = value;
+    },
     language(value) {
       EventHub.dispatch(GAME_EVENT.FORMAT_CHANGED);
       player.options.language = value;
@@ -51,6 +55,7 @@ export default {
       this.starUnlocked = Stars.isUnlocked;
       this.starBG = player.options.starBG;
       this.adUI = player.options.adUI;
+      this.foldUselessRank = player.options.foldUselessRank;
       this.language = player.options.language;
       this.massDisplay = player.options.massDisplay;
     },
@@ -133,6 +138,11 @@ export default {
       </PrimaryButton>
     </div>
     <div class="l-options-row">
+      <PrimaryToggleButton
+        v-model="foldUselessRank"
+        class="c-options-btn"
+        i18n-key="collapse_fully_upgraded_rank_X"
+      />
       <PrimaryToggleButton
         v-if="starUnlocked"
         v-model="starBG"

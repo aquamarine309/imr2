@@ -46,6 +46,9 @@ export const GameElements = {
       if (Fermions.areUnlocked) {
         amount += 10;
       }
+      if (Radiation.isUnlocked) {
+        amount += 10;
+      }
     } else {
       amount += 4;
       if (Challenge(8).milestones[0].canBeApplied) {

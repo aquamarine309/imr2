@@ -44,8 +44,8 @@ export default {
     circlePos(index) {
       const p = (this.time / 3000 + index / 3) % 1;
       return {
-        cx: `${to(this.start.config.idx, this.end.config.idx, p) * 100}%`,
-        cy: to(this.start.config.row, this.end.config.row, p) * 75
+        cx: to(this.start.pos[0], this.end.pos[0], p),
+        cy: to(this.start.pos[1], this.end.pos[1], p)
       };
     }
   }
@@ -60,10 +60,10 @@ function to(a, b, r) {
   <g v-if="isUnlocked">
     <line
       class="o-neutron-upgrade-line"
-      :x1="`${start.config.idx * 100}%`"
-      :y1="start.config.row * 75"
-      :x2="`${end.config.idx * 100}%`"
-      :y2="end.config.row * 75"
+      :x1="start.pos[0]"
+      :y1="start.pos[1]"
+      :x2="end.pos[0]"
+      :y2="end.pos[1]"
       :style="{ stroke: lineColor }"
     />
     <circle

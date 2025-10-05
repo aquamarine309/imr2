@@ -43,7 +43,16 @@ export default {
 
 <template>
   <div>
-    <div>You collapsed <span class="o-highlight">{{ format(stars, 2) }} / {{ format(requirement, 2) }} {{ formatGain(stars, gain) }}</span> stars, which multiplies mass gain based on all rank types.</div>
+    <i18n
+      path="star_collapse_description"
+      tag="div"
+    >
+      <template #starsAndRequirement>
+        <span class="o-highlight">
+          {{ format(stars, 2) }} / {{ format(requirement, 2) }} {{ formatGain(stars, gain) }}
+        </span>
+      </template>
+    </i18n>
     <br>
     <div class="c-green">
       {{ $t("currently_X", { effect: formatX(boost) }) }}

@@ -118,9 +118,12 @@ export const StarGenerators = {
     return StarGenerator(StarGenerators.unlocked + 1);
   },
 
+  get auto() {
+    return NeutronUpgrade.qol4.isBought;
+  },
+
   tick(diff) {
-    const auto = NeutronUpgrade.qol4.isBought;
-    if (auto) {
+    if (StarGenerators.auto) {
       while (StarGenerators.next?.canBeUnlocked) {
         StarGenerators.next.unlock();
       }

@@ -42,6 +42,11 @@ export const Supernova = {
 };
 
 class NeutronUpgradeState extends SetPurchasableMechanicState {
+  constructor(config) {
+    super(config);
+    this.pos = [null, null];
+  }
+
   get currency() {
     return Currency.neutronStars;
   }
@@ -78,3 +83,40 @@ export const NeutronUpgrade = mapGameDataToObject(
 
 export const NeutronUpgradeConnections = NeutronUpgrade.all.filter(x => x.config.branch)
   .reduce((arr, x) => arr.concat(x.config.branch.map(id => [NeutronUpgrade[id], x])), []);
+
+export const NeutronTreeData = {
+  margin: 60,
+  lineHeight: 70,
+  width: 500,
+  height: 500,
+  marginTop: 30
+};
+
+class NeutronTreeState {
+  constructor(config) {
+    this.config = config;
+    this.upgrades = [];
+    for (let i = 0; i < config.layout.length; i++) {
+      const row = config.layout[i];
+      const len = row.length;
+      for (let j = 0; j < len; j++) {
+        if (row[j] === null) continue;
+        const upgrade = NeutronUpgrade[row[j]];
+        this.upgrades.push(upgrade);
+        upgrade.pos[1] = NeutronTreeData.marginTop + NeutronTreeData.lineHeight * i;
+        const offset = j - (len - 1) / 2;
+        upgrade.pos[0] = NeutronTreeData.width / 2 + offset * NeutronTreeData.margin;
+      }
+    }
+  }
+
+  get isUnlocked() {
+    return this.config.isUnlocked();
+  }
+
+  get id() {
+    return this.config.id;
+  }
+}
+
+export const NeutronTree = GameDatabase.supernova.neutronTrees.map(tree => new NeutronTreeState(tree));

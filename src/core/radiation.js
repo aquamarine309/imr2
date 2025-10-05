@@ -127,9 +127,17 @@ class RadiationTypeState extends GameMechanicState {
     }
     gain = gain.timesEffectsOf(
       this.boosts[0],
-      RankType.pent.unlocks.tetrBoostRadiation
+      RankType.pent.unlocks.tetrBoostRadiation,
+      NeutronUpgrade.rad2
     );
+    if (this.id + 1 < RadiationType.all.length && RadiationType.all[this.id + 1].isUnlocked) {
+      gain = gain.timesEffectOf(NeutronUpgrade.rad1);
+    }
     return gain;
+  }
+
+  get cheap() {
+    return Effects.product(NeutronUpgrade.rad3);
   }
 
   boostCost(amount, idx) {
@@ -137,7 +145,8 @@ class RadiationTypeState extends GameMechanicState {
     const base = DC.D2.add(0.5 * order);
     const pow = DC.D1_3.add(0.05 * order);
     const mult = DC.E1.times(Math.pow(0.5 * order + 1, 2));
-    return base.pow(amount.pow(pow)).times(mult);
+    const cheap = this.cheap;
+    return base.pow(amount.div(cheap).pow(pow)).times(mult);
   }
 
   boostBulk(idx) {
@@ -145,9 +154,10 @@ class RadiationTypeState extends GameMechanicState {
     const base = DC.D2.add(0.5 * order);
     const pow = DC.D1_3.add(0.05 * order);
     const mult = DC.E1.times(Math.pow(0.5 * order + 1, 2));
+    const cheap = this.cheap;
     const currency = this.distance;
     if (currency.lt(mult)) return DC.D0;
-    return currency.div(mult).log(base).root(pow).floor().add(1);
+    return currency.div(mult).log(base).root(pow).times(cheap).floor().add(1);
   }
 
   get amplitudeCost() {

@@ -10,7 +10,7 @@ export class PurchasableMechanicState extends GameMechanicState {
   get currency() { throw new NotImplementedError(); }
 
   get isAffordable() {
-    return this.currency.gte(this.cost);
+    return this.cost && this.currency.gte(this.cost);
   }
 
   get isAvailableForPurchase() {

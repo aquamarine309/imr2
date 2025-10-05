@@ -362,7 +362,7 @@
   "challenge_8_description": "暗物质和黑洞质量获取量开 {value} 次方根。",
   "challenge_8_reward_description": "基于完成次数提升暗物质和黑洞质量获取量。",
   "challenge_8_milestone_0_description": "首次完成后，解锁 3 行元素",
-  "challenge_9_description": "无法分配夸克。此外，质量获取指数提升至 {value} 次方。",
+  "challenge_9_description": "无法分配夸克。此外，质量获取指数变成原来的 {value} 次方。",
   "challenge_9_reward_description": "改善镁-12。",
   "challenge_10_description": "你被困在质量膨胀和挑战 1-8 中。",
   "challenge_10_reward_description": "基于完成次数乘以相对论粒子公式的指数（此挑战中不生效）",
@@ -473,7 +473,7 @@
   "game_element_25_description": "增加第一个质量膨胀升级的基础值 {value}。",
   "game_element_26_description": "每购买一个元素，硬化挑战折算效果减弱。",
   "game_element_27_description": "究极/超究级别和计数频率折算削弱 {value}。",
-  "game_element_28_description": "在质量膨胀期间，质量获取量提升至 {value}。",
+  "game_element_28_description": "在质量膨胀期间，质量获取量变成 {value} 次方。",
   "game_element_29_description": "质子能量的效果更好。",
   "game_element_30_description": "电子能量的效果更好。每秒被动获得可分配夸克的每个粒子量的 {value}。",
   "game_element_31_description": "膨胀质量提升相对论粒子获取量。",
@@ -532,5 +532,9 @@
   "fermion_tau_description": "你被困在挑战 8-9 中",
   "fermion_tau_reward_description": "计数频率更便宜（在元折算之前）",
   "fermion_neutrino_description": "星辰发生器降低至 {value}",
-  "fermion_neutrino_reward_description": "阶层需求更便宜"
+  "fermion_neutrino_reward_description": "阶层需求更便宜",
+  "collapse_fully_upgraded_rank_X": "折叠无奖励的级别: {state}",
+  "star_collapse_description": "你坍缩了 {starsAndRequirement} 星辰，其基于所有级别类型增加质量获取。",
+  "atomic_power_description": "你拥有 {atomicPower} {gain} 原子能量。",
+  "atomic_power_free_tickspeeds": "其提供 {free} 免费计数频率"
 }

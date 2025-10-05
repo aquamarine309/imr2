@@ -532,5 +532,9 @@
   "fermion_tau_description": "You are trapped in Challenges 8-9",
   "fermion_tau_reward_description": "Tickspeed is cheaper (before Meta scaling)",
   "fermion_neutrino_description": "Star generators are decreased to {value}",
-  "fermion_neutrino_reward_description": "Tier requirement is cheaper"
+  "fermion_neutrino_reward_description": "Tier requirement is cheaper",
+  "collapse_fully_upgraded_rank_X": "Collapse Fully Upgraded Ranks: {state}",
+  "star_collapse_description": "You collapsed {starsAndRequirement} stars, which multiplies mass gain based on all rank types.",
+  "atomic_power_description": "You have {atomicPower} Atomic Power.",
+  "atomic_power_free_tickspeeds": "Which provides {free} free Tickspeeds"
 }

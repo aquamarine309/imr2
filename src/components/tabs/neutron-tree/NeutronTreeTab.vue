@@ -3,13 +3,6 @@ import PrimaryButton from "@/components/PrimaryButton";
 import NeutronTreeLayout from "./NeutronTreeLayout";
 import NeutronUpgradeInfo from "./NeutronUpgradeInfo";
 
-const trees = [
-  { id: 0, key: "neutron_tree_main", isUnlocked: () => true },
-  { id: 1, key: "neutron_tree_qol", isUnlocked: () => true },
-  { id: 2, key: "neutron_tree_challenge", isUnlocked: () => true },
-  { id: 3, key: "neutron_tree_post_supernova", isUnlocked: () => Bosons.areUnlocked }
-];
-
 export default {
   name: "NeutronTreeTab",
   components: {
@@ -34,14 +27,14 @@ export default {
     tree() {
       return this.$viewModel.neutronTree;
     },
-    trees: () => trees
+    trees: () => NeutronTree
   },
   methods: {
     update() {
       this.neutronStars.copyFrom(Currency.neutronStars.value);
       this.starGain = Currency.neutronStars.gainPerSecond;
       for (const tree of this.trees) {
-        if (tree.isUnlocked()) {
+        if (tree.isUnlocked) {
           this.unlockedTreeBits |= (1 << tree.id);
         }
       }
@@ -52,8 +45,8 @@ export default {
     reset() {
       Currency.supernova.resetLayer(true);
     },
-    someCanBeBought(id) {
-      return NeutronUpgrade.all.some(x => x.config.tree === id && x.canBeBought);
+    someCanBeBought(tree) {
+      return tree.upgrades.some(x => x.canBeBought);
     },
     toggle(id) {
       this.$viewModel.neutronTree = id;
@@ -82,9 +75,9 @@ export default {
           :enabled="info.id === tree"
           @click="toggle(info.id)"
         >
-          {{ $t(info.key) }}
+          {{ $t(info.config.key) }}
           <span
-            v-if="someCanBeBought(info.id)"
+            v-if="someCanBeBought(info)"
             class="c-tip"
           >
             [ ! ]
@@ -92,7 +85,7 @@ export default {
         </PrimaryButton>
       </template>
     </div>
-    <NeutronTreeLayout />
+    <NeutronTreeLayout :tree-id="tree" />
   </div>
 </template>
 
