@@ -537,5 +537,6 @@
   "dark_theme_X": "暗色主题：{state}",
   "star_collapse_description": "你坍缩了 {starsAndRequirement} 星辰，其基于所有级别类型增加质量获取。",
   "atomic_power_description": "你拥有 {atomicPower} {gain} 原子能量。",
-  "atomic_power_free_tickspeeds": "其提供 {free} 免费计数频率"
+  "atomic_power_free_tickspeeds": "其提供 {free} 免费计数频率",
+  "fix_c10_info": "由于旧版本的挑战10的挑战目标出现异常，现已重置挑战10的完成次数，请见谅"
 }

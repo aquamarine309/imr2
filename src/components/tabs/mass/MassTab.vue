@@ -56,7 +56,7 @@ export default {
         this.foldRanks = [];
         this.buttonRanks = [];
         for (const rank of RankType.all) {
-          if (rank.nextUnlock.value === undefined) {
+          if (rank.nextUnlock.value === undefined || rank.isDisabled) {
             this.foldRanks.push(rank);
           } else {
             this.buttonRanks.push(rank);

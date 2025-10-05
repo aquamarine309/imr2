@@ -537,5 +537,6 @@
   "dark_theme_X": "Dark Theme: {state}",
   "star_collapse_description": "You collapsed {starsAndRequirement} stars, which multiplies mass gain based on all rank types.",
   "atomic_power_description": "You have {atomicPower} Atomic Power.",
-  "atomic_power_free_tickspeeds": "Which provides {free} free Tickspeeds"
+  "atomic_power_free_tickspeeds": "Which provides {free} free Tickspeeds",
+  "fix_c10_info": "The completions for Challenge 10 has been reset due to an exception in the old version of Challenge 10's challenge goal"
 }

@@ -5,6 +5,12 @@ export const migrations = {
     2: player => {
       player.massUpgrades.starBooster = new Decimal(player.stars.boosts);
       delete player.stars.boosts;
+    },
+    3: player => {
+      if (player.challenges.completions[9].gt(0)) {
+        player.challenges.completions[9] = new Decimal(0);
+        Modal.message.show(i18n.t("fix_c10_info"));
+      }
     }
   },
 

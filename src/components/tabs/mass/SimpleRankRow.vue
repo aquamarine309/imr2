@@ -17,6 +17,7 @@ export default {
   data() {
     return {
       isUnlocked: true,
+      isDisabled: false,
       amount: new Decimal(),
       canReset: false,
       requirement: new Decimal(),
@@ -27,6 +28,7 @@ export default {
   },
   computed: {
     requirementText() {
+      if (this.isDisabled) return i18n.t("disabled");
       const isRank = this.rank.isRank;
       if (isRank) {
         return formatMass(this.requirement);
@@ -51,6 +53,7 @@ export default {
       this.requirement = rank.requirement;
       this.autoUnlocked = rank.autoUnlocked;
       this.auto = rank.auto.isActive;
+      this.isDisabled = rank.isDisabled;
     },
     reset() {
       this.rank.reset();

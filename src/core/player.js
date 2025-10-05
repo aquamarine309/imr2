@@ -128,7 +128,7 @@ window.player = {
     maxMass: DC.D0
   },
   lastUpdate: Date.now(),
-  version: 2,
+  version: 3,
   tutorialBits: 0,
   options: {
     updateRate: 33,

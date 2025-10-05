@@ -259,7 +259,7 @@ export const challenges = [
     description: () => i18n.t("challenge_10_description"),
     max: () => DC.E2,
     goalPow: DC.D2,
-    goalMult: DC.E1000,
+    goalMult: DC.E2000,
     baseGoal: DC.D1_5E30056,
     reward: {
       description: () => i18n.t("challenge_10_reward_description"),
