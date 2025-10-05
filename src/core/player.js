@@ -139,6 +139,7 @@ window.player = {
     lastOpenSubtab: Array.repeat(0, 10),
     starBG: true,
     adUI: false,
+    darkTheme: true,
     language: "en",
     massDisplay: MASS_DISPLAY.DEFAULT,
     foldUselessRank: true,

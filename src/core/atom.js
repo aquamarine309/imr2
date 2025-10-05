@@ -22,8 +22,10 @@ export const Atom = {
   get freeTickspeeds() {
     const base = GameElement(23).effectOrDefault(DC.D1_75);
     let ticks = Atom.atomicPower.clampMin(1).log(base);
-    ticks = Softcap.power(ticks, DC.D5E4, DC.D0_75);
-    ticks = Softcap.power(ticks, DC.D4E6, DC.D0_25);
+    if (!GameElement(75).canBeApplied) {
+      ticks = Softcap.power(ticks, DC.D5E4, DC.D0_75);
+      ticks = Softcap.power(ticks, DC.D4E6, DC.D0_25);
+    }
     ticks = Softcap.power(ticks, DC.E10, DC.D0_1);
     ticks = Softcap.power(ticks, DC.D2_5E35, DC.D0_1);
     return ticks.floor();

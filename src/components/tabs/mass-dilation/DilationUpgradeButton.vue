@@ -31,6 +31,7 @@ export default {
     classObject() {
       return {
         "o-dilation-upgrade-btn": true,
+        "o-dilation-upgrade-btn--rebuyable": !this.isSingle,
         "o-dilation-upgrade-btn--available": this.canBeBought,
         "o-dilation-upgrade-btn--capped": this.isCapped
       };
@@ -102,7 +103,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: white;
+  color: var(--color-accent);
   margin: 2px;
   font-family: BlobFont, "Xia Lu Wen Kai";
   font-size: 10px;
@@ -110,11 +111,23 @@ export default {
 }
 
 .ad-ui .o-dilation-upgrade-btn {
-  color: black;
   font-weight: bold;
-  background-color: rgba(153, 153, 153, 0.87);
+  background-color: rgba(86, 92, 93, 0.8);
   border-color: var(--color-dilation);
   border-radius: 8px;
+  color: black;
+}
+
+.ad-ui .o-dilation-upgrade-btn.o-dilation-upgrade-btn--rebuyable {
+  border-color: rgba(68, 189, 173, 0.8);
+}
+
+.ad-ui.light-theme .o-dilation-upgrade-btn.o-dilation-upgrade-btn--rebuyable {
+  border-color: rgba(100, 221, 205, 0.87);
+}
+
+.ad-ui.light-theme .o-dilation-upgrade-btn {
+  background-color: rgba(153, 153, 153, 0.87);
 }
 
 .o-dilation-upgrade-btn--available {
@@ -124,14 +137,32 @@ export default {
 }
 
 .ad-ui .o-dilation-upgrade-btn--available {
-  background-color: #333333;
   color: var(--color-dilation);
   box-shadow: none;
+  background-color: black;
+}
+
+.ad-ui .o-dilation-upgrade-btn--available.o-dilation-upgrade-btn--rebuyable {
+  color: rgba(68, 189, 173);
+  border-color: rgba(68, 189, 173);
+}
+
+.ad-ui.light-theme .o-dilation-upgrade-btn--available.o-dilation-upgrade-btn--rebuyable {
+  color: rgba(100, 221, 205, 0.87);
+  border-color: rgba(100, 221, 205, 0.87);
+}
+
+.ad-ui.light-theme .o-dilation-upgrade-btn--available {
+  background-color: #333333;
 }
 
 .ad-ui .o-dilation-upgrade-btn--capped {
+  background-color: rgba(142, 189, 16, 0.8);
+}
+
+.ad-ui.light-theme .o-dilation-upgrade-btn--capped {
   background-color: rgba(164, 221, 23, 0.87);
-  border-color: black;
+  border-color: black !important;
   color: black;
 }
 </style>

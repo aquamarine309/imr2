@@ -534,6 +534,7 @@
   "fermion_neutrino_description": "星辰发生器降低至 {value}",
   "fermion_neutrino_reward_description": "阶层需求更便宜",
   "collapse_fully_upgraded_rank_X": "折叠无奖励的级别: {state}",
+  "dark_theme_X": "暗色主题：{state}",
   "star_collapse_description": "你坍缩了 {starsAndRequirement} 星辰，其基于所有级别类型增加质量获取。",
   "atomic_power_description": "你拥有 {atomicPower} {gain} 原子能量。",
   "atomic_power_free_tickspeeds": "其提供 {free} 免费计数频率"

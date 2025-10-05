@@ -32,7 +32,8 @@ export default {
     return {
       showDrawer: false,
       showSupernova: false,
-      adUI: false
+      adUI: false,
+      darkTheme: false
     };
   },
   computed: {
@@ -61,6 +62,7 @@ export default {
     update() {
       this.showSupernova = Currency.supernova.value.eq(0) && Currency.supernova.canReset;
       this.adUI = player.options.adUI;
+      this.darkTheme = player.options.darkTheme;
     },
     toggleDrawer() {
       this.showDrawer = !this.showDrawer;
@@ -76,7 +78,7 @@ export default {
   <div
     v-if="view.initialized"
     class="l-game-ui"
-    :class="{ 'ad-ui': adUI }"
+    :class="{ 'ad-ui': adUI, 'light-theme': !darkTheme }"
     v-on="swipeHandlers"
     @click="hideTooltip"
   >

@@ -126,7 +126,7 @@ export default {
   text-shadow: 1px 1px 3px black;
 }
 
-.ad-ui .c-fermion-name {
+.light-theme .c-fermion-name {
   text-shadow: 1px 1px 3px white;
   color: black;
 }

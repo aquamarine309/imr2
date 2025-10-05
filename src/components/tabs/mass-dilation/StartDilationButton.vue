@@ -63,10 +63,14 @@ export default {
 }
 
 .ad-ui .o-start-dilation-btn {
-  background-color: rgba(250, 250, 250, 0.87);
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 8px;
   font-weight: bold;
   color: var(--color-dilation);
   box-shadow: none;
+}
+
+.ad-ui.light-theme .o-start-dilation-btn {
+  background-color: rgba(250, 250, 250, 0.87);
 }
 </style>

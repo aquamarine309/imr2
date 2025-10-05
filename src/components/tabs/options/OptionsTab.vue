@@ -17,6 +17,7 @@ export default {
       adUI: false,
       language: "en",
       foldUselessRank: false,
+      darkTheme: true,
       massDisplay: MASS_DISPLAY.DEFAULT
     };
   },
@@ -40,6 +41,9 @@ export default {
     foldUselessRank(value) {
       player.options.foldUselessRank = value;
     },
+    darkTheme(value) {
+      player.options.darkTheme = value;
+    },
     language(value) {
       EventHub.dispatch(GAME_EVENT.FORMAT_CHANGED);
       player.options.language = value;
@@ -58,6 +62,7 @@ export default {
       this.foldUselessRank = player.options.foldUselessRank;
       this.language = player.options.language;
       this.massDisplay = player.options.massDisplay;
+      this.darkTheme = player.options.darkTheme;
     },
     toggleLanguage() {
       switch (this.language) {
@@ -138,6 +143,11 @@ export default {
       </PrimaryButton>
     </div>
     <div class="l-options-row">
+      <PrimaryToggleButton
+        v-model="darkTheme"
+        class="c-options-btn"
+        i18n-key="dark_theme_X"
+      />
       <PrimaryToggleButton
         v-model="foldUselessRank"
         class="c-options-btn"

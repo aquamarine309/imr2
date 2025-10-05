@@ -47,7 +47,7 @@ export const neutronTrees = [
     layout: [
       ["bs4", "bs1", null, null, null, "rad1"],
       [null, "bs2", "fn1", "bs3", null, null, "rad2", "rad3"],
-      ["fn4", "fn3", "fn9", "fn2", "fn5", null, null, null],
+      ["fn4", "fn3", "fn9", "fn2", "fn5", null, "rad4", null],
       ["fn12", null, "fn6", null, null, null]
     ]
   }

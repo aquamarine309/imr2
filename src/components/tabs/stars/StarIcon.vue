@@ -72,7 +72,7 @@ export default {
   margin: 0 6px;
 }
 
-.ad-ui .o-generator-image {
+.light-theme .o-generator-image {
   filter: invert(1) hue-rotate(180deg);
 }
 </style>

@@ -105,12 +105,12 @@ export default {
   background: #888888;
 }
 
-.ad-ui .modal-progress-bar__bg {
+.light-theme .modal-progress-bar__bg {
   background: #bbbbbb;
   border: none;
 }
 
-.ad-ui .modal-progress-bar__fg {
+.light-theme .modal-progress-bar__fg {
   background: #dd1860;
 }
 

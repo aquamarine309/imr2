@@ -77,7 +77,10 @@ export const scaling = {
       },
       {
         get start() {
-          return DC.D5E4.timesEffectOf(RankType.pent.unlocks.tickScale);
+          return DC.D5E4.timesEffectsOf(
+            RankType.pent.unlocks.tickScale,
+            GameElement(68)
+          );
         },
         get scale() {
           return DC.D1_001;
@@ -223,7 +226,7 @@ export const scaling = {
           return DC.D7.plusEffectOf(RankType.tier.unlocks.superTetrLater);
         },
         get scale() {
-          return DC.D2;
+          return DC.D2.powEffectOf(GameElement(74));
         }
       },
       {

@@ -158,12 +158,15 @@ export default {
   margin: 10px 0;
   padding: 5px;
   border: 1px solid white;
-  background: black;
+  background: linear-gradient(305deg, #232225, #1e1d1f, #111111);
+}
+
+.light-theme .o-radiation-box {
+  background: #f6f6f6;
+  border-color: #1b1a1e;
 }
 
 .ad-ui .o-radiation-box {
-  border-color: black;
-  background: white;
   border-radius: 5px;
 }
 
@@ -177,7 +180,7 @@ export default {
     rgba(70, 40, 100, 0.7) 100%);
 }
 
-.ad-ui .o-radiation-box--visible {
+.light-theme .o-radiation-box--visible {
   background: linear-gradient(135deg,
     rgba(255, 200, 200, 0.6) 0%,
     rgba(255, 220, 180, 0.6) 20%,
@@ -190,12 +193,8 @@ export default {
 .c-radiation-title {
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: var(--color-accent);
   margin: 5px 0;
-}
-
-.ad-ui .c-radiation-title {
-  color: black;
 }
 
 .c-radiation-upgrade-container {
@@ -220,13 +219,12 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
-  border: 1px solid white;
+  border: 1px solid var(--color-accent);
   font-size: 10px;
   justify-content: space-between;
 }
 
 .ad-ui .c-radiation-boost {
-  border-color: black;
   border-radius: 3px;
 }
 

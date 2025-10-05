@@ -145,14 +145,13 @@ export default {
   display: flex;
   background: none;
   max-width: 25%;
-  border: 1px solid white;
+  border: 1px solid var(--color-accent);
   margin: 0 3px;
   font-family: BlobFont;
   outline: none;
 }
 
 .ad-ui .o-weight-input {
-  border-color: black;
   border-radius: 3px;
 }
 </style>

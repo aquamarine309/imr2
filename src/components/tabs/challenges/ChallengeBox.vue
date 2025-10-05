@@ -190,10 +190,13 @@ export default {
   background: linear-gradient(305deg, #232225, #1e1d1f, #111111);
 }
 
-.ad-ui .o-challenge-box {
+.light-theme .o-challenge-box {
   background: #f6f6f6;
-  border-radius: 5px;
   border-color: #1b1a1e;
+}
+
+.ad-ui .o-challenge-box {
+  border-radius: 5px;
 }
 
 .c-challenge-image {
@@ -202,7 +205,7 @@ export default {
   background-size: cover;
 }
 
-.ad-ui .c-challenge-image {
+.light-theme .c-challenge-image {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -210,7 +213,7 @@ export default {
   background-color: #444444;
 }
 
-.ad-ui .c-challenge-image--running {
+.light-theme .c-challenge-image--running {
   box-shadow: inset 0 0 10px 2px #fc8c65;
 }
 
@@ -239,7 +242,7 @@ export default {
   text-shadow: 1px 1px 3px black;
 }
 
-.ad-ui .c-challenge-name {
+.light-theme .c-challenge-name {
   text-shadow: 1px 1px 3px white;
   color: black;
 }

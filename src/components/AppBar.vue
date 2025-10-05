@@ -36,7 +36,7 @@ export default {
   line-height: var(--height-app-bar);
 }
 
-.ad-ui .o-app-bar {
+.light-theme .o-app-bar {
   box-shadow: 0 1px 6px #666666;
 }
 

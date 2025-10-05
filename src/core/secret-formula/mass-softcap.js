@@ -59,7 +59,7 @@ export const massSoftcap = [
       return mlt(DC.E4).powEffectOf(RankType.pent.unlocks.massSoftcapLater);
     },
     effect() {
-      return DC.D0_1;
+      return DC.D0_1.powEffectOf(GameElement(77));
     }
   }
 ];

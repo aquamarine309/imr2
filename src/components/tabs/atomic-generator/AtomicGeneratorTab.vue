@@ -39,8 +39,8 @@ export default {
           <template #atomicPower>
             <span class="o-highlight">
               {{ format(atomicPower) }}
-              {{ formatGain(atomicPower, gain) }}
             </span>
+            <span>{{ formatGain(atomicPower, gain) }}</span>
           </template>
         </i18n>
       </span>

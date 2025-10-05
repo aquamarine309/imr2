@@ -127,7 +127,10 @@ export const challenges = [
     id: 5,
     isUnlocked: () => PlayerProgress.atomUnlocked(),
     description: () => i18n.t("challenge_5_description"),
-    max: () => DC.D50.plusEffectOf(GameElement(13)),
+    max: () => DC.D50.plusEffectsOf(
+      GameElement(13),
+      GameElement(73)
+    ),
     baseGoal: DC.D1_5E136,
     goalPow: DC.D1_25,
     goalMult: DC.D50,
@@ -144,7 +147,10 @@ export const challenges = [
     id: 6,
     isUnlocked: () => PlayerProgress.supernovaUnlocked() || PlayerProgress.atomUnlocked() && Challenge(5).completions.gt(0),
     description: () => i18n.t("challenge_6_description"),
-    max: () => DC.D50.plusEffectOf(GameElement(13)),
+    max: () => DC.D50.plusEffectsOf(
+      GameElement(13),
+      GameElement(73)
+    ),
     goalPow: DC.D1_25,
     goalMult: DC.D64,
     baseGoal: DC.D1_989E38,
@@ -170,7 +176,8 @@ export const challenges = [
       GameElement(41),
       NeutronUpgrade.chal1,
       GameElement(60),
-      GameElement(65)
+      GameElement(65),
+      GameElement(70)
     ),
     goalPow: DC.D1_25,
     goalMult: DC.D64,
@@ -198,7 +205,9 @@ export const challenges = [
       GameElement(33),
       NeutronUpgrade.chal1,
       GameElement(56),
-      GameElement(65)
+      GameElement(65),
+      GameElement(70),
+      GameElement(73)
     ),
     goalPow: DC.D1_3,
     goalMult: DC.D80,

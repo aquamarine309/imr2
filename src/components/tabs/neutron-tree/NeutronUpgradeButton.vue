@@ -72,16 +72,19 @@ export default {
   background-color: #171717;
 }
 
+.light-theme .o-neutron-upgrade {
+  filter: invert(1) hue-rotate(180deg);
+}
+
 .ad-ui .o-neutron-upgrade {
   border-radius: 3px;
-  filter: invert(1) hue-rotate(180deg);
 }
 
 .o-neutron-upgrade--available {
   border-color: white;
 }
 
-.ad-ui .o-neutron-upgrade--available {
+.light-theme .o-neutron-upgrade--available {
   border-color: var(--color-supernova);
 }
 

@@ -95,15 +95,18 @@ export default {
   background-color: #444444;
 }
 
-.ad-ui .o-boson-upgrade-btn {
+.light-theme .o-boson-upgrade-btn {
   color: white;
   font-weight: bold;
   background-color: rgba(80, 80, 80, 0.2);
   border-color: white;
+}
+
+.ad-ui .o-boson-upgrade-btn {
   border-radius: 8px;
 }
 
-.ad-ui .o-boson-upgrade-btn--available {
+.light-theme .o-boson-upgrade-btn--available {
   background-color: rgba(180, 180, 180, 0.5);
 }
 </style>

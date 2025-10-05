@@ -81,12 +81,8 @@ export default {
 .o-challenge-page-title {
   font-weight: bold;
   margin: 0 20px;
-  color: white;
+  color: var(--color-accent);
   font-size: 16px;
-}
-
-.ad-ui .o-challenge-page-title {
-  color: black;
 }
 
 .c-page-row {
