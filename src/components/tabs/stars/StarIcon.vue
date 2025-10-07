@@ -20,7 +20,7 @@ export default {
     },
     styleObject() {
       return {
-        "background-image": `url("./images/star_${5 -
+        "background-image": `url("/images/star_${5 -
         this.tier}.png")`
       };
     }

@@ -37,10 +37,10 @@ export default {
     v-if="isActive"
     class="o-challenge-header"
   >
-    <span>You are now in [{{ name }}] Challenge! Go over {{ goal }} to complete.</span>
+    <span>{{ $t("challenge_header_main", { name, goal }) }}</span>
     <br>
-    <span v-if="isCapped">(Capped)</span>
-    <span v-else-if="auto">(Automatically Completing)</span>
-    <span v-else>+{{ format(pending, 0) }} completions (next at {{ next }})</span>
+    <span v-if="isCapped">{{ $t("capped") }}</span>
+    <span v-else-if="auto">{{ $t('challenge_auto_completing') }}</span>
+    <span v-else>{{ $t("challenge_pending_completions", { pending: format(pending, 0), next }) }}</span>
   </div>
 </template>

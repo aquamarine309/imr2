@@ -33,6 +33,6 @@ export default {
     v-if="isUnlocked"
     class="c-mass-softcap-row"
   >
-    {{ $tc("mass_softcap", level, { mass: format(start), level }) }}
+    {{ $tc("mass_softcap", level, { mass: formatMass(start), level }) }}
   </div>
 </template>

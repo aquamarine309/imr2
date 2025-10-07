@@ -32,6 +32,11 @@ export default {
       type: String,
       required: false
     },
+    borderClass: {
+      type: String,
+      required: false,
+      default: "o-default-border"
+    },
     tooltip: {
       type: String,
       required: false
@@ -101,12 +106,21 @@ export default {
 </script>
 
 <template>
-  <div class="l-header-resource">
+  <div
+    class="l-header-resource"
+    :class="borderClass"
+    @click.stop="handleClick"
+  >
     <div
       class="i-header"
       :class="imgClass"
-      @click.stop="handleClick"
     />
+    <div class="c-header-image-shadow-container">
+      <div
+        class="i-header--shadow"
+        :class="imgClass"
+      />
+    </div>
     <div
       class="c-header-resource-info"
       :class="textClass"

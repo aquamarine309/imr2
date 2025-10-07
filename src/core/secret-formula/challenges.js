@@ -275,5 +275,20 @@ export const challenges = [
       }
     ],
     type: challengeType.SUPERNOVA
+  },
+  {
+    id: 11,
+    isUnlocked: () => NeutronUpgrade.chal6.isBought,
+    description: () => i18n.t("challenge_11_description"),
+    max: () => DC.E2,
+    goalPow: DC.D2,
+    goalMult: DC.EE6,
+    baseGoal: DC.D1_5E38000056,
+    reward: {
+      description: () => i18n.t("challenge_11_reward_description"),
+      effect: value => value.sqrt().div(10).add(1),
+      formatEffect: value => formatX(value)
+    },
+    type: challengeType.SUPERNOVA
   }
 ];

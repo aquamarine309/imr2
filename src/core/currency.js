@@ -566,6 +566,7 @@ Currency.dilatedMass = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
+    if (Challenge(11).isRunning) return DC.D0;
     let gain = Currency.relativisticParticles.value.pow(2);
     gain = gain.timesEffectsOf(
       GameElement(22),
@@ -675,6 +676,7 @@ Currency.supernova = new class extends DecimalCurrency {
         Challenge(i).reset();
       }
     }
+    player.challenges.current = 0;
     player.supernova.fermions.active = -1;
     player.checks.supernova.noTick = true;
     player.checks.supernova.noCondenser = true;

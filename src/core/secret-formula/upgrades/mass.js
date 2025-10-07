@@ -492,13 +492,16 @@ export const mass = {
     get power() {
       let power = DC.D2;
       power = power.timesEffectOf(GameElement(57));
+      power = Softcap.power(power, DC.E13, DC.D0_5);
       return power;
     },
     formatPower: value => formatX(value),
     effect($) {
       const power = $.power;
       const amount = $.totalAmount;
-      return power.pow(amount);
+      let effect = power.pow(amount.timesEffectOf(Challenge(11).reward));
+      effect = Softcap.dilation(effect, DC.E3E18, DC.D0_95);
+      return effect;
     },
     formatEffect: value => i18n.t("star_booster_effect", { value: formatX(value) }),
     upgClass: "i-star-booster"

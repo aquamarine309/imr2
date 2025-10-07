@@ -74,6 +74,7 @@
   "softcapped_X": "(Softcapped^{level})",
   "currently_X": "Currently: {effect}",
   "capped_X": "Capped: {effect}",
+  "capped": "(Capped)",
   "locked": "Locked",
   "disabled": "Disabled",
   "buy_max": "Buy Max",
@@ -220,6 +221,7 @@
   "c8_name": "White Hole",
   "c9_name": "No Particles",
   "c10_name": "The Reality I",
+  "c11_name": "Absolutism",
   "hardened": "Hardened ",
   "insane": "Insane ",
   "impossible": "Impossible ",
@@ -367,6 +369,8 @@
   "challenge_10_description": "You are trapped in mass dilation and challenges 1-8.",
   "challenge_10_reward_description": "The exponent of the RP formula is multiplied by completions. (this effect doesn't work while in this challenge)",
   "challenge_10_milestone_0_description": "On first completion, unlock Fermions!",
+  "challenge_11_description": "You cannot gain dilated mass, and you are stuck in mass dilation.",
+  "challenge_11_reward_description": "Star boosters are stronger based on completions.",
   "X_hz": "{value} Hz",
   "frequency": "Frequency",
   "amplitude_X": "Amplitude: {value}",
@@ -538,5 +542,8 @@
   "star_collapse_description": "You collapsed {starsAndRequirement} stars, which multiplies mass gain based on all rank types.",
   "atomic_power_description": "You have {atomicPower} Atomic Power.",
   "atomic_power_free_tickspeeds": "Which provides {free} free Tickspeeds",
-  "fix_c10_info": "The completions for Challenge 10 has been reset due to an exception in the old version of Challenge 10's challenge goal"
+  "fix_c10_info": "The completions for Challenge 10 has been reset due to an exception in the old version of Challenge 10's challenge goal",
+  "challenge_header_main": "You are now in [{name}] Challenge! Go over {goal} to complete.",
+  "challenge_auto_completing": "(Automatically Completing)",
+  "challenge_pending_completions": "+{pending} completions (next at {next})"
 }

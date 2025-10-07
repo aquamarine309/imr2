@@ -6,7 +6,7 @@ export const pent = {
     return Radiation.isUnlocked;
   },
   requirement(amount) {
-    return Scaling.pent.scaleEvery(amount).pow(DC.D1_5).times(3).add(15).floor();
+    return Scaling.pent.scaleEvery(amount).pow(DC.D1_5).add(15).floor();
   },
   bulk(value) {
     if (value.lt(15)) return DC.D0;
@@ -16,10 +16,10 @@ export const pent = {
     return Scaling.pent;
   },
   get noReset() {
-    return NeutronUpgrade.qol9.canBeApplied;
+    return NeutronUpgrade.qol8.canBeApplied;
   },
   get autoUnlocked() {
-    return NeutronUpgrade.qol9.canBeApplied;
+    return NeutronUpgrade.qol8.canBeApplied;
   },
   unlocks: [
     {

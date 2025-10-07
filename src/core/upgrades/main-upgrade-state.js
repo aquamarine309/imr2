@@ -19,7 +19,7 @@ export class MainUpgradeState extends BitPurchasableMechanicState {
   }
 
   get url() {
-    return `./images/upgrades/${this.key.replace(/\B([A-Z])/gu, "-$1").toLowerCase()}/${this.id}.png`;
+    return `/images/upgrades/${this.key.replace(/\B([A-Z])/gu, "-$1").toLowerCase()}/${this.id}.png`;
   }
 
   get noReset() {

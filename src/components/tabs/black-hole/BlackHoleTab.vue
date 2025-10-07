@@ -56,7 +56,7 @@ export default {
     <MassUpgradeRow :upgrade="condenser" />
     <div v-if="softcapped">
       <div class="c-mass-softcap-row">
-        {{ $t("black_hole_softcap", { mass: format(softcapStart) }) }}
+        {{ $t("black_hole_softcap", { mass: formatMass(softcapStart) }) }}
       </div>
     </div>
   </div>

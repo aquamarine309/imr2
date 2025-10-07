@@ -15,7 +15,8 @@ export const MassDilation = {
   },
 
   get forceActive() {
-    if (Challenge(10).isRunning) return true;
+    if (Challenge(10).canBeApplied) return true;
+    if (Challenge(11).canBeApplied) return true;
     if (FermionType.quarks.fermions.charm.isActive) return true;
     if (FermionType.quarks.fermions.strange.isActive) return true;
     return false;
@@ -79,6 +80,7 @@ export const MassDilation = {
   },
 
   get particleGain() {
+    if (Challenge(11).canBeApplied) return DC.D0;
     if (!MassDilation.isActive) return NeutronUpgrade.qol3.effectOrDefault(DC.D0);
     return MassDilation.particleGainAt(Currency.mass.value).minus(Currency.relativisticParticles.value).floor().clampMin(0);
   },

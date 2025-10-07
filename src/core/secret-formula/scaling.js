@@ -180,7 +180,12 @@ export const scaling = {
           return DC.D200;
         },
         get scale() {
-          return DC.D2_5;
+          let scale = DC.D2_5;
+          if (RankType.tetr.unlocks.ranksScaling.canBeApplied) {
+            scale = scale.pow(0.8);
+          }
+          scale = scale.powEffectOf(GameElement(37));
+          return scale;
         }
       },
       {
