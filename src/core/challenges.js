@@ -7,7 +7,7 @@ class ChallengeRewardState extends GameMechanicState {
     const effect = config.effect;
     const configCopy = deepmergeAll([{}, config]);
     if (effect) {
-      configCopy.effect = () => effect(challenge.completions);
+      configCopy.effect = () => effect(challenge.effectiveCompletions);
     } else {
       const effects = {};
       for (const key in config.effects) {
@@ -68,6 +68,11 @@ class ChallengeState extends GameMechanicState {
 
   set completions(value) {
     player.challenges.completions[this.id - 1] = value;
+  }
+  
+  get effectiveCompletions() {
+    if (FermionType.quarks.fermions.bottom.canBeApplied) return DC.D0;
+    return this.completions;
   }
 
   get baseGoal() {

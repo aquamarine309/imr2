@@ -82,7 +82,7 @@ export const fermions = {
         key: "fermions_strange",
         symbol: "s",
         description: () => i18n.t("fermion_strange_description"),
-        maxTier: () => DC.D15,
+        maxTier: () => DC.D15.plusEffectOf(NeutronUpgrade.fn9),
         currency: () => Currency.ragePowers.value,
         currencyKey: "X_rage_power",
         baseReq: DC.E3E4,
@@ -107,7 +107,7 @@ export const fermions = {
         currency: () => Currency.dilatedMass.value,
         currencyKey: "X_dilated_mass",
         formatAsMass: true,
-        baseReq: DC.D1,
+        baseReq: uni(DC.E5_75E5),
         reqMult: DC.EE4,
         reqPow: DC.D1_5,
         reward: {
@@ -133,7 +133,7 @@ export const fermions = {
         reqPow: DC.D2,
         reward: {
           description: () => i18n.t("fermion_bottom_reward_description"),
-          effect: (tier, currency) => currency.add(DC.D1).log10().sqrt().div(DC.D150).pow(tier).clampMax(DC.D500),
+          effect: (tier, currency) => currency.add(DC.D1).log10().sqrt().div(DC.D150).add(1).pow(tier).clampMax(DC.D500),
           formatEffect: value => formatX(value),
           cap: DC.E500
         }
@@ -219,7 +219,7 @@ export const fermions = {
         symbol: "ν<sub>e</sub>",
         description: () => i18n.t("fermion_neutrino_description", { value: formatPow(0.5, 1) }),
         effect: DC.D0_5,
-        maxTier: () => DC.D15,
+        maxTier: () => DC.D15.plusEffectOf(NeutronUpgrade.fn9),
         currency: () => Currency.stars.value,
         currencyKey: "X_collapsed_star",
         baseReq: DC.E1600,
@@ -240,18 +240,38 @@ export const fermions = {
         id: 10,
         key: "fermions_neut_meon",
         symbol: "ν<sub>μ</sub>",
+        maxTier: () => DC.D25,
+        description: () => i18n.t("fermion_neut_meon_description"),
+        currency: () => Currency.atoms.value,
+        currencyKey: "X_atom",
+        baseReq: DC.E3_5E8,
+        reqMult: DC.E1_5E7,
+        reqPow: DC.D2,
         reward: {
-          effect: () => DC.D0
+          description: () => i18n.t("fermion_neut_meon_reward_description"),
+          effect: (tier, currency) => {
+            const amount = currency.add(DC.D1).log10().times(tier).pow(DC.D0_25);
+            return DC.D0_95.pow(Softcap.power(amount, DC.D27, DC.D0_5)).clampMin(DC.C2D3);
+          },
+          formatEffect: value => i18n.t("X_weaker", { value: formatPercents(DC.D1.minus(value)) })
         }
       },
       neutTau: {
         id: 11,
         key: "fermions_neut_tau",
         symbol: "ν<sub>τ</sub>",
+        description: () => i18n.t("fermion_neut_tau_description"),
+        currency: () => MassUpgrade.tickspeed.power,
+        currencyKey: "X_of_tickspeed_power",
+        baseReq: DC.E80,
+        reqPow: DC.D1_5,
+        reqMult: DC.E1,
         reward: {
-          effect: () => DC.D0
+          description: () => i18n.t("fermion_neut_tau_reward_description"),
+          effect: (tier, currency) => currency.add(DC.D1).log10().pow(DC.D0_75).div(DC.E2).add(DC.D1).pow(tier.pow(DC.D0_75)),
+          formatEffect: value => formatX(value)
         }
-      },
+      }
     }
   }
 };

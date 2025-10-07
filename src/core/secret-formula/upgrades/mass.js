@@ -351,16 +351,18 @@ export const mass = {
     },
     cost(amount) {
       const $ = MassUpgrade.condenser.config;
+      const cheap = FermionType.leptons.fermions.neutTau.reward.effectOrDefault(null);
       return getLinearCost(
-        $.scaling.scaleEvery(amount),
+        $.scaling.scaleEvery(amount, false, [null, null, null, cheap]),
         $.baseCost,
         $.costMult
       ).floor();
     },
     bulk(currency) {
       const $ = MassUpgrade.condenser.config;
+      const cheap = FermionType.leptons.fermions.neutTau.reward.effectOrDefault(null);
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
+        getLinearBulk(currency, $.baseCost, $.costMult), true, [null, null, null, cheap]).add(1).floor();
     },
     get isUnlocked() {
       return PlayerProgress.blackHoleUnlocked();

@@ -31,7 +31,7 @@ class RadiationBoostState extends GameMechanicState {
   }
 
   get isEffectActive() {
-    return this.type.isUnlocked;
+    return this.type.isUnlocked && !FermionType.leptons.fermions.neutTau.canBeApplied;
   }
 
   get amount() {
@@ -128,7 +128,8 @@ class RadiationTypeState extends GameMechanicState {
     gain = gain.timesEffectsOf(
       this.boosts[0],
       RankType.pent.unlocks.tetrBoostRadiation,
-      NeutronUpgrade.rad2
+      NeutronUpgrade.rad2,
+      NeutronUpgrade.rad5
     );
     if (this.id + 1 < RadiationType.all.length && RadiationType.all[this.id + 1].isUnlocked) {
       gain = gain.timesEffectOf(NeutronUpgrade.rad1);
@@ -137,7 +138,10 @@ class RadiationTypeState extends GameMechanicState {
   }
 
   get cheap() {
-    return Effects.product(NeutronUpgrade.rad3);
+    return Effects.product(
+      NeutronUpgrade.rad3,
+      FermionType.quarks.fermions.top.reward
+    );
   }
 
   boostCost(amount, idx) {

@@ -47,8 +47,9 @@ export const neutronTrees = [
     layout: [
       ["bs4", "bs1", null, null, null, "rad1"],
       [null, "bs2", "fn1", "bs3", null, null, "rad2", "rad3"],
-      ["fn4", "fn3", "fn9", "fn2", "fn5", null, "rad4", null],
-      ["fn12", null, "fn6", null, null, null]
+      ["fn4", "fn3", "fn9", "fn2", "fn5", null, "rad4", "rad5"],
+      ["fn12", "fn11", "fn6", "fn10", null, null],
+      [null, "fn7", "fn8", null]
     ]
   }
 ];
@@ -520,6 +521,18 @@ export const neutronUpgrades = {
     ),
     cost: DC.E600
   },
+  fn7: {
+    id: "fn7",
+    branch: ["fn6"],
+    description: "Unlock two more types of U-Quark & U-Fermion.",
+    cost: DC.E90
+  },
+  fn8: {
+    id: "fn8",
+    branch: ["fn7"],
+    description: "Unlock two final types of U-Quark & U-Fermion.",
+    cost: DC.E159
+  },
   rad1: {
     id: "rad1",
     branch: [],
@@ -550,4 +563,12 @@ export const neutronUpgrades = {
     effect: DC.D2,
     cost: DC.E118
   },
+  rad5: {
+    id: "rad5",
+    branch: ["rad3"],
+    description: () => `All Radiation gains are increased by ${formatPercents(0.1, 0)} for every Supernova you have become.`,
+    effect: () => DC.D1_1.pow(Currency.supernova.value),
+    formatEffect: value => formatX(value),
+    cost: DC.E170
+  }
 };

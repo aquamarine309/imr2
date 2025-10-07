@@ -306,7 +306,7 @@ export const gameElements = [
   {
     id: 42,
     description: () => i18n.t("game_element_42_description"),
-    effect: () => overflow(overflow(Currency.stars.value.add(1).cbrt(), DC.E112, DC.D0_5), DC.E5E4, DC.D0_1),
+    effect: () => overflow(Currency.stars.value.add(1).cbrt(), DC.EE112, DC.D0_5),
     formatEffect: value => formatX(value),
     cost: DC.E325,
     position: [4, 5],

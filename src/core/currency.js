@@ -770,3 +770,21 @@ Currency.frequency = new class extends DecimalCurrency {
     return "X_hz";
   }
 }();
+
+Currency.quantumFoam = new class extends DecimalCurrency {
+  get value() {
+    return player.quantum.foam;
+  }
+
+  set value(value) {
+    player.quantum.foam = value;
+  }
+
+  get gainPerSecond() {
+    return DC.D0
+  }
+
+  get key() {
+    return "X_quantum_foam";
+  }
+}();

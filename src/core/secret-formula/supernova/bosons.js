@@ -31,7 +31,9 @@ export const bosons = {
       .timesEffectOf(Boson.graviton)
       .powEffectOf(NeutronUpgrade.bs4),
     effects: {
-      tickspeed: value => value.add(1).log10().add(1).powEffectOf(FermionType.quarks.fermions.charm.reward),
+      tickspeed: value => (FermionType.leptons.fermions.neutMeon.canBeApplied
+      ? DC.D1
+      : value.add(1).log10().add(1).powEffectOf(FermionType.quarks.fermions.charm.reward)),
       wBosons: value => value.add(1).pow(DC.C2D3)
     }
   },

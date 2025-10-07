@@ -64,6 +64,9 @@ window.player = {
       }))
     }
   },
+  quantum: {
+    foam: DC.D0
+  },
   auto: {
     ranks: {
       rank: false,
@@ -89,7 +92,8 @@ window.player = {
     },
     dilationUpgrades: false,
     elements: false,
-    bosonUpgrades: false
+    bosonUpgrades: false,
+    radiation: false
   },
   massUpgrades: {
     muscler: DC.D0,

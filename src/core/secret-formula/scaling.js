@@ -79,7 +79,8 @@ export const scaling = {
         get start() {
           return DC.D5E4.timesEffectsOf(
             RankType.pent.unlocks.tickScale,
-            GameElement(68)
+            GameElement(68),
+            FermionType.quarks.fermions.bottom.reward
           );
         },
         get scale() {
@@ -388,7 +389,7 @@ export const scaling = {
           return DC.D15;
         },
         get scale() {
-          return DC.D3;
+          return DC.D3.powEffectOf(FermionType.leptons.fermions.neutMeon.reward);
         }
       },
       {
@@ -396,7 +397,7 @@ export const scaling = {
           return DC.D35;
         },
         get scale() {
-          return DC.D3;
+          return DC.D3.powEffectOf(FermionType.leptons.fermions.neutMeon.reward);
         }
       },
       {
@@ -404,7 +405,7 @@ export const scaling = {
           return DC.D60;
         },
         get scale() {
-          return DC.D5;
+          return DC.D5.powEffectOf(FermionType.leptons.fermions.neutMeon.reward);
         }
       },
       {

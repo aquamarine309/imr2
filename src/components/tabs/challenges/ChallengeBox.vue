@@ -74,7 +74,7 @@ export default {
     },
     styleObject() {
       return {
-        "background-image": `url("/images/challenges/${this.challenge.id}.png")`
+        "background-image": `url("./images/challenges/${this.challenge.id}.png")`
       };
     }
   },

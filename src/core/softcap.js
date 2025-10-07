@@ -36,13 +36,22 @@ export class Softcap {
 
 /**
  * @param {Decimal} value
- * @param {Decimal|number} start
- * @param {Decimal|number} scale
+ * @param {Decimal} start
+ * @param {Decimal|number} power
+ * @param {number} mate
  * @returns {Decimal}
  */
-export function overflow(value, start, scale) {
-  if (value.gte(start)) {
-    return Decimal.pow10(value.log(start).pow(scale)).mul(start);
+export function overflow(value, start, power, meta = 1) {
+  if (value.gt(start)) {
+    if (meta === 0) {
+      return Softcap.power(value, start, power);
+    }
+    if (meta === 1) {
+      const logStart = start.log10();
+      return value.log10().div(logStart).pow(power).mul(logStart).pow10();
+    }
+    const logStart = start.iteratedlog(DC.E1, meta);
+    return DC.E1.iteratedexp(meta, value.iteratedlog(DC.E1, meta).div(logStart).pow(power).mul(logStart));
   }
   return value;
 }

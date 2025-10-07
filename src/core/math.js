@@ -63,6 +63,14 @@ window.getLinearBulk = function getLinearCost(currency, baseCost, costMult) {
   return currency.div(baseCost).clampMin(1).log(costMult);
 };
 
+// I didn't want to add these two functions.
+// But it was added because Mrredshark was used too often
+// So you might find some ugly constants in the constants.js.
+// That was a stopgap measure before I added uni.
 window.mlt = function(x) {
   return DC.D1_5E1000000056.pow(x);
 };
+
+window.uni = function(x) {
+  return DC.D1_5E56.times(x);
+}

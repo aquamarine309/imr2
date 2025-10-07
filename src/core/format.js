@@ -122,13 +122,15 @@ const massDisplays = [
   { amount: new Decimal(1.5e56), key: "X_mass_of_universe" }
 ];
 
-window.formatMass = function formatMass(mass) {
-  const massDisplay = player.options.massDisplay;
+window.formatMass = function formatMass(mass, massDisplay = player.options.massDisplay) {
   const value = Decimal.fromValue_noAlloc(mass);
   switch (massDisplay) {
     case MASS_DISPLAY.DEFAULT: {
       if (value.lt(DC.D1)) {
-        return i18n.t("X_g", { value: format(value) });
+        return formatMass(value, MASS_DISPLAY.ALWAYS_G);
+      }
+      if (value.gte(DC.D1_5E1000000056)) {
+        return formatMass(value, MASS_DISPLAY.ALWAYS_MLT);
       }
       const last = massDisplays.last();
       if (value.gte(last.amount)) {
@@ -156,10 +158,9 @@ window.formatMass = function formatMass(mass) {
     }
     case MASS_DISPLAY.IMPORTANT: {
       if (value.lt(DC.D1_5E1000000056)) {
-        return i18n.t("X_g", { value: format(value) });
+        return formatMass(value, MASS_DISPLAY.ALWAYS_G);
       }
-      const mlt = value.div(DC.D1_5E56).max(1).log10().div(DC.E9);
-      return i18n.t("X_mass_of_multiverse", { value: format(mlt) });
+      return formatMass(value, MASS_DISPLAY.ALWAYS_MLT);
     }
   }
   return "Unknown Mass";

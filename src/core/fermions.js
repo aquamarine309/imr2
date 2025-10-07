@@ -5,7 +5,7 @@ class FermionRewardState extends GameMechanicState {
   constructor(config, fermion) {
     const configCopy = { ...config };
     const effect = config.effect;
-    configCopy.effect = () => effect(this.effectiveTier, fermion.type.currency.value);
+    configCopy.effect = () => effect(this.effectiveTier, this.currencyValue);
     super(configCopy);
     this._fermion = fermion;
   }
@@ -13,10 +13,20 @@ class FermionRewardState extends GameMechanicState {
   get fermion() {
     return this._fermion;
   }
+  
+  get currencyValue() {
+    if (this.fermion.type === FermionType.quarks && FermionType.quarks.fermions.top.canBeApplied) {
+      return DC.D0;
+    }
+    if (this.fermion.type === FermionType.leptons && FermionType.leptons.fermions.neutMeon.canBeApplied) {
+      return DC.D0;
+    }
+    return this.fermion.type.currency.value;
+  }
 
   get effectiveTier() {
     let tier = this.fermion.tier;
-    if (this.fermion === FermionType.leptons) {
+    if (this.fermion.type === FermionType.leptons) {
       tier = tier.timesEffectOf(RadiationType.xRay.boosts[1]);
     } else {
       tier = tier.timesEffectOf(RadiationType.gammaRay.boosts[1]);
@@ -183,7 +193,8 @@ export const Fermions = {
     let count = 2;
     if (NeutronUpgrade.fn2.canBeApplied) count++;
     if (NeutronUpgrade.fn6.canBeApplied) count++;
-    // Other: fn7, fn8
+    if (NeutronUpgrade.fn7.canBeApplied) count++;
+    if (NeutronUpgrade.fn8.canBeApplied) count++;
     return count;
   },
 

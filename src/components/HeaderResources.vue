@@ -56,6 +56,12 @@ export default {
         unlocked: false,
         canReset: false,
         manual: false
+      },
+      quantum: {
+        amount: new Decimal(),
+        rate: new Decimal(),
+        unlocked: false,
+        canReset: false
       }
     };
   },
@@ -81,6 +87,9 @@ export default {
     supernovaTooltip() {
       return `You have become ${format(this.supernova.amount, 0)} Supernova.`;
     },
+    quantumTooltip() {
+      return `Reach over ${formatMass(mlt(1e4))} of normal mass to go quantum.`;
+    }
   },
   created() {
     this.on$(GAME_EVENT.FORMAT_CHANGED, () => this.updateFormat());
@@ -175,6 +184,9 @@ export default {
     supernovaReset() {
       Currency.supernova.requestReset();
     },
+    quantumReset() {
+      Currency.quantumFoam.requestReset();
+    }
   }
 };
 </script>
@@ -282,6 +294,20 @@ export default {
       :tooltip="supernovaTooltip"
       :click-fn="supernovaReset"
       :show-rate="supernova.manual"
+    />
+    <HeaderResource
+      v-if="quantum.unlocked"
+      img-class="i-quantum"
+      text-class="o-quantum"
+      border-class="o-quantum-border"
+      :amount="quantum.amount"
+      :gain-rate="quantum.rate"
+      :format-fn="formatNoPlaces"
+      name="Quantum"
+      :is-rate="false"
+      :show-tooltip="!quantum.canReset"
+      :tooltip="quantumTooltip"
+      :click-fn="quantumReset"
     />
   </div>
 </template>

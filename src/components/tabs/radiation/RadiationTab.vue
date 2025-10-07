@@ -1,21 +1,30 @@
 <script>
 import RadiationBox from "./RadiationBox";
+import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
   name: "RadiationTab",
   components: {
-    RadiationBox
+    RadiationBox,
+    PrimaryToggleButton
   },
   data() {
     return {
       frequency: new Decimal(),
       frequencyGain: new Decimal(),
       effect: new Decimal(),
-      next: null
+      next: null,
+      autoUnlocked: false,
+      auto: false
     };
   },
   computed: {
     types: () => RadiationType.all
+  },
+  watch: {
+    auto(value) {
+      Autobuyer.radiation.isActive = value;
+    }
   },
   methods: {
     update() {
@@ -24,6 +33,8 @@ export default {
       this.effect = Radiation.frequencyEffect;
       const next = RadiationType.all.find(x => !x.isUnlocked);
       this.next = next;
+      this.autoUnlocked = Autobuyer.radiation.isUnlocked;
+      this.auto = Autobuyer.radiation.isActive;
     }
   }
 };
@@ -48,6 +59,12 @@ export default {
     </i18n>
     <div v-if="next">
       {{ $t("next_radiation", { value: format(next.requirement), object: next.name }) }}
+    </div>
+    <div v-if="autoUnlocked">
+      <PrimaryToggleButton
+        v-model="auto"
+        i18n-key="auto_X"
+      />
     </div>
     <div>
       <RadiationBox

@@ -146,7 +146,7 @@ export const radiation = {
         effect: boost => {
           let effect = boost.add(1).pow(DC.D0_25);
           effect = Softcap.power(effect, DC.D5, DC.D0_5);
-          effect = overflow(effect, DC.E24, DC.D0_5);
+          effect = Softcap.power(effect, DC.E24, DC.D0_5);
           return effect.clampMax(DC.E30);
         },
         cap: DC.E30,

@@ -17,7 +17,7 @@ export default {
   computed: {
     styleObject() {
       return {
-        "background-image": `url("/images/tree/${this.upgrade.id}.png")`
+        "background-image": `url("./images/tree/${this.upgrade.id}.png")`
       };
     },
     classObject() {
