@@ -112,7 +112,7 @@ class BosonUpgradeState extends RebuyableMechanicState {
   get isFree() {
     return NeutronUpgrade.qol7.canBeApplied;
   }
-  
+
   get isEffectActive() {
     return Bosons.areUnlocked && !FermionType.quarks.fermions.top.canBeApplied;
   }

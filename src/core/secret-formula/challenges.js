@@ -290,5 +290,27 @@ export const challenges = [
       formatEffect: value => formatX(value)
     },
     type: challengeType.SUPERNOVA
+  },
+  {
+    id: 12,
+    isUnlocked: () => NeutronUpgrade.chal7.isBought,
+    description: () => i18n.t("challenge_12_description"),
+    max: () => DC.E2,
+    goalPow: DC.D2,
+    goalMult: DC.E2E7,
+    baseGoal: uni(DC.E8_4E8),
+    reward: {
+      description: () => i18n.t("challenge_12_reward_description"),
+      effect: value => overflow(Softcap.power(value.sqrt(), DC.D50, DC.D0_5), DC.E50, DC.D0_5),
+      formatEffect: value => formatPlus(value)
+    },
+    milestones: [
+      {
+        id: 0,
+        requirement: DC.D1,
+        description: () => i18n.t("challenge_12_milestone_0_description")
+      }
+    ],
+    type: challengeType.SUPERNOVA
   }
 ];

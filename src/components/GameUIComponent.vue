@@ -11,6 +11,7 @@ import BackgroundStar from "./BackgroundStar";
 import SupernovaOverlay from "./SupernovaOverlay";
 import RelativisticParticles from "./tabs/mass-dilation/RelativisticParticles";
 import NotificationButton from "./NotificationButton";
+import C16Background from "./C16Background";
 
 export default {
   name: "GameUIComponent",
@@ -26,7 +27,8 @@ export default {
     BackgroundStar,
     SupernovaOverlay,
     RelativisticParticles,
-    NotificationButton
+    NotificationButton,
+    C16Background
   },
   data() {
     return {
@@ -106,6 +108,7 @@ export default {
       />
       <ModalProgressBar v-if="view.modal.progressBar" />
       <BackgroundStar v-if="!showSupernova" />
+      <C16Background />
       <RelativisticParticles v-if="view.subtab === 'dilation' && !showSupernova" />
       <v-touch
         class="l-view"

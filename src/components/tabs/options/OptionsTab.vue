@@ -18,7 +18,8 @@ export default {
       language: "en",
       foldUselessRank: false,
       darkTheme: true,
-      massDisplay: MASS_DISPLAY.DEFAULT
+      massDisplay: MASS_DISPLAY.DEFAULT,
+      particle: false
     };
   },
   computed: {
@@ -52,6 +53,9 @@ export default {
     massDisplay(value) {
       EventHub.dispatch(GAME_EVENT.FORMAT_CHANGED);
       player.options.massDisplay = value;
+    },
+    particle(value) {
+      C16.isActive = value;
     }
   },
   methods: {
@@ -63,6 +67,7 @@ export default {
       this.language = player.options.language;
       this.massDisplay = player.options.massDisplay;
       this.darkTheme = player.options.darkTheme;
+      this.particle = C16.isActive;
     },
     toggleLanguage() {
       switch (this.language) {
@@ -154,10 +159,9 @@ export default {
         i18n-key="collapse_fully_upgraded_rank_X"
       />
       <PrimaryToggleButton
-        v-if="starUnlocked"
-        v-model="starBG"
+        v-model="particle"
         class="c-options-btn"
-        i18n-key="show_star_X"
+        i18n-key="particle_bg_X"
       />
     </div>
   </div>

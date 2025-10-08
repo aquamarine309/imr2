@@ -430,6 +430,7 @@ Currency.atoms = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
+    if (Challenge(12).canBeApplied) return DC.D0;
     const mass = BlackHole.mass;
     let gain = mass.div(DC.D1_5E156);
     if (gain.lt(1)) return DC.D0;
@@ -493,6 +494,7 @@ Currency.quark = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
+    if (Challenge(12).canBeApplied) return DC.D0;
     const atoms = Currency.atoms.gainPerSecond;
     if (atoms.lt(1)) return DC.D0;
     let gain = atoms.clampMin(1).log10();
@@ -781,7 +783,31 @@ Currency.quantumFoam = new class extends DecimalCurrency {
   }
 
   get gainPerSecond() {
-    return DC.D0
+    return Quantum.foamGain;
+  }
+
+  get canReset() {
+    return Currency.mass.gte(Quantum.requirement);
+  }
+
+  requestReset() {
+    if (!this.canReset) return;
+    if (ConfirmationTypes.supernova.option) {
+      Modal.confirmation.show({
+        option: "quantum",
+        confirmFn: () => this.resetLayer()
+      });
+    } else {
+      this.resetLayer();
+    }
+  }
+
+
+  resetLayer(resetOnly = false) {
+    if (resetOnly) {
+      Modal.message.show("How do you did it?");
+    }
+    Modal.message.show("Failed to go quantum.");
   }
 
   get key() {

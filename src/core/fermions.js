@@ -13,7 +13,7 @@ class FermionRewardState extends GameMechanicState {
   get fermion() {
     return this._fermion;
   }
-  
+
   get currencyValue() {
     if (this.fermion.type === FermionType.quarks && FermionType.quarks.fermions.top.canBeApplied) {
       return DC.D0;

@@ -161,6 +161,15 @@ export default {
         }
         supernova.canReset = Currency.supernova.canReset;
       }
+
+      const quantum = this.quantum;
+      quantum.unlocked = Challenge(12).milestones[0].canBeApplied;
+
+      if (quantum.unlocked) {
+        quantum.amount.copyFrom(Currency.quantumFoam.value);
+        quantum.rate = Currency.quantumFoam.gainPerSecond;
+        quantum.canReset = Currency.quantumFoam.canReset;
+      }
     },
     formatNoPlaces(value) {
       return format(value, 0);
@@ -303,7 +312,7 @@ export default {
       :amount="quantum.amount"
       :gain-rate="quantum.rate"
       :format-fn="formatNoPlaces"
-      name="Quantum"
+      name="Quantum Foam"
       :is-rate="false"
       :show-tooltip="!quantum.canReset"
       :tooltip="quantumTooltip"

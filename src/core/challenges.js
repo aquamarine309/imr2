@@ -69,7 +69,7 @@ class ChallengeState extends GameMechanicState {
   set completions(value) {
     player.challenges.completions[this.id - 1] = value;
   }
-  
+
   get effectiveCompletions() {
     if (FermionType.quarks.fermions.bottom.canBeApplied) return DC.D0;
     return this.completions;
@@ -283,5 +283,17 @@ export const Challenges = {
 
   get isRunning() {
     return player.challenges.current > 0;
+  }
+};
+
+export const C16 = {
+  _isActive: false,
+
+  get isActive() {
+    return this._isActive;
+  },
+
+  set isActive(value) {
+    this._isActive = value;
   }
 };

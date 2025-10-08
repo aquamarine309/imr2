@@ -24,7 +24,7 @@ export const Autobuyer = {
   element: new ElementAutobuyerState(),
 
   bosonUpgrade: new BosonUpgradeAutobuyerState(),
-  
+
   radiation: new RadiationAutobuyerState()
 };
 

@@ -33,3 +33,4 @@ export * from "./bosons";
 export * from "./fermions";
 export * from "./radiation";
 export * from "./notifications";
+export * from "./quantum";

@@ -223,6 +223,7 @@
   "c9_name": "粒子消失",
   "c10_name": "现实 I",
   "c11_name": "绝对论",
+  "c12_name": "原子衰变",
   "hardened": "硬化·",
   "insane": "疯狂·",
   "impossible": "无解·",
@@ -372,6 +373,9 @@
   "challenge_10_milestone_0_description": "首次完成后，解锁费米子！",
   "challenge_11_description": "你无法获得膨胀质量，同时处于质量膨胀中",
   "challenge_11_reward_description": "基于完成次数增强星辰助推器",
+  "challenge_12_description": "你无法获得原子和夸克",
+  "challenge_12_reward_description": "基于完成次数获得免费辐射波加成",
+  "challenge_12_milestone_0_description": "首次完成后，解锁新的重置层！",
   "X_hz": "{value} 赫兹",
   "frequency": "频率",
   "amplitude_X": "振幅：{value}",
@@ -550,5 +554,6 @@
   "fix_c10_info": "由于旧版本的挑战10的挑战目标出现异常，现已重置挑战10的完成次数，请见谅",
   "challenge_header_main": "你正在进行【{name}】挑战！超过 {goal} 以完成。",
   "challenge_auto_completing": "（自动完成中）",
-  "challenge_pending_completions": "+{pending} 完成次数（下一个在 {next}）"
+  "challenge_pending_completions": "+{pending} 完成次数（下一个在 {next}）",
+  "particle_bg_X": "粒子背景（测试）：{state}"
 }

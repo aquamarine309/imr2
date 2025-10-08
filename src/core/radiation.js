@@ -45,6 +45,7 @@ class RadiationBoostState extends GameMechanicState {
     if (this.type.id * 3 + this.id < 17) {
       base = base.plusEffectOf(RadiationType.xRay.boosts[2]);
     }
+    base = base.plusEffectOf(Challenge(12).reward);
     return base;
   }
 

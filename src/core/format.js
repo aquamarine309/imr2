@@ -178,14 +178,15 @@ window.formatInt = function formatInt(value) {
 window.formatGain = function formatGain(amount, gain, isMass) {
   const formatType = isMass ? formatMass : format;
   const next = amount.add(gain);
+  const ticks = 1000 / player.options.updateRate;
   const logMult = next.max(1).log10().div(amount.max(1).log10());
   if (!isMass && logMult.gte(DC.E1) && amount.gte(DC.EE100)) {
-    const ooms2 = logMult.log10().times(20);
+    const ooms2 = logMult.log10().times(ticks);
     return `(+${format(ooms2)} ${i18n.t("ooms")}^2/${i18n.t("sec")})`;
   }
   const mult = next.div(amount);
   if (mult.gte(DC.E1) && amount.gte(DC.E100)) {
-    const ooms = mult.log10().times(20);
+    const ooms = mult.log10().times(ticks);
     return `(+${format(ooms)} ${i18n.t("ooms")}/${i18n.t("sec")})`;
   }
   return `(+${formatType(gain)}/${i18n.t("sec")})`;

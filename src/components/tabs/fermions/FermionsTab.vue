@@ -55,6 +55,10 @@ export default {
     },
     select(fermion) {
       if (fermion.isUnlocked) {
+        if (fermion.id === this.selected) {
+          fermion.start();
+          return;
+        }
         this.$viewModel.selectedFermionId = fermion.id;
         GameUI.update();
       }
