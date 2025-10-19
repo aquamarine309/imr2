@@ -13,7 +13,8 @@ export default {
     },
     gainRate: {
       type: Decimal,
-      required: true
+      required: false,
+      default: null
     },
     isRate: {
       type: Boolean,

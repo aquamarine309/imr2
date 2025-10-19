@@ -92,11 +92,12 @@ export default {
 <style scoped>
 .o-primary-btn--choose-tree {
   margin: 0 3px;
-  flex: 1
+  flex: 1;
 }
 
 .c-choose-tree-row {
   display: flex;
+  overflow-x: auto;
 }
 
 .c-tip {

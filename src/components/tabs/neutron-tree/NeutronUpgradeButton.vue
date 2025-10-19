@@ -17,7 +17,7 @@ export default {
   computed: {
     styleObject() {
       return {
-        "background-image": `url("./images/tree/${this.upgrade.id}.png")`
+        "background-image": `url("./images/tree/${this.upgrade.formattedID}.png")`
       };
     },
     classObject() {
@@ -25,11 +25,15 @@ export default {
         "o-neutron-upgrade": true,
         "o-neutron-upgrade--available": this.canBeBought,
         "o-neutron-upgrade--selected": this.isSelected,
-        "o-neutron-upgrade--bought": this.isBought
+        "o-neutron-upgrade--bought": this.isBought,
+        "o-neutron-upgrade--bought_quantum": this.isBought && this.isQuantum
       };
     },
     isSelected() {
       return this.$viewModel.selectedNodeId === this.upgrade.id;
+    },
+    isQuantum() {
+      return this.upgrade.quantum;
     }
   },
   methods: {
@@ -53,7 +57,7 @@ export default {
 
 <template>
   <div
-    v-if="branchBought"
+    v-if="branchBought || isBought"
     :class="classObject"
     :style="styleObject"
     @click="handleClick"
@@ -95,5 +99,9 @@ export default {
 
 .o-neutron-upgrade--bought {
   border-color: #00520b;
+}
+
+.o-neutron-upgrade--bought_quantum {
+  border-color: var(--color-quantum) !important;
 }
 </style>

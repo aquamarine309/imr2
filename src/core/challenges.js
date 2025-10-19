@@ -12,7 +12,7 @@ class ChallengeRewardState extends GameMechanicState {
       const effects = {};
       for (const key in config.effects) {
         const fn = config.effects[key];
-        effects[key] = () => fn(challenge.completions);
+        effects[key] = () => fn(challenge.effectiveCompletions);
       }
       configCopy.effects = effects;
     }
@@ -72,7 +72,12 @@ class ChallengeState extends GameMechanicState {
 
   get effectiveCompletions() {
     if (FermionType.quarks.fermions.bottom.canBeApplied) return DC.D0;
-    return this.completions;
+    return this.completions.times(this.completionsMult);
+  }
+
+  get completionsMult() {
+    if (this.id <= 8) return Chroma[2].effectOrDefault(DC.D1);
+    return DC.D1;
   }
 
   get baseGoal() {

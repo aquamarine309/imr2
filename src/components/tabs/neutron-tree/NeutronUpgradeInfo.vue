@@ -19,7 +19,8 @@ export default {
   data() {
     return {
       isSatisfied: false,
-      isBought: false
+      isBought: false,
+      reqRemoved: false
     };
   },
   computed: {
@@ -28,6 +29,9 @@ export default {
     },
     config() {
       return this.upgrade.config;
+    },
+    isQuantum() {
+      return this.upgrade.quantum;
     }
   },
   methods: {
@@ -35,6 +39,7 @@ export default {
       if (!this.upgrade) return;
       this.isBought = this.upgrade.isBought;
       this.isSatisfied = this.upgrade.isSatisfied;
+      this.reqRemoved = this.upgrade.reqRemoved;
     }
   }
 };
@@ -46,20 +51,20 @@ export default {
       <div v-if="!isBought">
         <span>(Click again to buy if affordable)</span>
         <span
-          v-if="requirement"
+          v-if="requirement && !reqRemoved"
           :class="isSatisfied ? 'c-green' : 'c-red'"
         >
           Requirement: {{ requirement }}
         </span>
       </div>
       <div class="c-sky">
-        <span>[{{ upgrade.id }}]</span>
+        <span>[{{ upgrade.formattedID }}]</span>
         <DescriptionDisplay :config="config" />
       </div>
       <div>
         <CostDisplay
           :config="config"
-          name-key="X_neutron_star"
+          :name-key="isQuantum ? 'X_quantum_foam' : 'X_neutron_star'"
         />
       </div>
       <div class="c-green">

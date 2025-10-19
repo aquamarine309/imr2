@@ -6,7 +6,11 @@ export const rank = {
     return true;
   },
   requirement(amount) {
-    return Decimal.pow10(Scaling.rank.scaleEvery(amount)
+    return Decimal.pow10(Scaling.rank.scaleEvery(
+      amount,
+      false,
+      [null, null, null, null, Chroma[1].effectOrDefault(0)]
+    )
       .timesEffectsOf(
         RankType.tier.unlocks.reduceRankReq,
         Challenge(5).reward
@@ -20,7 +24,8 @@ export const rank = {
         .dividedByEffectsOf(
           RankType.tier.unlocks.reduceRankReq,
           Challenge(5).reward
-        ), true
+        ), true,
+      [null, null, null, null, Chroma[1].effectOrDefault(0)]
     ).add(1).floor();
   },
   get scaling() {

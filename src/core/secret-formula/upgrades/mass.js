@@ -304,7 +304,10 @@ export const mass = {
       power = power.add(Atom.protonTick());
       power = power.timesEffectOf(Boson.zBoson.effects.tickspeed);
       power = power.times(MassDilation.boost);
-      power = power.powEffectOf(NeutronUpgrade.t1);
+      power = power.powEffectsOf(
+        NeutronUpgrade.t1,
+        Chroma[0]
+      );
       const softcapStart = DC.E50.timesEffectOf(RadiationType.ultraviolet.boosts[1]);
       const softcapPower = DC.D0_1;
       power = Softcap.power(
@@ -508,4 +511,46 @@ export const mass = {
     formatEffect: value => i18n.t("star_booster_effect", { value: formatX(value) }),
     upgClass: "i-star-booster"
   },
+  cosmicString: {
+    id: "cosmicString",
+    i18nKey: "cosmic_string",
+    get currency() {
+      return Currency.quantumFoam;
+    },
+    get baseCost() {
+      return DC.D2;
+    },
+    get costMult() {
+      return DC.D2;
+    },
+    cost(amount) {
+      const $ = MassUpgrade.cosmicString.config;
+      return getLinearCost(
+        amount,
+        $.baseCost,
+        $.costMult
+      ).floor();
+    },
+    bulk(currency) {
+      const $ = MassUpgrade.cosmicString.config;
+      return getLinearBulk(currency, $.baseCost, $.costMult).add(1).floor();
+    },
+    get isUnlocked() {
+      return PlayerProgress.quantumUnlocked();
+    },
+    get autoUnlocked() {
+      return false;
+    },
+    get power() {
+      return DC.D2;
+    },
+    formatPower: value => formatX(value),
+    effect($) {
+      const power = $.power;
+      const amount = $.totalAmount;
+      return power.pow(amount);
+    },
+    formatEffect: value => i18n.t("cosmic_string_effect", { value: formatX(value) }),
+    upgClass: "i-cosmic-string"
+  }
 };

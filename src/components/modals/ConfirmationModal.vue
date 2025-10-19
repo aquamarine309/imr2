@@ -14,6 +14,11 @@ export default {
     option: {
       type: String,
       required: true
+    },
+    text: {
+      type: String,
+      required: false,
+      default: ""
     }
   },
   methods: {
@@ -32,6 +37,9 @@ export default {
   >
     <div class="c-reset-title">
       Are you sure you want to reset?
+    </div>
+    <div v-if="text">
+      {{ text }}
     </div>
   </ModalWrapperChoice>
 </template>

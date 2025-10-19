@@ -44,4 +44,6 @@ class Lazy {
 }
 window.Lazy = Lazy;
 
-export const GameCache = {};
+export const GameCache = {
+  chromaCount: new Lazy(() => Chroma.countWhere(chroma => chroma.isUnlocked))
+};

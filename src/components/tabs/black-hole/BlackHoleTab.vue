@@ -14,7 +14,9 @@ export default {
       condenserMult: new Decimal(),
       exponent: new Decimal(),
       softcapStart: new Decimal(),
-      softcapped: false
+      softcapped: false,
+      gainSoftcapStart: new Decimal(),
+      gainSoftcapped: false
     };
   },
   computed: {
@@ -31,6 +33,8 @@ export default {
       this.exponent = BlackHole.exponent;
       this.softcapStart = BlackHole.softcapStart;
       this.softcapped = this.blackHole.gte(this.softcapStart);
+      this.gainSoftcapStart = BlackHole.gainSoftcapStart;
+      this.gainSoftcapped = this.blackHole.add(1).pow(this.exponent).gte(this.gainSoftcapStart);
     }
   }
 };
@@ -57,6 +61,11 @@ export default {
     <div v-if="softcapped">
       <div class="c-mass-softcap-row">
         {{ $t("black_hole_softcap", { mass: formatMass(softcapStart) }) }}
+      </div>
+    </div>
+    <div v-if="gainSoftcapped">
+      <div class="c-mass-softcap-row">
+        The formula (x + 1)<sup>{{ format(exponent) }}</sup> is softcapped at {{ formatMass(gainSoftcapStart) }}
       </div>
     </div>
   </div>

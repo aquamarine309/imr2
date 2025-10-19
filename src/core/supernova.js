@@ -19,9 +19,13 @@ export const Supernova = {
     return Scaling.supernova.scaleEvery(value.div(DC.E90).log10().div(DC.D20).pow(DC.D0_8).timesEffectOf(GluonUpgrade[3]), true).add(1).floor();
   },
 
+  get tutorialActive() {
+    return !PlayerProgress.quantumUnlocked() && Supernova.times.lt(this.tutorialCount);
+  },
+
   get bulk() {
     const bulk = Supernova.bulkAt(Currency.stars.value);
-    if (Supernova.times.lt(this.tutorialCount)) return bulk.clampMax(this.times.add(1));
+    if (Supernova.tutorialActive) return bulk.clampMax(this.times.add(1));
     return bulk;
   },
 
@@ -30,7 +34,7 @@ export const Supernova = {
   },
 
   startingAutoCheck() {
-    if (Supernova.times.gte(DC.D1) && Supernova.times.lt(this.tutorialCount) && Currency.supernova.canReset) {
+    if (Supernova.times.gte(DC.D1) && Supernova.tutorialActive && Currency.supernova.canReset) {
       Currency.supernova.resetLayer();
       Tab.main.mass.show();
       GameUI.notify.supernova("You have become Supernova!");
@@ -45,10 +49,17 @@ class NeutronUpgradeState extends SetPurchasableMechanicState {
   constructor(config) {
     super(config);
     this.pos = [null, null];
+    this.formattedID = this.id.replace(/[A-Z]/gu, matched => `_${matched.toLowerCase()}`);
+    const removeReq = ["qol1", "qol2", "qol3", "qol4", "qol5", "qol6", "qol7", "qol8", "qol9", "unl1", "c", "s2", "s3", "s4", "sn3", "sn4", "t1", "bh2", "gr1", "chal1", "chal2", "chal3", "bs1", "fn2", "fn3", "fn5", "fn6", "fn10"];
+    this.reqCanBeRemoved = removeReq.includes(this.id);
+  }
+
+  get quantum() {
+    return this.config.quantum ?? false;
   }
 
   get currency() {
-    return Currency.neutronStars;
+    return this.quantum ? Currency.quantumFoam : Currency.neutronStars;
   }
 
   get set() {
@@ -59,7 +70,12 @@ class NeutronUpgradeState extends SetPurchasableMechanicState {
     return this.config.isUnlocked?.() ?? true;
   }
 
+  get reqRemoved() {
+    return QuantumMilestones.removeReqAndSpeedUp.canBeApplied && this.reqCanBeRemoved;
+  }
+
   get isSatisfied() {
+    if (this.reqRemoved) return true;
     return this.config.check?.() ?? true;
   }
 

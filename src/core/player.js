@@ -65,7 +65,11 @@ window.player = {
     }
   },
   quantum: {
-    foam: DC.D0
+    foam: DC.D0,
+    chromaState: 0,
+    chroma: [DC.D0, DC.D0, DC.D0],
+    times: DC.D0,
+    blueprint: DC.D0
   },
   auto: {
     ranks: {
@@ -83,7 +87,8 @@ window.player = {
       tickspeed: false,
       condenser: false,
       cosmicRay: false,
-      starBooster: false
+      starBooster: false,
+      cosmicString: false
     },
     mainUpgrades: {
       rage: false,
@@ -103,7 +108,8 @@ window.player = {
     tickspeed: DC.D0,
     condenser: DC.D0,
     cosmicRay: DC.D0,
-    starBooster: DC.D0
+    starBooster: DC.D0,
+    cosmicString: DC.D0
   },
   unlocks: {
     ragePower: false,
@@ -147,11 +153,13 @@ window.player = {
     language: "en",
     massDisplay: MASS_DISPLAY.DEFAULT,
     foldUselessRank: true,
+    tabIconify: false,
     confirmations: {
       ragePower: true,
       darkMatter: true,
       atom: true,
-      supernova: true
+      supernova: true,
+      quantum: true
     },
     awayProgress: {
       mass: true,

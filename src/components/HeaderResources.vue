@@ -62,6 +62,10 @@ export default {
         rate: new Decimal(),
         unlocked: false,
         canReset: false
+      },
+      speed: {
+        value: new Decimal(),
+        unlocked: false
       }
     };
   },
@@ -89,6 +93,9 @@ export default {
     },
     quantumTooltip() {
       return `Reach over ${formatMass(mlt(1e4))} of normal mass to go quantum.`;
+    },
+    speedTooltip() {
+      return "Pre-Quantum: Speeds up the production of pre-Quantum resources (after exponent, dilation, etc.).";
     }
   },
   created() {
@@ -155,7 +162,7 @@ export default {
       supernova.unlocked = PlayerProgress.supernovaUnlocked();
       if (supernova.unlocked) {
         supernova.amount.copyFrom(Currency.supernova.value);
-        supernova.manual = Supernova.times.gte(10);
+        supernova.manual = PlayerProgress.quantumUnlocked() || Supernova.times.gte(10);
         if (supernova.manual) {
           supernova.rate = Currency.supernova.gainPerSecond;
         }
@@ -163,12 +170,17 @@ export default {
       }
 
       const quantum = this.quantum;
-      quantum.unlocked = Challenge(12).milestones[0].canBeApplied;
-
+      quantum.unlocked = Challenge(12).milestones[0].canBeApplied || PlayerProgress.quantumUnlocked();
       if (quantum.unlocked) {
         quantum.amount.copyFrom(Currency.quantumFoam.value);
         quantum.rate = Currency.quantumFoam.gainPerSecond;
         quantum.canReset = Currency.quantumFoam.canReset;
+      }
+
+      const speed = this.speed;
+      speed.unlocked = PlayerProgress.quantumUnlocked();
+      if (speed.unlocked) {
+        speed.value = Quantum.speed;
       }
     },
     formatNoPlaces(value) {
@@ -317,6 +329,19 @@ export default {
       :show-tooltip="!quantum.canReset"
       :tooltip="quantumTooltip"
       :click-fn="quantumReset"
+    />
+    <HeaderResource
+      v-if="speed.unlocked"
+      img-class="i-speed"
+      text-class="o-speed-text"
+      border-class="o-speed-border"
+      :amount="speed.value"
+      :format-fn="formatX"
+      name="Global Speed"
+      :is-rate="false"
+      :show-tooltip="true"
+      :show-rate="false"
+      :tooltip="speedTooltip"
     />
   </div>
 </template>

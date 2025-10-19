@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     update() {
-      this.showSupernova = Currency.supernova.value.eq(0) && Currency.supernova.canReset;
+      this.showSupernova = !PlayerProgress.quantumUnlocked() && Currency.supernova.value.eq(0) && Currency.supernova.canReset;
       this.adUI = player.options.adUI;
       this.darkTheme = player.options.darkTheme;
     },

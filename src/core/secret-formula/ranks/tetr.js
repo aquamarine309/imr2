@@ -6,7 +6,11 @@ export const tetr = {
     return AtomUpgrade(2).canBeApplied;
   },
   requirement(amount) {
-    return Scaling.tetr.scaleEvery(amount).timesEffectsOf(
+    return Scaling.tetr.scaleEvery(
+      amount,
+      false,
+      [null, null, null, Chroma[1].effectOrDefault(0)]
+    ).timesEffectsOf(
       GameElement(9),
       RankType.pent.unlocks.cheapTetrAndRank.effects.tetr,
       GameElement(72)
@@ -19,7 +23,8 @@ export const tetr = {
         GameElement(9),
         RankType.pent.unlocks.cheapTetrAndRank.effects.tetr,
         GameElement(72)
-      ), true).add(1).floor();
+      ), true,
+    [null, null, null, Chroma[1].effectOrDefault(0)]).add(1).floor();
   },
   get scaling() {
     return Scaling.tetr;

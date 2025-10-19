@@ -3,38 +3,56 @@ import C16Particle from "./C16Particle";
 
 export default {
   name: "C16Background",
-  components: {
-    C16Particle
-  },
+  components: { C16Particle },
   data() {
     return {
       isActive: false,
       endTick: Infinity,
-      time: 0,
-      width: 0
+      currentTime: 0,
+      width: window.innerWidth,
+      resizeTimeout: null,
+      PARTICLE_COUNT: 50,
+      END_TICK_THRESHOLD: 100
     };
   },
   computed: {
-    count: () => 50,
-    endTickCount: () => 100
+    shouldRender() {
+      return this.isActive || this.endTick < this.END_TICK_THRESHOLD;
+    }
   },
   created() {
-    this.width = window.innerWidth;
-    window.addEventListener("resize", () => {
+    this.handleResize = this.throttle(() => {
       this.width = window.innerWidth;
-    });
+    }, 250);
+
+    window.addEventListener("resize", this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
   },
   methods: {
+    throttle(func, limit) {
+      return (...args) => {
+        if (!this.resizeTimeout) {
+          func.apply(this, args);
+          this.resizeTimeout = setTimeout(() => {
+            this.resizeTimeout = null;
+          }, limit);
+        }
+      };
+    },
+
     update() {
       this.isActive = C16.isActive;
-      if (this.isActive || this.endTick < this.endTickCount) {
-        this.time = Date.now();
+
+      if (this.isActive || this.endTick < this.END_TICK_THRESHOLD) {
+        this.currentTime = Date.now();
       }
-      if (!this.isActive) {
-        this.endTick++;
-        return;
-      }
-      this.endTick = 0;
+
+      this.endTick = this.isActive ? 0 : this.endTick + 1;
     }
   }
 };
@@ -42,16 +60,17 @@ export default {
 
 <template>
   <svg
-    v-if="isActive || endTick < endTickCount"
+    v-if="shouldRender"
     :width="width"
     height="100%"
     class="c16-particle-bg"
+    aria-hidden="true"
   >
     <C16Particle
-      v-for="index in count"
+      v-for="index in PARTICLE_COUNT"
       :key="index"
       :width="width"
-      :now="time"
+      :now="currentTime"
       :is-end="!isActive"
     />
   </svg>
@@ -59,10 +78,8 @@ export default {
 
 <style scoped>
 .c16-particle-bg {
-  width: 100%;
-  height: 100%;
   position: fixed;
-  left: 0;
-  top: 0;
+  inset: 0;
+  pointer-events: none;
 }
 </style>

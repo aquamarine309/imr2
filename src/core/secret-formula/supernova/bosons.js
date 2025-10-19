@@ -9,7 +9,13 @@ export const bosons = {
       Boson.graviton
     ),
     effects: {
-      mass: value => overflow(value.add(1).pow(DC.D2E4), DC.EE2500, DC.D0_25),
+      mass: value => {
+        let effect = value.add(1).pow(DC.D2E4);
+        if (NeutronUpgrade.qu2.canBeApplied) {
+          effect = effect.times(Softcap.power(value.add(1).log10().add(1).pow(DC.C4D3), DC.E15, DC.D0_1));
+        }
+        return overflow(effect, DC.EE2500, DC.D0_25);
+      },
       negativeW: value => dilatedValue(value.add(1), DC.C2D3, DC.D2)
     }
   },

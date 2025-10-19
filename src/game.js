@@ -22,14 +22,14 @@ export function init() {
   }
 }
 
-export function applyAutoprestige(diff) {
-  if (BHUpgrade(5).canBeApplied || AtomUpgrade(5).canBeApplied) Currency.ragePowers.tick(diff);
-  if (AtomUpgrade(5).canBeApplied) Currency.darkMatter.tick(diff);
-  if (GameElement(14).canBeApplied) Currency.quark.tick(diff * (0.05 + GameElement(16).effectOrDefault(0)));
-  if (GameElement(24).canBeApplied) Currency.atoms.tick(diff);
+export function applyAutoprestige(preQu) {
+  if (BHUpgrade(5).canBeApplied || AtomUpgrade(5).canBeApplied) Currency.ragePowers.tick(preQu);
+  if (AtomUpgrade(5).canBeApplied) Currency.darkMatter.tick(preQu);
+  if (GameElement(14).canBeApplied) Currency.quark.tick(preQu.times(0.05 + GameElement(16).effectOrDefault(0)));
+  if (GameElement(24).canBeApplied) Currency.atoms.tick(preQu);
   if (GameElement(30).canBeApplied && !Challenge(9).canBeApplied) {
     for (const particle of Particles.all) {
-      particle.amount = particle.amount.add(Currency.quark.value.div(10).times(diff));
+      particle.amount = particle.amount.add(Currency.quark.value.div(10).times(preQu));
     }
   }
 }

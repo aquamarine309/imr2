@@ -25,7 +25,7 @@ class RadiationBoostState extends GameMechanicState {
     const configCopy = { ...config };
     const effect = configCopy.effect;
     configCopy.description = () => this.description;
-    configCopy.effect = () => effect(this.amount);
+    configCopy.effect = () => effect(this.totalAmount);
     super(configCopy);
     this.type = type;
   }
@@ -34,19 +34,27 @@ class RadiationBoostState extends GameMechanicState {
     return this.type.isUnlocked && !FermionType.leptons.fermions.neutTau.canBeApplied;
   }
 
-  get amount() {
+  get totalAmount() {
+    return this.baseAmount.add(this.extraAmount);
+  }
+
+  get baseAmount() {
     // If id is 0, when total is 1 or 4 or 7 ... can add one boost
     // If id is 1 or 2, just "translate" it to like id 0 by subtracting its id
     // Don't worry that it may cause amount negative, that's impossible
-    let base = this.type.total.minus(this.id).add(2).div(3).floor();
+    return this.type.total.minus(this.id).add(2).div(3).floor();
+  }
+
+  get extraAmount() {
+    let amount = DC.D0;
     if (this.type.id * 3 + this.id < 8) {
-      base = base.plusEffectOf(RadiationType.infrared.boosts[2]);
+      amount = amount.plusEffectOf(RadiationType.infrared.boosts[2]);
     }
     if (this.type.id * 3 + this.id < 17) {
-      base = base.plusEffectOf(RadiationType.xRay.boosts[2]);
+      amount = amount.plusEffectOf(RadiationType.xRay.boosts[2]);
     }
-    base = base.plusEffectOf(Challenge(12).reward);
-    return base;
+    amount = amount.plusEffectOf(Challenge(12).reward);
+    return amount;
   }
 
   get description() {
@@ -198,6 +206,12 @@ class RadiationTypeState extends GameMechanicState {
   tick(diff) {
     if (!this.isUnlocked) return;
     this.distance = this.distance.add(this.distanceGain.times(diff));
+  }
+
+  reset() {
+    this.distance = DC.D0;
+    this.amplitude = DC.D0;
+    this.velocity = DC.D0;
   }
 }
 

@@ -259,6 +259,17 @@ export const GameStorage = {
       }
     };
 
+    const quantum = player.quantum;
+    save.qu = {
+      reached: quantum.times.gt(0),
+      times: quantum.times,
+      chr_get: convertBitsToArray(quantum.chromaState),
+      chroma: quantum.chroma,
+      points: quantum.foam,
+      cosmic_str: massUpg.cosmicString,
+      bp: quantum.blueprint
+    };
+
     save.options = {
       font: "Verdana",
       notation: "sc",

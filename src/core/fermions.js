@@ -63,8 +63,12 @@ class FermionState extends GameMechanicState {
     player.supernova.fermions.tiers[this.id] = value;
   }
 
+  get firstCheaper() {
+    return NeutronUpgrade.qu1.effectOrDefault(null);
+  }
+
   get requirement() {
-    const tier = Scaling.fermion.scaleEvery(this.tier);
+    const tier = Scaling.fermion.scaleEvery(this.tier, false, [null, null, null, this.firstCheaper]);
     const baseReq = this.config.baseReq;
     const reqMult = this.config.reqMult;
     const reqPow = this.config.reqPow;
@@ -89,7 +93,8 @@ class FermionState extends GameMechanicState {
     return Scaling.fermion.scaleEvery(
       this.currency.div(baseReq).log10().div(reqMult.log10())
         .root(reqPow),
-      true).floor().add(1).clampMax(this.maxTier);
+      true,
+      [null, null, null, this.firstCheaper]).floor().add(1).clampMax(this.maxTier);
   }
 
   get isActive() {
@@ -125,6 +130,12 @@ class FermionState extends GameMechanicState {
     // Six Fermions are a group
     // The quarks' ids start from 0 and the leptons' start from 6
     return this.id % 6 < Fermions.unlockedCount;
+  }
+
+  reset() {
+    this.tier = DC.D0;
+    this.cachedRequirement.invalidate();
+    this.type.cachedTotalTiers.invalidate();
   }
 }
 
@@ -186,7 +197,7 @@ export const Fermions = {
   },
 
   get areUnlocked() {
-    return Challenge(10).milestones[0].canBeApplied;
+    return Challenge(10).milestones[0].canBeApplied || PlayerProgress.quantumUnlocked();
   },
 
   get unlockedCount() {

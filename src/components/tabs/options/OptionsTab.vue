@@ -19,7 +19,8 @@ export default {
       foldUselessRank: false,
       darkTheme: true,
       massDisplay: MASS_DISPLAY.DEFAULT,
-      particle: false
+      particle: false,
+      iconifyTab: false
     };
   },
   computed: {
@@ -56,18 +57,23 @@ export default {
     },
     particle(value) {
       C16.isActive = value;
+    },
+    iconifyTab(value) {
+      player.options.iconifyTab = value;
     }
   },
   methods: {
     update() {
+      const options = player.options;
       this.starUnlocked = Stars.isUnlocked;
-      this.starBG = player.options.starBG;
-      this.adUI = player.options.adUI;
-      this.foldUselessRank = player.options.foldUselessRank;
-      this.language = player.options.language;
-      this.massDisplay = player.options.massDisplay;
-      this.darkTheme = player.options.darkTheme;
+      this.starBG = options.starBG;
+      this.adUI = options.adUI;
+      this.foldUselessRank = options.foldUselessRank;
+      this.language = options.language;
+      this.massDisplay = options.massDisplay;
+      this.darkTheme = options.darkTheme;
       this.particle = C16.isActive;
+      this.iconifyTab = options.iconifyTab;
     },
     toggleLanguage() {
       switch (this.language) {
@@ -162,6 +168,19 @@ export default {
         v-model="particle"
         class="c-options-btn"
         i18n-key="particle_bg_X"
+      />
+    </div>
+    <div class="l-options-row">
+      <PrimaryToggleButton
+        v-model="iconifyTab"
+        class="c-options-btn"
+        i18n-key="icon_tab_X"
+      />
+      <PrimaryToggleButton
+        v-if="starUnlocked"
+        v-model="starBG"
+        class="c-options-btn"
+        i18n-key="show_star_X"
       />
     </div>
   </div>

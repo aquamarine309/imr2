@@ -26,11 +26,8 @@ export const BlackHole = {
     let gain = Currency.blackHole.value.add(1).pow(this.exponent);
     gain = Softcap.dilation(
       gain,
-      DC.D1_5E3000000056.powEffectsOf(
-        GameElement(71),
-        RadiationType.gammaRay.boosts[2]
-      ),
-      DC.D0_95
+      this.gainSoftcapStart,
+      DC.D0_95.powEffectOf(NeutronUpgrade.qu3)
     );
     gain = gain.timesEffectsOf(
       MassUpgrade.condenser,
@@ -62,5 +59,12 @@ export const BlackHole = {
 
   get softcapStart() {
     return DC.D1_5E156.timesEffectOf(AtomUpgrade(5));
+  },
+
+  get gainSoftcapStart() {
+    return DC.D1_5E3000000056.powEffectsOf(
+      GameElement(71),
+      RadiationType.gammaRay.boosts[2]
+    );
   }
 };

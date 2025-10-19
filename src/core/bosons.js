@@ -44,7 +44,7 @@ export const Boson = mapGameDataToObject(
 
 export const Bosons = {
   get areUnlocked() {
-    return Supernova.times.gte(DC.E1);
+    return PlayerProgress.quantumUnlocked() || Supernova.times.gte(DC.E1);
   },
 
   tick(diff) {

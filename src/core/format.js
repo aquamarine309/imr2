@@ -51,48 +51,68 @@ window.format = function format(value, places = 4, layerExp = 12) {
     throw new Error("Cannot use format before the game initializes!");
   }
   if (isEND()) return i18n.t("end");
+
   const decimal = Decimal.fromValue_noAlloc(value);
   if (!decimal.isFinite()) return "NaN";
-  if (decimal.sign < 0) {
-    return `-${format(decimal.neg(), places)}`;
-  }
-  if (decimal.sign === 0) {
-    return (0).toFixed(places);
-  }
-  let exp = decimal.log10().floor();
+  if (decimal.sign < 0) return `-${format(decimal.neg(), places, layerExp)}`;
+  if (decimal.sign === 0) return (0).toFixed(Math.min(places, 100));
+
+  const log10Result = decimal.log10();
+  const exp = log10Result.floor();
+  const expNum = exp.toNumber();
+
   if (places > 1 && exp.lt(-places)) {
-    let expCeil = decimal.log10().ceil();
-    const mantissa = decimal.div(Decimal.pow10(expCeil));
-    const be = expCeil.neg().clampMin(1).log10().gte(9);
-    let formatMantissa = be ? "" : mantissa.toFixed(4);
-    if (formatMantissa === "10.0000") {
-      formatMantissa = "1.0000";
-      expCeil = expCeil.add(1);
-    }
-    const formatExponent = format(expCeil, 0, layerExp);
-    return `${formatMantissa}e${formatExponent}`;
+    return formatSmallNumber(decimal, log10Result, places, layerExp);
   }
+
   if (exp.lt(layerExp)) {
-    const expNum = exp.toNumber();
     const fixed = expNum <= 0 ? places : Math.max(places - expNum, 0);
-    return formatWithCommas(decimal.toFixed(fixed));
+    return formatWithCommas(decimal.toFixed(Math.min(fixed, 100)));
   }
+
   if (decimal.layer >= 5) {
     const layer = decimal.layer;
     const formatMag = layer < 1e9 ? decimal.mag.toFixed(4) : "";
-    const formatLayer = format(layer, 0);
+    const formatLayer = format(layer, 0, layerExp);
     return `${formatMag}F${formatLayer}`;
   }
-  const mantissa = decimal.div(Decimal.pow10(exp));
+
+  return formatLargeNumber(decimal, exp, layerExp);
+};
+
+function formatSmallNumber(decimal, log10Result, places, layerExp) {
+  let expCeil = log10Result.ceil();
+  const pow10ExpCeil = Decimal.pow10(expCeil);
+  const mantissa = decimal.div(pow10ExpCeil);
+
+  const negExpCeil = expCeil.neg();
+  const be = negExpCeil.clampMin(1).log10().gte(9);
+
+  let formatMantissa = be ? "" : mantissa.toFixed(4);
+  if (formatMantissa === "10.0000") {
+    formatMantissa = "1.0000";
+    expCeil = expCeil.add(1);
+  }
+
+  const formatExponent = format(expCeil, 0, layerExp);
+  return `${formatMantissa}e${formatExponent}`;
+}
+
+function formatLargeNumber(decimal, exp, layerExp) {
+  const pow10Exp = Decimal.pow10(exp);
+  const mantissa = decimal.div(pow10Exp);
+
   const be = exp.gt(1e9);
   let formatMantissa = be ? "" : mantissa.toFixed(4);
   if (formatMantissa === "10.0000") {
     formatMantissa = "1.0000";
+    // eslint-disable-next-line no-param-reassign
     exp = exp.add(1);
   }
+
   const formatExponent = format(exp, 0, layerExp);
   return `${formatMantissa}e${formatExponent}`;
-};
+}
 
 window.formatX = function formatX(value, places = 4) {
   return `×${format(value, places)}`;

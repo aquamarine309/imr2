@@ -10,11 +10,13 @@ export default {
   data() {
     return {
       isAvailable: false,
-      isActive: false
+      isActive: false,
+      iconifyTab: false
     };
   },
   computed: {
     name() {
+      if (this.iconifyTab) return this.tab.symbol;
       return (this.tab.letter ?? this.tab.shortName).toUpperCase();
     },
     tabClass() {
@@ -29,6 +31,7 @@ export default {
       const tab = this.tab;
       this.isAvailable = tab.isAvailable && !tab.isHidden;
       this.isActive = tab.isOpen;
+      this.iconifyTab = player.options.iconifyTab;
     },
     show() {
       this.tab.show(true);
@@ -42,9 +45,8 @@ export default {
     v-if="isAvailable"
     :class="tabClass"
     @click="show()"
-  >
-    {{ name }}
-  </div>
+    v-html="name"
+  />
 </template>
 
 <style scoped>
@@ -57,6 +59,13 @@ export default {
   font-size: 13px;
   transition-duration: 0.2s;
   color: rgba(255, 255, 255, 0.67);
+}
+
+.c-bottom-tab svg {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: currentColor;
 }
 
 .c-bottom-tab--active {

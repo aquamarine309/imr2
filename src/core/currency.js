@@ -703,7 +703,8 @@ Currency.neutronStars = new class extends DecimalCurrency {
       NeutronUpgrade.sn2,
       NeutronUpgrade.sn3,
       NeutronUpgrade.bs3,
-      RadiationType.visible.boosts[2]
+      RadiationType.visible.boosts[2],
+      QuantumMilestones.quantizesBoostStars
     );
     return gain;
   }
@@ -792,10 +793,13 @@ Currency.quantumFoam = new class extends DecimalCurrency {
 
   requestReset() {
     if (!this.canReset) return;
-    if (ConfirmationTypes.supernova.option) {
+    if (ConfirmationTypes.quantum.option) {
       Modal.confirmation.show({
         option: "quantum",
-        confirmFn: () => this.resetLayer()
+        confirmFn: () => {
+          setTimeout(() => Modal.quantum.show(), 100);
+        },
+        text: "Going Quantum will reset all previous except QoL mechanicals"
       });
     } else {
       this.resetLayer();
@@ -804,13 +808,105 @@ Currency.quantumFoam = new class extends DecimalCurrency {
 
 
   resetLayer(resetOnly = false) {
-    if (resetOnly) {
-      Modal.message.show("How do you did it?");
+    if (!resetOnly) {
+      this.gain();
+      Currency.quantizes.gain();
     }
-    Modal.message.show("Failed to go quantum.");
+    const keepNodes = ["qol1", "qol2", "qol3", "qol4", "qol5", "qol6", "fn2", "fn5", "fn6", "fn7", "fn8", "fn9", "fn10", "fn11", "fn13"];
+    if (QuantumMilestones.keepChallengeTree.canBeApplied) {
+      keepNodes.push("chal1", "chal2", "chal3", "chal4", "chal4a", "chal5", "chal6", "chal7", "c", "qol7", "chal4b", "chal7a", "chal8");
+    }
+    if (QuantumMilestones.unlockRadiation.canBeApplied) {
+      keepNodes.push("qol8", "qol9");
+      if (!resetOnly) keepNodes.push("unl1");
+    }
+    const newSet = new Set();
+    for (const node of player.supernova.tree) {
+      if (keepNodes.includes(node) || NeutronUpgrade[node].quantum) {
+        newSet.add(node);
+      }
+    }
+    player.supernova.tree = newSet;
+    for (const boson of Boson.all) {
+      boson.amount = DC.D0;
+    }
+    const bosonUpgs = PhotonUpgrade.concat(GluonUpgrade);
+    for (const upgrade of bosonUpgs) {
+      upgrade.reset();
+    }
+    Currency.uQuarks.reset();
+    Currency.uLeptons.reset();
+    player.supernova.fermions.active = -1;
+    for (const fermion of Fermions.all) {
+      fermion.reset();
+    }
+    Currency.frequency.reset();
+    for (const radiation of RadiationType.all) {
+      radiation.reset();
+    }
+    for (let i = 1; i <= 12; i++) {
+      Challenge(i).reset();
+    }
+    Currency.supernova.resetLayer(true);
+    Currency.supernova.reset();
+    Currency.neutronStars.reset();
+    if (Currency.quantizes.value.eq(1)) {
+      setTimeout(() => Modal.message.show("<img src='./images/qu_story1.png'><br><br>Mass has collapsed while going Quantum! It looks like evaporation! But at what cost?", {
+        callback: () => {
+          setTimeout(() => Modal.message.show("<img src='./images/qu_story2.png'><br><br>Don’t worry, new mechanics will arrive for you!", {
+            callback: () => {
+              setTimeout(() => Tutorial.quantum.unlock(), 100);
+            },
+            buttonText: "Cool"
+          }), 100);
+        },
+        buttonText: "Uhh Oh"
+      }), 100);
+    }
   }
 
   get key() {
     return "X_quantum_foam";
+  }
+}();
+
+Currency.quantizes = new class extends DecimalCurrency {
+  get value() {
+    return player.quantum.times;
+  }
+
+  set value(value) {
+    player.quantum.times = value;
+  }
+
+  get gainPerSecond() {
+    return DC.D1;
+  }
+
+  get key() {
+    return null;
+  }
+}();
+
+Currency.blueprint = new class extends DecimalCurrency {
+  get value() {
+    return player.quantum.blueprint;
+  }
+
+  set value(value) {
+    player.quantum.blueprint = value;
+  }
+
+  get gainPerSecond() {
+    let gain = DC.D1;
+    gain = gain.timesEffectOf(MassUpgrade.cosmicString);
+    if (QuantumMilestones.speedBoost.canBeApplied) {
+      gain = gain.times(Softcap.dilation(Quantum.speed.add(1).sqrt(), DC.E50, DC.D0_95));
+    }
+    return gain;
+  }
+
+  get key() {
+    return "X_blueprint_particle";
   }
 }();

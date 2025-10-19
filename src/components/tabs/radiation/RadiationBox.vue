@@ -25,7 +25,6 @@ export default {
       amplitude: new Decimal(),
       velocity: new Decimal(),
       total: new Decimal(),
-      boostAmounts: Array.repeat(new Decimal(), 3),
       amplitudeCost: new Decimal(),
       velocityCost: new Decimal(),
       amplitudeAffordbale: false,
@@ -59,7 +58,6 @@ export default {
       this.amplitude.copyFrom(radiation.amplitude);
       this.velocity.copyFrom(radiation.velocity);
       this.total = radiation.total;
-      this.boostAmounts = this.boosts.map(boost => boost.amount);
       this.amplitudeCost = radiation.amplitudeCost;
       this.velocityCost = radiation.velocityCost;
       this.amplitudeAffordable = this.distance.gte(radiation.amplitudeCost);
@@ -70,6 +68,12 @@ export default {
     },
     purchaseVelocity() {
       this.radiation.purchaseVelocity();
+    },
+    amountText(boost) {
+      if (boost.extraAmount.eq(0)) {
+        return format(boost.baseAmount, 0);
+      }
+      return `${format(boost.baseAmount, 0)}+${format(boost.extraAmount, 2)}`;
     }
   }
 };
@@ -139,11 +143,11 @@ export default {
     </div>
     <div class="c-radiation-boost-container">
       <div
-        v-for="(boost, index) in boosts"
+        v-for="boost in boosts"
         :key="boost.id"
         class="c-radiation-boost"
       >
-        <span class="o-boost-title">{{ boost.title }}[{{ format(boostAmounts[index], 0) }}]</span>
+        <span class="o-boost-title">{{ boost.title }}[{{ amountText(boost) }}]</span>
         <DescriptionDisplay :config="boost.config" />
         <EffectDisplay :config="boost.config" />
       </div>

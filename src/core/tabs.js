@@ -100,6 +100,10 @@ class TabState {
     return i18n.t(`tab_${this.key}_letter`);
   }
 
+  get symbol() {
+    return this.config.symbol;
+  }
+
   get key() {
     return this.config.key;
   }
@@ -193,6 +197,7 @@ export const Tabs = (function() {
       Tab.challenges,
       Tab.atom,
       Tab.supernova,
+      Tab.quantum,
       Tab.options
     ]
   };

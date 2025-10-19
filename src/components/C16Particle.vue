@@ -2,53 +2,53 @@
 export default {
   name: "C16Particle",
   props: {
-    now: {
-      type: Number,
-      required: true
-    },
-    width: {
-      type: Number,
-      required: true
-    },
-    isEnd: {
-      type: Boolean,
-      required: true
-    }
+    now: { type: Number, required: true },
+    width: { type: Number, required: true },
+    isEnd: { type: Boolean, required: true }
   },
   data() {
     return {
-      isActive: false,
       posX: 0,
-      posY: "",
+      posY: "0%",
       speed: 0,
       size: 0,
-      time: 0,
-      color: ""
+      lastUpdateTime: 0,
+      color: "",
+      COLORS: ["var(--color-accent)", "#dd3333", "#3333dd"]
     };
   },
-  mounted() {
-    this.updatePos();
+  created() {
+    this.initParticle();
   },
   methods: {
-    update() {
-      const dt = this.now - this.time;
-      if (this.isEnd && this.size > 0) {
-        this.speed += this.width * dt / 1000;
-        this.size -= dt * 0.01;
-      }
-      this.time += dt;
-      this.posX += this.speed * dt / 1000;
-      if (this.posX > this.width && !this.isEnd) {
-        this.updatePos();
-      }
-    },
-    updatePos() {
+    initParticle() {
       this.posY = `${Math.random() * 100}%`;
       this.speed = (Math.random() * 0.1 + 0.3) * this.width;
       this.posX = -this.width * Math.random() - 10;
-      this.size = Math.random() * 10 + 10;
-      this.time = this.now;
-      this.color = ["var(--color-accent)", "#dd3333", "#3333dd"].randomElement();
+      this.size = Math.random() * 5 + 3;
+      this.lastUpdateTime = this.now;
+      this.color = this.COLORS[Math.floor(Math.random() * this.COLORS.length)];
+    },
+
+    update() {
+      if (!this.lastUpdateTime) {
+        this.lastUpdateTime = this.now;
+        return;
+      }
+
+      const deltaTime = Math.min(this.now - this.lastUpdateTime, 100);
+
+      if (this.isEnd && this.size > 0) {
+        this.speed += this.width * deltaTime * 0.001;
+        this.size = Math.max(0, this.size - deltaTime * 0.01);
+      }
+
+      this.lastUpdateTime = this.now;
+      this.posX += this.speed * deltaTime * 0.001;
+
+      if (this.posX > this.width && !this.isEnd) {
+        this.initParticle();
+      }
     }
   }
 };
@@ -63,7 +63,3 @@ export default {
     :fill="color"
   />
 </template>
-
-<style scoped>
-
-</style>

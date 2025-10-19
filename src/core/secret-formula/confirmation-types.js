@@ -19,4 +19,9 @@ export const confirmationTypes = [
     option: "supernova",
     isUnlocked: () => PlayerProgress.supernovaUnlocked()
   },
+  {
+    name: "Quantum",
+    option: "quantum",
+    isUnlocked: () => PlayerProgress.quantumUnlocked()
+  }
 ];

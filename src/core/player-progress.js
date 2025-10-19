@@ -12,6 +12,10 @@ export class PlayerProgress {
   }
 
   static supernovaUnlocked() {
-    return Currency.supernova.gt(0);
+    return Currency.supernova.gt(0) || PlayerProgress.quantumUnlocked();
+  }
+
+  static quantumUnlocked() {
+    return Currency.quantizes.gt(0);
   }
 }

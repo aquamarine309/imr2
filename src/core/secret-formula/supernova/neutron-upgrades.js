@@ -23,7 +23,7 @@ export const neutronTrees = [
     key: "neutron_tree_qol",
     isUnlocked: () => true,
     layout: [
-      ["qol1", null, null, null, null, null],
+      ["qol1", null, null, null, "quQol1", null],
       ["qol2", "qol3", "qol4", null, null, null, null, null],
       ["qol5", "qol6", "qol7", null, null, null, null, null],
       ["qol9", "unl1", "qol8", null, null, null, null, null]
@@ -45,11 +45,21 @@ export const neutronTrees = [
     key: "neutron_tree_post_supernova",
     isUnlocked: () => Bosons.areUnlocked,
     layout: [
-      ["bs4", "bs1", null, null, null, "rad1"],
+      ["bs4", "bs1", null, "qf1", null, "rad1"],
       [null, "bs2", "fn1", "bs3", null, null, "rad2", "rad3"],
       ["fn4", "fn3", "fn9", "fn2", "fn5", null, "rad4", "rad5"],
       ["fn12", "fn11", "fn6", "fn10", null, null],
       [null, "fn7", "fn8", null]
+    ]
+  },
+  {
+    id: 4,
+    key: "quantum",
+    isUnlocked: () => PlayerProgress.quantumUnlocked(),
+    layout: [
+      ["qu0"],
+      ["qu1", "qu2", "qu3"],
+      ["qu4"]
     ]
   }
 ];
@@ -167,8 +177,10 @@ export const neutronUpgrades = {
     description: "Supernova boosts Neutron Star gain.",
     effect: () => {
       let supernova = Currency.supernova.value;
-      supernova = Softcap.power(supernova, 15, 0.8);
-      supernova = Softcap.power(supernova, 25, 0.5);
+      if (!NeutronUpgrade.qu4.canBeApplied) {
+        supernova = Softcap.power(supernova, 15, 0.8);
+        supernova = Softcap.power(supernova, 25, 0.5);
+      }
       return DC.D2.plusEffectOf(NeutronUpgrade.sn4).pow(supernova);
     },
     formatEffect: value => formatX(value),
@@ -297,7 +309,7 @@ export const neutronUpgrades = {
   qol7: {
     id: "qol7",
     branch: ["qol6"],
-    isUnlocked: () => Fermions.areUnlocked && NeutronUpgrade.fn2.isBought,
+    isUnlocked: () => Fermions.areUnlocked && NeutronUpgrade.fn2.isBought || PlayerProgress.quantumUnlocked(),
     description: "You can now automatically buy Photon and Gluon Upgrades, they no longer spent their amount.",
     requirement: () => i18n.t("X_supernova", { value: formatInt(40) }),
     check: () => Currency.supernova.gte(40),
@@ -329,6 +341,14 @@ export const neutronUpgrades = {
     requirement: () => i18n.t("X_supernova", { value: formatInt(60) }),
     check: () => Currency.supernova.gte(60),
     cost: DC.E78
+  },
+  quQol1: {
+    id: "quQol1",
+    isUnlocked: () => PlayerProgress.quantumUnlocked(),
+    branch: [],
+    description: "You now automatically purchase supernova tree upgrades as long as they don't cost quantum foam.",
+    cost: DC.D3,
+    quantum: true
   },
   chal1: {
     id: "chal1",
@@ -570,5 +590,52 @@ export const neutronUpgrades = {
     effect: () => DC.D1_1.pow(Currency.supernova.value),
     formatEffect: value => formatX(value),
     cost: DC.E170
+  },
+  qf1: {
+    id: "qf1",
+    isUnlocked: () => PlayerProgress.quantumUnlocked(),
+    branch: [],
+    description: () => `Gain more Quantum Foams based on Supernovas.`,
+    effect: () => Currency.supernova.value.sqrt().div(10).add(1),
+    formatEffect: value => formatX(value),
+    cost: DC.E290
+  },
+  qu0: {
+    id: "qu0",
+    isUnlocked: () => PlayerProgress.quantumUnlocked(),
+    branch: [],
+    description: "Good luck with the new era!",
+    cost: DC.D0,
+    quantum: true
+  },
+  qu1: {
+    id: "qu1",
+    branch: ["qu0"],
+    description: () => `Fermion requirements are decreased by ${formatPercents(0.2, 0)}.`,
+    effect: DC.C1D1_2,
+    cost: DC.D1,
+    quantum: true
+  },
+  qu2: {
+    id: "qu2",
+    branch: ["qu0"],
+    description: () => `W+ Boson's 1st effect is overpowered.`,
+    cost: DC.D1,
+    quantum: true
+  },
+  qu3: {
+    id: "qu3",
+    branch: ["qu0"],
+    description: () => `BH formula's softcap is ${formatPercents(0.3, 0)} weaker.`,
+    effect: DC.D0_7,
+    cost: DC.D1,
+    quantum: true
+  },
+  qu4: {
+    id: "qu4",
+    branch: ["qu1", "qu2", "qu3"],
+    description: () => `Remove softcaps from [sn2]'s effect.`,
+    cost: DC.D35,
+    quantum: true
   }
 };

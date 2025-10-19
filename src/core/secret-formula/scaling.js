@@ -474,5 +474,27 @@ export const scaling = {
         }
       }
     ]
+  },
+  cosmicString: {
+    name: "Cosmic String",
+    currency: () => MassUpgrade.cosmicString.boughtAmount,
+    scaling: [
+      {
+        get start() {
+          return DC.D15;
+        },
+        get scale() {
+          return DC.D2;
+        }
+      },
+      {
+        get start() {
+          return DC.D90;
+        },
+        get scale() {
+          return DC.D4;
+        }
+      }
+    ]
   }
 };

@@ -16,6 +16,9 @@ export default {
   computed: {
     modal() {
       return this.$viewModel.modal.current;
+    },
+    buttonText() {
+      return this.modal.buttonText;
     }
   },
   created() {
@@ -52,7 +55,7 @@ export default {
       class="o-primary-btn--width-medium c-modal-message__okay-btn c-modal__confirm-btn"
       @click="handleClick"
     >
-      {{ $t("okay") }}
+      {{ buttonText }}
     </PrimaryButton>
   </div>
 </template>

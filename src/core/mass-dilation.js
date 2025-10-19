@@ -104,6 +104,7 @@ class DilationUpgradeState extends RebuyableMechanicState {
     const cost = config.cost;
     configCopy.effect = () => effect(this.boughtAmount);
     configCopy.cost = () => cost(this.boughtAmount);
+    configCopy.formatCost = value => formatMass(value);
     super(configCopy);
   }
 

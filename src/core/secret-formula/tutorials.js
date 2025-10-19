@@ -16,5 +16,8 @@ export const tutorials = {
   },
   radiation: {
     id: 6
+  },
+  quantum: {
+    id: 7
   }
 };

@@ -41,43 +41,51 @@ export const GameLoop = {
     }
 
     const seconds = diff / 1000;
+    const preQuantumTime = Quantum.speed.times(seconds);
 
-    Currency.mass.tick(seconds);
+    Currency.mass.tick(preQuantumTime);
 
     if (PlayerProgress.blackHoleUnlocked()) {
-      Currency.blackHole.tick(seconds);
+      Currency.blackHole.tick(preQuantumTime);
     }
 
     if (PlayerProgress.atomUnlocked()) {
-      Currency.atomicPower.tick(seconds);
-      Atom.tick(seconds);
+      Currency.atomicPower.tick(preQuantumTime);
+      Atom.tick(preQuantumTime);
     }
 
     if (MassDilation.isUnlocked) {
-      Currency.dilatedMass.tick(seconds);
+      Currency.dilatedMass.tick(preQuantumTime);
     }
 
     if (Stars.isUnlocked) {
-      StarGenerators.tick(seconds);
+      StarGenerators.tick(preQuantumTime);
     }
 
     if (PlayerProgress.supernovaUnlocked()) {
-      Currency.neutronStars.tick(seconds);
+      Currency.neutronStars.tick(preQuantumTime);
       Supernova.startingAutoCheck();
-      Bosons.tick(seconds);
-      Fermions.update(seconds);
-      Radiation.tick(seconds);
+      Bosons.tick(preQuantumTime);
+      Fermions.update(preQuantumTime);
+      Radiation.tick(preQuantumTime);
+    }
+
+    if (PlayerProgress.quantumUnlocked()) {
+      Currency.blueprint.tick(seconds);
+      for (const chroma of Chroma) {
+        chroma.tick(seconds);
+      }
     }
 
     if (NeutronUpgrade.qol3.canBeApplied) {
-      Currency.relativisticParticles.tick(seconds);
+      Currency.relativisticParticles.tick(preQuantumTime);
     }
 
     if (NeutronUpgrade.qol6.canBeApplied && Challenges.isRunning) {
       Challenges.current.applyAutoComplete();
     }
 
-    applyAutoprestige(seconds);
+    applyAutoprestige(preQuantumTime);
 
     Autobuyers.tick();
 

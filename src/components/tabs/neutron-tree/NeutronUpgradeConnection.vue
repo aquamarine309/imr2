@@ -25,12 +25,16 @@ export default {
     end() {
       return this.connection[1];
     },
+    isQuantum() {
+      return this.start.quantum;
+    },
     lineColor() {
-      if (this.isBought) return "var(--color-bought)";
+      if (this.isBought) return this.isQuantum ? "#39ff49" : "var(--color-bought)";
       return this.canBeBought ? "#eeeeee" : "#555555";
     },
     decorationColor() {
-      return this.isBought ? "#eeeeee" : "#888888";
+      if (this.isBought) return this.isQuantum ? "#009c15" : "#eeeeee";
+      return "#888888";
     }
   },
   methods: {

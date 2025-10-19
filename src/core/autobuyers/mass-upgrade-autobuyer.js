@@ -27,6 +27,6 @@ export class MassUpgradeAutobuyerState extends AutobuyerState {
     this._upgrade.buyMax();
   }
 
-  static get entryCount() { return 8; }
+  static get entryCount() { return 9; }
   static get autobuyerGroupName() { return "Mass Upgrades"; }
 }

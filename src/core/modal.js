@@ -4,6 +4,7 @@ import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import AwayProgressModal from "@/components/modals/AwayProgressModal";
 import ImportSaveModal from "@/components/modals/ImportSaveModal";
 import HardResetModal from "@/components/modals/HardResetModal";
+import QuantumConfirmationModal from "@/components/modals/QuantumConfirmationModal";
 
 let nextModalID = 0;
 export class Modal {
@@ -112,6 +113,8 @@ Modal.import = new Modal(ImportSaveModal);
 
 Modal.hardReset = new Modal(HardResetModal, 1);
 
+Modal.quantum = new Modal(QuantumConfirmationModal, 1);
+
 Modal.message = new class extends Modal {
   show(text, props = {}, messagePriority = 0) {
     if (!GameUI.initialized) return;
@@ -123,6 +126,7 @@ Modal.message = new class extends Modal {
     this.message = text;
     this.callback = props.callback;
     this.closeButton = props.closeButton ?? false;
+    this.buttonText = props.buttonText ?? i18n.t("okay");
     EventHub.ui.offAll(this._component);
     if (props.closeEvent) this.applyCloseListeners(props.closeEvent);
   }
