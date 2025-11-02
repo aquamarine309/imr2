@@ -53,7 +53,7 @@ export const GameStorage = {
   },
 
   get canSave() {
-    return Supernova.times.gt(0) || !Currency.supernova.canReset;
+    return Supernova.times.gt(0) || !Resets.supernova.canReset;
   },
 
   save() {
@@ -235,7 +235,7 @@ export const GameStorage = {
     save.supernova = {
       times: supernova.times,
       stars: supernova.stars,
-      tree: supernova.tree,
+      tree: Array.from(supernova.tree).map(x => x.replace(/[A-Z]/gu, matched => `_${matched.toLowerCase()}`)),
       bosons: {
         gluon: bosons.gluon,
         graviton: bosons.graviton,

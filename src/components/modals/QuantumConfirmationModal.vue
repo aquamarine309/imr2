@@ -8,7 +8,7 @@ export default {
   },
   methods: {
     confirm() {
-      Currency.quantumFoam.resetLayer();
+      Resets.quantum.resetLayer();
       EventHub.ui.offAll(this);
     }
   }

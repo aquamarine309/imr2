@@ -64,7 +64,7 @@ export default {
       this.canBeBought = upgrade.canBeBought;
       if (!this.canBeBought) {
         this.time = this.upgrade.cost.minus(Currency.dilatedMass.value)
-          .div(Currency.dilatedMass.gainPerSecond).toNumber();
+          .div(Currency.dilatedMass.gainedAmount).toNumber();
       }
     },
     purchase() {

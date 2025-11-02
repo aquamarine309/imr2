@@ -36,6 +36,7 @@ export const GameLoop = {
     let diff = ms ?? Date.now() - player.lastUpdate;
     player.lastUpdate += diff;
 
+    const realDiff = diff;
     if (DEV) {
       diff *= this.devSpeed;
     }
@@ -81,11 +82,15 @@ export const GameLoop = {
       Currency.relativisticParticles.tick(preQuantumTime);
     }
 
-    if (NeutronUpgrade.qol6.canBeApplied && Challenges.isRunning) {
-      Challenges.current.applyAutoComplete();
+    if (NeutronUpgrade.quQol4.canBeApplied) {
+      Resets.supernova.resetLayer();
     }
 
+    Challenges.applyAutoBulk();
+
     applyAutoprestige(preQuantumTime);
+
+    updateTime(realDiff);
 
     Autobuyers.tick();
 

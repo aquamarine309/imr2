@@ -78,6 +78,7 @@ export default {
         :key="element.id"
         :element="element"
         :name="symbols[idx]"
+        :is-selected="element.id === selected"
         @click.native="handleClick(element.id)"
       />
     </div>

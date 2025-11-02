@@ -38,7 +38,7 @@ export default {
     update() {
       this.particles.copyFrom(Currency.relativisticParticles.value);
       this.mass.copyFrom(Currency.dilatedMass.value);
-      this.gain = Currency.dilatedMass.gainPerSecond;
+      this.gain = Currency.dilatedMass.gainedAmount;
       this.boost = MassDilation.boost;
       this.autoUnlocked = Autobuyer.dilationUpgrade.isUnlocked;
       this.auto = Autobuyer.dilationUpgrade.isActive;

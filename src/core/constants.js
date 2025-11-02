@@ -118,10 +118,12 @@ export const DC = deepFreeze({
   D1500: new Decimal("1500"),
   D2000: new Decimal("2000"),
   D2500: new Decimal("2500"),
+  D5000: new Decimal("5000"),
   D6000: new Decimal("6000"),
   D8000: new Decimal("8000"),
   D1_25E4: new Decimal("1.25e4"),
   D1_3E4: new Decimal("1.3e4"),
+  D1_35E4: new Decimal("1.35e4"),
   D1_5E4: new Decimal("1.5e4"),
   D2E4: new Decimal("2e4"),
   D2_5E4: new Decimal("2.5e4"),
@@ -267,12 +269,15 @@ export const DC = deepFreeze({
   E400: new Decimal("1e400"),
   E420: new Decimal("1e420"),
   E430: new Decimal("1e430"),
+  E450: new Decimal("1e450"),
   E480: new Decimal("1e480"),
+  E490: new Decimal("1e490"),
   E500: new Decimal("1e500"),
   E510: new Decimal("1e510"),
   E600: new Decimal("1e600"),
   E610: new Decimal("1e610"),
   E680: new Decimal("1e680"),
+  E735: new Decimal("1e735"),
   E800: new Decimal("1e800"),
   E870: new Decimal("1e870"),
   E960: new Decimal("1e960"),
@@ -336,6 +341,9 @@ export const DC = deepFreeze({
   E6E9: new Decimal("1e6e9"),
   E3_75E10: new Decimal("1e3_75e10"),
   E4E11: new Decimal("1e4e11"),
+  E3_4E12: new Decimal("1e3.4e12"),
+  E4_8E12: new Decimal("1e4.8e12"),
+  E1_4E13: new Decimal("1e1.4e13"),
   E4E14: new Decimal("1e4e14"),
   E3E15: new Decimal("1e3e15"),
   E4E15: new Decimal("1e4e15"),
@@ -383,4 +391,14 @@ window.MASS_DISPLAY = {
   ALWAYS_G: 1,
   ALWAYS_MLT: 2,
   IMPORTANT: 3
+};
+
+window.NEUTRON_UPGRADE_TYPE = {
+  NORMAL: 0,
+  QUANTUM: 1
+};
+
+window.AUTO_QUANTUM_TYPE = {
+  AMOUNT: 0,
+  TIME: 1
 };

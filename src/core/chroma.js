@@ -14,11 +14,11 @@ class ChromaState extends GameMechanicState {
   }
 
   get canBeUnlocked() {
-    return getQuantumTheories().gt(0);
+    return getQuantumTheories().gt(0) && !this.isUnlocked;
   }
 
   unlock() {
-    if (this.isUnlocked || !this.canBeUnlocked) return;
+    if (!this.canBeUnlocked) return;
     player.quantum.chromaState |= (1 << this.id);
     GameCache.chromaCount.invalidate();
   }

@@ -10,7 +10,9 @@ export default {
   data() {
     return {
       isActive: false,
-      isUnlocked: false
+      isUnlocked: false,
+      tier: new Decimal(),
+      cap: new Decimal()
     };
   },
   computed: {
@@ -19,12 +21,34 @@ export default {
     },
     symbol() {
       return this.isUnlocked ? this.fermion.config.symbol : "?";
+    },
+    tierText() {
+      const current = format(this.tier, 0);
+      if (this.cap.isFinite()) {
+        return `${current} / ${format(this.cap, 0)}`;
+      }
+      return current;
+    },
+    isSelected() {
+      return this.$viewModel.selectedFermionId === this.fermion.id;
     }
   },
   methods: {
     update() {
       this.isActive = this.fermion.isActive;
       this.isUnlocked = this.fermion.isUnlocked;
+      this.tier.copyFrom(this.fermion.tier);
+      this.cap = this.fermion.maxTier;
+    },
+    select() {
+      if (this.fermion.isUnlocked) {
+        if (this.isSelected) {
+          this.fermion.start();
+          return;
+        }
+        this.$viewModel.selectedFermionId = this.fermion.id;
+        GameUI.update();
+      }
     }
   }
 };
@@ -33,7 +57,11 @@ export default {
 <template>
   <div
     class="c-fermion-box"
-    :class="{ 'c-fermion-box--active': isActive, 'c-fermion-box--locked': !isUnlocked }"
+    :class="{
+      'c-fermion-box--active': isActive,
+      'c-fermion-box--locked': !isUnlocked,
+      'c-fermion-box--selected': isSelected }"
+    @click="select"
   >
     <div
       class="o-fermion-symbol"
@@ -41,6 +69,9 @@ export default {
     />
     <div class="o-fermion-name">
       {{ name }}
+    </div>
+    <div class="o-fermion-tier">
+      [{{ tierText }}]
     </div>
   </div>
 </template>

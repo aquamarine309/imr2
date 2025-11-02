@@ -1,5 +1,6 @@
 <script>
 import PrimaryButton from "@/components/PrimaryButton";
+import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 import NeutronTreeLayout from "./NeutronTreeLayout";
 import NeutronUpgradeInfo from "./NeutronUpgradeInfo";
 
@@ -7,6 +8,7 @@ export default {
   name: "NeutronTreeTab",
   components: {
     PrimaryButton,
+    PrimaryToggleButton,
     NeutronTreeLayout,
     NeutronUpgradeInfo
   },
@@ -14,7 +16,9 @@ export default {
     return {
       neutronStars: new Decimal(),
       starGain: new Decimal(),
-      unlockedTreeBits: 0
+      unlockedTreeBits: 0,
+      auto: false,
+      autoUnlocked: false
     };
   },
   computed: {
@@ -29,21 +33,28 @@ export default {
     },
     trees: () => NeutronTree
   },
+  watch: {
+    auto(value) {
+      Autobuyer.neutronUpgrade.isActive = value;
+    }
+  },
   methods: {
     update() {
       this.neutronStars.copyFrom(Currency.neutronStars.value);
-      this.starGain = Currency.neutronStars.gainPerSecond;
+      this.starGain = Currency.neutronStars.gainedAmount;
       for (const tree of this.trees) {
         if (tree.isUnlocked) {
           this.unlockedTreeBits |= (1 << tree.id);
         }
       }
+      this.autoUnlocked = Autobuyer.neutronUpgrade.isUnlocked;
+      this.auto = Autobuyer.neutronUpgrade.isActive;
     },
     treeUnlocked(id) {
       return (this.unlockedTreeBits & (1 << id)) !== 0;
     },
     reset() {
-      Currency.supernova.resetLayer(true);
+      Resets.supernova.resetLayer(true, true);
     },
     someCanBeBought(tree) {
       return tree.upgrades.some(x => x.canBeBought);
@@ -62,6 +73,11 @@ export default {
       <PrimaryButton @click="reset">
         {{ $t("reset_without_being_supernova") }}
       </PrimaryButton>
+      <PrimaryToggleButton
+        v-if="autoUnlocked"
+        v-model="auto"
+        i18n-key="auto_X"
+      />
     </div>
     <br>
     <div>You have <span class="o-highlight">{{ format(neutronStars, 2) }} {{ formatGain(neutronStars, starGain) }}</span> Neutron Star.</div>

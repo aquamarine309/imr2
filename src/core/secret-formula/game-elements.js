@@ -97,7 +97,7 @@ export const gameElements = [
   {
     id: 13,
     description: () => i18n.t("game_element_13_description", { value: formatInt(2) }),
-    effect: () => Challenge(7).completions.times(2),
+    effect: () => Challenge(7).completions.times(2).timesEffectOf(GameElement(79)),
     formatEffect: value => formatPlus(value, 0),
     cost: DC.D2_5E30,
     position: [2, 12],
@@ -539,7 +539,7 @@ export const gameElements = [
   {
     id: 73,
     description: () => `Add more C5-6 & C8 maximum completions based on Supernovas.`,
-    effect: () => Currency.supernova.value.times(5),
+    effect: () => Currency.supernova.value.times(5).timesEffectOf(GameElement(79)),
     formatEffect: value => formatPlus(value),
     cost: DC.E1_3E9,
     position: [5, 4],
@@ -573,14 +573,24 @@ export const gameElements = [
   },
   {
     id: 78,
+    description: () => `Meta-Supernova scales ${formatPercents(0.2, 0)} weaker.`,
+    effect: DC.D0_8,
+    cost: DC.E3_4E12,
     position: [5, 9],
   },
   {
     id: 79,
+    description: () => `Neutronium-0 affects Aluminium-13 & Tantalum-73.`,
+    effect: () => Chroma[2].effectValue,
+    formatEffect: value => formatX(value),
+    cost: DC.E4_8E12,
     position: [5, 10],
   },
   {
     id: 80,
+    description: () => `Stronger & Tickspeed are ${formatX(25, 0)} stronger.`,
+    effect: DC.D25,
+    cost: DC.E1_4E13,
     position: [5, 11],
   },
   {

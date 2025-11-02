@@ -171,7 +171,7 @@ export class Currency {
 
   get startingValue() { throw new NotImplementedError(); }
 
-  get gainPerSecond() { throw new NotImplementedError(); }
+  get gainedAmount() { throw new NotImplementedError(); }
 
   reset() {
     this.value = this.startingValue;
@@ -184,7 +184,7 @@ export class Currency {
   tick(diff) { throw new NotImplementedError(); }
 
   gain() {
-    this.add(this.gainPerSecond);
+    this.add(this.gainedAmount);
   }
 }
 
@@ -196,7 +196,7 @@ class NumberCurrency extends Currency {
   get operations() { return MathOperations.number; }
   get startingValue() { return 0; }
   tick(diff) {
-    this.add(this.gainPerSecond * diff);
+    this.add(this.gainedAmount * diff);
   }
 }
 
@@ -209,9 +209,9 @@ class DecimalCurrency extends Currency {
   get layer() { return this.value.layer; }
   get mag() { return this.value.mag; }
   get startingValue() { return DC.D0; }
-  get gainPerSecond() { throw new NotImplementedError(); }
+  get gainedAmount() { throw new NotImplementedError(); }
   tick(diff) {
-    this.add(this.gainPerSecond.times(diff));
+    this.add(this.gainedAmount.times(diff));
   }
 }
 
@@ -227,7 +227,7 @@ Currency.mass = new class extends DecimalCurrency {
     player.records.maxMass = player.records.maxMass.max(value);
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     let gain = DC.D1;
     gain = gain.plusEffectOf(MassUpgrade.muscler);
     gain = gain.timesEffectsOf(
@@ -280,7 +280,7 @@ Currency.ragePowers = new class extends DecimalCurrency {
     player.ragePowers = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     if (Currency.mass.lt(DC.E15) || Challenge(7).canBeApplied) return DC.D0;
     let gain = Currency.mass.value.div(DC.E15).cbrt();
     gain = gain.timesEffectsOf(
@@ -304,33 +304,6 @@ Currency.ragePowers = new class extends DecimalCurrency {
     return gain;
   }
 
-  get canReset() {
-    return Currency.mass.gte(DC.E15);
-  }
-
-  requestReset() {
-    if (!this.canReset) return;
-    if (ConfirmationTypes.ragePower.option) {
-      Modal.confirmation.show({
-        option: "ragePower",
-        confirmFn: () => this.resetLayer()
-      });
-    } else {
-      this.resetLayer();
-    }
-  }
-
-  resetLayer(resetOnly = false) {
-    if (!resetOnly) {
-      this.gain();
-    }
-    const maxRank = RankType.all.last();
-    maxRank.amount = DC.D0;
-    maxRank.reset(true);
-    Tutorial.ragePower.unlock();
-    player.unlocks.ragePower = true;
-  }
-
   get key() {
     return "X_rage_power";
   }
@@ -345,7 +318,7 @@ Currency.darkMatter = new class extends DecimalCurrency {
     player.darkMatter = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     const c7Running = Challenge(7).canBeApplied;
     let gain = (c7Running
       ? Currency.mass.value.div(DC.E180)
@@ -367,36 +340,6 @@ Currency.darkMatter = new class extends DecimalCurrency {
     return gain.floor();
   }
 
-
-  get canReset() {
-    return Currency.ragePowers.gte(DC.E20);
-  }
-
-  requestReset() {
-    if (!this.canReset) return;
-    if (ConfirmationTypes.darkMatter.option) {
-      Modal.confirmation.show({
-        option: "darkMatter",
-        confirmFn: () => this.resetLayer()
-      });
-    } else {
-      this.resetLayer();
-    }
-  }
-
-  resetLayer(resetOnly = false) {
-    if (!resetOnly) {
-      this.gain();
-    }
-    RageUpgrades.reset();
-    MassUpgrade.tickspeed.reset();
-    Currency.ragePowers.reset();
-    Currency.ragePowers.resetLayer(true);
-    Currency.blackHole.reset();
-    Tutorial.blackHole.unlock();
-    player.unlocks.darkMatter = true;
-  }
-
   get key() {
     return "X_dark_matter";
   }
@@ -411,7 +354,7 @@ Currency.blackHole = new class extends DecimalCurrency {
     player.blackHole = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     return BlackHole.gain;
   }
 
@@ -429,7 +372,7 @@ Currency.atoms = new class extends DecimalCurrency {
     player.atoms = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     if (Challenge(12).canBeApplied) return DC.D0;
     const mass = BlackHole.mass;
     let gain = mass.div(DC.D1_5E156);
@@ -442,41 +385,6 @@ Currency.atoms = new class extends DecimalCurrency {
     gain = gain.powEffectOf(GameElement(17));
     gain = dilatedValue(gain, FermionType.leptons.fermions.electron.effectOrDefault(DC.D1));
     return gain.floor();
-  }
-
-  get canReset() {
-    return BlackHole.mass.gte(DC.D1_5E156);
-  }
-
-  requestReset() {
-    if (!this.canReset) return;
-    if (ConfirmationTypes.atom.option) {
-      Modal.confirmation.show({
-        option: "atom",
-        confirmFn: () => this.resetLayer()
-      });
-    } else {
-      this.resetLayer();
-    }
-  }
-
-  resetLayer(resetOnly = false) {
-    if (!resetOnly) {
-      this.gain();
-      Currency.quark.gain();
-    }
-    BlackHole.reset();
-    BHUpgrades.reset();
-    Currency.atomicPower.reset();
-    Currency.darkMatter.resetLayer(true);
-    Tutorial.atom.unlock();
-    player.unlocks.atom = true;
-    if (!AtomUpgrade(3).canBeApplied && !NeutronUpgrade.chal2.isBought) {
-      for (let i = 1; i <= 4; i++) {
-        Challenge(i).reset();
-      }
-      player.challenges.current = 0;
-    }
   }
 
   get key() {
@@ -493,9 +401,9 @@ Currency.quark = new class extends DecimalCurrency {
     player.quark = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     if (Challenge(12).canBeApplied) return DC.D0;
-    const atoms = Currency.atoms.gainPerSecond;
+    const atoms = Currency.atoms.gainedAmount;
     if (atoms.lt(1)) return DC.D0;
     let gain = atoms.clampMin(1).log10();
     if (GameElement(1).canBeApplied) {
@@ -531,7 +439,7 @@ Currency.atomicPower = new class extends DecimalCurrency {
     player.atomicPower = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     return Atom.gainedPower;
   }
 
@@ -549,7 +457,7 @@ Currency.relativisticParticles = new class extends DecimalCurrency {
     player.dilation.particles = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     return MassDilation.particleGain;
   }
 
@@ -567,7 +475,7 @@ Currency.dilatedMass = new class extends DecimalCurrency {
     player.dilation.mass = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     if (Challenge(11).isRunning) return DC.D0;
     let gain = Currency.relativisticParticles.value.pow(2);
     gain = gain.timesEffectsOf(
@@ -594,7 +502,7 @@ Currency.stars = new class extends DecimalCurrency {
     player.stars.amount = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     let gain = StarGenerator(0).amount;
     gain = gain.timesEffectOf(DilationUpgrade.starBoost);
     gain = Softcap.power(gain, Stars.softcapStart, DC.D0_75);
@@ -615,74 +523,12 @@ Currency.supernova = new class extends DecimalCurrency {
     player.supernova.times = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     return Supernova.bulk.minus(this.value).clampMin(0);
   }
 
   get key() {
     return "X_supernova";
-  }
-
-  get canReset() {
-    return Currency.stars.gte(Supernova.requirement);
-  }
-
-  requestReset() {
-    if (!this.canReset) return;
-    if (ConfirmationTypes.supernova.option) {
-      Modal.confirmation.show({
-        option: "supernova",
-        confirmFn: () => this.resetLayer()
-      });
-    } else {
-      this.resetLayer();
-    }
-  }
-
-  resetLayer(resetOnly = false) {
-    if (!resetOnly) {
-      this.gain();
-    }
-    Currency.atoms.reset();
-    Currency.quark.reset();
-    Particles.all.forEach(p => p.reset());
-    Currency.atomicPower.reset();
-    MassUpgrade.cosmicRay.reset();
-    AtomUpgrades.reset();
-    const keepElements = [21, 36];
-    if (NeutronUpgrade.qol1.isBought) {
-      keepElements.push(14, 18);
-    }
-    if (NeutronUpgrade.qol2.isBought) {
-      keepElements.push(24);
-    }
-    if (NeutronUpgrade.qol3.isBought) {
-      keepElements.push(43);
-    }
-    for (const el of GameElements.all) {
-      if (el.id <= 86 && !keepElements.includes(el.id)) {
-        el.reset();
-      }
-    }
-    MassDilation.isActive = false;
-    Currency.relativisticParticles.reset();
-    Currency.dilatedMass.reset();
-    DilationUpgrade.all.forEach(du => du.reset());
-    player.stars.unlocked = -1;
-    StarGenerators.all.forEach(gen => gen.reset());
-    Currency.stars.reset();
-    MassUpgrade.starBooster.reset();
-    Currency.atoms.resetLayer(true);
-    if (!NeutronUpgrade.chal3.isBought) {
-      for (let i = 5; i <= 8; i++) {
-        Challenge(i).reset();
-      }
-    }
-    player.challenges.current = 0;
-    player.supernova.fermions.active = -1;
-    player.checks.supernova.noTick = true;
-    player.checks.supernova.noCondenser = true;
-    Tutorial.supernova.unlock();
   }
 }();
 
@@ -695,13 +541,14 @@ Currency.neutronStars = new class extends DecimalCurrency {
     player.supernova.stars = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     if (!NeutronUpgrade.c.canBeApplied) return DC.D0;
     let gain = DC.D0_1;
     gain = gain.timesEffectsOf(
       NeutronUpgrade.sn1,
       NeutronUpgrade.sn2,
       NeutronUpgrade.sn3,
+      NeutronUpgrade.sn5,
       NeutronUpgrade.bs3,
       RadiationType.visible.boosts[2],
       QuantumMilestones.quantizesBoostStars
@@ -723,7 +570,7 @@ Currency.uQuarks = new class extends DecimalCurrency {
     player.supernova.fermions.quarks = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     return FermionType.quarks.pointGain;
   }
 
@@ -741,7 +588,7 @@ Currency.uLeptons = new class extends DecimalCurrency {
     player.supernova.fermions.leptons = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     return FermionType.leptons.pointGain;
   }
 
@@ -759,7 +606,7 @@ Currency.frequency = new class extends DecimalCurrency {
     player.supernova.radiation.frequency = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     if (!Radiation.isUnlocked) return DC.D0;
     let gain = DC.D1;
     gain = gain.timesEffectsOf(
@@ -783,86 +630,8 @@ Currency.quantumFoam = new class extends DecimalCurrency {
     player.quantum.foam = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     return Quantum.foamGain;
-  }
-
-  get canReset() {
-    return Currency.mass.gte(Quantum.requirement);
-  }
-
-  requestReset() {
-    if (!this.canReset) return;
-    if (ConfirmationTypes.quantum.option) {
-      Modal.confirmation.show({
-        option: "quantum",
-        confirmFn: () => {
-          setTimeout(() => Modal.quantum.show(), 100);
-        },
-        text: "Going Quantum will reset all previous except QoL mechanicals"
-      });
-    } else {
-      this.resetLayer();
-    }
-  }
-
-
-  resetLayer(resetOnly = false) {
-    if (!resetOnly) {
-      this.gain();
-      Currency.quantizes.gain();
-    }
-    const keepNodes = ["qol1", "qol2", "qol3", "qol4", "qol5", "qol6", "fn2", "fn5", "fn6", "fn7", "fn8", "fn9", "fn10", "fn11", "fn13"];
-    if (QuantumMilestones.keepChallengeTree.canBeApplied) {
-      keepNodes.push("chal1", "chal2", "chal3", "chal4", "chal4a", "chal5", "chal6", "chal7", "c", "qol7", "chal4b", "chal7a", "chal8");
-    }
-    if (QuantumMilestones.unlockRadiation.canBeApplied) {
-      keepNodes.push("qol8", "qol9");
-      if (!resetOnly) keepNodes.push("unl1");
-    }
-    const newSet = new Set();
-    for (const node of player.supernova.tree) {
-      if (keepNodes.includes(node) || NeutronUpgrade[node].quantum) {
-        newSet.add(node);
-      }
-    }
-    player.supernova.tree = newSet;
-    for (const boson of Boson.all) {
-      boson.amount = DC.D0;
-    }
-    const bosonUpgs = PhotonUpgrade.concat(GluonUpgrade);
-    for (const upgrade of bosonUpgs) {
-      upgrade.reset();
-    }
-    Currency.uQuarks.reset();
-    Currency.uLeptons.reset();
-    player.supernova.fermions.active = -1;
-    for (const fermion of Fermions.all) {
-      fermion.reset();
-    }
-    Currency.frequency.reset();
-    for (const radiation of RadiationType.all) {
-      radiation.reset();
-    }
-    for (let i = 1; i <= 12; i++) {
-      Challenge(i).reset();
-    }
-    Currency.supernova.resetLayer(true);
-    Currency.supernova.reset();
-    Currency.neutronStars.reset();
-    if (Currency.quantizes.value.eq(1)) {
-      setTimeout(() => Modal.message.show("<img src='./images/qu_story1.png'><br><br>Mass has collapsed while going Quantum! It looks like evaporation! But at what cost?", {
-        callback: () => {
-          setTimeout(() => Modal.message.show("<img src='./images/qu_story2.png'><br><br>Don’t worry, new mechanics will arrive for you!", {
-            callback: () => {
-              setTimeout(() => Tutorial.quantum.unlock(), 100);
-            },
-            buttonText: "Cool"
-          }), 100);
-        },
-        buttonText: "Uhh Oh"
-      }), 100);
-    }
   }
 
   get key() {
@@ -879,7 +648,7 @@ Currency.quantizes = new class extends DecimalCurrency {
     player.quantum.times = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     return DC.D1;
   }
 
@@ -897,7 +666,7 @@ Currency.blueprint = new class extends DecimalCurrency {
     player.quantum.blueprint = value;
   }
 
-  get gainPerSecond() {
+  get gainedAmount() {
     let gain = DC.D1;
     gain = gain.timesEffectOf(MassUpgrade.cosmicString);
     if (QuantumMilestones.speedBoost.canBeApplied) {

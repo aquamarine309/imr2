@@ -32,7 +32,7 @@ export const MassDilation = {
 
   start() {
     if (MassDilation.isActive) return;
-    Currency.atoms.resetLayer(true);
+    Resets.atom.resetLayer(true);
     MassDilation.isActive = true;
   },
 
@@ -41,7 +41,7 @@ export const MassDilation = {
     if (Currency.mass.gte(MassDilation.requirement)) {
       Currency.relativisticParticles.gain();
     }
-    Currency.atoms.resetLayer(true);
+    Resets.atom.resetLayer(true);
     MassDilation.isActive = false;
   },
 

@@ -3,7 +3,7 @@ import { DC } from "@/core/constants";
 export const tetr = {
   id: "tetr",
   isUnlocked() {
-    return AtomUpgrade(2).canBeApplied;
+    return AtomUpgrade(2).canBeApplied || Radiation.isUnlocked;
   },
   requirement(amount) {
     return Scaling.tetr.scaleEvery(

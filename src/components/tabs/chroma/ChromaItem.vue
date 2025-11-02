@@ -34,7 +34,7 @@ export default {
       };
     },
     name() {
-      return this.config.name;
+      return i18n.t(this.config.key);
     },
     color() {
       return this.config.color;

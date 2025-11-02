@@ -21,7 +21,7 @@ export default {
   methods: {
     update() {
       this.atomicPower.copyFrom(Currency.atomicPower.value);
-      this.gain = Currency.atomicPower.gainPerSecond;
+      this.gain = Currency.atomicPower.gainedAmount;
       this.free = Atom.freeTickspeeds;
     }
   }

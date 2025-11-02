@@ -4,21 +4,21 @@ const challengeType = {
   DARK_MATTER: {
     resetKey: "enter_challenge_reset_dark_matter",
     titleKey: "dark_matter_challenges",
-    reset: () => Currency.darkMatter.resetLayer(true),
+    reset: () => Resets.darkMatter.resetLayer(true),
     currency: () => Currency.mass.value,
     formatGoal: value => formatMass(value)
   },
   ATOM: {
     resetKey: "enter_challenge_reset_atom",
     titleKey: "atom_challenges",
-    reset: () => Currency.atoms.resetLayer(true),
+    reset: () => Resets.atom.resetLayer(true),
     currency: () => Currency.blackHole.value,
     formatGoal: value => i18n.t("X_black_hole", { value: formatMass(value) })
   },
   SUPERNOVA: {
     resetKey: "enter_challenge_reset_supernova",
     titleKey: "supernova_challenges",
-    reset: () => Currency.supernova.resetLayer(true),
+    reset: () => Resets.supernova.resetLayer(true, true),
     currency: () => Currency.mass.value,
     formatGoal: value => formatMass(value)
   },
@@ -235,7 +235,7 @@ export const challenges = [
     isUnlocked: () => NeutronUpgrade.chal4.isBought,
     description: () => i18n.t("challenge_9_description", { value: format(0.9, 1) }),
     effect: DC.D0_9,
-    max: () => DC.E2,
+    max: () => DC.E2.plusEffectOf(NeutronUpgrade.chal4b),
     goalPow: DC.D2,
     goalMult: DC.E500,
     baseGoal: DC.D1_5E99056,

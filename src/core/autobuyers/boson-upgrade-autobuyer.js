@@ -22,6 +22,6 @@ export class BosonUpgradeAutobuyerState extends AutobuyerState {
   }
 
   tick() {
-    for (let i = 0; i < this._bosons.length; i++) this._bosons[i].purchase();
+    for (let i = 0; i < this._bosons.length; i++) this._bosons[i].buyMax();
   }
 }

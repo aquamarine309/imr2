@@ -184,7 +184,7 @@ export const mass = {
     effect($) {
       const power = $.power;
       const amount = $.totalAmount;
-      let effect = amount.times(power).add(1);
+      let effect = amount.times(power).timesEffectOf(GameElement(80)).add(1);
       const softcaps = MassUpgradeSoftcap.stronger;
       for (const s of softcaps) {
         effect = Softcap.power(effect, s.start, s.scale);
@@ -326,7 +326,7 @@ export const mass = {
         bought.timesEffectsOf(
           GameElement(63),
           RadiationType.radio.boosts[1]
-        ).add(free)
+        ).add(free).timesEffectOf(GameElement(80))
       ).powEffectsOf(
         RankType.tetr.unlocks.tickspeedPower,
         GameElement(18)

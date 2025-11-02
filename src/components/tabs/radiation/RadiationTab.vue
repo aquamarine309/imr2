@@ -29,7 +29,7 @@ export default {
   methods: {
     update() {
       this.frequency.copyFrom(Currency.frequency.value);
-      this.frequencyGain.copyFrom(Currency.frequency.gainPerSecond);
+      this.frequencyGain.copyFrom(Currency.frequency.gainedAmount);
       this.effect = Radiation.frequencyEffect;
       const next = RadiationType.all.find(x => !x.isUnlocked);
       this.next = next;

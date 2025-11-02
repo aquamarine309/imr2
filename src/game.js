@@ -34,6 +34,12 @@ export function applyAutoprestige(preQu) {
   }
 }
 
+export function updateTime(diff) {
+  const time = player.time;
+  time.supernova += diff;
+  time.quantum += diff;
+}
+
 export function simulateTime(seconds, fast = false) {
   // The game is simulated at a base 50ms update rate, with a maximum tick count based on the values of real and fast
   // - Calling with real === true will always simulate at full accuracy with no tick count reduction unless it would

@@ -21,7 +21,7 @@ export default {
   methods: {
     update() {
       this.blueprint.copyFrom(Currency.blueprint.value);
-      this.gain = Currency.blueprint.gainPerSecond;
+      this.gain = Currency.blueprint.gainedAmount;
       this.speed = Quantum.speed;
     }
   }

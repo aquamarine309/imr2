@@ -34,8 +34,8 @@ export const Supernova = {
   },
 
   startingAutoCheck() {
-    if (Supernova.times.gte(DC.D1) && Supernova.tutorialActive && Currency.supernova.canReset) {
-      Currency.supernova.resetLayer();
+    if (Supernova.times.gte(DC.D1) && Supernova.tutorialActive && Resets.supernova.canReset) {
+      Resets.supernova.resetLayer();
       Tab.main.mass.show();
       GameUI.notify.supernova("You have become Supernova!");
       if (Supernova.times.eq(this.tutorialCount)) {
@@ -52,10 +52,11 @@ class NeutronUpgradeState extends SetPurchasableMechanicState {
     this.formattedID = this.id.replace(/[A-Z]/gu, matched => `_${matched.toLowerCase()}`);
     const removeReq = ["qol1", "qol2", "qol3", "qol4", "qol5", "qol6", "qol7", "qol8", "qol9", "unl1", "c", "s2", "s3", "s4", "sn3", "sn4", "t1", "bh2", "gr1", "chal1", "chal2", "chal3", "bs1", "fn2", "fn3", "fn5", "fn6", "fn10"];
     this.reqCanBeRemoved = removeReq.includes(this.id);
+    this.type = config.type ?? NEUTRON_UPGRADE_TYPE.NORMAL;
   }
 
   get quantum() {
-    return this.config.quantum ?? false;
+    return this.type === NEUTRON_UPGRADE_TYPE.QUANTUM;
   }
 
   get currency() {
@@ -136,3 +137,8 @@ class NeutronTreeState {
 }
 
 export const NeutronTree = GameDatabase.supernova.neutronTrees.map(tree => new NeutronTreeState(tree));
+
+export const NeutronUpgradeType = {
+  normal: NeutronUpgrade.all.filter(upg => upg.type === NEUTRON_UPGRADE_TYPE.NORMAL),
+  quantum: NeutronUpgrade.all.filter(upg => upg.type === NEUTRON_UPGRADE_TYPE.QUANTUM)
+};

@@ -23,9 +23,9 @@ export default {
   methods: {
     initParticle() {
       this.posY = `${Math.random() * 100}%`;
-      this.speed = (Math.random() * 0.1 + 0.3) * this.width;
+      this.speed = (Math.random() * 0.1 + 0.35) * this.width;
       this.posX = -this.width * Math.random() - 10;
-      this.size = Math.random() * 5 + 3;
+      this.size = Math.random() * 5 + 6;
       this.lastUpdateTime = this.now;
       this.color = this.COLORS[Math.floor(Math.random() * this.COLORS.length)];
     },

@@ -7,6 +7,8 @@ import { AtomUpgradeAutobuyerState } from "./atom-upgrade-autobuyer";
 import { ElementAutobuyerState } from "./element-autobuyer";
 import { BosonUpgradeAutobuyerState } from "./boson-upgrade-autobuyer";
 import { RadiationAutobuyerState } from "./radiation-autobuyer";
+import { NeutronUpgradeAutobuyerState } from "./neutron-upgrade-autobuyer";
+import { QuantumAutobuyerState } from "./quantum-autobuyer";
 
 export const Autobuyer = {
   rank: RankAutobuyerState.createAccessor(),
@@ -25,7 +27,11 @@ export const Autobuyer = {
 
   bosonUpgrade: new BosonUpgradeAutobuyerState(),
 
-  radiation: new RadiationAutobuyerState()
+  radiation: new RadiationAutobuyerState(),
+
+  neutronUpgrade: new NeutronUpgradeAutobuyerState(),
+
+  quantum: new QuantumAutobuyerState()
 };
 
 export const Autobuyers = {
@@ -38,7 +44,9 @@ export const Autobuyers = {
     Autobuyer.atomUpgrade,
     Autobuyer.element,
     Autobuyer.bosonUpgrade,
-    Autobuyer.radiation
+    Autobuyer.radiation,
+    Autobuyer.neutronUpgrade,
+    Autobuyer.quantum
   ],
   tick() {
     for (const autobuyer of Autobuyers.all) {

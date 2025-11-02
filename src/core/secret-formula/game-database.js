@@ -12,6 +12,7 @@ import { gameElements } from "./game-elements";
 import { supernova } from "./supernova";
 import { notifications } from "./notifications";
 import { quantum } from "./quantum";
+import { resets } from "./resets";
 
 export const GameDatabase = {
   upgrades,
@@ -27,7 +28,8 @@ export const GameDatabase = {
   gameElements,
   supernova,
   notifications,
-  quantum
+  quantum,
+  resets
 };
 
 window.GameDatabase = GameDatabase;

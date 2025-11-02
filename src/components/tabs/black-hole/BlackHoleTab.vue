@@ -27,7 +27,7 @@ export default {
   methods: {
     update() {
       this.blackHole.copyFrom(Currency.blackHole.value);
-      this.gain = Currency.blackHole.gainPerSecond;
+      this.gain = Currency.blackHole.gainedAmount;
       this.mult = BlackHole.mult;
       this.condenserMult = this.condenser.effectValue;
       this.exponent = BlackHole.exponent;

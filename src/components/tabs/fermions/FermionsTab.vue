@@ -47,21 +47,11 @@ export default {
     update() {
       this.quarks.copyFrom(Currency.uQuarks.value);
       this.leptons.copyFrom(Currency.uLeptons.value);
-      this.quarkGain = Currency.uQuarks.gainPerSecond;
-      this.leptonGain = Currency.uLeptons.gainPerSecond;
+      this.quarkGain = Currency.uQuarks.gainedAmount;
+      this.leptonGain = Currency.uLeptons.gainedAmount;
     },
     backToNormal() {
-      Currency.supernova.resetLayer();
-    },
-    select(fermion) {
-      if (fermion.isUnlocked) {
-        if (fermion.id === this.selected) {
-          fermion.start();
-          return;
-        }
-        this.$viewModel.selectedFermionId = fermion.id;
-        GameUI.update();
-      }
+      Resets.supernova.resetLayer(true, true);
     }
   }
 };
@@ -82,7 +72,6 @@ export default {
           v-for="fermion in quarkFermions"
           :key="fermion.id"
           :fermion="fermion"
-          @click.native="select(fermion)"
         />
       </div>
     </div>
@@ -93,7 +82,6 @@ export default {
           v-for="fermion in leptonFermions"
           :key="fermion.id"
           :fermion="fermion"
-          @click.native="select(fermion)"
         />
       </div>
     </div>

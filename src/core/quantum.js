@@ -8,9 +8,9 @@ export const Quantum = {
     let gain = mass.log10().div(DC.E13).pow(DC.D1_5);
     gain = gain.timesEffectsOf(
       NeutronUpgrade.qf1,
-      QuantumMilestones.foubleQF
+      QuantumMilestones.doubleQF
     );
-    return gain;
+    return gain.floor();
   },
 
   get requirement() {

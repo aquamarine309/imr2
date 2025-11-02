@@ -1,21 +1,21 @@
-import { icons } from "./svg-icons";
+import { ICONS } from "./svg-icons";
 
 export const tabs = [
   {
     id: 0,
     key: "main",
-    symbol: icons.mass,
+    symbol: ICONS.mass,
     subtabs: [
       {
         id: 0,
         key: "mass",
-        symbol: icons.mass,
+        symbol: ICONS.mass,
         component: "MassTab"
       },
       {
         id: 1,
         key: "black_hole",
-        symbol: icons.blackHole,
+        symbol: ICONS.blackHole,
         component: "BlackHoleTab",
         condition: () => PlayerProgress.blackHoleUnlocked()
       },
@@ -36,7 +36,7 @@ export const tabs = [
       {
         id: 4,
         key: "indescribable_matter",
-        symbol: icons.blueprint,
+        symbol: ICONS.blueprint,
         component: "IndescribableMatterTab",
         condition: () => PlayerProgress.quantumUnlocked()
       }
@@ -93,7 +93,7 @@ export const tabs = [
       {
         id: 1,
         key: "black_hole",
-        symbol: icons.blackHole,
+        symbol: ICONS.blackHole,
         component: "BHUpgradesTab",
         condition: () => PlayerProgress.blackHoleUnlocked()
       },
@@ -135,7 +135,7 @@ export const tabs = [
       {
         id: 1,
         key: "elements",
-        symbol: icons.element,
+        symbol: ICONS.element,
         component: "ElementsTab",
         condition: () => GameElements.isUnlocked
       },
@@ -151,7 +151,7 @@ export const tabs = [
   {
     id: 6,
     key: "supernova",
-    symbol: icons.supernova,
+    symbol: ICONS.supernova,
     condition: () => PlayerProgress.supernovaUnlocked(),
     subtabs: [
       {
@@ -163,7 +163,7 @@ export const tabs = [
       {
         id: 1,
         key: "bosons",
-        symbol: icons.bosons,
+        symbol: ICONS.bosons,
         component: "BosonsTab",
         condition: () => Bosons.areUnlocked
       },
@@ -186,20 +186,34 @@ export const tabs = [
   {
     id: 7,
     key: "quantum",
-    symbol: icons.quantum,
+    symbol: ICONS.quantum,
     condition: () => PlayerProgress.quantumUnlocked(),
     subtabs: [
       {
         id: 0,
         key: "chroma",
-        symbol: icons.chroma,
+        symbol: ICONS.chroma,
         component: "ChromaTab"
       },
       {
         id: 1,
         key: "milestones",
-        symbol: icons.milestone,
+        symbol: ICONS.milestone,
         component: "QuantumMilestonesTab"
+      },
+      {
+        id: 2,
+        key: "auto_quantum",
+        symbol: "<i class='fas fa-cog'></i>",
+        condition: () => QuantumMilestones.quantizesBoostStars.canBeApplied,
+        component: "AutoQuantumTab"
+      },
+      {
+        id: 3,
+        key: "primordium",
+        symbol: ICONS.primordium,
+        condition: () => Primordium.isUnlocked,
+        component: "PrimordiumTab"
       }
     ]
   }

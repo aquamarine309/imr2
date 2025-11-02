@@ -105,20 +105,20 @@ export default {
     update() {
       const mass = this.mass;
       mass.amount.copyFrom(Currency.mass.value);
-      mass.rate = Currency.mass.gainPerSecond;
+      mass.rate = Currency.mass.gainedAmount;
 
       const ragePowers = this.ragePowers;
       ragePowers.amount.copyFrom(Currency.ragePowers.value);
-      ragePowers.rate = Currency.ragePowers.gainPerSecond;
-      ragePowers.canReset = Currency.ragePowers.canReset;
+      ragePowers.rate = Currency.ragePowers.gainedAmount;
+      ragePowers.canReset = Resets.rage.canReset;
       ragePowers.passive = BHUpgrade(5).canBeApplied || AtomUpgrade(5).canBeApplied;
 
       const darkMatter = this.darkMatter;
       darkMatter.unlocked = PlayerProgress.rageUnlocked();
       if (darkMatter.unlocked) {
         darkMatter.amount.copyFrom(Currency.darkMatter.value);
-        darkMatter.rate = Currency.darkMatter.gainPerSecond;
-        darkMatter.canReset = Currency.darkMatter.canReset;
+        darkMatter.rate = Currency.darkMatter.gainedAmount;
+        darkMatter.canReset = Resets.darkMatter.canReset;
         darkMatter.passive = AtomUpgrade(5).canBeApplied;
       }
 
@@ -126,15 +126,15 @@ export default {
       blackHole.unlocked = PlayerProgress.blackHoleUnlocked();
       if (blackHole.unlocked) {
         blackHole.amount.copyFrom(Currency.blackHole.value);
-        blackHole.rate = Currency.blackHole.gainPerSecond;
+        blackHole.rate = Currency.blackHole.gainedAmount;
       }
 
       const atoms = this.atoms;
       atoms.unlocked = PlayerProgress.blackHoleUnlocked();
       if (atoms.unlocked) {
         atoms.amount.copyFrom(Currency.atoms.value);
-        atoms.rate = Currency.atoms.gainPerSecond;
-        atoms.canReset = Currency.atoms.canReset;
+        atoms.rate = Currency.atoms.gainedAmount;
+        atoms.canReset = Resets.atom.canReset;
         atoms.passive = GameElement(24).canBeApplied;
       }
 
@@ -143,7 +143,7 @@ export default {
       if (quark.unlocked) {
         quark.amount.copyFrom(Currency.quark.value);
         quark.passive = GameElement(14).canBeApplied;
-        quark.rate = Currency.quark.gainPerSecond;
+        quark.rate = Currency.quark.gainedAmount;
         if (quark.passive) {
           quark.rate = quark.rate.times(0.05 + GameElement(16).effectOrDefault(0));
         }
@@ -153,7 +153,7 @@ export default {
       dilation.unlocked = MassDilation.isUnlocked;
       if (dilation.unlocked) {
         dilation.amount.copyFrom(Currency.relativisticParticles.value);
-        dilation.rate = Currency.relativisticParticles.gainPerSecond;
+        dilation.rate = Currency.relativisticParticles.gainedAmount;
         dilation.active = MassDilation.isActive;
         dilation.passive = NeutronUpgrade.qol3.canBeApplied;
       }
@@ -164,17 +164,17 @@ export default {
         supernova.amount.copyFrom(Currency.supernova.value);
         supernova.manual = PlayerProgress.quantumUnlocked() || Supernova.times.gte(10);
         if (supernova.manual) {
-          supernova.rate = Currency.supernova.gainPerSecond;
+          supernova.rate = Currency.supernova.gainedAmount;
         }
-        supernova.canReset = Currency.supernova.canReset;
+        supernova.canReset = Resets.supernova.canReset;
       }
 
       const quantum = this.quantum;
       quantum.unlocked = Challenge(12).milestones[0].canBeApplied || PlayerProgress.quantumUnlocked();
       if (quantum.unlocked) {
         quantum.amount.copyFrom(Currency.quantumFoam.value);
-        quantum.rate = Currency.quantumFoam.gainPerSecond;
-        quantum.canReset = Currency.quantumFoam.canReset;
+        quantum.rate = Currency.quantumFoam.gainedAmount;
+        quantum.canReset = Resets.quantum.canReset;
       }
 
       const speed = this.speed;
@@ -191,22 +191,22 @@ export default {
       this.$recompute("darkMatterTooltip");
     },
     ragePowerReset() {
-      Currency.ragePowers.requestReset();
+      Resets.rage.requestReset();
     },
     darkMatterReset() {
-      Currency.darkMatter.requestReset();
+      Resets.darkMatter.requestReset();
     },
     atomReset() {
-      Currency.atoms.requestReset();
+      Resets.atom.requestReset();
     },
     dilatedMass() {
       MassDilation.toggle();
     },
     supernovaReset() {
-      Currency.supernova.requestReset();
+      Resets.supernova.requestReset();
     },
     quantumReset() {
-      Currency.quantumFoam.requestReset();
+      Resets.quantum.requestReset();
     }
   }
 };

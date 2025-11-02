@@ -58,6 +58,10 @@
   "tab_quantum_chroma_short": "Chroma",
   "tab_quantum_milestones": "Quantum Milestones",
   "tab_quantum_milestones_short": "Milestones",
+  "tab_quantum_auto_quantum": "Auto-Quantum",
+  "tab_quantum_auto_quantum_short": "Auto",
+  "tab_quantum_primordium": "Primordium",
+  "tab_quantum_primordium_short": "Primordium",
   "X_g": "{value} g",
   "X_kg": "{value} kg",
   "X_tonne": "{value} tonne",
@@ -574,5 +578,10 @@
   "cosmic_string_effect": "{value} to Blueprint Particles",
   "quantum": "Quantum",
   "you_have_X_quantum_theory": "You have {value} Quantum Theory.|You have {value} Quantum Theories.",
-  "unlock_chroma_text": "Require Quantum Theory to start generating {value}"
+  "unlock_chroma_text": "Require Quantum Theory to start generating {value}",
+  "pyro_radioactive_plasma": "Pyro-Radioactive Plasma",
+  "hybridized_uran_astatine": "Hybridized Uran-Astatine",
+  "neutronium_0": "Neutronium-0",
+  "auto_quantum_X": "Auto-Quantum: {state}",
+  "auto_quantum_mode_X": "Auto-Quantum Mode: {value}"
 }

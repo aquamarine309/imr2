@@ -38,7 +38,12 @@ export const GameElements = {
 
   get maxId() {
     let amount = 0;
-    if (PlayerProgress.supernovaUnlocked()) {
+    if (PlayerProgress.quantumUnlocked()) {
+      amount += 80;
+      if (Primordium.isUnlocked) {
+        amount += 3;
+      }
+    } else if (PlayerProgress.supernovaUnlocked()) {
       amount += 54;
       if (Bosons.areUnlocked) {
         amount += 3;

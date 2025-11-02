@@ -98,7 +98,14 @@ window.player = {
     dilationUpgrades: false,
     elements: false,
     bosonUpgrades: false,
-    radiation: false
+    radiation: false,
+    neutronUpgrade: false,
+    quantum: {
+      isActive: false,
+      type: AUTO_QUANTUM_TYPE.AMOUNT,
+      amount: DC.D0,
+      time: 0
+    }
   },
   massUpgrades: {
     muscler: DC.D0,
@@ -121,6 +128,10 @@ window.player = {
       noTick: true,
       noCondenser: true
     }
+  },
+  time: {
+    supernova: 0,
+    quantum: 0
   },
   // Bits
   mainUpgrades: {

@@ -31,7 +31,7 @@ export default {
   methods: {
     update() {
       this.stars.copyFrom(Currency.stars.value);
-      this.gain.copyFrom(Currency.stars.gainPerSecond);
+      this.gain.copyFrom(Currency.stars.gainedAmount);
       this.requirement = Supernova.requirement;
       this.boost = Stars.boost;
       this.softcapStart = Stars.softcapStart;

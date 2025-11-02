@@ -17,6 +17,8 @@ import FermionsTab from "./fermions/FermionsTab";
 import RadiationTab from "./radiation/RadiationTab";
 import ChromaTab from "./chroma/ChromaTab";
 import QuantumMilestonesTab from "./quantum-milestones/QuantumMilestonesTab";
+import AutoQuantumTab from "./auto-quantum/AutoQuantumTab";
+import PrimordiumTab from "./primordium/PrimordiumTab";
 
 export default {
   MassTab,
@@ -37,5 +39,7 @@ export default {
   FermionsTab,
   RadiationTab,
   ChromaTab,
-  QuantumMilestonesTab
+  QuantumMilestonesTab,
+  AutoQuantumTab,
+  PrimordiumTab
 };

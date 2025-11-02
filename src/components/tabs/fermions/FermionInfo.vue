@@ -74,7 +74,7 @@ export default {
     },
     handleClick() {
       if (this.isActive) {
-        Currency.supernova.resetLayer();
+        Resets.supernova.resetLayer(true, true);
       } else {
         this.fermion.start();
       }

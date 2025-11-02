@@ -58,6 +58,10 @@
   "tab_quantum_chroma_short": "色度",
   "tab_quantum_milestones": "量子里程碑",
   "tab_quantum_milestones_short": "里程碑",
+  "tab_quantum_auto_quantum": "自动量子",
+  "tab_quantum_auto_quantum_short": "自动",
+  "tab_quantum_primordium": "原基",
+  "tab_quantum_primordium_short": "原基",
   "X_g": "{value} 克",
   "X_kg": "{value} 千克",
   "X_tonne": "{value} 吨",
@@ -574,5 +578,10 @@
   "cosmic_string_effect": "蓝图粒子获取量 {value}",
   "quantum": "量子",
   "you_have_X_quantum_theory": "你拥有 {value} 量子理论。",
-  "unlock_chroma_text": "需要量子理论以生成{value}"
+  "unlock_chroma_text": "需要量子理论以生成{value}",
+  "pyro_radioactive_plasma": "热放射性等离子体",
+  "hybridized_uran_astatine": "铀砹混合物",
+  "neutronium_0": "零号中子-0",
+  "auto_quantum_X": "自动量子：{state}",
+  "auto_quantum_mode_X": "自动量子模式：{value}"
 }

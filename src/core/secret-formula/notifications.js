@@ -17,7 +17,14 @@ export const notifications = [
   },
   {
     tab: ["supernova", "neutron_tree"],
-    condition: () => PlayerProgress.supernovaUnlocked() && NeutronUpgrade.all.some(x => x.canBeBought)
+    condition() {
+      if (!PlayerProgress.supernovaUnlocked()) return false;
+      if (!Autobuyer.neutronUpgrade.isActive && NeutronUpgradeType.normal.some(x => x.canBeBought)) {
+        return true;
+      }
+      if (NeutronUpgradeType.quantum.some(x => x.canBeBought)) return true;
+      return false;
+    }
   },
   {
     tab: ["main", "mass"],
@@ -30,6 +37,10 @@ export const notifications = [
   {
     tab: ["main", "atomic_generator"],
     condition: () => MassUpgrade.cosmicRay.boughtAmount.eq(0) && MassUpgrade.cosmicRay.canBeBought
+  },
+  {
+    tab: ["quantum", "chroma"],
+    condition: () => Chroma.some(x => x.canBeUnlocked)
   },
   {
     tab: ["main", "stars"],

@@ -15,7 +15,7 @@ export const neutronTrees = [
       ["s1", "m1", "rp1", "bh1", "sn1"],
       ["s2", "m2", "t1", "d1", "bh2", "gr1", "sn2"],
       ["s3", "m3", "gr2", "sn3"],
-      ["s4", null, "sn4"]
+      ["s4", "sn5", "sn4"]
     ]
   },
   {
@@ -24,9 +24,9 @@ export const neutronTrees = [
     isUnlocked: () => true,
     layout: [
       ["qol1", null, null, null, "quQol1", null],
-      ["qol2", "qol3", "qol4", null, null, null, null, null],
-      ["qol5", "qol6", "qol7", null, null, null, null, null],
-      ["qol9", "unl1", "qol8", null, null, null, null, null]
+      ["qol2", "qol3", "qol4", "quQol2", "quQol3", "quQol4", "quQol5", "quQol6"],
+      ["qol5", "qol6", "qol7", null, null, "quQol7", null, null],
+      ["qol9", "unl1", "qol8", "unl2", null, null, null, null]
     ]
   },
   {
@@ -35,7 +35,7 @@ export const neutronTrees = [
     isUnlocked: () => true,
     layout: [
       ["chal1"],
-      ["chal2", "chal4a", null, "chal3"],
+      ["chal2", "chal4a", "chal4b", "chal3"],
       ["chal4", null],
       ["chal5", "chal6", "chal7", null]
     ]
@@ -46,9 +46,9 @@ export const neutronTrees = [
     isUnlocked: () => Bosons.areUnlocked,
     layout: [
       ["bs4", "bs1", null, "qf1", null, "rad1"],
-      [null, "bs2", "fn1", "bs3", null, null, "rad2", "rad3"],
+      [null, "bs2", "fn1", "bs3", "qf2", null, "rad2", "rad3"],
       ["fn4", "fn3", "fn9", "fn2", "fn5", null, "rad4", "rad5"],
-      ["fn12", "fn11", "fn6", "fn10", null, null],
+      ["fn12", "fn11", "fn6", "fn10", "rad6", null],
       [null, "fn7", "fn8", null]
     ]
   },
@@ -59,7 +59,8 @@ export const neutronTrees = [
     layout: [
       ["qu0"],
       ["qu1", "qu2", "qu3"],
-      ["qu4"]
+      [null, "prim2", "prim1", "qu4", null, null, null],
+      [null, "qu5", null]
     ]
   }
 ];
@@ -231,6 +232,15 @@ export const neutronUpgrades = {
     check: () => Currency.supernova.gte(6),
     cost: DC.E5
   },
+  sn5: {
+    id: "sn5",
+    branch: ["sn4"],
+    isUnlocked: () => PlayerProgress.quantumUnlocked(),
+    description: "Mass boosts Neutron Stars gain.",
+    effect: () => Currency.mass.value.add(1).log10().add(1).pow(2),
+    formatEffect: value => formatX(value),
+    cost: DC.E450
+  },
   sn4: {
     id: "sn4",
     branch: ["sn3"],
@@ -323,6 +333,14 @@ export const neutronUpgrades = {
     check: () => Currency.supernova.gte(78),
     cost: DC.E111
   },
+  qol8: {
+    id: "qol8",
+    branch: ["unl1"],
+    description: "You can now automatically Pent up, Pent no longer resets anything.",
+    requirement: () => i18n.t("X_supernova", { value: formatInt(60) }),
+    check: () => Currency.supernova.gte(60),
+    cost: DC.E78
+  },
   unl1: {
     id: "unl1",
     branch: ["qol7"],
@@ -334,13 +352,14 @@ export const neutronUpgrades = {
       Tutorial.radiation.unlock();
     }
   },
-  qol8: {
-    id: "qol8",
-    branch: ["unl1"],
-    description: "You can now automatically Pent up, Pent no longer resets anything.",
-    requirement: () => i18n.t("X_supernova", { value: formatInt(60) }),
-    check: () => Currency.supernova.gte(60),
-    cost: DC.E78
+  unl2: {
+    id: "unl2",
+    branch: ["quQol7"],
+    requirement: () => `Quantize ${formatInt(20)} times.`,
+    check: () => Currency.quantizes.gte(DC.D20),
+    description: "Unlock Primordium.",
+    cost: DC.D50,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   quQol1: {
     id: "quQol1",
@@ -348,7 +367,59 @@ export const neutronUpgrades = {
     branch: [],
     description: "You now automatically purchase supernova tree upgrades as long as they don't cost quantum foam.",
     cost: DC.D3,
-    quantum: true
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  quQol2: {
+    id: "quQol2",
+    branch: ["quQol1"],
+    requirement: () => `Become ${formatInt(81)} Supernovas without getting tiers from U-Quark in Quantum run.`,
+    check: () => Currency.supernova.gte(81) && FermionType.quarks.fermions.all.every(x => x.tier.eq(0)),
+    description: "Keep U-Quark Tiers on going Quantum.",
+    cost: DC.D4,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  quQol3: {
+    id: "quQol3",
+    branch: ["quQol1"],
+    requirement: () => `Reach ${formatMass(mlt(DC.E4))} of mass without completing Challenges 1-4 in Quantum run.`,
+    check: () => Currency.mass.gte(mlt(DC.E4)) && [1, 2, 3, 4].every(x => Challenge(x).completions.eq(0)),
+    description: "You can now automatically complete Challenges 1-4.",
+    cost: DC.D4,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  quQol4: {
+    id: "quQol4",
+    branch: ["quQol1"],
+    description: "You can now automatically become a supernova, it no longer resets anything.",
+    cost: DC.D4,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  quQol5: {
+    id: "quQol5",
+    branch: ["quQol1"],
+    requirement: () => `Reach ${formatMass(mlt(DC.D1_35E4))} of mass without completing Challenges 5, 6 & 8 in Quantum run.`,
+    check: () => Currency.mass.gte(mlt(DC.D1_35E4)) && [5, 6, 8].every(x => Challenge(x).completions.eq(0)),
+    description: "You can now automatically complete Challenges 5-8.",
+    cost: DC.D4,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  quQol6: {
+    id: "quQol6",
+    branch: ["quQol1"],
+    requirement: () => `Become ${formatInt(42)} Supernovas without getting tiers from U-Lepton in Quantum run.`,
+    check: () => Currency.supernova.gte(42) && FermionType.leptons.fermions.all.every(x => x.tier.eq(0)),
+    description: "Keep U-Lepton Tiers on going Quantum.",
+    cost: DC.D4,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  quQol7: {
+    id: "quQol7",
+    branch: ["quQol3", "quQol5"],
+    requirement: () => `Reach ${formatMass(mlt(DC.D5000))} of mass without completing Challenges 9-12 in Quantum run, while in [Bottom].`,
+    check: () => Currency.mass.gte(mlt(DC.D5000)) && [9, 10, 11, 12].every(x => Challenge(x).completions.eq(0)) && FermionType.quarks.fermions.bottom.isActive,
+    description: "Keep challenge 9-12 completions on going Quantum.",
+    cost: DC.D25,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   chal1: {
     id: "chal1",
@@ -374,6 +445,14 @@ export const neutronUpgrades = {
     description: "Challenge 9’s effect is better.",
     effect: DC.C2D7,
     cost: DC.E8
+  },
+  chal4b: {
+    id: "chal4b",
+    branch: ["chal4"],
+    isUnlocked: () => PlayerProgress.quantumUnlocked(),
+    description: () => `Add ${formatInt(100)} more C9 completions.`,
+    effect: DC.E2,
+    cost: DC.E480
   },
   chal3: {
     id: "chal3",
@@ -513,6 +592,7 @@ export const neutronUpgrades = {
   },
   fn11: {
     id: "fn11",
+    isUnlocked: () => Primordium.isUnlocked,
     branch: ["fn9"],
     description: () => `[Strange], [Top], [Bottom], [Neutrino], [Neut-Muon] maximum tiers are increased by ${formatInt(5)}.`,
     effect: DC.D5,
@@ -532,7 +612,7 @@ export const neutronUpgrades = {
   fn10: {
     id: "fn10",
     branch: ["fn5"],
-    isUnlocked: () => false,
+    isUnlocked: () => Primordium.isUnlocked,
     description: "Uncap [Electron] tier, its effect is overpowered.",
     requirement: () => `Reach ${format(DC.E1_5E8)} atoms while in [Electron] and 9th Challenge.`,
     check: () => (FermionType.leptons.fermions.electron.isActive &&
@@ -591,6 +671,13 @@ export const neutronUpgrades = {
     formatEffect: value => formatX(value),
     cost: DC.E170
   },
+  rad6: {
+    id: "rad6",
+    branch: ["rad4"],
+    isUnlocked: () => Primordium.isUnlocked,
+    description: "Bonus radiation boosts are stronger based on radiation type.",
+    cost: DC.E490
+  },
   qf1: {
     id: "qf1",
     isUnlocked: () => PlayerProgress.quantumUnlocked(),
@@ -600,13 +687,22 @@ export const neutronUpgrades = {
     formatEffect: value => formatX(value),
     cost: DC.E290
   },
+  qf2: {
+    id: "qf2",
+    isUnlocked: () => Primordium.isUnlocked,
+    branch: ["qf1"],
+    description: "Quantum Foams are boosted by Neutron Stars.",
+    effect: () => Currency.supernova.value.add(1).log10().add(1).pow(DC.C1D3),
+    formatEffect: value => formatX(value),
+    cost: DC.E735
+  },
   qu0: {
     id: "qu0",
     isUnlocked: () => PlayerProgress.quantumUnlocked(),
     branch: [],
     description: "Good luck with the new era!",
     cost: DC.D0,
-    quantum: true
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   qu1: {
     id: "qu1",
@@ -614,14 +710,14 @@ export const neutronUpgrades = {
     description: () => `Fermion requirements are decreased by ${formatPercents(0.2, 0)}.`,
     effect: DC.C1D1_2,
     cost: DC.D1,
-    quantum: true
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   qu2: {
     id: "qu2",
     branch: ["qu0"],
     description: () => `W+ Boson's 1st effect is overpowered.`,
     cost: DC.D1,
-    quantum: true
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   qu3: {
     id: "qu3",
@@ -629,13 +725,37 @@ export const neutronUpgrades = {
     description: () => `BH formula's softcap is ${formatPercents(0.3, 0)} weaker.`,
     effect: DC.D0_7,
     cost: DC.D1,
-    quantum: true
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   qu4: {
     id: "qu4",
     branch: ["qu1", "qu2", "qu3"],
     description: () => `Remove softcaps from [sn2]'s effect.`,
     cost: DC.D35,
-    quantum: true
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  qu5: {
+    id: "qu5",
+    branch: ["qu4"],
+    description: "Blueprint Particles & Chromas are affected by Tickspeed Effect at a reduced rate.",
+    effect: () => overflow(MassUpgrade.tickspeed.effectValue.add(1).log10().add(1).log10().add(1).pow(3), DC.D5E8, DC.D0_1),
+    formatEffect: value => formatX(value),
+    cost: DC.E2,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  prim1: {
+    id: "prim1",
+    branch: ["qu5"],
+    description: () => `Primordium Theorem’s base requirement is reduced by ${formatInt(1)}.`,
+    effect: DC.D1,
+    cost: DC.D200,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  prim2: {
+    id: "prim2",
+    branch: ["prim1"],
+    description: "Theta Particle’s second effect is now added.",
+    cost: DC.D500,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
   }
 };

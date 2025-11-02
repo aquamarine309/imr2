@@ -110,7 +110,7 @@ class FermionState extends GameMechanicState {
 
   start() {
     if (!this.isUnlocked) return;
-    Currency.supernova.resetLayer();
+    Resets.supernova.resetLayer(true, true);
     player.supernova.fermions.active = this.id;
   }
 

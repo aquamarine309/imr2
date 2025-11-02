@@ -288,6 +288,22 @@ export const Challenges = {
 
   get isRunning() {
     return player.challenges.current > 0;
+  },
+
+  applyAutoBulk() {
+    const auto = [];
+    if (NeutronUpgrade.quQol3.canBeApplied) {
+      auto.push(1, 2, 3, 4);
+    }
+    if (NeutronUpgrade.quQol5.canBeApplied) {
+      auto.push(5, 6, 7, 8);
+    }
+    for (const id of auto) {
+      Challenge(id).applyAutoComplete();
+    }
+    if (NeutronUpgrade.qol6.canBeApplied && Challenges.isRunning) {
+      Challenges.current.applyAutoComplete();
+    }
   }
 };
 

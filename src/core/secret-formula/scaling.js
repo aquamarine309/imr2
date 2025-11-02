@@ -413,7 +413,7 @@ export const scaling = {
           return DC.E2;
         },
         get scale() {
-          return DC.D1_025;
+          return DC.D1_025.powEffectOf(GameElement(78));
         }
       },
       {

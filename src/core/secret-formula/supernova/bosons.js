@@ -12,7 +12,7 @@ export const bosons = {
       mass: value => {
         let effect = value.add(1).pow(DC.D2E4);
         if (NeutronUpgrade.qu2.canBeApplied) {
-          effect = effect.times(Softcap.power(value.add(1).log10().add(1).pow(DC.C4D3), DC.E15, DC.D0_1));
+          effect = effect.pow(Softcap.power(value.add(1).log10().add(1).pow(DC.C4D3), DC.E15, DC.D0_1));
         }
         return overflow(effect, DC.EE2500, DC.D0_25);
       },

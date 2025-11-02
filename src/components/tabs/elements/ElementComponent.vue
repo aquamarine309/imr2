@@ -9,6 +9,10 @@ export default {
     name: {
       type: String,
       required: true
+    },
+    isSelected: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
@@ -32,7 +36,8 @@ export default {
       return {
         "o-element-grid": true,
         "o-element-grid--available": this.canBeBought,
-        "o-element-grid--bought": this.isBought
+        "o-element-grid--bought": this.isBought,
+        "o-element-grid--selected": this.isSelected
       };
     },
     styleObject() {
