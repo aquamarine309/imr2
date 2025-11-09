@@ -16,7 +16,8 @@ export default {
       time: 0,
       amountText: "",
       init: false,
-      currentTime: 0
+      currentTime: 0,
+      rate: new Decimal()
     };
   },
   computed: {
@@ -40,7 +41,7 @@ export default {
       this.amountText = format(value, 0);
     },
     time(value) {
-      Autobuyer.quantum.time = value;
+      Autobuyer.quantum.time = parseFloat(value);
     },
   },
   methods: {
@@ -54,6 +55,7 @@ export default {
         this.init = true;
       }
       this.currentTime = player.time.quantum / 1000;
+      this.rate = Quantum.foamGain.div(Math.clampMin(this.currentTime, 0.01));
     },
     toggleMode() {
       if (this.isAmount) {
@@ -79,7 +81,7 @@ export default {
 
 <template>
   <div>
-    <div>You have spent {{ formatTimeNoDecimals(currentTime) }} in this quantum.</div>
+    <div>You have spent {{ formatTimeNoDecimals(currentTime) }} in this quantum. ({{ format(rate) }} Foams / Sec)</div>
     <div class="o-auto-quantum-button-row">
       <PrimaryToggleButton
         v-model="auto"

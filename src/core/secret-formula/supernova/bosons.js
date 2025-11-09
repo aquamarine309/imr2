@@ -74,6 +74,7 @@ export const bosons = {
       FermionType.leptons.fermions.meon.reward
     ),
     effect: value => value.add(1).log10().max(1).sqrt()
+      .timesEffectOf(PrimordiumParticle.phi.effects[0])
   }
 };
 

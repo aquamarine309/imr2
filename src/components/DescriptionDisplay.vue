@@ -59,7 +59,8 @@ export default {
         // Descriptions in config entries are occasionally used both as standalone statements and mid-sentence,
         // so we explicitly capitalize them here because this only shows up in standalone places
         const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
-        this.isVisible = description !== undefined;
+        const isUnlocked = config?.isUnlocked?.() ?? true;
+        this.isVisible = description !== undefined && isUnlocked;
         if (!this.isVisible) return;
 
         if (isString(description)) {

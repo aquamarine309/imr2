@@ -69,7 +69,8 @@ window.player = {
     chromaState: 0,
     chroma: [DC.D0, DC.D0, DC.D0],
     times: DC.D0,
-    blueprint: DC.D0
+    blueprint: DC.D0,
+    primordium: Array.repeat(DC.D0, 8)
   },
   auto: {
     ranks: {

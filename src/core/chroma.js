@@ -37,6 +37,7 @@ class ChromaState extends GameMechanicState {
     if (QuantumMilestones.speedBoost.canBeApplied) {
       gain = gain.times(Quantum.speed.max(1).sqrt());
     }
+    gain = gain.timesEffectOf(NeutronUpgrade.qu5);
     return gain;
   }
 

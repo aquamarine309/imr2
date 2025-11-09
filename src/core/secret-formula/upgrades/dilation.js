@@ -15,10 +15,11 @@ export const dilation = {
     description: () => i18n.t("dilation_upgrade_1_description"),
     cost: value => DC.E1.pow(value.add(2)),
     bulk: value => value.log10().minus(1).floor(),
-    effect: value => (DilationUpgrade.du2Better.canBeApplied
-      ? value.timesEffectOf(DilationUpgrade.first3Better).pow(DC.C2D3).times(0.25).add(1)
-      : value.timesEffectOf(DilationUpgrade.first3Better).sqrt().times(0.15).add(1)
-    ),
+    effect: value => {
+      if (GameElement(83).canBeApplied) return dilatedValue(value, DC.D2, DC.D1_5).add(1);
+      if (DilationUpgrade.du2Better.canBeApplied) return value.timesEffectOf(DilationUpgrade.first3Better).pow(DC.C2D3).times(0.25).add(1);
+      return value.timesEffectOf(DilationUpgrade.first3Better).sqrt().times(0.15).add(1);
+    },
     formatEffect: value => i18n.t("X_stronger", { value: formatPercents(value.minus(1)) })
   },
   doubleParticle: {

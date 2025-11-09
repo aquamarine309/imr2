@@ -236,6 +236,7 @@ export const GameStorage = {
       times: supernova.times,
       stars: supernova.stars,
       tree: Array.from(supernova.tree).map(x => x.replace(/[A-Z]/gu, matched => `_${matched.toLowerCase()}`)),
+      post_10: !Supernova.tutorialActive,
       bosons: {
         gluon: bosons.gluon,
         graviton: bosons.graviton,
@@ -267,7 +268,17 @@ export const GameStorage = {
       chroma: quantum.chroma,
       points: quantum.foam,
       cosmic_str: massUpg.cosmicString,
-      bp: quantum.blueprint
+      bp: quantum.blueprint,
+      auto: {
+        enabled: auto.quantum.isActive,
+        mode: auto.quantum.mode,
+        input: auto.quantum.mode === AUTO_QUANTUM_TYPE.AMOUNT ? auto.quantum.amount.toString() : auto.quantum.time,
+        time: 0
+      },
+      prim: {
+        particles: quantum.primordium,
+        theorems: Primordium.totalTheorems
+      }
     };
 
     save.options = {

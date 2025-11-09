@@ -293,10 +293,11 @@ Currency.ragePowers = new class extends DecimalCurrency {
     gain = gain.times(Atom.neutronRP());
     gain = gain.powEffectsOf(
       BHUpgrade(7),
-      Challenge(4).reward
+      Challenge(4).reward,
+      PrimordiumParticle.alpha.effects[0]
     );
     if (Challenge(4).canBeApplied) {
-      gain = gain.pow(0.1);
+      gain = gain.pow(DC.D0_1);
     }
     if (MassDilation.canBeApplied) {
       gain = dilatedValue(gain, MassDilation.power);
@@ -332,7 +333,8 @@ Currency.darkMatter = new class extends DecimalCurrency {
     gain = gain.times(Atom.electronDM());
     gain = gain.powEffectsOf(
       Challenge(8),
-      Challenge(8).reward
+      Challenge(8).reward,
+      PrimordiumParticle.omega.effects[0]
     );
     if (MassDilation.canBeApplied) {
       gain = dilatedValue(gain, MassDilation.power);
@@ -382,7 +384,10 @@ Currency.atoms = new class extends DecimalCurrency {
       RageUpgrade(14),
       GluonUpgrade[0]
     );
-    gain = gain.powEffectOf(GameElement(17));
+    gain = gain.powEffectsOf(
+      GameElement(17),
+      PrimordiumParticle.sigma.effects[0]
+    );
     gain = dilatedValue(gain, FermionType.leptons.fermions.electron.effectOrDefault(DC.D1));
     return gain.floor();
   }
@@ -668,7 +673,10 @@ Currency.blueprint = new class extends DecimalCurrency {
 
   get gainedAmount() {
     let gain = DC.D1;
-    gain = gain.timesEffectOf(MassUpgrade.cosmicString);
+    gain = gain.timesEffectsOf(
+      MassUpgrade.cosmicString,
+      NeutronUpgrade.qu5
+    );
     if (QuantumMilestones.speedBoost.canBeApplied) {
       gain = gain.times(Softcap.dilation(Quantum.speed.add(1).sqrt(), DC.E50, DC.D0_95));
     }

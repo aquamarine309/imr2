@@ -183,12 +183,13 @@ export const mass = {
     formatPower: value => `+${formatPow(value)}`,
     effect($) {
       const power = $.power;
-      const amount = $.totalAmount;
+      const amount = $.totalAmount.powEffectOf(GameElement(81));
       let effect = amount.times(power).timesEffectOf(GameElement(80)).add(1);
       const softcaps = MassUpgradeSoftcap.stronger;
-      for (const s of softcaps) {
-        effect = Softcap.power(effect, s.start, s.scale);
-      }
+      effect = Softcap.power(effect, softcaps[0].start, softcaps[0].scale);
+      effect = Softcap.power(effect, softcaps[1].start, softcaps[1].scale);
+      effect = effect.timesEffectOf(PrimordiumParticle.delta.effects[0]);
+      effect = Softcap.power(effect, softcaps[2].start, softcaps[2].scale);
       effect = overflow(effect, DC.E115, DC.D0_5);
       effect = overflow(effect, DC.E1555, DC.D0_25);
       return effect;
@@ -325,7 +326,8 @@ export const mass = {
       return power.pow(
         bought.timesEffectsOf(
           GameElement(63),
-          RadiationType.radio.boosts[1]
+          RadiationType.radio.boosts[1],
+          PrimordiumParticle.alpha.effects[1]
         ).add(free).timesEffectOf(GameElement(80))
       ).powEffectsOf(
         RankType.tetr.unlocks.tickspeedPower,
@@ -386,7 +388,8 @@ export const mass = {
       power = power.add(Atom.electronCondenser());
       power = power.timesEffectsOf(
         AtomUpgrade(10),
-        PhotonUpgrade[1]
+        PhotonUpgrade[1],
+        PrimordiumParticle.omega.effects[1]
       );
       power = power.powEffectOf(NeutronUpgrade.bh2);
       return power;
@@ -423,17 +426,23 @@ export const mass = {
       return FermionType.quarks.fermions.up.reward.effectOrDefault(DC.D0);
     },
     cost(amount) {
+      const cheap = FermionType.leptons.fermions.neutTau.reward.effectOrDefault(null);
       const $ = MassUpgrade.cosmicRay.config;
       return getLinearCost(
-        $.scaling.scaleEvery(amount),
+        $.scaling.scaleEvery(
+          amount, false,
+          [null, null, null, cheap]
+        ),
         $.baseCost,
         $.costMult
       ).floor();
     },
     bulk(currency) {
+      const cheap = FermionType.leptons.fermions.neutTau.reward.effectOrDefault(null);
       const $ = MassUpgrade.cosmicRay.config;
       return $.scaling.scaleEvery(
-        getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
+        getLinearBulk(currency, $.baseCost, $.costMult), true,
+        [null, null, null, cheap]).add(1).floor();
     },
     get isUnlocked() {
       return PlayerProgress.atomUnlocked();
@@ -447,7 +456,8 @@ export const mass = {
       power = power.timesEffectsOf(
         AtomUpgrade(10),
         NeutronUpgrade.gr1,
-        GluonUpgrade[1]
+        GluonUpgrade[1],
+        PrimordiumParticle.sigma.effects[1]
       );
       power = power.powEffectOf(NeutronUpgrade.gr2);
       return power;
@@ -542,7 +552,9 @@ export const mass = {
       return false;
     },
     get power() {
-      return DC.D2;
+      let power = DC.D2;
+      power = power.timesEffectOf(NeutronUpgrade.qu6);
+      return power;
     },
     formatPower: value => formatX(value),
     effect($) {

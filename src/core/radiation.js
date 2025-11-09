@@ -54,6 +54,9 @@ class RadiationBoostState extends GameMechanicState {
       amount = amount.plusEffectOf(RadiationType.xRay.boosts[2]);
     }
     amount = amount.plusEffectOf(Challenge(12).reward);
+    if (NeutronUpgrade.rad6.canBeApplied) {
+      amount = amount.times(DC.D1_6.minus(DC.D0_05.times(this.type.id)));
+    }
     return amount;
   }
 
@@ -89,7 +92,7 @@ class RadiationTypeState extends GameMechanicState {
 
   get effectValue() {
     if (!this.isUnlocked) return DC.D1;
-    return this.distance.add(1).cbrt();
+    return this.distance.add(1).cbrt().powEffectOf(PrimordiumParticle.theta.effects[1]);
   }
 
   get isEffectActive() {
@@ -138,7 +141,8 @@ class RadiationTypeState extends GameMechanicState {
       this.boosts[0],
       RankType.pent.unlocks.tetrBoostRadiation,
       NeutronUpgrade.rad2,
-      NeutronUpgrade.rad5
+      NeutronUpgrade.rad5,
+      PrimordiumParticle.theta.effects[0]
     );
     if (this.id + 1 < RadiationType.all.length && RadiationType.all[this.id + 1].isUnlocked) {
       gain = gain.timesEffectOf(NeutronUpgrade.rad1);

@@ -583,5 +583,15 @@
   "hybridized_uran_astatine": "铀砹混合物",
   "neutronium_0": "零号中子-0",
   "auto_quantum_X": "自动量子：{state}",
-  "auto_quantum_mode_X": "自动量子模式：{value}"
+  "auto_quantum_mode_X": "自动量子模式：{value}",
+  "primordium_delta": "德尔塔",
+  "primordium_alpha": "阿尔法",
+  "primordium_omega": "欧米茄",
+  "primordium_sigma": "西格玛",
+  "primordium_phi": "斐",
+  "primordium_epsilon": "艾普西隆",
+  "primordium_theta": "西塔",
+  "primordium_beta": "贝塔",
+  "you_have_X_primordium_theorem": "你拥有 {value} 原基定理。",
+  "X_particle": "{value}粒子"
 }

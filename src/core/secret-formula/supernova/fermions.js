@@ -82,7 +82,10 @@ export const fermions = {
         key: "fermions_strange",
         symbol: "s",
         description: () => i18n.t("fermion_strange_description"),
-        maxTier: () => DC.D15.plusEffectOf(NeutronUpgrade.fn9),
+        maxTier: () => DC.D15.plusEffectsOf(
+          NeutronUpgrade.fn9,
+          NeutronUpgrade.fn11
+        ),
         currency: () => Currency.ragePowers.value,
         currencyKey: "X_rage_power",
         baseReq: DC.E3E4,
@@ -103,7 +106,7 @@ export const fermions = {
         key: "fermions_top",
         symbol: "t",
         description: () => i18n.t("fermion_top_description"),
-        maxTier: () => DC.D30,
+        maxTier: () => DC.D30.plusEffectOf(NeutronUpgrade.fn11),
         currency: () => Currency.dilatedMass.value,
         currencyKey: "X_dilated_mass",
         formatAsMass: true,
@@ -125,7 +128,7 @@ export const fermions = {
         key: "fermions_bottom",
         symbol: "b",
         description: () => i18n.t("fermion_bottom_description"),
-        maxTier: () => DC.E1,
+        maxTier: () => DC.E1.plusEffectOf(NeutronUpgrade.fn11),
         currency: () => MassUpgrade.tickspeed.effectValue,
         currencyKey: "X_of_tickspeed",
         baseReq: DC.E6E9,
@@ -149,7 +152,7 @@ export const fermions = {
         key: "fermions_electron",
         symbol: "e",
         description: () => i18n.t("fermion_electron_description", { value: formatPow(DC.D0_625, 3) }),
-        maxTier: () => DC.D15.plusEffectOf(NeutronUpgrade.fn5),
+        maxTier: () => (NeutronUpgrade.fn10.canBeApplied ? Decimal.dInf : DC.D15.plusEffectOf(NeutronUpgrade.fn5)),
         effect: DC.D0_625,
         currency: () => Currency.quark.value,
         currencyKey: "X_quark",
@@ -162,7 +165,7 @@ export const fermions = {
             currency.add(DC.D1).log10().times(tier).div(DC.E2).add(DC.D1),
             DC.D1_5,
             NeutronUpgrade.fn5.canBeApplied ? DC.D0_75 : DC.D0_25
-          ),
+          ).powEffectOf(NeutronUpgrade.fn10),
           formatEffect: value => formatPow(value),
           softcapped: value => value.gte(DC.D1_5)
         }
@@ -219,7 +222,10 @@ export const fermions = {
         symbol: "ν<sub>e</sub>",
         description: () => i18n.t("fermion_neutrino_description", { value: formatPow(0.5, 1) }),
         effect: DC.D0_5,
-        maxTier: () => DC.D15.plusEffectOf(NeutronUpgrade.fn9),
+        maxTier: () => DC.D15.plusEffectsOf(
+          NeutronUpgrade.fn9,
+          NeutronUpgrade.fn11
+        ),
         currency: () => Currency.stars.value,
         currencyKey: "X_collapsed_star",
         baseReq: DC.E1600,
@@ -240,7 +246,7 @@ export const fermions = {
         id: 10,
         key: "fermions_neut_meon",
         symbol: "ν<sub>μ</sub>",
-        maxTier: () => DC.D25,
+        maxTier: () => DC.D25.plusEffectOf(NeutronUpgrade.fn11),
         description: () => i18n.t("fermion_neut_meon_description"),
         currency: () => Currency.atoms.value,
         currencyKey: "X_atom",
@@ -269,7 +275,7 @@ export const fermions = {
         reward: {
           description: () => i18n.t("fermion_neut_tau_reward_description"),
           effect: (tier, currency) => currency.add(DC.D1).log10().pow(DC.D0_75).div(DC.E2).add(DC.D1).pow(tier.pow(DC.D0_75)),
-          formatEffect: value => formatX(value)
+          formatEffect: value => `/${format(value)}`
         }
       }
     }

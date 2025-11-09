@@ -583,5 +583,15 @@
   "hybridized_uran_astatine": "Hybridized Uran-Astatine",
   "neutronium_0": "Neutronium-0",
   "auto_quantum_X": "Auto-Quantum: {state}",
-  "auto_quantum_mode_X": "Auto-Quantum Mode: {value}"
+  "auto_quantum_mode_X": "Auto-Quantum Mode: {value}",
+  "primordium_delta": "Delta",
+  "primordium_alpha": "Alpha",
+  "primordium_omega": "Omega",
+  "primordium_sigma": "Sigma",
+  "primordium_phi": "Phi",
+  "primordium_epsilon": "Epsilon",
+  "primordium_theta": "Theta",
+  "primordium_beta": "Beta",
+  "you_have_X_primordium_theorem": "You have {value} Primordium Theorem.|You have {value} Primordium Theorems.",
+  "X_particle": "{value} Particle"
 }

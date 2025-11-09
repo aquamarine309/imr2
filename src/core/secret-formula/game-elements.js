@@ -277,7 +277,7 @@ export const gameElements = [
   {
     id: 38,
     description: () => i18n.t("game_element_38_description"),
-    effect: () => MassUpgrade.tickspeed.freeAmount.div(6).floor(),
+    effect: () => MassUpgrade.tickspeed.freeAmount.div(6).timesEffectOf(GameElement(82)).floor(),
     formatEffect: value => `${formatPlus(value, 0)} to Rage Power Upgrade 7`,
     cost: DC.E260,
     position: [4, 1],
@@ -595,14 +595,22 @@ export const gameElements = [
   },
   {
     id: 81,
+    description: () => `Stronger is ${formatPow(DC.D1_1, 1)} stronger.`,
+    effect: DC.D1_1,
+    cost: DC.E2_8E13,
     position: [5, 12],
   },
   {
     id: 82,
+    description: "Strontium-38 is thrice as effective.",
+    effect: DC.D3,
+    cost: DC.E4E13,
     position: [5, 13],
   },
   {
     id: 83,
+    description: "Mass Dilation upgrade 2 effect is overpowered.",
+    cost: DC.E3E14,
     position: [5, 14],
   },
   {

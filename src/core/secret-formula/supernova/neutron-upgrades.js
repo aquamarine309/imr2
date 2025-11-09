@@ -26,7 +26,7 @@ export const neutronTrees = [
       ["qol1", null, null, null, "quQol1", null],
       ["qol2", "qol3", "qol4", "quQol2", "quQol3", "quQol4", "quQol5", "quQol6"],
       ["qol5", "qol6", "qol7", null, null, "quQol7", null, null],
-      ["qol9", "unl1", "qol8", "unl2", null, null, null, null]
+      ["qol9", "unl1", "qol8", "unl2", "unl3", null, null, null]
     ]
   },
   {
@@ -59,8 +59,9 @@ export const neutronTrees = [
     layout: [
       ["qu0"],
       ["qu1", "qu2", "qu3"],
-      [null, "prim2", "prim1", "qu4", null, null, null],
-      [null, "qu5", null]
+      ["prim3", "prim2", "prim1", "qu4", null, null, null],
+      [null, "qu5", null],
+      ["qu6", null, null, null, null, null]
     ]
   }
 ];
@@ -361,6 +362,15 @@ export const neutronUpgrades = {
     cost: DC.D50,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
+  unl3: {
+    id: "unl3",
+    branch: ["unl2"],
+    requirement: () => `Quantize ${formatInt(200)} times.`,
+    check: () => Currency.quantizes.gte(DC.D200),
+    description: "Unlock Quantum Challenges",
+    cost: DC.E6,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
   quQol1: {
     id: "quQol1",
     isUnlocked: () => PlayerProgress.quantumUnlocked(),
@@ -619,6 +629,7 @@ export const neutronUpgrades = {
       Challenge(9).isRunning &&
       Currency.atoms.gte(DC.E1_5E8)
     ),
+    effect: DC.D4_5,
     cost: DC.E600
   },
   fn7: {
@@ -692,7 +703,7 @@ export const neutronUpgrades = {
     isUnlocked: () => Primordium.isUnlocked,
     branch: ["qf1"],
     description: "Quantum Foams are boosted by Neutron Stars.",
-    effect: () => Currency.supernova.value.add(1).log10().add(1).pow(DC.C1D3),
+    effect: () => Currency.neutronStars.value.add(1).log10().add(1).pow(DC.C1D3),
     formatEffect: value => formatX(value),
     cost: DC.E735
   },
@@ -708,7 +719,7 @@ export const neutronUpgrades = {
     id: "qu1",
     branch: ["qu0"],
     description: () => `Fermion requirements are decreased by ${formatPercents(0.2, 0)}.`,
-    effect: DC.C1D1_2,
+    effect: DC.D1_2,
     cost: DC.D1,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
@@ -743,6 +754,15 @@ export const neutronUpgrades = {
     cost: DC.E2,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
+  qu6: {
+    id: "qu6",
+    branch: ["qu5"],
+    description: "Quantizes boost Cosmic string's power.",
+    effect: () => Currency.quantizes.value.add(1).log10().add(1),
+    formatEffect: value => formatX(value),
+    cost: DC.E3,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
   prim1: {
     id: "prim1",
     branch: ["qu5"],
@@ -756,6 +776,14 @@ export const neutronUpgrades = {
     branch: ["prim1"],
     description: "Theta Particle’s second effect is now added.",
     cost: DC.D500,
+    type: NEUTRON_UPGRADE_TYPE.QUANTUM
+  },
+  prim3: {
+    id: "prim3",
+    isUnlocked: () => QuantumChallenges.areUnlocked,
+    branch: ["prim2"],
+    description: "Epsilon Particle’s second effect is now added, stronger if you are in Quantum Challenge.",
+    cost: DC.E16,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   }
 };

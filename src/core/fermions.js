@@ -25,7 +25,7 @@ class FermionRewardState extends GameMechanicState {
   }
 
   get effectiveTier() {
-    let tier = this.fermion.tier;
+    let tier = this.fermion.tier.add(this.fermion.bonus);
     if (this.fermion.type === FermionType.leptons) {
       tier = tier.timesEffectOf(RadiationType.xRay.boosts[1]);
     } else {
@@ -53,6 +53,10 @@ class FermionState extends GameMechanicState {
 
   get tier() {
     return player.supernova.fermions.tiers[this.id];
+  }
+
+  get bonus() {
+    return PrimordiumParticle.epsilon.effects[1].effectOrDefault(DC.D0);
   }
 
   get reward() {
@@ -172,7 +176,7 @@ class FermionTypeState {
   get pointGain() {
     if (!Fermions.areUnlocked) return DC.D0;
     let gain = DC.D1;
-    const base = DC.D1_25;
+    const base = DC.D1_25.plusEffectOf(PrimordiumParticle.epsilon.effects[0]);
     gain = gain.times(base.pow(this.totalTiers));
     gain = gain.timesEffectOf(NeutronUpgrade.fn1);
     gain = gain.times(Radiation.frequencyEffect);

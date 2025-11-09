@@ -386,7 +386,7 @@ export const scaling = {
     scaling: [
       {
         get start() {
-          return DC.D15;
+          return DC.D15.plusEffectOf(PrimordiumParticle.beta.effects[0]);
         },
         get scale() {
           return DC.D3.powEffectOf(FermionType.leptons.fermions.neutMeon.reward);
@@ -394,7 +394,7 @@ export const scaling = {
       },
       {
         get start() {
-          return DC.D35;
+          return DC.D35.plusEffectOf(PrimordiumParticle.beta.effects[0]);
         },
         get scale() {
           return DC.D3.powEffectOf(FermionType.leptons.fermions.neutMeon.reward);
@@ -402,7 +402,7 @@ export const scaling = {
       },
       {
         get start() {
-          return DC.D60;
+          return DC.D60.plusEffectOf(PrimordiumParticle.beta.effects[0]);
         },
         get scale() {
           return DC.D5.powEffectOf(FermionType.leptons.fermions.neutMeon.reward);
@@ -410,7 +410,7 @@ export const scaling = {
       },
       {
         get start() {
-          return DC.E2;
+          return DC.E2.plusEffectOf(PrimordiumParticle.beta.effects[0]);
         },
         get scale() {
           return DC.D1_025.powEffectOf(GameElement(78));

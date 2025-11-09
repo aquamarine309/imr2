@@ -38,3 +38,4 @@ export * from "./quantum";
 export * from "./chroma";
 export * from "./resets";
 export * from "./primordium";
+export * from "./quantum-challenge";
