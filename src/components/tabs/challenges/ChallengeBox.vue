@@ -43,7 +43,7 @@ export default {
     },
     buttonText() {
       if (this.isRunning) {
-        if (this.pendingCompletions.gt(0)) {
+        if (this.pendingCompletions.gt(this.completions)) {
           return i18n.t("X_times", { value: formatPlus(this.pendingCompletions.minus(this.completions), 0) });
         }
         return i18n.t("exit");
@@ -90,7 +90,7 @@ export default {
       this.completions.copyFrom(challenge.completions);
       this.isCapped = challenge.isCapped;
       if (!this.isRunning) return;
-      this.pendingCompletions = challenge.pendingCompletions;
+      this.pendingCompletions.copyFrom(challenge.pendingCompletions);
     },
     enter() {
       if (this.isRunning) {

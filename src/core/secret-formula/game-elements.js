@@ -615,14 +615,22 @@ export const gameElements = [
   },
   {
     id: 84,
+    description: "Pre-Ultra Mass Upgrades scale weaker based on Cosmic Ray's free tickspeeds.",
+    effect: () => DC.D0_9.pow(Atom.freeTickspeeds.add(1).log10().pow(DC.C2D3)),
+    formatEffect: value => i18n.t("X_weaker", { value: formatPercents(DC.D1.minus(value)) }),
+    cost: DC.E7E14,
     position: [5, 15],
   },
   {
     id: 85,
+    description: () => `Stronger’s Power softcap starts ${formatX(3, 0)} later, and is ${formatPercents(0.1, 0)} weaker.`,
+    cost: DC.E7_5E15,
     position: [5, 16],
   },
   {
     id: 86,
+    description: () => `Tickspeed’s Power softcap starts ${formatPow(0.2, 1)} later, and scales ${formatPercents(0.5, 0)} weaker.`,
+    cost: DC.E2E16,
     position: [5, 17],
   },
   {

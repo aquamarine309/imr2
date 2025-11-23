@@ -146,32 +146,33 @@ class ChallengeState extends GameMechanicState {
   }
 
   goalAt(completions) {
-    if (completions.gt(this.impossibleStart)) {
+    const comps = completions.timesEffectOf(QuantumChallenge(5));
+    if (completions.gte(this.impossibleStart)) {
       const exp = DC.D3.pow(this.hardenedPower);
       const exp2 = DC.D4_5.pow(this.insanePower);
       const exp3 = DC.D1_001.pow(this.impossiblePower);
       return this.baseGoal.times(this.goalMult.pow(
-        exp3.pow(completions.minus(this.impossibleStart))
+        exp3.pow(comps.minus(this.impossibleStart))
           .times(this.impossibleStart)
           .pow(exp2).div(this.insaneStart.pow(exp2.minus(1)))
           .pow(exp).div(this.hardenedStart.pow(exp.minus(1))).pow(this.goalPow)
       ));
     }
-    if (completions.gt(this.insaneStart)) {
+    if (completions.gte(this.insaneStart)) {
       const exp = DC.D3.pow(this.hardenedPower);
       const exp2 = DC.D4_5.pow(this.insanePower);
       return this.baseGoal.times(this.goalMult.pow(
-        completions.pow(exp2).div(this.insaneStart.pow(exp2.minus(1)))
+        comps.pow(exp2).div(this.insaneStart.pow(exp2.minus(1)))
           .pow(exp).div(this.hardenedStart.pow(exp.minus(1))).pow(this.goalPow)
       ));
     }
-    if (completions.gt(this.hardenedStart)) {
+    if (completions.gte(this.hardenedStart)) {
       const exp = DC.D3.pow(this.hardenedPower);
       return this.baseGoal.times(this.goalMult.pow(
-        completions.pow(exp).div(this.hardenedStart.pow(exp.minus(1)))
+        comps.pow(exp).div(this.hardenedStart.pow(exp.minus(1)))
           .pow(this.goalPow)));
     }
-    return this.baseGoal.times(this.goalMult.pow(completions.pow(this.goalPow)));
+    return this.baseGoal.times(this.goalMult.pow(comps.pow(this.goalPow)));
   }
 
   get goal() {
@@ -208,9 +209,12 @@ class ChallengeState extends GameMechanicState {
   }
 
   get pendingCompletions() {
-    if (this.isCapped) return DC.D0;
-    const mass = this.currency;
-    if (mass.lt(this.goal)) return DC.D0;
+    if (this.currency.lt(this.goal) || this.isCapped) return this.completions;
+    return this.bulkAt(this.currency);
+  }
+
+  bulkAt(mass) {
+    const qc5 = QuantumChallenge(5).effectOrDefault(DC.D1);
     const impossibleStart = this.goalAt(this.impossibleStart);
     if (mass.gte(impossibleStart)) {
       const exp = DC.D3.pow(this.hardenedPower);
@@ -222,6 +226,7 @@ class ChallengeState extends GameMechanicState {
         .div(this.impossibleStart)
         .max(1).log(exp3)
         .add(this.impossibleStart)
+        .div(qc5)
         .add(1).floor().clampMax(this.max);
     }
     const insaneStart = this.goalAt(this.insaneStart);
@@ -230,15 +235,18 @@ class ChallengeState extends GameMechanicState {
       const exp2 = DC.D4_5.pow(this.insanePower);
       return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow)
         .times(this.hardenedStart.pow(exp.minus(1))).root(exp).add(1).floor()
-        .times(this.insaneStart.pow(exp2.minus(1))).root(exp2).add(1).floor().clampMax(this.max);
+        .times(this.insaneStart.pow(exp2.minus(1))).root(exp2).div(qc5).add(1).floor()
+        .clampMax(this.impossibleStart).clampMax(this.max);
     }
     const hardenedStart = this.goalAt(this.hardenedStart);
     if (mass.gte(hardenedStart)) {
       const exp = DC.D3.pow(this.hardenedPower);
       return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow)
-        .times(this.hardenedStart.pow(exp.minus(1))).root(exp).add(1).floor().clampMax(this.max);
+        .times(this.hardenedStart.pow(exp.minus(1))).root(exp).div(qc5).add(1).floor()
+        .clampMax(this.insaneStart).clampMax(this.max);
     }
-    return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow).add(1).floor().clampMax(this.max);
+    return mass.div(this.baseGoal).log(this.goalMult).root(this.goalPow)
+      .div(qc5).add(1).floor().clampMax(this.hardenedStart).clampMax(this.max);
   }
 
   applyAutoComplete() {

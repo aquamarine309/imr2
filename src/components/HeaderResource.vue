@@ -66,6 +66,12 @@ export default {
       default: true
     }
   },
+  data() {
+    return {
+      currentAmount: new Decimal(1),
+      lastAmount: new Decimal(1)
+    };
+  },
   computed: {
     view() {
       return this.$viewModel;
@@ -85,6 +91,10 @@ export default {
     this.resID = uid++;
   },
   methods: {
+    update() {
+      this.currentAmount = this.lastAmount;
+      this.lastAmount = this.amount;
+    },
     formatValue(value) {
       if (this.isMass) return formatMass(value);
       if (this.formatFn !== undefined) return this.formatFn(value);
@@ -128,7 +138,7 @@ export default {
     >
       <span>{{ formatValue(amount) }}</span>
       <template v-if="showRate">
-        <span v-if="isRate">{{ formatGain(amount, gainRate, isMass) }}</span>
+        <span v-if="isRate">{{ formatGain(currentAmount, gainRate, isMass) }}</span>
         <span v-else-if="forceText">({{ forceText }})</span>
         <span v-else>(+{{ formatValue(gainRate) }})</span>
       </template>

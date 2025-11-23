@@ -68,7 +68,8 @@ class FermionState extends GameMechanicState {
   }
 
   get firstCheaper() {
-    return NeutronUpgrade.qu1.effectOrDefault(null);
+    return NeutronUpgrade.qu1.effectOrDefault(DC.D1)
+      .dividedByEffectOf(QuantumChallenge(2));
   }
 
   get requirement() {
@@ -213,11 +214,22 @@ export const Fermions = {
     return count;
   },
 
+  invalidate() {
+    for (const fermion of this.all) {
+      fermion.cachedRequirement.invalidate();
+    }
+  },
+
   update(diff) {
     if (!this.areUnlocked) return;
     Currency.uQuarks.tick(diff);
     Currency.uLeptons.tick(diff);
-    if (this.isActive) {
+    this.invalidate();
+    if (NeutronUpgrade.quQol8.canBeApplied) {
+      for (const fermion of this.all) {
+        fermion.updateTier();
+      }
+    } else if (this.isActive) {
       this.current.updateTier();
     }
   }

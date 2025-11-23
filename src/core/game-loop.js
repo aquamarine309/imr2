@@ -76,6 +76,7 @@ export const GameLoop = {
       for (const chroma of Chroma) {
         chroma.tick(seconds);
       }
+      checkEntropy();
     }
 
     if (NeutronUpgrade.qol3.canBeApplied) {

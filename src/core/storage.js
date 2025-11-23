@@ -261,6 +261,7 @@ export const GameStorage = {
     };
 
     const quantum = player.quantum;
+    const qc = quantum.challenges;
     save.qu = {
       reached: quantum.times.gt(0),
       times: quantum.times,
@@ -278,6 +279,12 @@ export const GameStorage = {
       prim: {
         particles: quantum.primordium,
         theorems: Primordium.totalTheorems
+      },
+      qc: {
+        active: qc.isActive,
+        mods: qc.mods,
+        shard: qc.shards,
+        presets: []
       }
     };
 

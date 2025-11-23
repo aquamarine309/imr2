@@ -252,6 +252,7 @@ Currency.mass = new class extends DecimalCurrency {
       gain = dilatedValue(gain, MassDilation.power);
       gain = gain.powEffectOf(GameElement(28));
     }
+    gain = gain.powEffectOf(QuantumChallenge(4));
     if (Challenge(9).canBeApplied) {
       gain = dilatedValue(gain, Challenge(9).effectValue);
     }
@@ -294,7 +295,8 @@ Currency.ragePowers = new class extends DecimalCurrency {
     gain = gain.powEffectsOf(
       BHUpgrade(7),
       Challenge(4).reward,
-      PrimordiumParticle.alpha.effects[0]
+      PrimordiumParticle.alpha.effects[0],
+      QuantumChallenge(4)
     );
     if (Challenge(4).canBeApplied) {
       gain = gain.pow(DC.D0_1);
@@ -334,7 +336,8 @@ Currency.darkMatter = new class extends DecimalCurrency {
     gain = gain.powEffectsOf(
       Challenge(8),
       Challenge(8).reward,
-      PrimordiumParticle.omega.effects[0]
+      PrimordiumParticle.omega.effects[0],
+      QuantumChallenge(4)
     );
     if (MassDilation.canBeApplied) {
       gain = dilatedValue(gain, MassDilation.power);
@@ -388,6 +391,7 @@ Currency.atoms = new class extends DecimalCurrency {
       GameElement(17),
       PrimordiumParticle.sigma.effects[0]
     );
+    gain = gain.powEffectOf(QuantumChallenge(4));
     gain = dilatedValue(gain, FermionType.leptons.fermions.electron.effectOrDefault(DC.D1));
     return gain.floor();
   }
@@ -490,6 +494,7 @@ Currency.dilatedMass = new class extends DecimalCurrency {
       GameElement(40)
     );
     gain = gain.powEffectOf(GameElement(32));
+    gain = gain.powEffectOf(QuantumChallenge(4));
     return gain;
   }
 
@@ -618,6 +623,7 @@ Currency.frequency = new class extends DecimalCurrency {
       RadiationType.radio,
       NeutronUpgrade.rad1
     );
+    gain = gain.powEffectOf(QuantumChallenge(3));
     return gain;
   }
 
@@ -654,7 +660,7 @@ Currency.quantizes = new class extends DecimalCurrency {
   }
 
   get gainedAmount() {
-    return DC.D1;
+    return NeutronUpgrade.qu7.effectOrDefault(DC.D1);
   }
 
   get key() {

@@ -81,20 +81,20 @@ window.format = function format(value, places = 4, layerExp = 12) {
 };
 
 function formatSmallNumber(decimal, log10Result, places, layerExp) {
-  let expCeil = log10Result.ceil();
-  const pow10ExpCeil = Decimal.pow10(expCeil);
-  const mantissa = decimal.div(pow10ExpCeil);
+  let expFloor = log10Result.floor();
+  const pow10ExpFloor = Decimal.pow10(expFloor);
+  const mantissa = decimal.div(pow10ExpFloor);
 
-  const negExpCeil = expCeil.neg();
-  const be = negExpCeil.clampMin(1).log10().gte(9);
+  const negExpFloor = expFloor.neg();
+  const be = negExpFloor.clampMin(1).log10().gte(9);
 
   let formatMantissa = be ? "" : mantissa.toFixed(4);
   if (formatMantissa === "10.0000") {
     formatMantissa = "1.0000";
-    expCeil = expCeil.add(1);
+    expFloor = expFloor.add(1);
   }
 
-  const formatExponent = format(expCeil, 0, layerExp);
+  const formatExponent = format(expFloor, 0, layerExp);
   return `${formatMantissa}e${formatExponent}`;
 }
 

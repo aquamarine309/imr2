@@ -7,7 +7,7 @@ export const bosons = {
       Boson.negativeW.effects.positiveW,
       Boson.zBoson.effects.wBosons,
       Boson.graviton
-    ),
+    ).powEffectOf(QuantumChallenge(3)),
     effects: {
       mass: value => {
         let effect = value.add(1).pow(DC.D2E4);
@@ -25,7 +25,7 @@ export const bosons = {
       Boson.positiveW.effects.negativeW,
       Boson.zBoson.effects.wBosons,
       Boson.graviton
-    ),
+    ).powEffectOf(QuantumChallenge(3)),
     effects: {
       softcap: value => value.add(1).log10().add(1).pow(DC.C1D3),
       positiveW: value => dilatedValue(value.add(1), DC.D0_75, DC.D2)
@@ -35,7 +35,10 @@ export const bosons = {
     id: "zBoson",
     gain: () => DC.D0_01
       .timesEffectOf(Boson.graviton)
-      .powEffectOf(NeutronUpgrade.bs4),
+      .powEffectsOf(
+        NeutronUpgrade.bs4,
+        QuantumChallenge(3)
+      ),
     effects: {
       tickspeed: value => (FermionType.leptons.fermions.neutMeon.canBeApplied
         ? DC.D1
@@ -49,7 +52,7 @@ export const bosons = {
       Boson.graviton,
       PhotonUpgrade[2],
       NeutronUpgrade.bs2.effects.photon
-    )
+    ).powEffectOf(QuantumChallenge(3))
   },
   gluon: {
     id: "gluon",
@@ -64,7 +67,7 @@ export const bosons = {
     gain: () => DC.D0_01.timesEffectsOf(
       Boson.graviton,
       FermionType.leptons.fermions.meon.reward
-    ),
+    ).powEffectOf(QuantumChallenge(3)),
     effect: value => dilatedValue(value, DC.D0_5).powEffectOf(Boson.higgsBoson).clampMin(1)
   },
   higgsBoson: {
@@ -72,7 +75,7 @@ export const bosons = {
     gain: () => DC.D0_01.timesEffectsOf(
       NeutronUpgrade.bs1,
       FermionType.leptons.fermions.meon.reward
-    ),
+    ).powEffectOf(QuantumChallenge(3)),
     effect: value => value.add(1).log10().max(1).sqrt()
       .timesEffectOf(PrimordiumParticle.phi.effects[0])
   }

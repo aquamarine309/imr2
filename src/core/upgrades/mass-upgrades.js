@@ -150,10 +150,18 @@ export const MassUpgradeSoftcap = {
       level: 3,
       get start() {
         if (RankType.pent.unlocks.removeStrongerSoftcap.canBeApplied) return Decimal.dInf;
-        return DC.D5E15;
+        let start = DC.D5E15;
+        if (GameElement(85).canBeApplied) {
+          start = start.times(3);
+        }
+        return start;
       },
       get scale() {
-        return DC.D0_1;
+        let scale = DC.D0_1;
+        if (GameElement(85).canBeApplied) {
+          scale = scale.pow(DC.D0_9);
+        }
+        return scale;
       }
     },
   ],

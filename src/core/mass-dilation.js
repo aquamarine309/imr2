@@ -7,7 +7,10 @@ export const MassDilation = {
   },
 
   get power() {
-    return DC.D0_8.powEffectOf(FermionType.quarks.fermions.charm);
+    return DC.D0_8.powEffectsOf(
+      FermionType.quarks.fermions.charm,
+      QuantumChallenge(6)
+    );
   },
 
   get isActive() {
@@ -74,7 +77,8 @@ export const MassDilation = {
     power = power.timesEffectsOf(
       Challenge(10).reward,
       FermionType.quarks.fermions.down,
-      NeutronUpgrade.d1
+      NeutronUpgrade.d1,
+      QuantumChallenge(4)
     );
     return power;
   },

@@ -147,6 +147,7 @@ class RadiationTypeState extends GameMechanicState {
     if (this.id + 1 < RadiationType.all.length && RadiationType.all[this.id + 1].isUnlocked) {
       gain = gain.timesEffectOf(NeutronUpgrade.rad1);
     }
+    gain = gain.powEffectOf(QuantumChallenge(3));
     return gain;
   }
 

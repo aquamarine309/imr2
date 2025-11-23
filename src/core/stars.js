@@ -75,12 +75,15 @@ class StarGeneratorState {
 
   get gainPerSecond() {
     if (!this.isUnlocked) return DC.D0;
-    const power = FermionType.leptons.fermions.neutrino
+    let power = FermionType.leptons.fermions.neutrino
       .effectOrDefault(DC.D1_5)
       .timesEffectsOf(
         GameElement(50),
         NeutronUpgrade.s3
       );
+    if (power.gt(1)) {
+      power = power.powEffectOf(QuantumChallenge(0).effects.generators);
+    }
     let gain = (this.tier === 4 ? DC.D0 : StarGenerator(this.tier + 1).amount).add(1).pow(power);
     if (this.tier === 4) {
       gain = gain.timesEffectsOf(
@@ -94,6 +97,9 @@ class StarGeneratorState {
       PhotonUpgrade[3],
       MassUpgrade.starBooster
     );
+    if (QuantumChallenges.isActive) {
+      gain = dilatedValue(gain, QuantumChallenge(0).effects.stars.effectValue);
+    }
     return gain;
   }
 

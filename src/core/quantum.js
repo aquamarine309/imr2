@@ -9,8 +9,10 @@ export const Quantum = {
     gain = gain.timesEffectsOf(
       NeutronUpgrade.qf1,
       NeutronUpgrade.qf2,
+      NeutronUpgrade.qf3,
       QuantumMilestones.doubleQF
     );
+    gain = gain.times(QuantumChallenges.effect);
     return gain.floor();
   },
 
@@ -20,7 +22,8 @@ export const Quantum = {
 
   get speed() {
     return Currency.blueprint.value.add(1).log10().add(1).pow(DC.D1_5)
-      .timesEffectOf(QuantumMilestones.removeReqAndSpeedUp);
+      .timesEffectOf(QuantumMilestones.removeReqAndSpeedUp)
+      .dividedByEffectOf(QuantumChallenge(1));
   }
 };
 

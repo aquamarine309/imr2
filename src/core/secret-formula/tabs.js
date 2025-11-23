@@ -117,6 +117,13 @@ export const tabs = [
         key: "challenges",
         symbol: "<i class='fas fa-mountain'></i>",
         component: "ChallengesTab"
+      },
+      {
+        id: 1,
+        key: "quantum",
+        symbol: ICONS.quantum,
+        component: "QuantumChallengesTab",
+        condition: () => QuantumChallenges.areUnlocked
       }
     ]
   },
@@ -179,7 +186,7 @@ export const tabs = [
         key: "radiation",
         symbol: "<i class='fas fa-podcast'></i>",
         component: "RadiationTab",
-        condition: () => Radiation.isUnlocked
+        condition: () => Radiation.isUnlocked || PlayerProgress.quantumUnlocked()
       }
     ]
   },
@@ -214,6 +221,12 @@ export const tabs = [
         symbol: ICONS.primordium,
         condition: () => Primordium.isUnlocked,
         component: "PrimordiumTab"
+      },
+      {
+        id: 4,
+        key: "entropy",
+        symbol: ICONS.entropy,
+        condition: () => Entropy.isUnlocked
       }
     ]
   }

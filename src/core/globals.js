@@ -39,3 +39,4 @@ export * from "./chroma";
 export * from "./resets";
 export * from "./primordium";
 export * from "./quantum-challenge";
+export * from "./entropy";

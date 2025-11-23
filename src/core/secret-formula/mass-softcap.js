@@ -56,10 +56,22 @@ export const massSoftcap = [
   {
     id: 3,
     mass() {
-      return mlt(DC.E4).powEffectOf(RankType.pent.unlocks.massSoftcapLater);
+      return mlt(DC.E4).powEffectsOf(
+        RankType.pent.unlocks.massSoftcapLater,
+        NeutronUpgrade.qc1
+      );
     },
     effect() {
       return DC.D0_1;
+    }
+  },
+  {
+    id: 4,
+    mass() {
+      return mlt(DC.E12);
+    },
+    effect() {
+      return DC.D0_05;
     }
   }
 ];

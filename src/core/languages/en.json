@@ -34,6 +34,8 @@
   "tab_challenges_letter": "C",
   "tab_challenges_challenges": "Challenges",
   "tab_challenges_challenges_short": "Challenges",
+  "tab_challenges_quantum": "Quantum Challenges",
+  "tab_challenges_quantum_short": "Quantum",
   "tab_atom": "Atom",
   "tab_atom_letter": "A",
   "tab_atom_particles": "Particles",
@@ -62,6 +64,8 @@
   "tab_quantum_auto_quantum_short": "Auto",
   "tab_quantum_primordium": "Primordium",
   "tab_quantum_primordium_short": "Primordium",
+  "tab_quantum_entropy": "Entropy",
+  "tab_quantum_entropy_short": "Entropy",
   "X_g": "{value} g",
   "X_kg": "{value} kg",
   "X_tonne": "{value} tonne",
@@ -593,5 +597,8 @@
   "primordium_theta": "Theta",
   "primordium_beta": "Beta",
   "you_have_X_primordium_theorem": "You have {value} Primordium Theorem.|You have {value} Primordium Theorems.",
-  "X_particle": "{value} Particle"
+  "X_particle": "{value} Particle",
+  "you_have_X_quantum_shard": "You have {value} Quantum Shard.|You have {value} Quantum Shards.",
+  "quantum_shard_effect_1": "Each Quantum Shard multiplies Quantum Foams gain by {value}.",
+  "quantum_shard_effect_2": "Which translates to a {value} to Quantum Foams."
 }

@@ -34,7 +34,7 @@ export const Supernova = {
   },
 
   startingAutoCheck() {
-    if (Supernova.times.gte(DC.D1) && Supernova.tutorialActive && Resets.supernova.canReset) {
+    if (Supernova.times.gte(DC.D1) && Supernova.tutorialActive && Resets.supernova.canReset && GameUI.initialized) {
       Resets.supernova.resetLayer();
       Tab.main.mass.show();
       GameUI.notify.supernova("You have become Supernova!");
@@ -44,7 +44,6 @@ export const Supernova = {
     }
   }
 };
-
 class NeutronUpgradeState extends SetPurchasableMechanicState {
   constructor(config) {
     super(config);

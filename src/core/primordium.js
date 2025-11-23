@@ -104,13 +104,6 @@ export const Primordium = {
     const value = amount ? this.theorems.min(amount) : this.theorems;
     const totalWeight = this.totalWeight.value;
     if (totalWeight === 0) return;
-    if (value.gte(100)) {
-      for (const particle of PrimordiumParticle.all) {
-        particle.add(value.times(particle.weight / totalWeight));
-      }
-      this.spentTheorems.invalidate();
-      return;
-    }
     const weights = [];
     for (const particle of PrimordiumParticle.all) {
       weights.push(particle.weight + (weights[weights.length - 1] ?? 0));

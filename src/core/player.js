@@ -70,7 +70,12 @@ window.player = {
     chroma: [DC.D0, DC.D0, DC.D0],
     times: DC.D0,
     blueprint: DC.D0,
-    primordium: Array.repeat(DC.D0, 8)
+    primordium: Array.repeat(DC.D0, 8),
+    challenges: {
+      mods: Array.repeat(0, 8),
+      shards: 0,
+      isActive: false
+    }
   },
   auto: {
     ranks: {
@@ -122,7 +127,8 @@ window.player = {
   unlocks: {
     ragePower: false,
     darkMatter: false,
-    atom: false
+    atom: false,
+    entropy: false
   },
   checks: {
     supernova: {
@@ -165,7 +171,7 @@ window.player = {
     language: "en",
     massDisplay: MASS_DISPLAY.DEFAULT,
     foldUselessRank: true,
-    tabIconify: false,
+    iconifyTab: false,
     confirmations: {
       ragePower: true,
       darkMatter: true,

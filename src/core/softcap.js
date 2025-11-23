@@ -102,6 +102,17 @@ class ScalingState {
     this.name = config.name;
     this.scalings = config.scaling;
     this.currency = config.currency;
+    this.qcActive = config.qcActive ?? false;
+  }
+
+  getStart(scaling) {
+    if (this.qcActive) return scaling.start.powEffectOf(QuantumChallenge(7).effects.starting).floor();
+    return scaling.start.floor();
+  }
+
+  getScale(scaling) {
+    if (this.qcActive) return scaling.scale.powEffectOf(QuantumChallenge(7).effects.strength);
+    return scaling.scale;
   }
 
   scale(value, index, reverse = false) {
@@ -110,8 +121,8 @@ class ScalingState {
 
     return scaleValue(
       value,
-      scaling.start,
-      scaling.scale,
+      this.getStart(scaling),
+      this.getScale(scaling),
       getScaleType(index),
       reverse
     );
@@ -142,7 +153,7 @@ class ScalingState {
     let idx = -1;
     // Binary Search is unnecessary
     for (let i = 0; i < this.scalings.length; i++) {
-      if (value.lt(this.scalings[i].start)) break;
+      if (value.lt(this.getStart(this.scalings[i]))) break;
       idx = i;
     }
     if (idx === -1) return "";
@@ -151,7 +162,7 @@ class ScalingState {
 
   isScaled(index) {
     if (index >= this.scalings.length) return false;
-    return this.scalings[index].start.lt(this.currency());
+    return this.getStart(this.scalings[index]).lt(this.currency());
   }
 }
 

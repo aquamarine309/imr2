@@ -15,7 +15,8 @@ export default {
       effect: new Decimal(),
       next: null,
       autoUnlocked: false,
-      auto: false
+      auto: false,
+      radiationUnlocked: false
     };
   },
   computed: {
@@ -28,6 +29,7 @@ export default {
   },
   methods: {
     update() {
+      this.radiationUnlocked = Radiation.isUnlocked;
       this.frequency.copyFrom(Currency.frequency.value);
       this.frequencyGain.copyFrom(Currency.frequency.gainedAmount);
       this.effect = Radiation.frequencyEffect;
@@ -57,21 +59,24 @@ export default {
         </span>
       </template>
     </i18n>
-    <div v-if="next">
+    <div v-if="radiationUnlocked && next">
       {{ $t("next_radiation", { value: format(next.requirement), object: next.name }) }}
     </div>
-    <div v-if="autoUnlocked">
+    <div v-if="radiationUnlocked && autoUnlocked">
       <PrimaryToggleButton
         v-model="auto"
         i18n-key="auto_X"
       />
     </div>
-    <div>
+    <div v-if="radiationUnlocked">
       <RadiationBox
         v-for="type in types"
         :key="type.id"
         :radiation="type"
       />
+    </div>
+    <div v-else>
+      Purchase [unl1] to unlock Radiation.
     </div>
   </div>
 </template>

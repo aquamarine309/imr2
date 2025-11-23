@@ -43,6 +43,9 @@ export const GameElements = {
       if (Primordium.isUnlocked) {
         amount += 3;
       }
+      if (QuantumChallenges.areUnlocked) {
+        amount += 3;
+      }
     } else if (PlayerProgress.supernovaUnlocked()) {
       amount += 54;
       if (Bosons.areUnlocked) {

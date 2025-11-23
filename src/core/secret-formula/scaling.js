@@ -7,6 +7,7 @@ export const scaling = {
     name: "Mass Upgrade",
     // Get the most amount of three upgrades
     currency: () => ["muscler", "booster", "stronger"].reduce((max, cur) => max.max(MassUpgrade[cur].boughtAmount), DC.D0),
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -14,7 +15,10 @@ export const scaling = {
           return DC.E2.plusEffectOf(BHUpgrade(2));
         },
         get scale() {
-          return DC.D2_5.powEffectOf(RageUpgrade(7));
+          return DC.D2_5.powEffectsOf(
+            RageUpgrade(7),
+            GameElement(84)
+          );
         }
       },
       {
@@ -22,7 +26,10 @@ export const scaling = {
           return DC.D500;
         },
         get scale() {
-          return DC.D5.powEffectOf(RageUpgrade(7));
+          return DC.D5.powEffectsOf(
+            RageUpgrade(7),
+            GameElement(84)
+          );
         }
       },
       {
@@ -38,6 +45,7 @@ export const scaling = {
   tickspeed: {
     name: "Tickspeed",
     currency: () => MassUpgrade.tickspeed.boughtAmount,
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -92,6 +100,7 @@ export const scaling = {
   rank: {
     name: "Rank",
     currency: () => RankType.rank.amount,
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -162,6 +171,7 @@ export const scaling = {
   tier: {
     name: "Tier",
     currency: () => RankType.tier.amount,
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -226,6 +236,7 @@ export const scaling = {
   tetr: {
     name: "Tetr",
     currency: () => RankType.tetr.amount,
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -264,6 +275,7 @@ export const scaling = {
   pent: {
     name: "Pent",
     currency: () => RankType.pent.amount,
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -307,6 +319,7 @@ export const scaling = {
   condenser: {
     name: "Condenser",
     currency: () => MassUpgrade.condenser.boughtAmount,
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -345,6 +358,7 @@ export const scaling = {
   cosmicRay: {
     name: "Cosmic Ray",
     currency: () => MassUpgrade.cosmicRay.boughtAmount,
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -383,6 +397,7 @@ export const scaling = {
   supernova: {
     name: "Supernova",
     currency: () => Currency.supernova.value,
+    qcActive: true,
     scaling: [
       {
         get start() {
@@ -437,6 +452,7 @@ export const scaling = {
   fermion: {
     name: "Fermion",
     currency: () => Fermions.all.reduce((max, cur) => max.max(cur.tier), DC.D0),
+    qcActive: true,
     scaling: [
       {
         get start() {

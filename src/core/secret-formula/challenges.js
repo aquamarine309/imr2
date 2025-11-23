@@ -301,7 +301,13 @@ export const challenges = [
     baseGoal: uni(DC.E8_4E8),
     reward: {
       description: () => i18n.t("challenge_12_reward_description"),
-      effect: value => overflow(Softcap.power(value.sqrt(), DC.D50, DC.D0_5), DC.E50, DC.D0_5),
+      effect: value => {
+        let effect = value.pow(NeutronUpgrade.chal7a.effectOrDefault(DC.D0_5));
+        effect = Softcap.power(effect, DC.D50, DC.D0_5);
+        effect = overflow(effect, DC.E68, DC.D0_5);
+        effect = overflow(effect, DC.E90, DC.D0_15);
+        return effect;
+      },
       formatEffect: value => formatPlus(value)
     },
     milestones: [

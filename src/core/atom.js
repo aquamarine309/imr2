@@ -12,6 +12,7 @@ export const Atom = {
       GameElement(52),
       GluonUpgrade[0]
     );
+    power = power.powEffectOf(QuantumChallenge(4));
     power = dilatedValue(power, FermionType.quarks.fermions.up.effectOrDefault(DC.D1));
     if (MassDilation.canBeApplied) {
       power = dilatedValue(power, MassDilation.power);
@@ -134,6 +135,7 @@ class ParticleState {
     }
     gain = Softcap.dilation(gain, DC.EE11, DC.D0_9);
     gain = Softcap.dilation(gain, DC.EE13, DC.D0_9);
+    gain = gain.powEffectOf(QuantumChallenge(4));
     return gain;
   }
 

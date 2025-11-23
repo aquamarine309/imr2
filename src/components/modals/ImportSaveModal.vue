@@ -79,7 +79,7 @@ export default {
         <div v-if="fileName">
           File name: {{ fileName }}
         </div>
-        <div>Mass: {{ format(player.mass, 2, 1) }}</div>
+        <div>Mass: {{ formatMass(player.mass) }}</div>
         <div class="c-modal-import__warning">
           (Your current save file will be overwritten!)
         </div>

@@ -157,11 +157,15 @@ export const resets = {
         reset();
       }
     },
-    resetLayer(resetOnly = false) {
+    resetLayer(resetOnly = false, full = false) {
       if (!resetOnly) {
         Currency.quantumFoam.gain();
         Currency.quantizes.gain();
+        if (QuantumChallenges.isActive) {
+          QuantumChallenges.shards = QuantumChallenges.pendingShards.value;
+        }
       }
+      QuantumChallenges.isActive = false;
       const keepNodes = ["qol1", "qol2", "qol3", "qol4", "qol5", "qol6", "fn2", "fn5", "fn6", "fn7", "fn8", "fn9", "fn10", "fn11", "fn13"];
       if (QuantumMilestones.keepChallengeTree.canBeApplied) {
         keepNodes.push("chal1", "chal2", "chal3", "chal4", "chal4a", "chal5", "chal6", "chal7", "c", "qol7", "chal4b", "chal7a", "chal8");
@@ -187,12 +191,12 @@ export const resets = {
       Currency.uQuarks.reset();
       Currency.uLeptons.reset();
       player.supernova.fermions.active = -1;
-      if (!NeutronUpgrade.quQol2.canBeApplied) {
+      if (!NeutronUpgrade.quQol2.canBeApplied || full) {
         for (const fermion of FermionType.quarks.fermions.all) {
           fermion.reset();
         }
       }
-      if (!NeutronUpgrade.quQol6.canBeApplied) {
+      if (!NeutronUpgrade.quQol6.canBeApplied || full) {
         for (const fermion of FermionType.leptons.fermions.all) {
           fermion.reset();
         }
@@ -201,7 +205,7 @@ export const resets = {
       for (const radiation of RadiationType.all) {
         radiation.reset();
       }
-      const resetChal = NeutronUpgrade.quQol7.canBeApplied ? 8 : 12;
+      const resetChal = NeutronUpgrade.quQol7.canBeApplied && !full ? 8 : 12;
       for (let i = 1; i <= resetChal; i++) {
         Challenge(i).reset();
       }

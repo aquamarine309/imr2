@@ -155,9 +155,10 @@ Decimal.prototype.powEffectOf = function(effectSource) {
  */
 Decimal.prototype.powEffectsOf = function(...effectSources) {
   // eslint-disable-next-line consistent-this
-  let result = this;
-  applyEffectsOf(effectSources, v => result = result.pow(v));
-  return result;
+  const result = this;
+  let power = new Decimal(1);
+  applyEffectsOf(effectSources, v => power = power.mul(v));
+  return result.pow(power);
 };
 
 /**
@@ -175,9 +176,10 @@ Decimal.prototype.rootEffectOf = function(effectSource) {
  */
 Decimal.prototype.rootEffectsOf = function(...effectSources) {
   // eslint-disable-next-line consistent-this
-  let result = this;
-  applyEffectsOf(effectSources, v => result = result.root(v));
-  return result;
+  const result = this;
+  let power = new Decimal(1);
+  applyEffectsOf(effectSources, v => power = power.mul(v));
+  return result.root(power);
 };
 
 function applyEffectsOf(effectSources, applyFn) {

@@ -38,7 +38,8 @@ export const BlackHole = {
     );
     gain = gain.powEffectsOf(
       Challenge(8),
-      Challenge(8).reward
+      Challenge(8).reward,
+      QuantumChallenge(4)
     );
     if (MassDilation.canBeApplied) {
       gain = dilatedValue(gain, MassDilation.power);

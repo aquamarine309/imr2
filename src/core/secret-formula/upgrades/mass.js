@@ -309,8 +309,12 @@ export const mass = {
         NeutronUpgrade.t1,
         Chroma[0]
       );
-      const softcapStart = DC.E50.timesEffectOf(RadiationType.ultraviolet.boosts[1]);
-      const softcapPower = DC.D0_1;
+      let softcapStart = DC.E50.timesEffectOf(RadiationType.ultraviolet.boosts[1]);
+      let softcapPower = DC.D0_1;
+      if (GameElement(86).canBeApplied) {
+        softcapStart = softcapStart.pow(2);
+        softcapPower = softcapPower.sqrt();
+      }
       power = Softcap.power(
         power,
         softcapStart,
@@ -533,17 +537,20 @@ export const mass = {
     get costMult() {
       return DC.D2;
     },
+    get scaling() {
+      return Scaling.cosmicString;
+    },
     cost(amount) {
       const $ = MassUpgrade.cosmicString.config;
       return getLinearCost(
-        amount,
+        $.scaling.scaleEvery(amount),
         $.baseCost,
         $.costMult
       ).floor();
     },
     bulk(currency) {
       const $ = MassUpgrade.cosmicString.config;
-      return getLinearBulk(currency, $.baseCost, $.costMult).add(1).floor();
+      return $.scaling.scaleEvery(getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get isUnlocked() {
       return PlayerProgress.quantumUnlocked();

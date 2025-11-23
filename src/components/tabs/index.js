@@ -8,6 +8,7 @@ import ScalingTab from "./scaling/ScalingTab";
 import OptionsTab from "./options/OptionsTab";
 import MainUpgradeTabs from "./main-upgrades";
 import ChallengesTab from "./challenges/ChallengesTab";
+import QuantumChallengesTab from "./quantum-challenges/QuantumChallengesTab";
 import ParticlesTab from "./particles/ParticlesTab";
 import ElementsTab from "./elements/ElementsTab";
 import MassDilationTab from "./mass-dilation/MassDilationTab";
@@ -31,6 +32,7 @@ export default {
   OptionsTab,
   ...MainUpgradeTabs,
   ChallengesTab,
+  QuantumChallengesTab,
   ParticlesTab,
   ElementsTab,
   MassDilationTab,
