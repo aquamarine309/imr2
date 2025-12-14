@@ -28,7 +28,8 @@ export default {
       blackHole: {
         amount: new Decimal(),
         rate: new Decimal(),
-        unlocked: false
+        unlocked: false,
+        evaporating: false
       },
       atoms: {
         amount: new Decimal(),
@@ -127,6 +128,7 @@ export default {
       if (blackHole.unlocked) {
         blackHole.amount.copyFrom(Currency.blackHole.value);
         blackHole.rate = Currency.blackHole.gainedAmount;
+        blackHole.evaporating = Entropy.hawkingRadiation.data.isActive;
       }
 
       const atoms = this.atoms;
@@ -261,6 +263,7 @@ export default {
       name="Black Hole"
       :tooltip="blackHoleTooltip"
       :show-tooltip="true"
+      :force-text="blackHole.evaporating ? $t('being_evaporated') : ''"
     />
     <HeaderResource
       v-if="atoms.unlocked"
@@ -336,7 +339,7 @@ export default {
       text-class="o-speed-text"
       border-class="o-speed-border"
       :amount="speed.value"
-      :format-fn="formatX"
+      :format-fn="formatMult"
       name="Global Speed"
       :is-rate="false"
       :show-tooltip="true"

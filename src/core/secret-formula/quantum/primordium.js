@@ -8,7 +8,7 @@ export const primordium = {
     weight: 6,
     effectList: [
       {
-        description: value => `Boost Stronger Power by ${formatX(value)}`,
+        description: value => i18n.t("primordium_delta_effect_0_description", { value: formatX(value) }),
         effect: value => value.add(1).sqrt()
       }
     ]
@@ -20,7 +20,7 @@ export const primordium = {
     weight: 6,
     effectList: [
       {
-        description: value => `Boost Rage Powers Gain by ${formatPow(value)}`,
+        description: value => i18n.t("primordium_alpha_effect_0_description", { value: formatPow(value) }),
         effect: value => {
           // TODO
           const br16 = false;
@@ -31,7 +31,7 @@ export const primordium = {
         }
       },
       {
-        description: value => `Boost Non-bonus Tickspeed by ${formatX(value)}`,
+        description: value => i18n.t("primordium_alpha_effect_1_description", { value: formatX(value) }),
         effect: value => value.pow(DC.D1_25).add(1)
       }
     ]
@@ -43,7 +43,7 @@ export const primordium = {
     weight: 6,
     effectList: [
       {
-        description: value => `Boost Dark Matters Gain by ${formatPow(value)}`,
+        description: value => i18n.t("primordium_omega_effect_0_description", { value: formatPow(value) }),
         effect: value => {
           // TODO
           const br16 = false;
@@ -54,7 +54,7 @@ export const primordium = {
         }
       },
       {
-        description: value => `Boost BH Condenser Power by ${formatX(value)}`,
+        description: value => i18n.t("primordium_omega_effect_1_description", { value: formatX(value) }),
         effect: value => DC.D3.pow(value.pow(DC.D0_75))
       }
     ]
@@ -66,7 +66,7 @@ export const primordium = {
     weight: 6,
     effectList: [
       {
-        description: value => `Boost Atoms Gain by ${formatPow(value)}`,
+        description: value => i18n.t("primordium_sigma_effect_0_description", { value: formatPow(value) }),
         effect: value => {
           const br16 = false;
           let result = value.cbrt().times(DC.D0_2).add(1);
@@ -76,7 +76,7 @@ export const primordium = {
         }
       },
       {
-        description: value => `Boost Cosmic Ray Power by ${formatX(value)}`,
+        description: value => i18n.t("primordium_sigma_effect_1_description", { value: formatX(value) }),
         effect: value => DC.D2.pow(value.pow(DC.D0_75))
       }
     ]
@@ -88,7 +88,7 @@ export const primordium = {
     weight: 2,
     effectList: [
       {
-        description: value => `Boost Higgs Boson's effect by ${formatX(value)}`,
+        description: value => i18n.t("primordium_phi_effect_0_description", { value: formatX(value) }),
         effect: value => value.add(1).pow(DC.D0_1)
       }
     ]
@@ -100,13 +100,13 @@ export const primordium = {
     weight: 2,
     effectList: [
       {
-        description: value => `Add ${format(value, 2)} to base from Fermions gain`,
+        description: value => i18n.t("primordium_epsilon_effect_0_description", { value: format(value, 2) }),
         effect: value => value.cbrt().times(DC.D0_1)
       },
       {
         isUnlocked: () => NeutronUpgrade.prim3.canBeApplied,
-        description: value => `Add ${format(value, 2)} free tiers to Fermions`,
-        effect: value => value.cbrt()
+        description: value => i18n.t("primordium_epsilon_effect_1_description", { value: format(value, 2) }),
+        effect: value => value.cbrt().powEffectOf(NeutronUpgrade.prim3)
       }
     ]
   },
@@ -117,12 +117,12 @@ export const primordium = {
     weight: 2,
     effectList: [
       {
-        description: value => `Boost all Radiations gains by ${formatX(value)}`,
+        description: value => i18n.t("primordium_theta_effect_0_description", { value: formatX(value) }),
         effect: value => DC.D5.pow(value.pow(DC.D0_75))
       },
       {
         isUnlocked: () => NeutronUpgrade.prim2.canBeApplied,
-        description: value => `Make all Radiations effects ${formatPow(value)} stronger`,
+        description: value => i18n.t("primordium_theta_effect_1_description", { value: formatPow(value) }),
         effect: value => value.pow(DC.D0_2).times(DC.D0_1).add(1)
       }
     ]
@@ -134,7 +134,7 @@ export const primordium = {
     weight: 1,
     effectList: [
       {
-        description: value => `Make all Supernova's scalings start ${format(value, 0)} later`,
+        description: value => i18n.t("primordium_beta_effect_0_description", { value: format(value, 0) }),
         effect: value => {
           const result = value.pow(DC.D0_9).times(2);
           return Softcap.power(result, DC.D1500, DC.D0_5);

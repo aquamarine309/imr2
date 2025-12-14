@@ -285,6 +285,9 @@ export const GameStorage = {
         mods: qc.mods,
         shard: qc.shards,
         presets: []
+      },
+      en: {
+        unl: player.unlocks.entropy
       }
     };
 

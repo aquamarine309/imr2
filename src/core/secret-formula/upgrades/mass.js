@@ -32,7 +32,10 @@ export const mass = {
         getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get freeAmount() {
-      return RageUpgrade(0).effectOrDefault(DC.D0);
+      return Effects.product(
+        RageUpgrade(0),
+        EntropyRewards.booster
+      );
     },
     get isUnlocked() {
       return RankType.rank.unlocks.unlockMuscler.canBeApplied || AtomUpgrade(0).canBeApplied;
@@ -92,7 +95,10 @@ export const mass = {
         getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get freeAmount() {
-      return RageUpgrade(1).effectOrDefault(DC.D0);
+      return Effects.product(
+        RageUpgrade(1),
+        EntropyRewards.booster
+      );
     },
     get isUnlocked() {
       return RankType.rank.unlocks.unlockBooster.canBeApplied || AtomUpgrade(0).canBeApplied;
@@ -152,7 +158,10 @@ export const mass = {
         getLinearBulk(currency, $.baseCost, $.costMult), true).add(1).floor();
     },
     get freeAmount() {
-      return RageUpgrade(6).effectOrDefault(DC.D0);
+      return Effects.product(
+        RageUpgrade(6),
+        EntropyRewards.booster
+      );
     },
     get isUnlocked() {
       return RankType.rank.unlocks.unlockStronger.canBeApplied || AtomUpgrade(0).canBeApplied;
@@ -277,7 +286,7 @@ export const mass = {
       ).add(1).floor();
     },
     get freeAmount() {
-      return Atom.freeTickspeeds;
+      return Atom.freeTickspeeds.timesEffectOf(EntropyRewards.booster);
     },
     get isUnlocked() {
       return PlayerProgress.rageUnlocked();
@@ -356,7 +365,10 @@ export const mass = {
       return Scaling.condenser;
     },
     get freeAmount() {
-      return BHUpgrade(14).effectOrDefault(DC.D0);
+      return Effects.product(
+        BHUpgrade(14),
+        EntropyRewards.booster
+      );
     },
     cost(amount) {
       const $ = MassUpgrade.condenser.config;
@@ -393,7 +405,8 @@ export const mass = {
       power = power.timesEffectsOf(
         AtomUpgrade(10),
         PhotonUpgrade[1],
-        PrimordiumParticle.omega.effects[1]
+        PrimordiumParticle.omega.effects[1],
+        EntropyRewards.converter
       );
       power = power.powEffectOf(NeutronUpgrade.bh2);
       return power;
@@ -427,7 +440,10 @@ export const mass = {
       return Scaling.cosmicRay;
     },
     get freeAmount() {
-      return FermionType.quarks.fermions.up.reward.effectOrDefault(DC.D0);
+      return Effects.product(
+        FermionType.quarks.fermions.up.reward,
+        EntropyRewards.booster
+      );
     },
     cost(amount) {
       const cheap = FermionType.leptons.fermions.neutTau.reward.effectOrDefault(null);
@@ -461,7 +477,8 @@ export const mass = {
         AtomUpgrade(10),
         NeutronUpgrade.gr1,
         GluonUpgrade[1],
-        PrimordiumParticle.sigma.effects[1]
+        PrimordiumParticle.sigma.effects[1],
+        EntropyRewards.converter
       );
       power = power.powEffectOf(NeutronUpgrade.gr2);
       return power;

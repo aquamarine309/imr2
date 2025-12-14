@@ -8,6 +8,7 @@ export const scaling = {
     // Get the most amount of three upgrades
     currency: () => ["muscler", "booster", "stronger"].reduce((max, cur) => max.max(MassUpgrade[cur].boughtAmount), DC.D0),
     qcActive: true,
+    preQuantum: true,
     scaling: [
       {
         get start() {
@@ -46,6 +47,7 @@ export const scaling = {
     name: "Tickspeed",
     currency: () => MassUpgrade.tickspeed.boughtAmount,
     qcActive: true,
+    preQuantum: true,
     scaling: [
       {
         get start() {
@@ -88,7 +90,8 @@ export const scaling = {
           return DC.D5E4.timesEffectsOf(
             RankType.pent.unlocks.tickScale,
             GameElement(68),
-            FermionType.quarks.fermions.bottom.reward
+            FermionType.quarks.fermions.bottom.reward,
+            EntropyRewards.multiplier
           );
         },
         get scale() {
@@ -101,6 +104,7 @@ export const scaling = {
     name: "Rank",
     currency: () => RankType.rank.amount,
     qcActive: true,
+    preQuantum: true,
     scaling: [
       {
         get start() {
@@ -172,6 +176,7 @@ export const scaling = {
     name: "Tier",
     currency: () => RankType.tier.amount,
     qcActive: true,
+    preQuantum: true,
     scaling: [
       {
         get start() {
@@ -237,6 +242,7 @@ export const scaling = {
     name: "Tetr",
     currency: () => RankType.tetr.amount,
     qcActive: true,
+    preQuantum: true,
     scaling: [
       {
         get start() {
@@ -320,6 +326,7 @@ export const scaling = {
     name: "Condenser",
     currency: () => MassUpgrade.condenser.boughtAmount,
     qcActive: true,
+    preQuantum: true,
     scaling: [
       {
         get start() {
@@ -347,7 +354,7 @@ export const scaling = {
       },
       {
         get start() {
-          return DC.E7;
+          return DC.E7.timesEffectOf(EntropyRewards.multiplier);
         },
         get scale() {
           return DC.D1_001;
@@ -359,6 +366,7 @@ export const scaling = {
     name: "Cosmic Ray",
     currency: () => MassUpgrade.cosmicRay.boughtAmount,
     qcActive: true,
+    preQuantum: true,
     scaling: [
       {
         get start() {
@@ -386,7 +394,7 @@ export const scaling = {
       },
       {
         get start() {
-          return DC.E6;
+          return DC.E6.timesEffectOf(EntropyRewards.multiplier);
         },
         get scale() {
           return DC.D1_001;

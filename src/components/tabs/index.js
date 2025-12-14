@@ -20,6 +20,7 @@ import ChromaTab from "./chroma/ChromaTab";
 import QuantumMilestonesTab from "./quantum-milestones/QuantumMilestonesTab";
 import AutoQuantumTab from "./auto-quantum/AutoQuantumTab";
 import PrimordiumTab from "./primordium/PrimordiumTab";
+import EntropyTab from "./entropy/EntropyTab";
 
 export default {
   MassTab,
@@ -43,5 +44,6 @@ export default {
   ChromaTab,
   QuantumMilestonesTab,
   AutoQuantumTab,
-  PrimordiumTab
+  PrimordiumTab,
+  EntropyTab
 };

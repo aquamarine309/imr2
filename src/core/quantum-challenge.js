@@ -42,7 +42,7 @@ class QuantumChallengeState extends GameMechanicState {
   }
 
   get name() {
-    return this.config.name;
+    return i18n.t(`quantum_challenge_${this.id}_name`);
   }
 }
 

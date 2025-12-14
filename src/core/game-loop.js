@@ -46,7 +46,7 @@ export const GameLoop = {
 
     Currency.mass.tick(preQuantumTime);
 
-    if (PlayerProgress.blackHoleUnlocked()) {
+    if (PlayerProgress.blackHoleUnlocked() && !Entropy.hawkingRadiation.data.isActive) {
       Currency.blackHole.tick(preQuantumTime);
     }
 
@@ -76,7 +76,7 @@ export const GameLoop = {
       for (const chroma of Chroma) {
         chroma.tick(seconds);
       }
-      checkEntropy();
+      Entropy.tick(seconds);
     }
 
     if (NeutronUpgrade.qol3.canBeApplied) {

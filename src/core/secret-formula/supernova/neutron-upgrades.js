@@ -70,16 +70,16 @@ export const neutronUpgrades = {
   c: {
     id: "c",
     branch: [],
-    description: () => `Start generating ${format(0.1, 1)} Neutron Stars per second (not affected by offline production).`,
+    description: () => i18n.t("neutron_upgrade_c_description", { value: format(0.1, 1) }),
     effect: DC.D0_1,
-    requirement: () => `${formatInt(1)} Supernova`,
+    requirement: () => i18n.t("X_supernova", { value: formatInt(1) }),
     check: () => Currency.supernova.gte(1),
     cost: DC.D0
   },
   s1: {
     id: "s1",
     branch: ["c"],
-    description: "Neutron Star boosts last star gain.",
+    description: () => i18n.t("neutron_upgrade_s1_description"),
     effect: () => Currency.neutronStars.value.add(1).pow(1.4),
     formatEffect: value => formatX(value),
     cost: DC.D400
@@ -87,7 +87,7 @@ export const neutronUpgrades = {
   s2: {
     id: "s2",
     branch: ["s1"],
-    description: () => `Tetr amount to Star boost’s softcap is ${formatPercents(0.5, 0)} weaker.`,
+    description: () => i18n.t("neutron_upgrade_s2_description", { value: formatPercents(0.5, 0) }),
     effect: DC.C2D3,
     requirement: () => i18n.t("X_supernova", { value: formatInt(3) }),
     check: () => Currency.supernova.gte(3),
@@ -96,7 +96,7 @@ export const neutronUpgrades = {
   s3: {
     id: "s3",
     branch: ["s2"],
-    description: "Star generators are stronger based on Supernova.",
+    description: () => i18n.t("neutron_upgrade_s3_description"),
     effect: () => Currency.supernova.value.pow(0.1).times(0.1).add(1),
     formatEffect: value => formatPow(value),
     requirement: () => i18n.t("X_supernova", { value: formatInt(4) }),
@@ -106,7 +106,7 @@ export const neutronUpgrades = {
   s4: {
     id: "s4",
     branch: ["s3"],
-    description: "After getting all 5 star types, star unlocker will transform into star boosters.",
+    description: () => i18n.t("neutron_upgrade_s4_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(6) }),
     check: () => Currency.supernova.gte(6),
     cost: DC.E5
@@ -114,7 +114,7 @@ export const neutronUpgrades = {
   m1: {
     id: "m1",
     branch: ["c"],
-    description: "Neutron star multiplies Mass gain.",
+    description: () => i18n.t("neutron_upgrade_m1_description"),
     effect: () => Decimal.pow10(Softcap.power(Currency.neutronStars.value.add(1).log10().pow(5), DC.E3, DC.D0_25).times(DC.E2)),
     formatEffect: value => formatX(value),
     softcapped: value => value.gte(DC.EE5),
@@ -123,24 +123,27 @@ export const neutronUpgrades = {
   m2: {
     id: "m2",
     branch: ["m1"],
-    description: () => `Raise the Mass requirement for softcap^${formatInt(2)} by ${format(DC.D1_5, 1)} and an additional power based on Supernovas.`,
+    description: () => i18n.t("neutron_upgrade_m2_description", {
+      value1: formatInt(2),
+      value2: format(DC.D1_5, 1)
+    }),
     effect: () => DC.D1_5.times(Supernova.times.times(0.0125).add(1)),
-    formatEffect: value => `${formatPow(value)} later`,
+    formatEffect: value => i18n.t("X_later", { value: formatPow(value) }),
     cost: DC.D800
   },
   m3: {
     id: "m3",
     branch: ["m2"],
     isUnlocked: () => Fermions.areUnlocked,
-    description: () => `Mass gain softcap^${formatInt(3)} starts later based on Supernovas.`,
+    description: () => i18n.t("neutron_upgrade_m3_description", { value: formatInt(3) }),
     effect: () => Supernova.times.times(0.0125).add(1),
-    formatEffect: value => `${formatPow(value)} later`,
+    formatEffect: value => i18n.t("X_later", { value: formatPow(value) }),
     cost: DC.E46
   },
   rp1: {
     id: "rp1",
     branch: ["c"],
-    description: "Neutron Stars multiplies Rage Powers gain",
+    description: () => i18n.t("neutron_upgrade_rp1_description"),
     effect: () => Decimal.pow10(Softcap.power(Currency.neutronStars.value.add(1).log10().pow(5), DC.E3, DC.D0_25).times(DC.D50)),
     formatEffect: value => formatX(value),
     softcapped: value => value.gte(DC.E5E4),
@@ -149,7 +152,7 @@ export const neutronUpgrades = {
   bh1: {
     id: "bh1",
     branch: ["c"],
-    description: "Neutron Star multiplies Dark Matters gain.",
+    description: () => i18n.t("neutron_upgrade_bh1_description"),
     effect: () => Decimal.pow10(Softcap.power(Currency.neutronStars.value.add(1).log10().pow(5), DC.E3, DC.D0_25).times(DC.D35)),
     formatEffect: value => formatX(value),
     softcapped: value => value.gte(DC.E3_5E4),
@@ -158,16 +161,16 @@ export const neutronUpgrades = {
   bh2: {
     id: "bh2",
     branch: ["bh1"],
-    description: () => `BH Condenser power is raised to the ${format(1.15, 2)}th.`,
+    description: () => i18n.t("neutron_upgrade_bh2_description", { value: format(1.15, 2) }),
     effect: 1.15,
-    requirement: () => `Reach ${formatMass(DC.D1_5E1_7556E4)} of black hole without buying any BH Condenser in a Supernova run.`,
+    requirement: () => i18n.t("neutron_upgrade_bh2_requirement", { value: formatMass(DC.D1_5E1_7556E4) }),
     check: () => player.checks.supernova.noCondenser && Currency.blackHole.gte(DC.D1_5E1_7556E4),
     cost: DC.D1500
   },
   sn1: {
     id: "sn1",
     branch: ["c"],
-    description: "Tickspeed affects Neutron Star gain at a reduced rate.",
+    description: () => i18n.t("neutron_upgrade_sn1_description"),
     effect: () => MassUpgrade.tickspeed.boughtAmount.add(1).pow(0.25),
     formatEffect: value => formatX(value),
     cost: DC.E1
@@ -175,7 +178,7 @@ export const neutronUpgrades = {
   sn2: {
     id: "sn2",
     branch: ["sn1"],
-    description: "Supernova boosts Neutron Star gain.",
+    description: () => i18n.t("neutron_upgrade_sn2_description"),
     effect: () => {
       let supernova = Currency.supernova.value;
       if (!NeutronUpgrade.qu4.canBeApplied) {
@@ -190,7 +193,7 @@ export const neutronUpgrades = {
   sn3: {
     id: "sn3",
     branch: ["sn2"],
-    description: "Blue stars boost Neutron star gain at a reduced rate.",
+    description: () => i18n.t("neutron_upgrade_sn3_description"),
     effect: () => StarGenerator(4).amount.max(1).log10().add(1),
     formatEffect: value => formatX(value),
     requirement: () => i18n.t("X_supernova", { value: formatInt(6) }),
@@ -201,7 +204,7 @@ export const neutronUpgrades = {
     id: "sn4",
     branch: ["sn3"],
     isUnlocked: () => Bosons.areUnlocked,
-    description: "[sn2]'s effect base is increased by supernova.",
+    description: () => i18n.t("neutron_upgrade_sn4_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(13) }),
     check: () => Currency.supernova.gte(13),
     effect: () => Softcap.power(Supernova.times.times(0.1), DC.D1_5, DC.D0_75),
@@ -213,7 +216,7 @@ export const neutronUpgrades = {
     id: "sn5",
     branch: ["sn4"],
     isUnlocked: () => PlayerProgress.quantumUnlocked(),
-    description: "Mass boosts Neutron Stars gain.",
+    description: () => i18n.t("neutron_upgrade_sn5_description"),
     effect: () => Currency.mass.value.add(1).log10().add(1).pow(2),
     formatEffect: value => formatX(value),
     cost: DC.E450
@@ -221,9 +224,9 @@ export const neutronUpgrades = {
   t1: {
     id: "t1",
     branch: ["m1", "rp1"],
-    description: () => `Tickspeed Power is raised to the ${format(1.15, 2)}th.`,
+    description: () => i18n.t("neutron_upgrade_t1_description", { value: format(1.15, 2) }),
     effect: 1.15,
-    requirement: () => `Reach ${formatMass(DC.D1_5E1_65E6)} without buying Tickspeed in a Supernova run. You can still obtain Tickspeed from Cosmic Rays.`,
+    requirement: () => i18n.t("neutron_upgrade_t1_requirement", { value: formatMass(DC.D1_5E1_65E6) }),
     check: () => player.checks.supernova.noTick && Currency.mass.gte(DC.D1_5E1_65E6),
     cost: DC.D1500
   },
@@ -231,7 +234,7 @@ export const neutronUpgrades = {
     id: "d1",
     branch: ["rp1"],
     isUnlocked: () => NeutronUpgrade.fn6.isBought,
-    description: () => `Generating Relativistic particles outside Mass dilation is ${formatPercents(0.25, 0)} stronger.`,
+    description: () => i18n.t("neutron_upgrade_d1_description", { value: formatPercents(0.25, 0) }),
     effect: DC.D1_25,
     effectCondition: () => !MassDilation.isActive,
     cost: DC.E51
@@ -239,7 +242,7 @@ export const neutronUpgrades = {
   gr1: {
     id: "gr1",
     branch: ["bh1"],
-    description: "BH Condensers power boost Cosmic Rays power.",
+    description: () => i18n.t("neutron_upgrade_gr1_description"),
     effect: () => MassUpgrade.condenser.power.max(1).root(3),
     formatEffect: value => formatX(value),
     requirement: () => i18n.t("X_supernova", { value: formatInt(7) }),
@@ -250,14 +253,14 @@ export const neutronUpgrades = {
     id: "gr2",
     branch: ["gr1"],
     isUnlocked: () => Fermions.areUnlocked,
-    description: () => `Cosmic Rays Power is raised to ${format(DC.D1_25, 2)}th power.`,
+    description: () => i18n.t("neutron_upgrade_gr2_description", { value: format(DC.D1_25, 2) }),
     effect: DC.D1_25,
     cost: DC.E20
   },
   qol1: {
     id: "qol1",
     branch: [],
-    description: () => i18n.t("neutron_upgrade_qol1"),
+    description: () => i18n.t("neutron_upgrade_qol1_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(2) }),
     check: () => Currency.supernova.gte(2),
     cost: DC.D2500,
@@ -269,7 +272,7 @@ export const neutronUpgrades = {
   qol2: {
     id: "qol2",
     branch: ["qol1"],
-    description: () => i18n.t("neutron_upgrade_qol2"),
+    description: () => i18n.t("neutron_upgrade_qol2_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(3) }),
     check: () => Currency.supernova.gte(3),
     cost: DC.D2000,
@@ -281,9 +284,9 @@ export const neutronUpgrades = {
   qol3: {
     id: "qol3",
     branch: ["qol2"],
-    description: () => i18n.t("neutron_upgrade_qol3"),
+    description: () => i18n.t("neutron_upgrade_qol3_description"),
     effect: () => MassDilation.particleGainAt(dilatedValue(Currency.mass.value, MassDilation.power)),
-    formatEffect: value => `+${format(value)}/${i18n.t("sec")}`,
+    formatEffect: value => i18n.t("neutron_upgrade_qol3_effect", { value: format(value), sec: i18n.t("sec") }),
     requirement: () => i18n.t("X_supernova", { value: formatInt(4) }),
     check: () => Currency.supernova.gte(4),
     cost: DC.E4,
@@ -296,7 +299,7 @@ export const neutronUpgrades = {
     id: "qol4",
     branch: ["qol3"],
     isUnlocked: () => Bosons.areUnlocked,
-    description: () => i18n.t("neutron_upgrade_qol4"),
+    description: () => i18n.t("neutron_upgrade_qol4_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(12) }),
     check: () => Currency.supernova.gte(12),
     cost: DC.E8
@@ -304,7 +307,7 @@ export const neutronUpgrades = {
   qol5: {
     id: "qol5",
     branch: ["qol4"],
-    description: () => i18n.t("neutron_upgrade_qol5"),
+    description: () => i18n.t("neutron_upgrade_qol5_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(16) }),
     check: () => Currency.supernova.gte(16),
     cost: DC.E13
@@ -312,7 +315,7 @@ export const neutronUpgrades = {
   qol6: {
     id: "qol6",
     branch: ["qol5"],
-    description: () => i18n.t("neutron_upgrade_qol6"),
+    description: () => i18n.t("neutron_upgrade_qol6_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(17) }),
     check: () => Currency.supernova.gte(17),
     cost: DC.E15
@@ -321,7 +324,7 @@ export const neutronUpgrades = {
     id: "qol7",
     branch: ["qol6"],
     isUnlocked: () => Fermions.areUnlocked && NeutronUpgrade.fn2.isBought || PlayerProgress.quantumUnlocked(),
-    description: "You can now automatically buy Photon and Gluon Upgrades, they no longer spent their amount.",
+    description: () => i18n.t("neutron_upgrade_qol7_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(40) }),
     check: () => Currency.supernova.gte(40),
     cost: DC.E48
@@ -329,7 +332,7 @@ export const neutronUpgrades = {
   qol8: {
     id: "qol8",
     branch: ["unl1"],
-    description: "You can now automatically Pent up, Pent no longer resets anything.",
+    description: () => i18n.t("neutron_upgrade_qol8_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(60) }),
     check: () => Currency.supernova.gte(60),
     cost: DC.E78
@@ -337,7 +340,7 @@ export const neutronUpgrades = {
   qol9: {
     id: "qol9",
     branch: ["unl1"],
-    description: "You can now automatically buy Radiation Boosters, they no longer spent Radiation.",
+    description: () => i18n.t("neutron_upgrade_qol9_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(78) }),
     check: () => Currency.supernova.gte(78),
     cost: DC.E111
@@ -345,7 +348,7 @@ export const neutronUpgrades = {
   unl1: {
     id: "unl1",
     branch: ["qol7"],
-    description: "Unlock Radiation.",
+    description: () => i18n.t("neutron_upgrade_unl1_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(44) }),
     check: () => Currency.supernova.gte(44),
     cost: DC.E52,
@@ -356,27 +359,27 @@ export const neutronUpgrades = {
   unl2: {
     id: "unl2",
     branch: ["quQol7"],
-    requirement: () => `Quantize ${formatInt(20)} times.`,
+    requirement: () => i18n.t("X_quantum_shards", { value: formatInt(20) }),
     check: () => Currency.quantizes.gte(DC.D20),
-    description: "Unlock Primordium.",
+    description: () => i18n.t("neutron_upgrade_unl2_description"),
     cost: DC.D50,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   unl3: {
     id: "unl3",
     branch: ["unl2"],
-    requirement: () => `Quantize ${formatInt(200)} times.`,
+    requirement: () => i18n.t("quantize_X_times", { value: formatInt(200) }),
     check: () => Currency.quantizes.gte(DC.D200),
-    description: "Unlock Quantum Challenges",
+    description: () => i18n.t("neutron_upgrade_unl3_description"),
     cost: DC.E6,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   unl4: {
     id: "unl4",
     branch: ["quQol9"],
-    requirement: () => `Get ${formatInt(66)} Quantum Shards`,
+    requirement: () => i18n.t("X_quantum_shards", { value: formatInt(66) }),
     check: () => QuantumChallenges.shards >= 66,
-    description: "Unlock Big Rip.",
+    description: () => i18n.t("neutron_upgrade_unl4_description"),
     cost: DC.E42,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
@@ -384,68 +387,68 @@ export const neutronUpgrades = {
     id: "quQol1",
     isUnlocked: () => PlayerProgress.quantumUnlocked(),
     branch: [],
-    description: "You now automatically purchase supernova tree upgrades as long as they don't cost quantum foam.",
+    description: () => i18n.t("neutron_upgrade_quQol1_description"),
     cost: DC.D3,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   quQol2: {
     id: "quQol2",
     branch: ["quQol1"],
-    requirement: () => `Become ${formatInt(81)} Supernovas without getting tiers from U-Quark in Quantum run.`,
+    requirement: () => i18n.t("neutron_upgrade_quQol2_requirement", { value: formatInt(81) }),
     check: () => Currency.supernova.gte(81) && FermionType.quarks.fermions.all.every(x => x.tier.eq(0)),
-    description: "Keep U-Quark Tiers on going Quantum.",
+    description: () => i18n.t("neutron_upgrade_quQol2_description"),
     cost: DC.D4,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   quQol3: {
     id: "quQol3",
     branch: ["quQol1"],
-    requirement: () => `Reach ${formatMass(mlt(DC.E4))} of mass without completing Challenges 1-4 in Quantum run.`,
+    requirement: () => i18n.t("neutron_upgrade_quQol3_requirement", { value: formatMass(mlt(DC.E4)) }),
     check: () => Currency.mass.gte(mlt(DC.E4)) && [1, 2, 3, 4].every(x => Challenge(x).completions.eq(0)),
-    description: "You can now automatically complete Challenges 1-4.",
+    description: () => i18n.t("neutron_upgrade_quQol3_description"),
     cost: DC.D4,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   quQol4: {
     id: "quQol4",
     branch: ["quQol1"],
-    description: "You can now automatically become a supernova, it no longer resets anything.",
+    description: () => i18n.t("neutron_upgrade_quQol4_description"),
     cost: DC.D4,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   quQol5: {
     id: "quQol5",
     branch: ["quQol1"],
-    requirement: () => `Reach ${formatMass(mlt(DC.D1_35E4))} of mass without completing Challenges 5, 6 & 8 in Quantum run.`,
+    requirement: () => i18n.t("neutron_upgrade_quQol5_requirement", { value: formatMass(mlt(DC.D1_35E4)) }),
     check: () => Currency.mass.gte(mlt(DC.D1_35E4)) && [5, 6, 8].every(x => Challenge(x).completions.eq(0)),
-    description: "You can now automatically complete Challenges 5-8.",
+    description: () => i18n.t("neutron_upgrade_quQol5_description"),
     cost: DC.D4,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   quQol6: {
     id: "quQol6",
     branch: ["quQol1"],
-    requirement: () => `Become ${formatInt(42)} Supernovas without getting tiers from U-Lepton in Quantum run.`,
+    requirement: () => i18n.t("neutron_upgrade_quQol6_requirement", { value: formatInt(42) }),
     check: () => Currency.supernova.gte(42) && FermionType.leptons.fermions.all.every(x => x.tier.eq(0)),
-    description: "Keep U-Lepton Tiers on going Quantum.",
+    description: () => i18n.t("neutron_upgrade_quQol6_description"),
     cost: DC.D4,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   quQol7: {
     id: "quQol7",
     branch: ["quQol3", "quQol5"],
-    requirement: () => `Reach ${formatMass(mlt(DC.D5000))} of mass without completing Challenges 9-12 in Quantum run, while in [Bottom].`,
+    requirement: () => i18n.t("neutron_upgrade_quQol7_requirement", { value: formatMass(mlt(DC.D5000)) }),
     check: () => Currency.mass.gte(mlt(DC.D5000)) && [9, 10, 11, 12].every(x => Challenge(x).completions.eq(0)) && FermionType.quarks.fermions.bottom.isActive,
-    description: "Keep challenge 9-12 completions on going Quantum.",
+    description: () => i18n.t("neutron_upgrade_quQol7_description"),
     cost: DC.D25,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   quQol8: {
     id: "quQol8",
     branch: ["unl3"],
-    requirement: () => `Get ${formatInt(15)} Quantum Shards`,
+    requirement: () => i18n.t("X_quantum_shards", { value: formatInt(15) }),
     check: () => QuantumChallenges.shards >= 15,
-    description: "You can now automatically get all Fermions Tiers outside any Fermion, except during Quantum Challenge.",
+    description: () => i18n.t("neutron_upgrade_quQol8_description"),
     effectCondition: () => !QuantumChallenges.isActive,
     cost: DC.E11,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
@@ -453,16 +456,16 @@ export const neutronUpgrades = {
   quQol9: {
     id: "quQol9",
     branch: ["quQol8"],
-    requirement: () => `Get ${formatInt(24)} Quantum Shards`,
+    requirement: () => i18n.t("X_quantum_shards", { value: formatInt(24) }),
     check: () => QuantumChallenges.shards >= 24,
-    description: "Start with Polonium–84 unlocked when entering in Quantum Challenge.",
+    description: () => i18n.t("neutron_upgrade_quQol9_description"),
     cost: DC.E17,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   chal1: {
     id: "chal1",
     branch: [],
-    description: () => `Add ${formatInt(100)} more C7 & C8 maximum completions.`,
+    description: () => i18n.t("neutron_upgrade_chal1_description", { value: formatInt(100) }),
     effect: DC.E2,
     requirement: () => i18n.t("X_supernova", { value: formatInt(4) }),
     check: () => Currency.supernova.gte(4),
@@ -471,30 +474,30 @@ export const neutronUpgrades = {
   chal2: {
     id: "chal2",
     branch: ["chal1"],
-    description: "Keep challenge 1-4 completions on reset.",
-    requirement: () => `Reach ${formatMass(DC.E2_05E6)} of mass without challenge 1-4 completions in a Supernova run.`,
+    description: () => i18n.t("neutron_upgrade_chal2_description"),
+    requirement: () => i18n.t("neutron_upgrade_chal2_requirement", { value: formatMass(DC.E2_05E6) }),
     check: () => Currency.mass.gte(DC.E2_05E6) && Challenges.all.slice(0, 4).every(chal => chal.completions.eq(0)),
     cost: DC.E4
   },
   chal3: {
     id: "chal3",
     branch: ["chal1"],
-    description: "Keep challenge 5-8 completions on reset.",
-    requirement: () => `Reach ${formatMass(DC.E1_75E4)} of Black Hole without challenge 5-8 completions in a Supernova run.`,
+    description: () => i18n.t("neutron_upgrade_chal3_description"),
+    requirement: () => i18n.t("neutron_upgrade_chal3_requirement", { value: formatMass(DC.E1_75E4) }),
     check: () => Currency.blackHole.gte(DC.E1_75E4) && Challenges.all.slice(4, 8).every(chal => chal.completions.eq(0)),
     cost: DC.E4
   },
   chal4: {
     id: "chal4",
     branch: ["chal2", "chal3"],
-    description: "Unlock the 9th Challenge.",
+    description: () => i18n.t("neutron_upgrade_chal4_description"),
     cost: DC.D1_5E4
   },
   chal4a: {
     id: "chal4a",
     branch: ["chal4"],
     isUnlocked: () => Bosons.areUnlocked,
-    description: "Challenge 9’s effect is better.",
+    description: () => i18n.t("neutron_upgrade_chal4a_description"),
     effect: DC.C2D7,
     cost: DC.E8
   },
@@ -502,34 +505,34 @@ export const neutronUpgrades = {
     id: "chal4b",
     branch: ["chal4"],
     isUnlocked: () => PlayerProgress.quantumUnlocked(),
-    description: () => `Add ${formatInt(100)} more C9 completions.`,
+    description: () => i18n.t("neutron_upgrade_chal4b_description", { value: formatInt(100) }),
     effect: DC.E2,
     cost: DC.E480
   },
   chal5: {
     id: "chal5",
     branch: ["chal4"],
-    description: "Unlock the 10th Challenge.",
+    description: () => i18n.t("neutron_upgrade_chal5_description"),
     cost: DC.E17
   },
   chal6: {
     id: "chal6",
     branch: ["chal5"],
     isUnlocked: () => Radiation.isUnlocked,
-    description: "Unlock the 11th Challenge.",
+    description: () => i18n.t("neutron_upgrade_chal6_description"),
     cost: DC.E88
   },
   chal7: {
     id: "chal7",
     branch: ["chal6"],
-    description: "Unlock the 12th Challenge.",
+    description: () => i18n.t("neutron_upgrade_chal7_description"),
     cost: DC.E200
   },
   chal7a: {
     id: "chal7a",
     isUnlocked: () => QuantumChallenges.areUnlocked,
     branch: ["chal7"],
-    description: "Challenge 12’s effect is better.",
+    description: () => i18n.t("neutron_upgrade_chal7a_description"),
     effect: DC.C2D3,
     cost: DC.E900
   },
@@ -537,7 +540,7 @@ export const neutronUpgrades = {
     id: "bs1",
     branch: [],
     isUnlocked: () => Bosons.areUnlocked,
-    description: "Tickspeed affects Higgs Boson gain at a reduced rate.",
+    description: () => i18n.t("neutron_upgrade_bs1_description"),
     requirement: () => i18n.t("X_supernova", { value: formatInt(15) }),
     check: () => Currency.supernova.gte(15),
     effect: () => MassUpgrade.tickspeed.boughtAmount.add(1).pow(0.6),
@@ -547,18 +550,21 @@ export const neutronUpgrades = {
   bs2: {
     id: "bs2",
     branch: ["bs1"],
-    description: "Photon, Gluon boosts each other's gain.",
+    description: () => i18n.t("neutron_upgrade_bs2_description"),
     effects: {
       photon: () => bs2Effect(Boson.photon.amount),
       gluon: () => bs2Effect(Boson.gluon.amount)
     },
-    formatEffect: effects => `${formatX(effects.photon)} to Photon, ${formatX(effects.gluon)} to Gluon`,
+    formatEffect: effects => i18n.t("neutron_upgrade_bs2_effect", {
+      photon: formatX(effects.photon),
+      gluon: formatX(effects.gluon)
+    }),
     cost: DC.E14
   },
   bs3: {
     id: "bs3",
     branch: ["bs1"],
-    description: "Neutrons gain is affected by Graviton's effect at a reduced rate.",
+    description: () => i18n.t("neutron_upgrade_bs3_description"),
     effect: () => Softcap.dilation(Softcap.power(Boson.graviton.effectValue.add(1).sqrt(), DC.E1000, DC.C1D3), DC.EE38, DC.D0_95),
     formatEffect: value => formatX(value),
     softcapped: value => value.gte(DC.E1000),
@@ -568,7 +574,7 @@ export const neutronUpgrades = {
     id: "bs4",
     branch: ["bs2"],
     isUnlocked: () => Fermions.areUnlocked,
-    description: () => `Raise Z Bosons gain to the ${format(DC.D1_5, 1)}th power.`,
+    description: () => i18n.t("neutron_upgrade_bs4_description", { value: format(DC.D1_5, 1) }),
     effect: DC.D1_5,
     cost: DC.E24
   },
@@ -576,7 +582,7 @@ export const neutronUpgrades = {
     id: "fn1",
     branch: ["bs1"],
     isUnlocked: () => Fermions.areUnlocked,
-    description: "Tickspeed affects Fermions gain at a reduced rate.",
+    description: () => i18n.t("neutron_upgrade_fn1_description"),
     effect: () => DC.D1_25.pow(Softcap.dilation(MassUpgrade.tickspeed.boughtAmount, DC.E24, DC.D0_5).pow(DC.D0_4)),
     formatEffect: value => formatX(value),
     cost: DC.E27
@@ -584,8 +590,8 @@ export const neutronUpgrades = {
   fn2: {
     id: "fn2",
     branch: ["fn1"],
-    description: "Unlock two more types of U-Quark and U-Fermion.",
-    requirement: () => `Reach ${formatMass(DC.D1_5E1000056)} of mass while dilating mass in Fermion [Down].`,
+    description: () => i18n.t("neutron_upgrade_fn2_description"),
+    requirement: () => i18n.t("neutron_upgrade_fn2_requirement", { value: formatMass(DC.D1_5E1000056) }),
     check: () => (FermionType.quarks.fermions.down.isActive &&
       MassDilation.isActive &&
       Currency.mass.gte(DC.D1_5E1000056)
@@ -595,9 +601,9 @@ export const neutronUpgrades = {
   fn3: {
     id: "fn3",
     branch: ["fn1"],
-    description: () => `Super Fermion scaling is ${formatPercents(0.075, 1)} weaker.`,
+    description: () => i18n.t("neutron_upgrade_fn3_description", { value: formatPercents(0.075, 1) }),
     effect: 0.925,
-    requirement: () => `Reach ${format(DC.E7)} of any Fermions.`,
+    requirement: () => i18n.t("neutron_upgrade_fn3_requirement", { value: format(DC.E7) }),
     check: () => Currency.uQuarks.value.max(Currency.uLeptons.value).gte(DC.E7),
     cost: DC.E31
   },
@@ -605,7 +611,7 @@ export const neutronUpgrades = {
     id: "fn4",
     branch: ["fn1"],
     isUnlocked: () => NeutronUpgrade.fn2.isBought,
-    description: "The second Photon and Gluon Upgrades are slightly stronger.",
+    description: () => i18n.t("neutron_upgrade_fn4_description"),
     effect: DC.D2,
     cost: DC.E39
   },
@@ -613,9 +619,9 @@ export const neutronUpgrades = {
     id: "fn5",
     branch: ["fn1"],
     isUnlocked: () => NeutronUpgrade.fn2.isBought,
-    description: () => `[Electron] maximum tier is increased by ${formatInt(35)}. Its effect softcap is weaker.`,
+    description: () => i18n.t("neutron_upgrade_fn5_description", { value: formatInt(35) }),
     effect: DC.D35,
-    requirement: () => `Reach ${format(DC.E1_25E4)} quarks while in [Electron]`,
+    requirement: () => i18n.t("neutron_upgrade_fn5_requirement", { value: format(DC.E1_25E4) }),
     check: () => (
       FermionType.leptons.fermions.electron.isActive &&
       Currency.quark.gte(DC.E1_25E4)
@@ -625,8 +631,8 @@ export const neutronUpgrades = {
   fn6: {
     id: "fn6",
     branch: ["fn2"],
-    description: "Unlock two more types of U-Quark and U-Fermion.",
-    requirement: () => `Reach ${formatMass(DC.D1_5E40056)} while in [Charm] and Challenge 5.`,
+    description: () => i18n.t("neutron_upgrade_fn6_description"),
+    requirement: () => i18n.t("neutron_upgrade_fn6_requirement", { value: formatMass(DC.D1_5E40056) }),
     check: () => (FermionType.quarks.fermions.charm.isActive &&
       Challenge(5).isRunning &&
       Currency.mass.gte(DC.D1_5E40056)
@@ -636,19 +642,19 @@ export const neutronUpgrades = {
   fn7: {
     id: "fn7",
     branch: ["fn6"],
-    description: "Unlock two more types of U-Quark & U-Fermion.",
+    description: () => i18n.t("neutron_upgrade_fn7_description"),
     cost: DC.E90
   },
   fn8: {
     id: "fn8",
     branch: ["fn7"],
-    description: "Unlock two final types of U-Quark & U-Fermion.",
+    description: () => i18n.t("neutron_upgrade_fn8_description"),
     cost: DC.E159
   },
   fn9: {
     id: "fn9",
     branch: ["fn1"],
-    description: () => `Fermions [Strange] and [Neutrino] max tier is increased by ${formatInt(2)}.`,
+    description: () => i18n.t("neutron_upgrade_fn9_description", { value: formatInt(2) }),
     effect: DC.D2,
     cost: DC.E166
   },
@@ -656,8 +662,8 @@ export const neutronUpgrades = {
     id: "fn10",
     branch: ["fn5"],
     isUnlocked: () => Primordium.isUnlocked,
-    description: "Uncap [Electron] tier, its effect is overpowered.",
-    requirement: () => `Reach ${format(DC.E1_5E8)} atoms while in [Electron] and 9th Challenge.`,
+    description: () => i18n.t("neutron_upgrade_fn10_description"),
+    requirement: () => i18n.t("neutron_upgrade_fn10_requirement", { value: format(DC.E1_5E8) }),
     check: () => (FermionType.leptons.fermions.electron.isActive &&
       Challenge(9).isRunning &&
       Currency.atoms.gte(DC.E1_5E8)
@@ -669,14 +675,14 @@ export const neutronUpgrades = {
     id: "fn11",
     isUnlocked: () => Primordium.isUnlocked,
     branch: ["fn9"],
-    description: () => `[Strange], [Top], [Bottom], [Neutrino], [Neut-Muon] maximum tiers are increased by ${formatInt(5)}.`,
+    description: () => i18n.t("neutron_upgrade_fn11_description", { value: formatInt(5) }),
     effect: DC.D5,
     cost: DC.E680
   },
   fn12: {
     id: "fn12",
     branch: ["fn3"],
-    description: () => `Pre-meta fermion scalings are ${formatPercents(0.1, 0)} weaker.`,
+    description: () => i18n.t("neutron_upgrade_fn12_description", { value: formatPercents(0.1, 0) }),
     effect: DC.D0_9,
     cost: DC.E960
   },
@@ -684,7 +690,7 @@ export const neutronUpgrades = {
     id: "rad1",
     branch: [],
     isUnlocked: () => Radiation.isUnlocked,
-    description: "Gain more frequency based on Supernova, it will also multiply Radiations that is not the last available types.",
+    description: () => i18n.t("neutron_upgrade_rad1_description"),
     effect: () => Currency.supernova.value.add(1),
     formatEffect: value => formatX(value),
     cost: DC.E54
@@ -692,28 +698,28 @@ export const neutronUpgrades = {
   rad2: {
     id: "rad2",
     branch: ["rad1"],
-    description: () => `Gain ${formatX(DC.E1, 0)} more all radiation types.`,
+    description: () => i18n.t("neutron_upgrade_rad2_description", { value: formatX(DC.E1, 0) }),
     effect: DC.E1,
     cost: DC.E72
   },
   rad3: {
     id: "rad3",
     branch: ["rad1"],
-    description: () => `Radiation Boosts are ${formatX(1.1, 1)} cheaper.`,
+    description: () => i18n.t("neutron_upgrade_rad3_description", { value: formatX(1.1, 1) }),
     effect: 1.1,
     cost: DC.E86
   },
   rad4: {
     id: "rad4",
     branch: ["rad2"],
-    description: "All Meta-Boosts are twice as effective.",
+    description: () => i18n.t("neutron_upgrade_rad4_description"),
     effect: DC.D2,
     cost: DC.E118
   },
   rad5: {
     id: "rad5",
     branch: ["rad3"],
-    description: () => `All Radiation gains are increased by ${formatPercents(0.1, 0)} for every Supernova you have become.`,
+    description: () => i18n.t("neutron_upgrade_rad5_description", { value: formatPercents(0.1, 0) }),
     effect: () => DC.D1_1.pow(Currency.supernova.value),
     formatEffect: value => formatX(value),
     cost: DC.E170
@@ -722,14 +728,14 @@ export const neutronUpgrades = {
     id: "rad6",
     branch: ["rad4"],
     isUnlocked: () => Primordium.isUnlocked,
-    description: "Bonus radiation boosts are stronger based on radiation type.",
+    description: () => i18n.t("neutron_upgrade_rad6_description"),
     cost: DC.E490
   },
   qf1: {
     id: "qf1",
     isUnlocked: () => PlayerProgress.quantumUnlocked(),
     branch: [],
-    description: () => `Gain more Quantum Foams based on Supernovas.`,
+    description: () => i18n.t("neutron_upgrade_qf1_description"),
     effect: () => Currency.supernova.value.sqrt().div(10).add(1),
     formatEffect: value => formatX(value),
     cost: DC.E290
@@ -738,7 +744,7 @@ export const neutronUpgrades = {
     id: "qf2",
     isUnlocked: () => Primordium.isUnlocked,
     branch: ["qf1"],
-    description: "Quantum Foams are boosted by Neutron Stars.",
+    description: () => i18n.t("neutron_upgrade_qf2_description"),
     effect: () => Currency.neutronStars.value.add(1).log10().add(1).pow(DC.C1D3),
     formatEffect: value => formatX(value),
     cost: DC.E735
@@ -747,7 +753,7 @@ export const neutronUpgrades = {
     id: "qf3",
     isUnlocked: () => QuantumChallenges.areUnlocked,
     branch: ["qf2"],
-    description: "Quantum Foams are boosted by Blueprint Particles.",
+    description: () => i18n.t("neutron_upgrade_qf3_description"),
     effect: () => Currency.blueprint.value.add(1).log10().add(1).pow(2),
     formatEffect: value => formatX(value),
     cost: DC.E850
@@ -755,7 +761,7 @@ export const neutronUpgrades = {
   qf4: {
     id: "qf4",
     branch: ["qf3"],
-    description: () => `Quantum Shard's base is increased by ${format(0.5, 1)}`,
+    description: () => i18n.t("neutron_upgrade_qf4_description", { value: format(0.5, 1) }),
     effect: DC.D0_5,
     cost: DC.E1000
   },
@@ -763,14 +769,14 @@ export const neutronUpgrades = {
     id: "qu0",
     isUnlocked: () => PlayerProgress.quantumUnlocked(),
     branch: [],
-    description: "Good luck with the new era!",
+    description: () => i18n.t("neutron_upgrade_qu0_description"),
     cost: DC.D0,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   qu1: {
     id: "qu1",
     branch: ["qu0"],
-    description: () => `Fermion requirements are decreased by ${formatPercents(0.2, 0)}.`,
+    description: () => i18n.t("neutron_upgrade_qu1_description", { value: formatPercents(0.2, 0) }),
     effect: DC.D1_2,
     cost: DC.D1,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
@@ -778,14 +784,14 @@ export const neutronUpgrades = {
   qu2: {
     id: "qu2",
     branch: ["qu0"],
-    description: () => `W+ Boson's 1st effect is overpowered.`,
+    description: () => i18n.t("neutron_upgrade_qu2_description"),
     cost: DC.D1,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   qu3: {
     id: "qu3",
     branch: ["qu0"],
-    description: () => `BH formula's softcap is ${formatPercents(0.3, 0)} weaker.`,
+    description: () => i18n.t("neutron_upgrade_qu3_description", { value: formatPercents(0.3, 0) }),
     effect: DC.D0_7,
     cost: DC.D1,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
@@ -793,14 +799,14 @@ export const neutronUpgrades = {
   qu4: {
     id: "qu4",
     branch: ["qu1", "qu2", "qu3"],
-    description: () => `Remove softcaps from [sn2]'s effect.`,
+    description: () => i18n.t("neutron_upgrade_qu4_description"),
     cost: DC.D35,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
   qu5: {
     id: "qu5",
     branch: ["qu4"],
-    description: "Blueprint Particles & Chromas are affected by Tickspeed Effect at a reduced rate.",
+    description: () => i18n.t("neutron_upgrade_qu5_description"),
     effect: () => overflow(MassUpgrade.tickspeed.effectValue.add(1).log10().add(1).log10().add(1).pow(3), DC.D5E8, DC.D0_1),
     formatEffect: value => formatX(value),
     cost: DC.E2,
@@ -809,7 +815,7 @@ export const neutronUpgrades = {
   qu6: {
     id: "qu6",
     branch: ["qu5"],
-    description: "Quantizes boost Cosmic string's power.",
+    description: () => i18n.t("neutron_upgrade_qu6_description"),
     effect: () => Currency.quantizes.value.add(1).log10().add(1),
     formatEffect: value => formatX(value),
     cost: DC.E3,
@@ -818,7 +824,7 @@ export const neutronUpgrades = {
   qu7: {
     id: "qu7",
     branch: ["qu6"],
-    description: "Gain more Quantizes based on Quantum Shards.",
+    description: () => i18n.t("neutron_upgrade_qu7_description"),
     effect: () => QuantumChallenges.shards + 1,
     formatEffect: value => formatX(value, 0),
     cost: DC.E15,
@@ -827,7 +833,7 @@ export const neutronUpgrades = {
   qu8: {
     id: "qu8",
     branch: ["qu7"],
-    description: "Chromas are affected by Quantum Shard’s effect.",
+    description: () => i18n.t("neutron_upgrade_qu8_description"),
     effect: () => QuantumChallenges.effect.clampMin(1),
     formatEffect: value => formatX(value, 1),
     cost: DC.E21,
@@ -836,7 +842,7 @@ export const neutronUpgrades = {
   prim1: {
     id: "prim1",
     branch: ["qu5"],
-    description: () => `Primordium Theorem’s base requirement is reduced by ${formatInt(1)}.`,
+    description: () => i18n.t("neutron_upgrade_prim1_description", { value: formatInt(1) }),
     effect: DC.D1,
     cost: DC.D200,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
@@ -844,7 +850,7 @@ export const neutronUpgrades = {
   prim2: {
     id: "prim2",
     branch: ["prim1"],
-    description: "Theta Particle’s second effect is now added.",
+    description: () => i18n.t("neutron_upgrade_prim2_description"),
     cost: DC.D500,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
@@ -852,7 +858,8 @@ export const neutronUpgrades = {
     id: "prim3",
     isUnlocked: () => QuantumChallenges.areUnlocked,
     branch: ["prim2"],
-    description: "Epsilon Particle’s second effect is now added, stronger if you are in Quantum Challenge.",
+    description: () => i18n.t("neutron_upgrade_prim3_description"),
+    effect: () => (QuantumChallenges.isActive ? DC.D2 : DC.D1),
     cost: DC.E16,
     type: NEUTRON_UPGRADE_TYPE.QUANTUM
   },
@@ -860,7 +867,7 @@ export const neutronUpgrades = {
     id: "qc1",
     isUnlocked: () => QuantumChallenges.areUnlocked,
     branch: ["qu5"],
-    description: "Mass gain softcap^4 starts later based on Quantum Shards.",
+    description: () => i18n.t("neutron_upgrade_qc1_description"),
     cost: DC.E10,
     effect: () => Math.pow(QuantumChallenges.shards, 0.75),
     formatEffect: value => i18n.t("X_later", { value: formatPow(value) }),

@@ -693,3 +693,17 @@ Currency.blueprint = new class extends DecimalCurrency {
     return "X_blueprint_particle";
   }
 }();
+
+Currency.entropy = new class extends DecimalCurrency {
+  get value() {
+    return player.quantum.entropy.amount;
+  }
+
+  set value(value) {
+    player.quantum.entropy.amount = value.min(Entropy.cap);
+  }
+
+  get gainedAmount() {
+    return Entropy.gain;
+  }
+}();

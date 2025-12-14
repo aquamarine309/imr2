@@ -45,6 +45,8 @@ Vue.mixin({
     formatPercents,
     formatMass,
     formatGain,
+    formatDiv,
+    formatMult,
     checkSingle,
     emitClick() {
       this.$emit("click");

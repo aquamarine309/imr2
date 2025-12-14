@@ -15,7 +15,7 @@ export const chroma = [
     color: "Green",
     description: "Makes all pre-Pent requirements reduced.",
     effect: value => Softcap.power(DC.D1_01.pow(value.add(1).log10().max(0).pow(DC.D0_8)), DC.E10, DC.C1D3),
-    formatEffect: value => `/${format(value)}`
+    formatEffect: value => formatDiv(value)
   },
   {
     id: 2,

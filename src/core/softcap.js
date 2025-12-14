@@ -103,6 +103,7 @@ class ScalingState {
     this.scalings = config.scaling;
     this.currency = config.currency;
     this.qcActive = config.qcActive ?? false;
+    this.preQuantum = config.preQuantum ?? false;
   }
 
   getStart(scaling) {
@@ -111,8 +112,14 @@ class ScalingState {
   }
 
   getScale(scaling) {
-    if (this.qcActive) return scaling.scale.powEffectOf(QuantumChallenge(7).effects.strength);
-    return scaling.scale;
+    let scale = scaling.scale;
+    if (this.qcActive) {
+      scale = scale.powEffectOf(QuantumChallenge(7).effects.strength);
+    }
+    if (this.preQuantum) {
+      scale = scale.powEffectOf(EntropyRewards.scaling);
+    }
+    return scale;
   }
 
   scale(value, index, reverse = false) {

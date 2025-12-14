@@ -118,7 +118,7 @@ export const fermions = {
           effect: (tier, currency) => Softcap.power(Softcap.power(
             currency.add(DC.D1).log10().div(DC.D500).times(tier.sqrt()).add(DC.D1),
             DC.D1_15, DC.D0_5), DC.D1_8, DC.C1D3),
-          formatEffect: value => `/${format(value)}`,
+          formatEffect: value => formatDiv(value),
           softcapped: value => value.gte(DC.D1_15),
           cap: () => DC.D2
         }
@@ -213,7 +213,7 @@ export const fermions = {
         reward: {
           description: () => i18n.t("fermion_tau_reward_description"),
           effect: (tier, currency) => tier.pow(DC.D0_8).times(DC.D0_025).add(DC.D1).pow(currency.add(DC.D1).log10()),
-          formatEffect: value => `/${format(value)}`
+          formatEffect: value => formatDiv(value)
         }
       },
       neutrino: {
@@ -275,7 +275,7 @@ export const fermions = {
         reward: {
           description: () => i18n.t("fermion_neut_tau_reward_description"),
           effect: (tier, currency) => currency.add(DC.D1).log10().pow(DC.D0_75).div(DC.E2).add(DC.D1).pow(tier.pow(DC.D0_75)),
-          formatEffect: value => `/${format(value)}`
+          formatEffect: value => formatDiv(value)
         }
       }
     }

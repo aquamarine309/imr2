@@ -16,7 +16,8 @@ export default {
       next: null,
       autoUnlocked: false,
       auto: false,
-      radiationUnlocked: false
+      radiationUnlocked: false,
+      evaporating: false
     };
   },
   computed: {
@@ -37,6 +38,7 @@ export default {
       this.next = next;
       this.autoUnlocked = Autobuyer.radiation.isUnlocked;
       this.auto = Autobuyer.radiation.isActive;
+      this.evaporating = Entropy.enthalpy.data.isActive;
     }
   }
 };
@@ -50,7 +52,7 @@ export default {
     >
       <template #value>
         <span class="o-highlight">
-          {{ format(frequency) }} {{ formatGain(frequency, frequencyGain) }}
+          {{ format(frequency) }} {{ evaporating ? `(${$t("being_evaporated")})` : formatGain(frequency, frequencyGain) }}
         </span>
       </template>
       <template #mult>

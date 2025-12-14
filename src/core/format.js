@@ -118,6 +118,15 @@ window.formatX = function formatX(value, places = 4) {
   return `×${format(value, places)}`;
 };
 
+window.formatDiv = function formatX(value, places = 4) {
+  return `/${format(value, places)}`;
+};
+
+window.formatMult = function formatMult(value, places = 4) {
+  if (Decimal.gt(value, 1)) return formatX(value, places);
+  return formatDiv(value.recip(), places);
+};
+
 window.formatPlus = function formatX(value, places = 4) {
   return `+${format(value, places)}`;
 };

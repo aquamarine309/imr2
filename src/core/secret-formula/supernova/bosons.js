@@ -171,7 +171,7 @@ export const bosonUpgrades = {
         effect = Softcap.power(Softcap.power(effect, DC.D5_5, DC.D0_25), DC.E1, DC.D0_25);
         return effect;
       },
-      formatEffect: value => `/${format(value)}`,
+      formatEffect: value => formatDiv(value),
       softcapped: value => value.gte(DC.D5_5)
     }
   ]

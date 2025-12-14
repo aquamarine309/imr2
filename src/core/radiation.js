@@ -11,12 +11,14 @@ export const Radiation = {
     for (let i = 0; i < RadiationType.all.length; i++) {
       RadiationType.all[i].tick(diff);
     }
-    Currency.frequency.tick(diff);
+    if (!Entropy.enthalpy.data.isActive) {
+      Currency.frequency.tick(diff);
+    }
   },
 
   get frequencyEffect() {
     if (!this.isUnlocked) return DC.D1;
-    return Currency.frequency.value.add(1).cbrt();
+    return Currency.frequency.value.add(1).cbrt().powEffectOf(EntropyRewards.radiation);
   }
 };
 

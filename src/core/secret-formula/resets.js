@@ -116,6 +116,9 @@ export const resets = {
       if (PlayerProgress.quantumUnlocked()) {
         keepElements.push(30);
       }
+      if (NeutronUpgrade.quQol9.canBeApplied && QuantumChallenges.isActive) {
+        keepElements.push(30);
+      }
       for (const el of GameElements.all) {
         if (el.id <= 86 && !keepElements.includes(el.id)) {
           el.reset();

@@ -75,6 +75,22 @@ window.player = {
       mods: Array.repeat(0, 8),
       shards: 0,
       isActive: false
+    },
+    entropy: {
+      amount: DC.D0,
+      enthalpy: {
+        isActive: false,
+        amount: DC.D0,
+        gain: DC.D0,
+        time: 0
+      },
+      hawkingRadiation: {
+        isActive: false,
+        amount: DC.D0,
+        gain: DC.D0,
+        time: 0
+      },
+      rewards: Array.repeat(DC.D0, 8)
     }
   },
   auto: {

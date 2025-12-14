@@ -138,8 +138,8 @@ export default {
     >
       <span>{{ formatValue(amount) }}</span>
       <template v-if="showRate">
-        <span v-if="isRate">{{ formatGain(currentAmount, gainRate, isMass) }}</span>
-        <span v-else-if="forceText">({{ forceText }})</span>
+        <span v-if="forceText">({{ forceText }})</span>
+        <span v-else-if="isRate">{{ formatGain(currentAmount, gainRate, isMass) }}</span>
         <span v-else>(+{{ formatValue(gainRate) }})</span>
       </template>
     </div>

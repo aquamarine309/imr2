@@ -226,7 +226,8 @@ export const tabs = [
         id: 4,
         key: "entropy",
         symbol: ICONS.entropy,
-        condition: () => Entropy.isUnlocked
+        condition: () => Entropy.isUnlocked,
+        component: "EntropyTab"
       }
     ]
   }

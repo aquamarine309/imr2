@@ -3,8 +3,10 @@ import { DC } from "@/core/constants";
 export const quantumChallenges = [
   {
     id: 0,
-    name: "Black Dwarf",
-    description: effects => `${formatPow(effects.stars)} to exponent of all-star resources, and ${formatPow(effects.generators)} to strength of star generators.`,
+    description: effects => i18n.t("quantum_challenge_0_description", {
+      stars: formatPow(effects.stars),
+      generators: formatPow(effects.generators)
+    }),
     effects: {
       stars: value => DC.D1.minus(DC.D0_03.times(value)),
       generators: value => DC.D2.div(DC.D2.add(value))
@@ -12,8 +14,9 @@ export const quantumChallenges = [
   },
   {
     id: 1,
-    name: "Time Anomaly",
-    description: effect => `/${format(effect)} to pre-Quantum global speed.`,
+    description: effect => i18n.t("quantum_challenge_1_description", {
+      effect: format(effect)
+    }),
     effect: value => {
       if (value > 35) return DC.D2.pow(Math.pow(value, 5) / 5000);
       if (value > 10) return DC.D2.pow(Math.pow(value, 5) / 1000);
@@ -22,14 +25,16 @@ export const quantumChallenges = [
   },
   {
     id: 2,
-    name: "Hypertiered",
-    description: effect => `${formatX(effect)} to requirements of any Fermions.`,
+    description: effect => i18n.t("quantum_challenge_2_description", {
+      effect: formatX(effect)
+    }),
     effect: value => 0.15 * Math.pow(value, value > 10 ? 3.5 : 1.5) + 1
   },
   {
     id: 3,
-    name: "Melted Interactions",
-    description: value => `${formatPow(value)} to multiplier from Bosonic & Radiation resources.`,
+    description: value => i18n.t("quantum_challenge_3_description", {
+      value: formatPow(value)
+    }),
     effect: value => {
       if (value > 50) return DC.D0_9.pow(Math.pow(value, 6.25) / 8000);
       if (value > 10) return DC.D0_9.pow(Math.pow(value, 3.25) / 100);
@@ -38,8 +43,9 @@ export const quantumChallenges = [
   },
   {
     id: 4,
-    name: "Intense Catalyst",
-    description: value => `${formatPow(value)} to multiplier from pre-Supernova resources, except all star resources.`,
+    description: value => i18n.t("quantum_challenge_4_description", {
+      value: formatPow(value)
+    }),
     effect: value => {
       if (value > 50) return DC.D0_8.pow(Math.pow(value, 2.5) / 100);
       if (value > 10) return DC.D0_8.pow(Math.pow(value, 2) / 100);
@@ -48,8 +54,9 @@ export const quantumChallenges = [
   },
   {
     id: 5,
-    name: "Ex-Challenge",
-    description: effect => `${formatX(effect)} to requirements of any pre-Quantum Challenge.`,
+    description: effect => i18n.t("quantum_challenge_5_description", {
+      effect: formatX(effect)
+    }),
     effect: value => {
       if (value > 10) return DC.D1_2.pow(Math.pow(value, 1.5) / 10).min(DC.E300);
       return DC.D1_2.pow(value);
@@ -57,8 +64,9 @@ export const quantumChallenges = [
   },
   {
     id: 6,
-    name: "Spatial Dilation",
-    description: effect => `${formatPow(effect)} to Mass Dilation's penalty.`,
+    description: effect => i18n.t("quantum_challenge_6_description", {
+      effect: formatPow(effect)
+    }),
     effect: value => {
       if (value > 10) return Math.pow(value, 4.5) / 2000 + 1;
       return Math.pow(value, 1.5) / 2 + 1;
@@ -66,8 +74,10 @@ export const quantumChallenges = [
   },
   {
     id: 7,
-    name: "Extreme Scaling",
-    description: effects => `${formatPow(effects.starting)} to starting of pre-Quantum scaling, and ${formatPercents(effects.strength)} to strength of pre-Quantum scaling.`,
+    description: effects => i18n.t("quantum_challenge_7_description", {
+      starting: formatPow(effects.starting),
+      strength: formatPercents(effects.strength)
+    }),
     effects: {
       starting: value => {
         if (value > 10) return DC.D0_49;
